@@ -27,6 +27,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.Adapt
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MultiTurnPromptBot", "05.multi-turn-prompt\MultiTurnPromptBot.csproj", "{1E69D407-DA79-4976-998D-8A05812382C3}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.Dialogs", "..\..\..\botbuilder-dotnet\libraries\Microsoft.Bot.Builder.Dialogs\Microsoft.Bot.Builder.Dialogs.csproj", "{3A402035-34ED-4A40-AD6A-A8CE46F338E8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,10 @@ Global
 		{1E69D407-DA79-4976-998D-8A05812382C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1E69D407-DA79-4976-998D-8A05812382C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1E69D407-DA79-4976-998D-8A05812382C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A402035-34ED-4A40-AD6A-A8CE46F338E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A402035-34ED-4A40-AD6A-A8CE46F338E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A402035-34ED-4A40-AD6A-A8CE46F338E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A402035-34ED-4A40-AD6A-A8CE46F338E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

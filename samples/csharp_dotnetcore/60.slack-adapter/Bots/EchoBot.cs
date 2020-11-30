@@ -11,14 +11,35 @@ using Microsoft.Bot.Schema;
 using Newtonsoft.Json;
 using SlackAPI;
 using Attachment = Microsoft.Bot.Schema.Attachment;
+using Microsoft.Bot.Builder.Dialogs;
 
 namespace Microsoft.BotBuilderSamples.Bots
 {
     /// <summary>
     /// An EchoBot class that extends from the ActivityHandler.
     /// </summary>
-    public class EchoBot : ActivityHandler
+    public class EchoBot<T> : ActivityHandler where T : Bot.Builder.Dialogs.Dialog
     {
+        private readonly BotState _userState;
+        private readonly BotState _conversationState;
+        private readonly Bot.Builder.Dialogs.Dialog _dialog;
+
+        public EchoBot(ConversationState conversationState, UserState userState, T dialog)
+        {
+            _conversationState = conversationState;
+            _userState = userState;
+            _dialog = dialog;
+        }
+
+        public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            await base.OnTurnAsync(turnContext, cancellationToken);
+
+            // Save any state changes that might have occurred during the turn.
+            await _conversationState.SaveChangesAsync(turnContext, false, cancellationToken);
+            await _userState.SaveChangesAsync(turnContext, false, cancellationToken);
+        }
+
         /// <summary>
         /// OnMessageActivityAsync method that returns an async Task.
         /// </summary>
@@ -27,22 +48,15 @@ namespace Microsoft.BotBuilderSamples.Bots
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
-            //await turnContext.SendActivityAsync(MessageFactory.Text($"Echo: {turnContext.Activity.Text}"), cancellationToken);
-
-            if(turnContext.Activity.ChannelData?.Type == "block_actions")
+            /*if (turnContext.Activity.Text.Contains("testing"))
             {
-                if (turnContext.Activity.Text == "click_approve")
-                {
-                    await turnContext.SendActivityAsync(MessageFactory.Text("Message approved"), cancellationToken);
-                }
-            } else
-            {
-                var response = Directory.GetCurrentDirectory() + @"\Resources\greeting.json";
-                var message = MessageFactory.Attachment(CreateInteractiveMessage(response));
-                message.Text = "Greetings hooman";
+                var interactiveMessage = MessageFactory.Attachment(
+                        CreateInteractiveMessage(
+                            Directory.GetCurrentDirectory() + @"\Resources\blockkit.json"));
+                await turnContext.SendActivityAsync(interactiveMessage, cancellationToken);
+            }*/
 
-                await turnContext.SendActivityAsync(message, cancellationToken);
-            }
+            await _dialog.RunAsync(turnContext, _conversationState.CreateProperty<DialogState>("DialogState"), cancellationToken);
         }
 
         /// <summary>
@@ -64,11 +78,6 @@ namespace Microsoft.BotBuilderSamples.Bots
                 }
             }
 
-            if (turnContext.Activity.TryGetChannelData(out EventRequest slackEvent2))
-            {
-                var asd = "test";
-            }
-
             if (turnContext.Activity.Value is EventType slackEvent)
             {
                 if (slackEvent.Type == "message")
@@ -87,12 +96,6 @@ namespace Microsoft.BotBuilderSamples.Bots
                 }
             }
         }
-
-        //private async Task<DialogTurnResult> renderCardAsync()
-        //{
-        //    var response = Directory.GetCurrentDirectory() + @"\Resources\greeting.json";
-        //    var message = MessageFactory.Attachment(CreateInteractiveMessage(response))
-        //}
 
         private static Attachment CreateInteractiveMessage(string filePath)
         {

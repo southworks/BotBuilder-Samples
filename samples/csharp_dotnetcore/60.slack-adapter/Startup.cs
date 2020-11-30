@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.BotBuilderSamples.Adapters;
 using Microsoft.BotBuilderSamples.Bots;
+using Microsoft.BotBuilderSamples.Controllers;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -26,8 +27,20 @@ namespace Microsoft.BotBuilderSamples
             // Create the Facebook Adapter
             services.AddSingleton<SlackAdapter, SlackAdapterWithErrorHandler>();
 
+            // Create the storage we'll be using for User and Conversation state. (Memory is great for testing purposes.)
+            services.AddSingleton<IStorage, MemoryStorage>();
+
+            // Create the User state.
+            services.AddSingleton<UserState>();
+
+            // Create the Conversation state.
+            services.AddSingleton<ConversationState>();
+
+            // Create Custom WaterfallDialog
+            services.AddSingleton<CustomWaterfallDialog>();
+
             // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
-            services.AddTransient<IBot, EchoBot>();
+            services.AddTransient<IBot, EchoBot<CustomWaterfallDialog>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
