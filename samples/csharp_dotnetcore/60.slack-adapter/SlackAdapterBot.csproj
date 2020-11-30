@@ -7,17 +7,16 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Adapters.Slack" Version="4.11.1" />
   </ItemGroup>
 
-    <ItemGroup>
+  <ItemGroup>
     <Content Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Resources\" />
-    </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="C:\Repos\botbuilder-dotnet\libraries\Adapters\Microsoft.Bot.Builder.Adapters.Slack\Microsoft.Bot.Builder.Adapters.Slack.csproj" />
+  </ItemGroup>
 
 </Project>

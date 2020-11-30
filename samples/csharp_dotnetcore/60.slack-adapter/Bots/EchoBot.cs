@@ -6,7 +6,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.Adapters.Slack;
 using Microsoft.Bot.Builder.Adapters.Slack.Model;
 using Microsoft.Bot.Schema;
 using Newtonsoft.Json;
@@ -28,7 +27,22 @@ namespace Microsoft.BotBuilderSamples.Bots
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
-            await turnContext.SendActivityAsync(MessageFactory.Text($"Echo: {turnContext.Activity.Text}"), cancellationToken);
+            //await turnContext.SendActivityAsync(MessageFactory.Text($"Echo: {turnContext.Activity.Text}"), cancellationToken);
+
+            if(turnContext.Activity.ChannelData?.Type == "block_actions")
+            {
+                if (turnContext.Activity.Text == "click_approve")
+                {
+                    await turnContext.SendActivityAsync(MessageFactory.Text("Message approved"), cancellationToken);
+                }
+            } else
+            {
+                var response = Directory.GetCurrentDirectory() + @"\Resources\greeting.json";
+                var message = MessageFactory.Attachment(CreateInteractiveMessage(response));
+                message.Text = "Greetings hooman";
+
+                await turnContext.SendActivityAsync(message, cancellationToken);
+            }
         }
 
         /// <summary>
@@ -50,6 +64,11 @@ namespace Microsoft.BotBuilderSamples.Bots
                 }
             }
 
+            if (turnContext.Activity.TryGetChannelData(out EventRequest slackEvent2))
+            {
+                var asd = "test";
+            }
+
             if (turnContext.Activity.Value is EventType slackEvent)
             {
                 if (slackEvent.Type == "message")
@@ -68,6 +87,12 @@ namespace Microsoft.BotBuilderSamples.Bots
                 }
             }
         }
+
+        //private async Task<DialogTurnResult> renderCardAsync()
+        //{
+        //    var response = Directory.GetCurrentDirectory() + @"\Resources\greeting.json";
+        //    var message = MessageFactory.Attachment(CreateInteractiveMessage(response))
+        //}
 
         private static Attachment CreateInteractiveMessage(string filePath)
         {

@@ -1,0 +1,32 @@
+[
+  {
+    "type": "image",
+    "image_url": "https://cdn4.iconfinder.com/data/icons/chat-bots-filled-color/300/34938188Untitled-3-512.png",
+    "alt_text": "greeting bot"
+  },
+  {
+    "type": "actions",
+    "elements": [
+      {
+        "type": "button",
+        "text": {
+          "type": "plain_text",
+          "emoji": true,
+          "text": "Approve"
+        },
+        "style": "primary",
+        "value": "click_approve"
+      },
+      {
+        "type": "button",
+        "text": {
+          "type": "plain_text",
+          "emoji": true,
+          "text": "Deny"
+        },
+        "style": "danger",
+        "value": "click_deny"
+      }
+    ]
+  }
+]
