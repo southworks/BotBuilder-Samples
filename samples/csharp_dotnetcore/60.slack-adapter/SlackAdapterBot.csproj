@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="C:\Repos\botbuilder-dotnet\libraries\Adapters\Microsoft.Bot.Builder.Adapters.Slack\Microsoft.Bot.Builder.Adapters.Slack.csproj" />
     <ProjectReference Include="C:\Repos\botbuilder-dotnet\libraries\Microsoft.Bot.Builder.Dialogs\Microsoft.Bot.Builder.Dialogs.csproj" />
+    <ProjectReference Include="C:\Repos\botbuilder-dotnet\libraries\integration\Microsoft.Bot.Builder.Integration.ApplicationInsights.Core\Microsoft.Bot.Builder.Integration.ApplicationInsights.Core.csproj" />
   </ItemGroup>
 
 </Project>

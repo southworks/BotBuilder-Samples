@@ -54,6 +54,7 @@ namespace Microsoft.BotBuilderSamples.Controllers
             var attachment = CreateInteractiveMessage(Directory.GetCurrentDirectory() + @"\Resources\greeting.json");
 
             var promptOptions = new PromptOptions { Prompt = (Activity)MessageFactory.Attachment(attachment) };
+            promptOptions.Prompt.Text = "hello";
 
             /*await turnContext.SendActivityAsync(interactiveMessage, cancellationToken);*/
 
