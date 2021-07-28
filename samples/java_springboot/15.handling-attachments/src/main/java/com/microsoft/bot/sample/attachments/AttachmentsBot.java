@@ -255,7 +255,10 @@ public class AttachmentsBot extends ActivityHandler {
     }
 
     private CompletableFuture<byte[]> getFileData(String filename) {
-        try (InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(filename)) {
+        try (
+            InputStream inputStream = getClass().getClassLoader()
+                .getResourceAsStream(filename)
+        ) {
             return CompletableFuture.completedFuture(IOUtils.toByteArray(inputStream));
         } catch (Throwable t) {
             return Async.completeExceptionally(t);

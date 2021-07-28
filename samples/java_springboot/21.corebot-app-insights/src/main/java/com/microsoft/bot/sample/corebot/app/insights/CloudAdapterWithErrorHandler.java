@@ -9,7 +9,7 @@ import com.microsoft.bot.builder.ConversationState;
 import com.microsoft.bot.builder.MessageFactory;
 import com.microsoft.bot.builder.TurnContext;
 import com.microsoft.bot.connector.Channels;
-import com.microsoft.bot.integration.BotFrameworkHttpAdapter;
+import com.microsoft.bot.integration.CloudAdapter;
 import com.microsoft.bot.integration.Configuration;
 import com.microsoft.bot.schema.Activity;
 import com.microsoft.bot.schema.ActivityTypes;
@@ -25,12 +25,10 @@ import java.util.concurrent.CompletableFuture;
 /**
  * An Adapter that provides exception handling.
  */
-public class AdapterWithErrorHandler extends BotFrameworkHttpAdapter {
-
+public class CloudAdapterWithErrorHandler extends CloudAdapter {
     private static final String ERROR_MSG_ONE = "The bot encountered an error or bug.";
     private static final String ERROR_MSG_TWO =
-        "To continue to run this bot, please fix the bot source code.";
-    // Create field for telemetry client. Add IBotTelemetryClient parameter to AdapterWithErrorHandler
+            "To continue to run this bot, please fix the bot source code.";
     private BotTelemetryClient adapterBotTelemetryClient;
 
     /**
@@ -47,11 +45,10 @@ public class AdapterWithErrorHandler extends BotFrameworkHttpAdapter {
      * @param botTelemetryClient The BotTelemetryClient object to use.
      * @param withConversationState The ConversationState object to use.
      */
-    public AdapterWithErrorHandler(
-        Configuration withConfiguration,
-        TelemetryInitializerMiddleware telemetryInitializerMiddleware,
-        BotTelemetryClient botTelemetryClient,
-        @Nullable ConversationState withConversationState) {
+    public CloudAdapterWithErrorHandler(Configuration withConfiguration,
+                                        TelemetryInitializerMiddleware telemetryInitializerMiddleware,
+                                        BotTelemetryClient botTelemetryClient,
+                                        @Nullable ConversationState withConversationState) {
         super(withConfiguration);
         this.use(telemetryInitializerMiddleware);
 
@@ -70,7 +67,7 @@ public class AdapterWithErrorHandler extends BotFrameworkHttpAdapter {
             // NOTE: In production environment, you should consider logging this to
             // Azure Application Insights. Visit https://aka.ms/bottelemetry to see how
             // to add telemetry capture to your bot.
-            LoggerFactory.getLogger(AdapterWithErrorHandler.class).error("onTurnError", exception);
+            LoggerFactory.getLogger(CloudAdapterWithErrorHandler.class).error("onTurnError", exception);
 
             // Send a message to the user
             return turnContext.sendActivities(
@@ -84,7 +81,7 @@ public class AdapterWithErrorHandler extends BotFrameworkHttpAdapter {
                         // Web pages.
                         return withConversationState.delete(turnContext)
                             .exceptionally(deleteException -> {
-                                LoggerFactory.getLogger(AdapterWithErrorHandler.class)
+                                LoggerFactory.getLogger(CloudAdapterWithErrorHandler.class)
                                     .error("ConversationState.delete", deleteException);
                                 return null;
                             });
@@ -95,8 +92,8 @@ public class AdapterWithErrorHandler extends BotFrameworkHttpAdapter {
     }
 
     private CompletableFuture<Void> sendTraceActivity(
-        TurnContext turnContext,
-        Throwable exception
+            TurnContext turnContext,
+            Throwable exception
     ) {
         if (StringUtils.equals(turnContext.getActivity().getChannelId(), Channels.EMULATOR)) {
             Activity traceActivity = new Activity(ActivityTypes.TRACE);
@@ -105,7 +102,6 @@ public class AdapterWithErrorHandler extends BotFrameworkHttpAdapter {
             traceActivity.setValue(ExceptionUtils.getStackTrace(exception));
             traceActivity.setValueType("https://www.botframework.com/schemas/error");
 
-            // Send a trace activity, which will be displayed in the Bot Framework Emulator
             return turnContext.sendActivity(traceActivity).thenApply(resourceResponse -> null);
         }
 

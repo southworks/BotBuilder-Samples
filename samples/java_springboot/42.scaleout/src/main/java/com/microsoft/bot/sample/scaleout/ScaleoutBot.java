@@ -62,7 +62,10 @@ public class ScaleoutBot<T extends Dialog> extends ActivityHandler {
 
         final Boolean[] shouldBreak = {false};
         String finalKey = key;
-        // The execution sits in a loop because there might be a retry if the save operation fails.
+        /**
+        * The execution sits in a loop because there might be a retry if the save operation fails.
+        * The task will fail when running locally with an App Registration configured (MicrosoftAppId/MicrosoftAppPassword)
+        */
         while (true) {
             // Load any existing state associated with this key
             CompletableFuture<Pair<JsonNode, String>> saveTask = store.load(finalKey).thenCompose(pairOldState -> {

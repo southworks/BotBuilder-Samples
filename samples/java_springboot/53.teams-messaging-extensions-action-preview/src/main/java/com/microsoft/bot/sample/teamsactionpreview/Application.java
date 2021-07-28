@@ -4,8 +4,8 @@
 package com.microsoft.bot.sample.teamsactionpreview;
 
 import com.microsoft.bot.builder.Bot;
-import com.microsoft.bot.integration.AdapterWithErrorHandler;
-import com.microsoft.bot.integration.BotFrameworkHttpAdapter;
+import com.microsoft.bot.integration.CloudAdapterWithErrorHandler;
+import com.microsoft.bot.integration.CloudAdapter;
 import com.microsoft.bot.integration.Configuration;
 import com.microsoft.bot.integration.spring.BotController;
 import com.microsoft.bot.integration.spring.BotDependencyConfiguration;
@@ -55,10 +55,10 @@ public class Application extends BotDependencyConfiguration {
      * Returns a custom Adapter that provides error handling.
      *
      * @param configuration The Configuration object to use.
-     * @return An error handling BotFrameworkHttpAdapter.
+     * @return An error handling CloudAdapter.
      */
     @Override
-    public BotFrameworkHttpAdapter getBotFrameworkHttpAdaptor(Configuration configuration) {
-        return new AdapterWithErrorHandler(configuration);
+    public CloudAdapter getCloudAdapter(Configuration configuration) {
+        return new CloudAdapterWithErrorHandler(configuration);
     }
 }

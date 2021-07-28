@@ -105,6 +105,11 @@
         <artifactId>bot-ai-luis-v3</artifactId>
         <version>4.14.0</version>
       </dependency>
+      <dependency>
+        <groupId>com.microsoft.bot</groupId>
+        <artifactId>bot-applicationinsights</artifactId>
+        <version>4.13.0</version>
+      </dependency>
   </dependencies>
 
   <profiles>

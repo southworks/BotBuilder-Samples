@@ -78,14 +78,16 @@ public class DialogAndWelcomeBot<T extends Dialog> extends DialogBot {
 
     // Load attachment from embedded resource.
     private Attachment createAdaptiveCardAttachment() {
+        Attachment attachment = null;
+
         try (
-            InputStream inputStream = Thread.currentThread().
-                getContextClassLoader().getResourceAsStream("cards/welcomeCard.json")
+            InputStream inputStream = attachment.getClass().getClassLoader()
+                .getResourceAsStream("cards/welcomeCard.json")
         ) {
             String adaptiveCardJson = IOUtils
                 .toString(inputStream, StandardCharsets.UTF_8.toString());
 
-            Attachment attachment = new Attachment();
+            attachment = new Attachment();
             attachment.setContentType("application/vnd.microsoft.card.adaptive");
             attachment.setContent(Serialization.jsonToTree(adaptiveCardJson));
             return attachment;

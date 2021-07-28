@@ -7,8 +7,8 @@ import com.microsoft.bot.builder.Bot;
 import com.microsoft.bot.builder.ConversationState;
 import com.microsoft.bot.builder.Storage;
 import com.microsoft.bot.builder.UserState;
-import com.microsoft.bot.integration.AdapterWithErrorHandler;
-import com.microsoft.bot.integration.BotFrameworkHttpAdapter;
+import com.microsoft.bot.integration.CloudAdapterWithErrorHandler;
+import com.microsoft.bot.integration.CloudAdapter;
 import com.microsoft.bot.integration.Configuration;
 import com.microsoft.bot.integration.spring.BotController;
 import com.microsoft.bot.integration.spring.BotDependencyConfiguration;
@@ -61,14 +61,14 @@ public class Application extends BotDependencyConfiguration {
      * Returns a custom Adapter that provides error handling.
      *
      * @param configuration The Configuration object to use.
-     * @return An error handling BotFrameworkHttpAdapter.
+     * @return An error handling CloudAdapter.
      */
     @Override
-    public BotFrameworkHttpAdapter getBotFrameworkHttpAdaptor(Configuration configuration) {
+    public CloudAdapter getCloudAdapter(Configuration configuration) {
         Storage storage = this.getStorage();
         ConversationState conversationState = this.getConversationState(storage);
 
-        BotFrameworkHttpAdapter adapter = new AdapterWithErrorHandler(configuration, conversationState);
+        CloudAdapter adapter = new CloudAdapterWithErrorHandler(configuration, conversationState);
         TranslationMiddleware translationMiddleware = this.getTranslationMiddleware(configuration);
         adapter.use(translationMiddleware);
         return adapter;

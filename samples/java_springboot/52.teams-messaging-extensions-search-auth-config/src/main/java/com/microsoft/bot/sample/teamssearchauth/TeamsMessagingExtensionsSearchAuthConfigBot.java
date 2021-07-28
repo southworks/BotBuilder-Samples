@@ -365,7 +365,10 @@ public class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHa
         TurnContext turnContext,
         MessagingExtensionAction action
     ) {
-        /* This can be uncommented once the MessagingExtensionAction contains the associated state property
+        /*
+        * For context, MessagingExtensionAction lacks the state property in the Java SDK
+        * Given that the SHOWPROFILE command requires this property to exist, this snippet was commented on purpose and should be uncommented once the MessagingExtensionAction is updated
+        * In the meantime, using the Compose action will trigger a 501 HTTP Status Code response as this snippet will not be executed
         if (action.getCommandId().equalsIgnoreCase("SHOWPROFILE")) {
             String state = action.getState(); // Check the state value
             return getTokenResponse(turnContext, state).thenCompose(tokenResponse -> {
@@ -433,13 +436,15 @@ public class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHa
     }
 
     private Attachment createAdaptiveCardAttachment() {
+        Attachment attachment = null;
+
         try (
-            InputStream input = Thread.currentThread().getContextClassLoader()
+            InputStream inputStream = attachment.getClass().getClassLoader()
                 .getResourceAsStream("adaptiveCard.json")
         ) {
-            String adaptiveCardJson = IOUtils.toString(input, StandardCharsets.UTF_8.toString());
+            String adaptiveCardJson = IOUtils.toString(inputStream, StandardCharsets.UTF_8.toString());
 
-            Attachment attachment = new Attachment();
+            attachment = new Attachment();
             attachment.setContentType("application/vnd.microsoft.card.adaptive");
             attachment.setContent(Serialization.jsonToTree(adaptiveCardJson));
             return attachment;

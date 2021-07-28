@@ -12,7 +12,7 @@ import com.microsoft.bot.builder.NullBotTelemetryClient;
 import com.microsoft.bot.builder.Storage;
 import com.microsoft.bot.builder.TelemetryLoggerMiddleware;
 import com.microsoft.bot.builder.UserState;
-import com.microsoft.bot.integration.BotFrameworkHttpAdapter;
+import com.microsoft.bot.integration.CloudAdapter;
 import com.microsoft.bot.integration.Configuration;
 import com.microsoft.bot.integration.spring.BotController;
 import com.microsoft.bot.integration.spring.BotDependencyConfiguration;
@@ -80,10 +80,10 @@ public class Application extends BotDependencyConfiguration {
      * Returns a custom Adapter that provides error handling.
      *
      * @param configuration The Configuration object to use.
-     * @return An error handling BotFrameworkHttpAdapter.
+     * @return An error handling CloudAdapter.
      */
     @Override
-    public BotFrameworkHttpAdapter getBotFrameworkHttpAdaptor(Configuration configuration) {
+    public CloudAdapter getCloudAdapter(Configuration configuration) {
         Storage storage = getStorage();
         ConversationState conversationState = getConversationState(storage);
         BotTelemetryClient botTelemetryClient = getBotTelemetryClient(configuration);
@@ -91,7 +91,7 @@ public class Application extends BotDependencyConfiguration {
         TelemetryInitializerMiddleware telemetryInitializerMiddleware =
             new TelemetryInitializerMiddleware(telemetryLoggerMiddleware, false);
 
-        AdapterWithErrorHandler adapter = new AdapterWithErrorHandler(
+        CloudAdapterWithErrorHandler adapter = new CloudAdapterWithErrorHandler(
             configuration,
             telemetryInitializerMiddleware,
             botTelemetryClient,
