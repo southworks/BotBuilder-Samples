@@ -119,7 +119,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             }
             catch (ErrorResponseException e)
             {
-                if (e.Body.Error.Code.Equals("MemberNotFoundInConversation"))
+                if (e.Body.Error.Code.Equals("MemberNotFoundInConversation", StringComparison.OrdinalIgnoreCase))
                 {
                     await turnContext.SendActivityAsync("Member not found.");
                     return;
@@ -251,7 +251,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             }
             catch (ErrorResponseException e)
             {
-                if (e.Body.Error.Code.Equals("MemberNotFoundInConversation"))
+                if (e.Body.Error.Code.Equals("MemberNotFoundInConversation", StringComparison.OrdinalIgnoreCase))
                 {
                     await turnContext.SendActivityAsync("Member not found.");
                     return;
