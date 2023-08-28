@@ -21,38 +21,38 @@
     "enableRegexEntities": true
   },
   "luis": {
-    "authoringKey": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/luis-authoring-key",
-    "authoringEndpoint": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/luis-authoring-endpoint",
-    "endpointKey": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/luis-endpoint-key",
-    "endpoint": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/luis-endpoint",
+    "authoringKey": "mock66b66ad932864bbebc6d23b9207c",
+    "authoringEndpoint": "https://westus.api.cognitive.microsoft.com/",
+    "endpointKey": "mock66b66ad932864bbebc6d23b9207c",
+    "endpoint": "https://westus.api.cognitive.microsoft.com/",
     "authoringRegion": "westus",
     "defaultLanguage": "en-us",
     "environment": "composer",
-    "name": "[LUIS_APP_NAME_BASE]",
-    "appId":"https://[KEY_VAULT_NAME].vault.azure.net/secrets/luis-app-id"
+    "name": "luisResource",
+    "appId":"mockf4fa-546e-4d9b-9b18-b9e2fbebb8f5"
   },
   "publishTargets": [],
   "qna": {
-    "subscriptionKey": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/qna-subscription-key",
-    "knowledgebaseid": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/qna-knowledgebase-id",
-    "endpointKey": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/qna-endpoint-key",
-    "hostname": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/qna-hostname",
+    "subscriptionKey": "mock36fd-333c-4caf-adbe-2c38d0d48e2c",
+    "knowledgebaseid": "qnaMakerKBId",
+    "endpointKey": "mock36fd-333c-4caf-adbe-2c38d0d48e2c",
+    "hostname": "https://mocked-qna.azurewebsites.net/qnamaker",
     "qnaRegion": "westus",
     "scoreThreshold": "0.3"
   },
   "stargateToken": {
-      "URL": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/stargateTokenUrl",
-      "clientID": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/stargateTokenClientId",
-      "clientSecret": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/stargateTokenClientSecret"
+      "URL": "https://stargate/mock.com/",
+      "clientID": "mock-client-id",
+      "clientSecret": "mock-client-secret"
   },
   "kbSearch":{
-  "azureSearchHostName":"https://[KEY_VAULT_NAME].vault.azure.net/secrets/azure-search-host-name",
-  "azureSearchKey" : "https://[KEY_VAULT_NAME].vault.azure.net/secrets/azure-search-key"
+  "azureSearchHostName":"https://mock-service.search.windows.net",
+  "azureSearchKey" : "mock-key-1234"
   },
   
 
   "BlobsStorage": {
-    "connectionString": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/storage-connection-string",
+    "connectionString": "DefaultEndpointsProtocol=https;AccountName=mockblob;AccountKey=123456789==;EndpointSuffix=core.windows.net",
     "containerName": "statelogs"
   },
   "runtime": {
@@ -68,7 +68,7 @@
       "showTyping": true,
       "traceTranscript": true,
       "blobTranscript": {
-        "connectionString": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/storage-connection-string",
+        "connectionString": "DefaultEndpointsProtocol=https;AccountName=mockblob;AccountKey=123456789==;EndpointSuffix=core.windows.net",
         "containerName": "transcriptlogs"
       },
       "useInspection": false,
@@ -93,7 +93,7 @@
       "logActivities": true,
       "logPersonalInformation": true,
       "options": {
-        "instrumentationKey": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/appinsights-instrument-key"
+        "instrumentationKey": "mock5005-387d-414d-b3df-1eaf75142e12"
       }
     }
   },
@@ -101,52 +101,52 @@
     "maxImbalanceRatio": -1
   },
   "servicenow": {
-      "URL": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/SNow-Instance-url",
-      "Authorization": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/Snow-Authorization",
-      "IncContactType": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/Snow-IncContactType",
-    "Inctype": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/Snow-Inctype",
-    "OpenIncGroup": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/Snow-OpenIncGroup",
-    "OpenIncState": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/Snow-OpenIncState",
-    "OpenPriority": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/Snow-OpenPriority",
-    "SelfIncState": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/Snow-SelfIncState",
-    "CloseCode": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/Snow-CloseCode",
-    "CloseNotes": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/Snow-CloseNotes",
-    "CloseComments": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/Snow-CloseComments",
-    "SelfShortDes": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/Snow-SelfShortDes",
-	"BomgarUrl" :"https://[KEY_VAULT_NAME].vault.azure.net/secrets/BomgarUrl"
+      "URL": "https://servicenow/mock.com/",
+      "Authorization": "Bearer 123463527349873249847239847239847923874",
+      "IncContactType": "contact-type",
+    "Inctype": "bug",
+    "OpenIncGroup": "help desk",
+    "OpenIncState": "pending",
+    "OpenPriority": "high",
+    "SelfIncState": "pending",
+    "CloseCode": "resolved",
+    "CloseNotes": "Closing due to inactivity",
+    "CloseComments": "Closing due to inactivity",
+    "SelfShortDes": "Closed",
+	"BomgarUrl" :"https://Bomgar/mock.com/"
       },
   "chat": {
-      "ChatFlagGenesys" :"https://[KEY_VAULT_NAME].vault.azure.net/secrets/ChatFlagGenesys",
-      "genesysEntinfoStarturl" : "https://[KEY_VAULT_NAME].vault.azure.net/secrets/genesysEntinfoStarturl",
-      "genesysEntinfoEndurl" : "https://[KEY_VAULT_NAME].vault.azure.net/secrets/genesysEntinfoEndurl",
-      "genesysMenuOptions" : "https://[KEY_VAULT_NAME].vault.azure.net/secrets/genesysMenuOptions",
-      "GenesysMatchingProducts" : "https://[KEY_VAULT_NAME].vault.azure.net/secrets/GenesysMatchingProducts",
-      "GenesysWaitTimeAPI" : "https://[KEY_VAULT_NAME].vault.azure.net/secrets/GenesysWaitTimeAPI",
-      "GenesysFunSubFunc": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/GenesysFunSubFunc",
-      "GenesysLuisFlag": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/GenesysLuisFlag"
+      "ChatFlagGenesys" :"https://chatFlagGenesys.com/",
+      "genesysEntinfoStarturl" : "https://genesysEntinfoStart/com/",
+      "genesysEntinfoEndurl" : "https://genesysEntinfoEnd.com/",
+      "genesysMenuOptions" : "https://genesysMenuOptions.com/",
+      "GenesysMatchingProducts" : "https://genesysMatchingProducts.com/",
+      "GenesysWaitTimeAPI" : "https://genesysWaitTimeAPI.com/",
+      "GenesysFunSubFunc": "https://genesysFunSubFunc.com/",
+      "GenesysLuisFlag": "https://genesysLuisFlag.com/"
     },
   "attachment": {
-      "addAttachment": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/addAttachmentUrl"
+      "addAttachment": "https://addAttachment.com/"
       },
   "thdi": {
-      "openincidents": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/openIncidentUrl",
-      "createChildIncident": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/createChildIncidentUrl",
-      "getChildIncidentDetails": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/getChildIncidentDetailsUrl",
-      "getThdiToken": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/getThdiTokenUrl",
-      "getThdi": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/getThdiUrl",
-      "getTop20Prod": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/getTopProducts",
-      "helpdeskUrl": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/helpdeskUrl",
-      "helpdeskTicketUrl": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/helpdeskTicketUrl",
-      "helpdeskClosedUrl": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/helpdeskClosedUrl",
-      "getParentIncidentUrl": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/getParentIncidentUrl",
-      "meTooDescription": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/meTooDescription",
-      "meTooUtype": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/meTooUtype",
-      "meTooutscproduct": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/meTooutscproduct",
-	    "stargateTokenClientId":"https://[KEY_VAULT_NAME].vault.azure.net/secrets/stargateTokenClientId",
-	    "stargateTokenClientSecret":"https://[KEY_VAULT_NAME].vault.azure.net/secrets/stargateTokenClientSecret",
-      "blobProducts":"https://[KEY_VAULT_NAME].vault.azure.net/secrets/blobProducts",
-      "blobImportantProducts":"https://[KEY_VAULT_NAME].vault.azure.net/secrets/blobImportantProducts",
-      "msAppIdEnv":"https://[KEY_VAULT_NAME].vault.azure.net/secrets/msAppIdEnv"
+      "openincidents": "https://openIncidentUrl.com/",
+      "createChildIncident": "https://createChildIncident.com/",
+      "getChildIncidentDetails": "https://getChildIncidentDetails.com/",
+      "getThdiToken": "https://getThdiToken.com/",
+      "getThdi": "https://getThdi.com/",
+      "getTop20Prod": "https://getTopProducts.com/",
+      "helpdeskUrl": "https://helpdesk.com/",
+      "helpdeskTicketUrl": "https://helpdeskTicket.com/",
+      "helpdeskClosedUrl": "https://helpdeskClosed.com/",
+      "getParentIncidentUrl": "https://getParentIncident.com/",
+      "meTooDescription": "Meetoo description",
+      "meTooUtype": "u-type",
+      "meTooutscproduct": "meTooutscproduct",
+	    "stargateTokenClientId":"stargate-client-id",
+	    "stargateTokenClientSecret":"stargate-client-id",
+      "blobProducts":"https://blobProducts.com/",
+      "blobImportantProducts":"https://blobImportantProducts.com/",
+      "msAppIdEnv":"mock-appid-1234-5678"
       },
   "qnaProducts": {
       "products": [ "windows 10","citrix (myapps-ecc.optum.com)","citrix (myapps-ecc.uhc.com)","citrix (myappsremote.optum.com)","cps (claim payment system) - jacada","tops/unet",
@@ -651,11 +651,11 @@
     ]
   },
   "skillConfiguration": {},
-  "skillHostEndpoint": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/skillHostEndPoint",
+  "skillHostEndpoint": "http://localhost:3980/api/skills/",
   "skill": {
     "liveAgentSkillBot": {
-      "endpointUrl": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/liveAgentSkillBotEndpointURL",
-      "msAppId": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/liveAgentSkillBotmsAppId"
+      "endpointUrl": "http://localhost:3981/api/messages",
+      "msAppId": "mock-app-id-9876-5432"
     }
   }
 }
