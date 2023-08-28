@@ -1,0 +1,40 @@
+{
+  "name": "@advanceddevelopment/caip-custom-actions",
+  "version": "1.0.0",
+  "description": "Adaptive Runtime Custom action package",
+  "author": "Microsoft",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com"
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "nodemon --watch src -e ts --exec \"npm run build\""
+  },
+  "files": [
+    "exported",
+    "lib",
+    "src"
+  ],
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "peerDependencies": {
+    "adaptive-expressions": "4.17.0",
+    "botbuilder": "4.17.0",
+    "botbuilder-dialogs": "4.17.0",
+    "botbuilder-dialogs-adaptive-runtime-core": "4.17.0-preview",
+    "botbuilder-dialogs-declarative": "4.17.0-preview",
+    "axios": "^0.21.1"
+  },
+  "devDependencies": {
+    "adaptive-expressions": "4.17.0",
+    "botbuilder": "4.17.0",
+    "botbuilder-dialogs": "4.17.0",
+    "botbuilder-dialogs-adaptive-runtime-core": "4.17.0-preview",
+    "botbuilder-dialogs-declarative": "4.17.0-preview",
+    "nodemon": "^2.0.19",
+    "typescript": "^4.8.3"
+  }
+}
