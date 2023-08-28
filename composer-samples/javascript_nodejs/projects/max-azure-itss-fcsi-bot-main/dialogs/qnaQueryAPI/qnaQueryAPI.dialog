@@ -56,7 +56,8 @@
             "Content-Type": "application/json"
           },
           "url": "=`${settings.qna.hostname}/knowledgebases/${settings.qna.knowledgebaseid}/generateAnswer`",
-          "body": "={\"qnaId\":`${string(conversation.qnaUserResponse)}`}"
+          "body": "={\"qnaId\":`${string(conversation.qnaUserResponse)}`}",
+          "disabled": true
         },
         {
           "$kind": "Microsoft.IfCondition",
@@ -88,6 +89,54 @@
               },
               "activityProcessed": true,
               "dialog": "qnaResults"
+            }
+          ],
+          "disabled": true
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "pztHQo"
+          },
+          "condition": "conversation.qnaUserResponse",
+          "cases": [
+            {
+              "value": "open ticket",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "UbsriX"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.qnaContextAnswer",
+                      "value": "QnA answer"
+                    },
+                    {
+                      "property": "conversation.qnaContext",
+                      "value": "QnA context"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "rX0WpI"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.qnaContextAnswer",
+                  "value": "I couldn't find an answer for that"
+                },
+                {
+                  "property": "conversation.qnaContext"
+                }
+              ]
             }
           ]
         },
