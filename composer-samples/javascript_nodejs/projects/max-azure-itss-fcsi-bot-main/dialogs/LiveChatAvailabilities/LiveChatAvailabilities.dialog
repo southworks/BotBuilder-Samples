@@ -93,14 +93,15 @@
           },
           "resultProperty": "dialog.GenLuisAvaiRes",
           "method": "GET",
-          "url": "=`${settings.chat.GenesysLuisFlag}`"
+          "url": "=`${settings.chat.GenesysLuisFlag}`",
+          "disabled": true
         },
         {
           "$kind": "Microsoft.IfCondition",
           "$designer": {
             "id": "o4axJY"
           },
-          "condition": "= dialog.GenLuisAvaiRes.statusCode == 200 && !empty(dialog.GenLuisAvaiRes.content)",
+          "condition": "= settings.GenLuisAvaiRes.statusCode == 200 && !empty(settings.GenLuisAvaiRes.content)",
           "actions": [
             {
               "$kind": "Microsoft.SetProperty",
@@ -108,7 +109,7 @@
                 "id": "folxW6"
               },
               "property": "conversation.genesysLuisApproach",
-              "value": "=dialog.GenLuisAvaiRes.content.LuisApproach"
+              "value": "=settings.GenLuisAvaiRes.content.LuisApproach"
             }
           ]
         },

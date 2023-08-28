@@ -20,6 +20,25 @@
     "enablePrebuiltEntities": true,
     "enableRegexEntities": true
   },
+  "luisResult": {
+    "statusCode": 200,
+    "content": {
+      "prediction": {
+        "topIntent": "DeferToRecognizer_QnA_itss-fcsi-bot",
+        "intents": [["DeferToRecognizer_QnA_itss-fcsi-bot", 0.9], ["Unrecognized_Intent", 0.7], ["None", 0.55]],
+        "entities": {
+          "product": ["en-US"],
+          "genesysQueues": ["Unrecognized_Genesys"]
+        }
+      }
+    }
+  },
+  "GenLuisAvaiRes": {
+    "statusCode": 200,
+    "content": {
+      "LuisApproach": "yes"
+    }
+  },
   "luis": {
     "authoringKey": "mock66b66ad932864bbebc6d23b9207c",
     "authoringEndpoint": "https://westus.api.cognitive.microsoft.com/",
@@ -29,7 +48,7 @@
     "defaultLanguage": "en-us",
     "environment": "composer",
     "name": "luisResource",
-    "appId":"mockf4fa-546e-4d9b-9b18-b9e2fbebb8f5"
+    "appId": "mockf4fa-546e-4d9b-9b18-b9e2fbebb8f5"
   },
   "publishTargets": [],
   "qna": {
@@ -41,15 +60,14 @@
     "scoreThreshold": "0.3"
   },
   "stargateToken": {
-      "URL": "https://stargate/mock.com/",
-      "clientID": "mock-client-id",
-      "clientSecret": "mock-client-secret"
+    "URL": "https://stargate/mock.com/",
+    "clientID": "mock-client-id",
+    "clientSecret": "mock-client-secret"
   },
-  "kbSearch":{
-  "azureSearchHostName":"https://mock-service.search.windows.net",
-  "azureSearchKey" : "mock-key-1234"
+  "kbSearch": {
+    "azureSearchHostName": "https://mock-service.search.windows.net",
+    "azureSearchKey": "mock-key-1234"
   },
-  
 
   "BlobsStorage": {
     "connectionString": "DefaultEndpointsProtocol=https;AccountName=mockblob;AccountKey=123456789==;EndpointSuffix=core.windows.net",
@@ -98,9 +116,9 @@
     "maxImbalanceRatio": -1
   },
   "servicenow": {
-      "URL": "https://servicenow/mock.com/",
-      "Authorization": "Bearer 123463527349873249847239847239847923874",
-      "IncContactType": "contact-type",
+    "URL": "https://servicenow/mock.com/",
+    "Authorization": "Bearer 123463527349873249847239847239847923874",
+    "IncContactType": "contact-type",
     "Inctype": "bug",
     "OpenIncGroup": "help desk",
     "OpenIncState": "pending",
@@ -110,50 +128,83 @@
     "CloseNotes": "Closing due to inactivity",
     "CloseComments": "Closing due to inactivity",
     "SelfShortDes": "Closed",
-	"BomgarUrl" :"https://Bomgar/mock.com/"
-      },
+    "BomgarUrl": "https://Bomgar/mock.com/"
+  },
   "chat": {
-      "ChatFlagGenesys" :"https://chatFlagGenesys.com/",
-      "genesysEntinfoStarturl" : "https://genesysEntinfoStart/com/",
-      "genesysEntinfoEndurl" : "https://genesysEntinfoEnd.com/",
-      "genesysMenuOptions" : "https://genesysMenuOptions.com/",
-      "GenesysMatchingProducts" : "https://genesysMatchingProducts.com/",
-      "GenesysWaitTimeAPI" : "https://genesysWaitTimeAPI.com/",
-      "GenesysFunSubFunc": "https://genesysFunSubFunc.com/",
-      "GenesysLuisFlag": "https://genesysLuisFlag.com/"
-    },
+    "ChatFlagGenesys": "https://chatFlagGenesys.com/",
+    "genesysEntinfoStarturl": "https://genesysEntinfoStart/com/",
+    "genesysEntinfoEndurl": "https://genesysEntinfoEnd.com/",
+    "genesysMenuOptions": "https://genesysMenuOptions.com/",
+    "GenesysMatchingProducts": "https://genesysMatchingProducts.com/",
+    "GenesysWaitTimeAPI": "https://genesysWaitTimeAPI.com/",
+    "GenesysFunSubFunc": "https://genesysFunSubFunc.com/",
+    "GenesysLuisFlag": "https://genesysLuisFlag.com/"
+  },
   "attachment": {
-      "addAttachment": "https://addAttachment.com/"
-      },
+    "addAttachment": "https://addAttachment.com/"
+  },
   "thdi": {
-      "openincidents": "https://openIncidentUrl.com/",
-      "createChildIncident": "https://createChildIncident.com/",
-      "getChildIncidentDetails": "https://getChildIncidentDetails.com/",
-      "getThdiToken": "https://getThdiToken.com/",
-      "getThdi": "https://getThdi.com/",
-      "getTop20Prod": "https://getTopProducts.com/",
-      "helpdeskUrl": "https://helpdesk.com/",
-      "helpdeskTicketUrl": "https://helpdeskTicket.com/",
-      "helpdeskClosedUrl": "https://helpdeskClosed.com/",
-      "getParentIncidentUrl": "https://getParentIncident.com/",
-      "meTooDescription": "Meetoo description",
-      "meTooUtype": "u-type",
-      "meTooutscproduct": "meTooutscproduct",
-	    "stargateTokenClientId":"stargate-client-id",
-	    "stargateTokenClientSecret":"stargate-client-id",
-      "blobProducts":"https://blobProducts.com/",
-      "blobImportantProducts":"https://blobImportantProducts.com/",
-      "msAppIdEnv":"mock-appid-1234-5678"
-      },
+    "openincidents": "https://openIncidentUrl.com/",
+    "createChildIncident": "https://createChildIncident.com/",
+    "getChildIncidentDetails": "https://getChildIncidentDetails.com/",
+    "getThdiToken": "https://getThdiToken.com/",
+    "getThdi": "https://getThdi.com/",
+    "getTop20Prod": "https://getTopProducts.com/",
+    "helpdeskUrl": "https://helpdesk.com/",
+    "helpdeskTicketUrl": "https://helpdeskTicket.com/",
+    "helpdeskClosedUrl": "https://helpdeskClosed.com/",
+    "getParentIncidentUrl": "https://getParentIncident.com/",
+    "meTooDescription": "Meetoo description",
+    "meTooUtype": "u-type",
+    "meTooutscproduct": "meTooutscproduct",
+    "stargateTokenClientId": "stargate-client-id",
+    "stargateTokenClientSecret": "stargate-client-id",
+    "blobProducts": "https://blobProducts.com/",
+    "blobImportantProducts": "https://blobImportantProducts.com/",
+    "msAppIdEnv": "mock-appid-1234-5678"
+  },
   "qnaProducts": {
-      "products": [ "windows 10","citrix (myapps-ecc.optum.com)","citrix (myapps-ecc.uhc.com)","citrix (myappsremote.optum.com)","cps (claim payment system) - jacada","tops/unet",
-"microsoft teams","rally (ca agile central)","genesys workspace (wwe)","hardware","rsa securid soft token","facets (c&s)(csp)","domains","adobe acrobat","workspace one","printers (telecommuter)","webex calling","linx","microsoft edge","rxclaim (prescription solutions)","vcc desktop",
-      "microsoft outlook","outlook o365","unix","appstore","icue (integrated clinical user experience)","secure","linux","tso","global self service","hardware","iex (nice - webstation)","microsoft excel","ndb (network database)",
-      "headset","cisco anyconnect vpn client"
-      ]
+    "products": [
+      "windows 10",
+      "citrix (myapps-ecc.optum.com)",
+      "citrix (myapps-ecc.uhc.com)",
+      "citrix (myappsremote.optum.com)",
+      "cps (claim payment system) - jacada",
+      "tops/unet",
+      "microsoft teams",
+      "rally (ca agile central)",
+      "genesys workspace (wwe)",
+      "hardware",
+      "rsa securid soft token",
+      "facets (c&s)(csp)",
+      "domains",
+      "adobe acrobat",
+      "workspace one",
+      "printers (telecommuter)",
+      "webex calling",
+      "linx",
+      "microsoft edge",
+      "rxclaim (prescription solutions)",
+      "vcc desktop",
+      "microsoft outlook",
+      "outlook o365",
+      "unix",
+      "appstore",
+      "icue (integrated clinical user experience)",
+      "secure",
+      "linux",
+      "tso",
+      "global self service",
+      "hardware",
+      "iex (nice - webstation)",
+      "microsoft excel",
+      "ndb (network database)",
+      "headset",
+      "cisco anyconnect vpn client"
+    ]
   },
   "thdiAndQnaSrcProdDtls": [
-     {
+    {
       "buttonTitle": "ICUE Related Issue",
       "firstUtterance": "Icue (integrated clinical user experience)",
       "product": "Icue (integrated clinical user experience)",

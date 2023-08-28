@@ -63,6 +63,7 @@
           "$designer": {
             "id": "K8oqlM"
           },
+          "disabled": true,
           "resultProperty": "dialog.luisResult",
           "method": "GET",
           "url": "=`${settings.luis.endpoint}luis/prediction/v3.0/apps/${settings.luis.appId}/slots/production/predict?verbose=true&show-all-intents=true&log=true&subscription-key=${settings.luis.endpointKey}&query=${uriComponent(conversation.firstIssue)}`"
@@ -73,7 +74,7 @@
             "id": "oX6LUf",
             "comment": "Now query will contain the joined Intent"
           },
-          "condition": "=dialog.luisResult.statusCode!=200",
+          "condition": "=settings.luisResult.statusCode!=200",
           "actions": [
             {
               "$kind": "Microsoft.SetProperty",
@@ -100,7 +101,7 @@
                 "id": "T35Igl"
               },
               "property": "dialog.intents",
-              "value": "=dialog.luisResult.content.prediction.intents"
+              "value": "=settings.luisResult.content.prediction.intents"
             },
             {
               "$kind": "TopThreeIntents",
@@ -159,7 +160,7 @@
                   "$designer": {
                     "id": "OHMBq4"
                   },
-                  "condition": "=dialog.luisResult.content.prediction.topIntent== 'None'|| dialog.luisResult.content.prediction.topIntent =='DeferToRecognizer_QnA_itss-fcsi-bot'",
+                  "condition": "=settings.luisResult.content.prediction.topIntent== 'None'|| settings.luisResult.content.prediction.topIntent =='DeferToRecognizer_QnA_itss-fcsi-bot'",
                   "actions": [
                     {
                       "$kind": "Microsoft.SetProperty",
@@ -179,7 +180,7 @@
                         "comment": "Now query will contain the joined Intent"
                       },
                       "property": "conversation.joinedIntent",
-                      "value": "=trim(dialog.luisResult.content.prediction.topIntent)"
+                      "value": "=trim(settings.luisResult.content.prediction.topIntent)"
                     },
                     {
                       "$kind": "Microsoft.IfCondition",
@@ -268,7 +269,7 @@
                         "name": "SendEventTelemetry-LUIS"
                       },
                       "name": "luis-result",
-                      "properties": "=dialog.luisResult.content"
+                      "properties": "=settings.luisResult.content"
                     },
                     {
                       "$kind": "SendEventTelemetry",
@@ -659,7 +660,7 @@
               "assignments": [
                 {
                   "property": "dialog.products",
-                  "value": "=dialog.luisResult.content.prediction.entities.product"
+                  "value": "=settings.luisResult.content.prediction.entities.product"
                 },
                 {
                   "property": "dialog.isProductEmpty",
@@ -667,7 +668,7 @@
                 },
                 {
                   "property": "conversation.GenesysEntities",
-                  "value": "=dialog.luisResult.content.prediction.entities.genesysQueues"
+                  "value": "=settings.luisResult.content.prediction.entities.genesysQueues"
                 },
                 {
                   "property": "conversation.isGenesysEntityEmpty",
@@ -786,7 +787,7 @@
                 "name": "SendEventTelemetry-LUIS"
               },
               "name": "luis-result",
-              "properties": "=dialog.luisResult.content"
+              "properties": "=settings.luisResult.content"
             }
           ]
         },
