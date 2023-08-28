@@ -19,20 +19,17 @@ import {
   DialogTurnResult,
 } from "botbuilder-dialogs";
 
-export class CAIPQuestionnaireDialog extends Dialog {
-  public static $kind = "CAIPQuestionnaireDialog";
+export class GetTranscriptDialog extends Dialog {
+  public static $kind = "GetTranscriptDialog";
 
-  public rating = new NumberExpression();
-  public questionnaireConfig = new ObjectExpression();
-  public questionnaireAdaptiveJSON = new StringExpression();
+  public conversationId = new StringExpression();
+  public resultProperty?: StringExpression;
 
   public getConverter(property: any): Converter | ConverterFactory {
     switch (property) {
-      case "rating":
-        return new NumberExpressionConverter();
-      case "questionnaireConfig":
-        return new ObjectExpressionConverter();
-      case "questionnaireAdaptiveJSON":
+      case "conversationId":
+        return new StringExpressionConverter();
+      case "resultProperty":
         return new StringExpressionConverter();
       default:
         return super.getConverter(property);
@@ -41,9 +38,7 @@ export class CAIPQuestionnaireDialog extends Dialog {
 
   public beginDialog(dc: DialogContext): Promise<DialogTurnResult> {
     const input = [
-      this.rating.getValue(dc.state),
-      this.questionnaireConfig.getValue(dc.state),
-      this.questionnaireAdaptiveJSON.getValue(dc.state),
+      this.conversationId.getValue(dc.state),
     ].join(", ");
     dc.context.sendActivities([
       { type: ActivityTypes.Event, text: `${input}` },
@@ -56,6 +51,6 @@ export class CAIPQuestionnaireDialog extends Dialog {
   }
 
   protected onComputeId(): string {
-    return "CAIPQuestionnaireDialog";
+    return "GetTranscriptDialog";
   }
 }

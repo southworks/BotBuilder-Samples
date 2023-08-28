@@ -20,7 +20,6 @@
   },
   "dependencies": {
     "@advanceddevelopment/caip-bot-core": "0.1.29",
-    "@advanceddevelopment/caip-custom-actions": "file:@advanceddevelopment/caip-custom-actions",
     "botbuilder-ai-luis": "4.17.0-preview",
     "botbuilder-ai-qna": "4.17.0-preview",
     "botbuilder-dialogs-adaptive-runtime": "4.17.0-preview",

@@ -15,21 +15,25 @@ import {
   Converter,
   ConverterFactory,
   Dialog,
+  DialogConfiguration,
   DialogContext,
   DialogTurnResult,
 } from "botbuilder-dialogs";
 
-export class GetTranscriptDialog extends Dialog {
-  public static $kind = "GetTranscriptDialog";
+export class CAIPQuestionnaireDialog extends Dialog {
+  public static $kind = "CAIPQuestionnaireDialog";
 
-  public conversationId = new StringExpression();
-  public resultProperty = new StringExpression();
+  public rating = new NumberExpression();
+  public questionnaireConfig = new ObjectExpression();
+  public questionnaireAdaptiveJSON = new StringExpression();
 
   public getConverter(property: any): Converter | ConverterFactory {
     switch (property) {
-      case "conversationId":
-        return new StringExpressionConverter();
-      case "resultProperty":
+      case "rating":
+        return new NumberExpressionConverter();
+      case "questionnaireConfig":
+        return new ObjectExpressionConverter();
+      case "questionnaireAdaptiveJSON":
         return new StringExpressionConverter();
       default:
         return super.getConverter(property);
@@ -38,8 +42,9 @@ export class GetTranscriptDialog extends Dialog {
 
   public beginDialog(dc: DialogContext): Promise<DialogTurnResult> {
     const input = [
-      this.conversationId.getValue(dc.state),
-      this.resultProperty.getValue(dc.state),
+      this.rating.getValue(dc.state),
+      this.questionnaireConfig.getValue(dc.state),
+      this.questionnaireAdaptiveJSON.getValue(dc.state),
     ].join(", ");
     dc.context.sendActivities([
       { type: ActivityTypes.Event, text: `${input}` },
@@ -52,6 +57,6 @@ export class GetTranscriptDialog extends Dialog {
   }
 
   protected onComputeId(): string {
-    return "GetTranscriptDialog";
+    return "CAIPQuestionnaireDialog";
   }
 }

@@ -24,7 +24,7 @@ export class GetStargateToken extends Dialog {
 
   public key = new StringExpression();
   public secret = new StringExpression();
-  public resultProperty = new StringExpression();
+  public resultProperty?: StringExpression;
 
   public getConverter(property: any): Converter | ConverterFactory {
     switch (property) {
@@ -43,7 +43,6 @@ export class GetStargateToken extends Dialog {
     const input = [
       this.key.getValue(dc.state),
       this.secret.getValue(dc.state),
-      this.resultProperty.getValue(dc.state),
     ].join(", ");
     dc.context.sendActivities([
       { type: ActivityTypes.Event, text: `${input}` },

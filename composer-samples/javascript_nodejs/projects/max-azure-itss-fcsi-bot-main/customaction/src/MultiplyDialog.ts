@@ -24,7 +24,7 @@ export class MultiplyDialog extends Dialog {
 
   public arg1 = new NumberExpression();
   public arg2 = new NumberExpression();
-  public resultProperty = new StringExpression();
+  public resultProperty?: StringExpression;
 
   public getConverter(property: any): Converter | ConverterFactory {
     switch (property) {
@@ -43,7 +43,6 @@ export class MultiplyDialog extends Dialog {
     const input = [
       this.arg1.getValue(dc.state),
       this.arg2.getValue(dc.state),
-      this.resultProperty.getValue(dc.state),
     ].join(", ");
     dc.context.sendActivities([
       { type: ActivityTypes.Event, text: `${input}` },

@@ -32,7 +32,7 @@ export class StargateProvider extends Dialog {
   public retryCount = new IntExpression();
   public postBodyOrGetParams = new ValueExpression();
   public contentType = new StringExpression();
-  public resultProperty = new StringExpression();
+  public resultProperty?: StringExpression;
 
   public getConverter(property: any): Converter | ConverterFactory {
     switch (property) {
@@ -63,7 +63,6 @@ export class StargateProvider extends Dialog {
       this.retryCount.getValue(dc.state),
       this.postBodyOrGetParams.getValue(dc.state),
       this.contentType.getValue(dc.state),
-      this.resultProperty.getValue(dc.state),
     ].join(", ");
     dc.context.sendActivities([
       { type: ActivityTypes.Event, text: `${input}` },
