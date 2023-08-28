@@ -1,0 +1,154 @@
+[import](common.lg)
+
+# SendActivity_deM1F5()
+[Activity
+    Text = ${SendActivity_deM1F5_text()}
+]
+
+# SendActivity_TQleqr()
+[Activity
+    Text = ${SendActivity_TQleqr_text()}
+]
+
+# TextInput_Prompt_QOQojp()
+[Activity
+    Attachments = ${json(TextInput_Prompt_QOQojp_attachment_ml81az())}
+]
+
+# TextInput_Prompt_QOQojp_attachment_ml81az()
+> To learn more Adaptive Cards format, read the documentation at
+> https://docs.microsoft.com/en-us/adaptive-cards/getting-started/bots
+- ```
+{
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "TextBlock",
+            "text": "Your ticket ([${conversation.incidentIdSel}](${dialog.ticketUrl})) will be withdrawn and no further action will be taken. Are you sure you want to close this ticket?",
+            "wrap": true
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "ActionSet",
+                            "actions": [
+                                {
+                                    "type": "Action.Submit",
+                                    "title": "Close Ticket",
+                                    "data": {
+                                        "flow": "closeIncident"
+                                    },
+                                    "id": "closeIncidentId"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "ActionSet",
+                            "actions": [
+                                {
+                                    "type": "Action.Submit",
+                                    "title": "Cancel Request",
+                                    "data": {
+                                        "flow": "cancelRequest"
+                                    },
+                                    "id": "cancelRequestId"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+```
+
+# SendActivity_TQleqr_text()
+- Sorry!  Incident closure failed. Please try again.
+# SendActivity_deM1F5_text()
+- Incident ([${conversation.incidentIdSel}](${dialog.closedTicketUrl})) has been closed.
+# TextInput_InvalidPrompt_QOQojp()
+[Activity
+    Attachments = ${json(TextInput_InvalidPrompt_QOQojp_attachment_4LsPcc())}
+]
+
+# TextInput_InvalidPrompt_QOQojp_attachment_4LsPcc()
+> To learn more Adaptive Cards format, read the documentation at
+> https://docs.microsoft.com/en-us/adaptive-cards/getting-started/bots
+- ```
+{
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "TextBlock",
+            "text": "Your ticket ([${conversation.incidentIdSel}](${dialog.ticketUrl})) will be withdrawn and no further action will be taken. Are you sure you want to close this ticket?",
+            "wrap": true
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "ActionSet",
+                            "actions": [
+                                {
+                                    "type": "Action.Submit",
+                                    "title": "Close Ticket",
+                                    "data": {
+                                        "flow": "closeIncident"
+                                    },
+                                    "id": "closeIncidentId"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "ActionSet",
+                            "actions": [
+                                {
+                                    "type": "Action.Submit",
+                                    "title": "Cancel Request",
+                                    "data": {
+                                        "flow": "cancelRequest"
+                                    },
+                                    "id": "cancelRequestId"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+```
+
+# SendActivity_hGBSUW_text()
+- We are returning you back to SmartBot because of invalid inputs
+# SendActivity_hGBSUW()
+[Activity
+    Text = ${SendActivity_hGBSUW_text()}
+]

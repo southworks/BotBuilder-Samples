@@ -1,0 +1,125 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "rxl6KM",
+    "name": "escalateIncidents",
+    "comment": "Escalate incidents from Max BOT"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "LvbY5x"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "z2ibQH"
+          },
+          "property": "conversation.pathTaken",
+          "value": "=concat(conversation.pathTaken,\" -> \",\"Escalate Incident\")"
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "FWMEqX"
+          },
+          "properties": "{\"pathTraversed\" : `${conversation.pathTaken}`}",
+          "name": "user-path"
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "UX0dPQ"
+          },
+          "properties": "{\"incidentNumber\" : `${conversation.incidentIdSel}`}",
+          "name": "escalate-incident"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "uH94ed"
+          },
+          "property": "dialog.utcNow",
+          "value": "=formatDateTime(utcNow(), 'MM/DD/YYYY HH:MM:ss')"
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "qgg9yn"
+          },
+          "resultProperty": "dialog.escalationcommentResult",
+          "method": "POST",
+          "url": "${settings.servicenow.URL}",
+          "headers": {
+            "Authorization": "${settings.servicenow.Authorization}"
+          },
+          "body": "={\"number\": `${conversation.incidentIdSel}`, \"u_count_escalation\":`${conversation.escalationCountSel}`, \"comments\": `Caller Escalation via Max BOT:  \\n Escalation Count: ${conversation.escalationCountSel} \\n Escalation entered by ${conversation.callerIdSel}  \\n Customer: ${conversation.callerIdSel}  \\n Escalation Time: ${dialog.utcNow}  \\n Priority: ${conversation.prioritySel}  \\n Assignment Group: ${conversation.assignmentGroupSel}  \\n Assigned To: ${conversation.assignedToSel}  \\n Escalation Reason: ${conversation.escalationAdded}`}"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "ev9k2t"
+          },
+          "condition": "= dialog.escalationcommentResult.statusCode == 201 && dialog.escalationcommentResult.content.result[0].status == \"updated\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "NJJFPa"
+              },
+              "property": "dialog.ticketUrl",
+              "value": "=`${settings.thdi.helpdeskUrl}?id=itss_hc_ticket&table=incident&sys_id=${conversation.SysIdSel}`"
+            },
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "qgOcGz"
+              },
+              "activity": "${SendActivity_qgOcGz()}"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "2hgqBR"
+              },
+              "activity": "${SendActivity_2hgqBR()}"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperties",
+          "$designer": {
+            "id": "GrOTcp"
+          },
+          "properties": [
+            "conversation.incidentIdSel",
+            "conversation.commentAdded",
+            "conversation.escalationCountSel",
+            "conversation.escalationAdded",
+            "conversation.callerIdSel",
+            "conversation.assignmentGroupSel",
+            "conversation.assignedToSel",
+            "conversation.prioritySel"
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "cHZZwN"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "escalateIncidents.lg",
+  "recognizer": "escalateIncidents.lu.qna",
+  "id": "escalateIncidents"
+}

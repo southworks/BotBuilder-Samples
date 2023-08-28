@@ -1,0 +1,188 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "0eSu0X",
+    "name": "LiveAgent",
+    "comment": "Connect to Bomgar Live Chat Agent"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "2O2lae",
+        "comment": ""
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "tbU6Rr"
+          },
+          "property": "conversation.pathTaken",
+          "value": "=concat(conversation.pathTaken,\" -> \",\"LiveAgent\")"
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "hQywOK"
+          },
+          "properties": "{\"pathTraversed\" : `${conversation.pathTaken}`}",
+          "name": "user-path"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "NEmMaa"
+          },
+          "condition": "=getProperty(conversation, 'skillObj')",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.DeleteProperty",
+              "$designer": {
+                "id": "puJuMU"
+              },
+              "property": "dialog.chatissuetype"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "URjA90"
+              },
+              "condition": "=conversation.urllivechatavailable=='1'",
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "safAPy"
+                  },
+                  "activity": "${SendActivity_safAPy()}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "4nHaVF"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "IncidentForm-Flow"
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "OMucgk"
+                  }
+                }
+              ],
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "dTnWoP"
+                  },
+                  "condition": "=conversation.livechatsource == \"createincident\"",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "1FHQ6I"
+                      },
+                      "property": "dialog.chatissuetype",
+                      "value": "issue_8",
+                      "disabled": true
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "9qsiaB"
+                      },
+                      "property": "dialog.chatissuetype",
+                      "value": "break_fix"
+                    },
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "nkeq8l"
+                      },
+                      "activity": "${SendActivity_nkeq8l()}"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "uyk9wu"
+                      },
+                      "property": "dialog.chatissuetype",
+                      "value": "issue_29",
+                      "disabled": true
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "hL6jgP"
+                      },
+                      "property": "dialog.chatissuetype",
+                      "value": "break_fix"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.DeleteProperty",
+                  "$designer": {
+                    "id": "4rCfho"
+                  },
+                  "property": "conversation.livechatsource"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "s3eTm1"
+                  },
+                  "property": "dialog.liveAgentURL",
+                  "value": "=`${settings.servicenow.BomgarUrl}/api/start_session?issue_menu=1&codeName=${uriComponent(dialog.chatissuetype+'')}&customer.name=${uriComponent(conversation.urlusername+'')}&c2cjs=1&va_session_id=${uriComponent(conversation.conversation_id+'')}&customer.details=${uriComponent(conversation.issueType+'')+uriComponent('. Product:')+uriComponent(conversation.productsummary+'')+uriComponent(';user-utterance:')+uriComponent(conversation.firstIssue+'')}&session.custom.custom_field_1=${uriComponent(conversation.urluserid+'')}&session.custom.issue_code_name=${uriComponent(dialog.chatissuetype+'')}&session.custom.customer_details=${uriComponent(conversation.issueType+'')+uriComponent('. Product:')+uriComponent(conversation.productsummary+'')+uriComponent(';user-utterance:')+uriComponent(conversation.firstIssue+'')}&session.custom.va_session_id=${uriComponent(conversation.conversation_id+'')}&customer.company=UnitedHealth+Group&session.custom.va_chatbot_summary=${uriComponent('Product:')+uriComponent(conversation.productsummary+'')+uriComponent(';user-utterance:')+uriComponent(conversation.firstIssue+'')}&va_chatbot_summary=${uriComponent('Product:')+uriComponent(conversation.productsummary+'')+uriComponent(';user-utterance:')+uriComponent(conversation.firstIssue+'')}&session.custom.multiple_user_impact=${uriComponent(conversation.multipleUser+'')}&session.custom.auto_create=1`"
+                },
+                {
+                  "$kind": "SendEventTelemetry",
+                  "$designer": {
+                    "id": "M4aO2M"
+                  },
+                  "name": "LiveAgent-URL",
+                  "properties": "{\"Bomgar URL\" : `${dialog.liveAgentURL}`}"
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "bukKSZ"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 1,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": false,
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "property": "dialog.livechat",
+                  "prompt": "${TextInput_Prompt_bukKSZ()}",
+                  "value": "=turn.activity.value.x"
+                },
+                {
+                  "$kind": "SendEventTelemetry",
+                  "$designer": {
+                    "id": "ALvWPc"
+                  },
+                  "name": "user-livechatqueue",
+                  "properties": "{\"LiveChatQueue\" : `${dialog.livechat}`}"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "LiveAgent.lg",
+  "recognizer": "LiveAgent.lu.qna",
+  "id": "LiveAgent"
+}

@@ -1,0 +1,106 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "YC0QMi",
+    "name": "qnaQueryAPI",
+    "comment": "Dialog to have API call to QNA knowledge base"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "TcLOCK"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "Ix4ci6"
+          },
+          "property": "conversation.pathTaken",
+          "value": "=concat(conversation.pathTaken,\" -> \",\"qnaQueryAPI\")"
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "uWT4JR"
+          },
+          "properties": "{\"pathTraversed\" : `${conversation.pathTaken}`}",
+          "name": "user-path"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperties",
+          "$designer": {
+            "id": "uKso3g"
+          },
+          "properties": [
+            "conversation.qnaContextAnswer",
+            "conversation.qnaContext",
+            "dialog.qnaresults"
+          ]
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "s8dJu0",
+            "comment": "Call QnA Api to avoid DeferToRecognizer_QnA_itss-fcsi-bot' and 'No good match found in KB.' search results from QnA Now query will contain the joined Intent"
+          },
+          "resultProperty": "dialog.qnaresults",
+          "method": "POST",
+          "headers": {
+            "Authorization": "=`EndpointKey ${settings.qna.endpointKey}`",
+            "Content-Type": "application/json"
+          },
+          "url": "=`${settings.qna.hostname}/knowledgebases/${settings.qna.knowledgebaseid}/generateAnswer`",
+          "body": "={\"qnaId\":`${string(conversation.qnaUserResponse)}`}"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "8xN9NX"
+          },
+          "condition": "=trim(string(dialog.qnaresults.statusCode)) == \"200\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "ANChQO"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.qnaContextAnswer",
+                  "value": "=dialog.qnaresults.content.answers[0].answer"
+                },
+                {
+                  "property": "conversation.qnaContext",
+                  "value": "=dialog.qnaresults.content.answers[0].context.prompts"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "rhscjS"
+              },
+              "activityProcessed": true,
+              "dialog": "qnaResults"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "nhRwB3"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "qnaQueryAPI.lg",
+  "recognizer": "qnaQueryAPI.lu.qna",
+  "id": "qnaQueryAPI"
+}

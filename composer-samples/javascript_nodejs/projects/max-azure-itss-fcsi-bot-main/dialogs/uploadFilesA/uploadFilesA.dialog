@@ -1,0 +1,135 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "vqaNeR",
+    "name": "uploadFilesA",
+    "comment": "this is a support dialog to attachments uploading feature"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "DvKv3F"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "Lr1TpI"
+          },
+          "property": "conversation.pathTaken",
+          "value": "=concat(conversation.pathTaken,\" -> \",\"uploadFilesA\")"
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "WZdRxv"
+          },
+          "properties": "{\"pathTraversed\" : `${conversation.pathTaken}`}",
+          "name": "user-path"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "PCbnKp"
+          },
+          "activity": "${SendActivity_PCbnKp()}",
+          "disabled": true
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "NkxZEO"
+          },
+          "property": "conversation.attachment_confirm"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "gvqa78"
+          },
+          "disabled": false,
+          "maxTurnCount": 3,
+          "alwaysPrompt": false,
+          "allowInterruptions": false,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "defaultValueResponse": "",
+          "prompt": "${TextInput_Prompt_gvqa78()}",
+          "property": "conversation.attachment_confirm",
+          "value": "=turn.activity.value.title"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "qc13FZ"
+          },
+          "condition": "= conversation.attachment_confirm == 'Yes'",
+          "actions": [
+            {
+              "$kind": "Microsoft.AttachmentInput",
+              "$designer": {
+                "id": "ZPYBck"
+              },
+              "disabled": false,
+              "maxTurnCount": 3,
+              "alwaysPrompt": false,
+              "allowInterruptions": false,
+              "unrecognizedPrompt": "",
+              "invalidPrompt": "",
+              "prompt": "${AttachmentInput_Prompt_ZPYBck()}",
+              "property": "conversation.imgAttach",
+              "outputFormat": "all"
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "Wrw77Q"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.numOfFiles",
+                  "value": "=count(conversation.imgAttach)"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "x6ghvs"
+              },
+              "condition": "= conversation.numOfFiles <=2",
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.DeleteProperties",
+                  "$designer": {
+                    "id": "DWAE5G"
+                  },
+                  "properties": [
+                    "conversation.numOfFiles",
+                    "conversation.imgAttach"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "VMVeu7"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "uploadFilesB"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "uploadFilesA.lg",
+  "recognizer": "uploadFilesA.lu.qna",
+  "id": "uploadFilesA"
+}

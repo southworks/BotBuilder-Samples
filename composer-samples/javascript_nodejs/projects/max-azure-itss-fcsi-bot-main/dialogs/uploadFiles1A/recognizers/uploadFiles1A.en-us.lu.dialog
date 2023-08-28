@@ -1,0 +1,8 @@
+{
+  "$kind": "Microsoft.LuisRecognizer",
+  "id": "LUIS_uploadFiles1A",
+  "applicationId": "=settings.luis.uploadFiles1A_en_us_lu.appId",
+  "version": "=settings.luis.uploadFiles1A_en_us_lu.version",
+  "endpoint": "=settings.luis.endpoint",
+  "endpointKey": "=settings.luis.endpointKey"
+}

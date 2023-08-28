@@ -1,0 +1,210 @@
+[import](common.lg)
+
+# issueListOptions(item)
+-```
+{
+	"title": "${item.UserOption1}",
+    "value": "${item.SubFunction}"
+}
+```
+
+# issueListAdaptiveCard(arr)
+- ```
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "type": "AdaptiveCard",
+    "version": "1.3",
+    "body": [
+       {
+            "type": "Input.ChoiceSet",
+            "id": "issueCategory",
+            "style": "compact",
+            "placeholder": "Please Select",
+            "label": "Issue Category",
+            "isRequired": true,
+            "isMultiSelect": false,
+            "errorMessage": "Issue Category is required",
+            "value": "${conversation.IssueCategory}",
+            "choices": [
+                ${join(foreach(arr, item, issueListOptions(item)), ',')}
+            ]
+        }
+    ],
+    "actions": [
+        {
+            "type": "Action.Submit",
+            "title": "Submit"
+        }
+    ]
+}
+```
+
+# productListOptions(item)
+-```
+{
+	"title": "${item.UserOption2}",
+    "value": "${item.SubFunctionDetail}"
+}
+```
+
+# productListAdaptiveCard(arr)
+- ```
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "type": "AdaptiveCard",
+    "version": "1.3",
+    "body": [
+       {
+            "type": "Input.ChoiceSet",
+            "id": "productCategory",
+            "style": "compact",
+            "placeholder": "Please Select",
+            "label": "Product Category",
+            "isRequired": true,
+            "isMultiSelect": false,
+            "errorMessage": "Product Category is required",
+            "value": "${dialog.DefaultProduct}",
+            "choices": [
+                ${join(foreach(arr, item, productListOptions(item)), ',')}
+            ]
+        }
+    ],
+    "actions": [
+        {
+            "type": "Action.Submit",
+            "title": "Submit"
+        }
+    ]
+}
+```
+
+# SendActivity_Ptuf3Y()
+[Activity
+    Text = To connect you with a Live Chat Agent from the right team, can you please share the below information
+]
+
+# TextInput_Prompt_NmQtVt()
+[Activity
+    Attachments = ${json(productListAdaptiveCard(dialog.productCatsMatched))}
+]
+
+
+
+# BeginSkill_Activity_zdkGQC()
+[Activity
+  type = message
+  name = preChat
+  Value = ${{preChatDynamicInfo:{ENT_SubFunction: `${dialog.selectedIssueCategory}`, ENT_SubFunctionDetail: `${dialog.selectedProductCategory}`}}}
+]
+# BeginSkill_Activity_xtIMOX()
+[Activity
+  type = message
+  name = preChatAsync
+  Value = ${{asyncPreChatdynamicInfo:{ENT_SubFunction: `${dialog.selectedIssueCategory}`, _ENT_ContactConstituentID: `${conversation.urluserid}`, _ENT_ContactFirstNm: `${conversation.fname}`,_ENT_ContactLastNm: `${conversation.lname}`, _email: `${conversation.email}`}, microsoftAppId: `${conversation.msAppIdEnv}`}}
+]
+# SendActivity_dxwULL_text()
+- ```Live Chat is not available at this time.
+Please fill the details below to submit a ticket.```
+# SendActivity_dxwULL()
+[Activity
+    Text = ${SendActivity_dxwULL_text()}
+]
+
+# TextInput_Prompt_pdn7q7_attachment_CCrMxP()
+- ```
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "type": "AdaptiveCard",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "RichTextBlock",
+            "inlines": [
+         {
+                    "type": "TextRun",
+                    "text": "Are you ready to join the live chat queue?"
+                   
+                    
+                }
+            ]
+        }
+        
+    ],
+    "actions": [
+        {
+            "type": "Action.Submit",
+            "id": "livechatbtnyes",
+            "title": "Yes, chat now",
+            "data": {
+                "flow": "ConnectwithaLiveAgent"
+            },
+            "id": "ConnectwithaLiveAgent"
+        },
+        {
+            "type": "Action.Submit",
+            "title": "No, end this chat",
+            "data": {
+               "flow": "Cancel"
+            },
+            "id" : "cancel"
+        }
+    ]
+}
+```
+# TextInput_Prompt_pdn7q7()
+[Activity
+    Attachments = ${json(TextInput_Prompt_pdn7q7_attachment_CCrMxP())}
+]
+
+# SendActivity_SK730E()
+[Activity
+    Text = ${SendActivity_SK730E_text()}
+]
+
+# SendActivity_SK730E_text()
+- Okay, please give me a moment to check the availability of our Live Chat Agent
+
+# TextInput_Prompt_jqQvs9()
+[Activity
+    Attachments = ${json(issueListAdaptiveCard(conversation.GenesysIssueList))}
+]
+
+
+
+
+# SendActivity_IM0OSv_text()
+- Your new wait time to chat on this topic is ${dialog.longestWaitTime} minutes. Connect now to be next in the chat queue
+# SendActivity_IM0OSv()
+[Activity
+    Text = ${SendActivity_IM0OSv_text()}
+]
+
+# SendActivity_yZvyiO_text()
+- Your new wait time to chat on this topic is ${dialog.longestWaitTime} minutes. Connect now to be ${dialog.preChatJson.chatsInQueue} in the chat queue
+# SendActivity_yZvyiO()
+[Activity
+    Text = ${SendActivity_yZvyiO_text()}
+]
+
+# SendActivity_IM4Jtv_text()
+- Connecting you now with a Live Chat Agent, you can type **'Quit'** anytime you want to end the conversation.
+
+# SendActivity_IM4Jtv()
+[Activity
+    Text = ${SendActivity_IM4Jtv_text()}
+]
+
+# BeginSkill_Activity_JtQ4gL()
+[Activity
+  type = message
+  name = connectToLiveAgent
+  Value = ${{asyncPreChatdynamicInfo:{ENT_SubFunction: `${dialog.selectedIssueCategory}`, _ENT_ContactConstituentID: `${conversation.urluserid}`,_ENT_ContactFirstNm: `${conversation.fname}`, _ENT_ContactLastNm: `${conversation.lname}`, _email: `${conversation.email}`}, newChatDynamicInfo: {nickname: `${conversation.urlusername}`, ENT_ContactFirstNm: `${conversation.fname}`,ENT_SubFunction: `${dialog.selectedIssueCategory}`, ENT_FromAddress: `${conversation.email}`,ENT_ContactLastNm: `${conversation.lname}`,ENT_DeviceIssueDesc: `${conversation.firstIssue}`, ENT_SubFunctionDetail: `${dialog.selectedProductCategory}`,  CHAT_PortalPage:'helpdesk', ENT_ContactConstituentID: `${conversation.urluserid}`, ENT_ContactPhoneNbr: '', ENT_UHGLocationId: `${conversation.urllocation}` }, microsoftAppId: `${conversation.msAppIdEnv}`}}
+]
+# SendActivity_03viGC_text()
+- ```Live Chat is not available at this time.
+Please fill the details below to submit a ticket.```
+# SendActivity_03viGC()
+[Activity
+    Text = ${SendActivity_03viGC_text()}
+]
+

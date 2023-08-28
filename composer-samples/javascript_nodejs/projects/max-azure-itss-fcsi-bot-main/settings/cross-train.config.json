@@ -1,0 +1,13 @@
+{
+  "itss-fcsi-bot.en-us": {
+    "rootDialog": true,
+    "triggers": {
+      "": [
+        "flowDecider.en-us",
+        "LiveAgent.en-us",
+        "MainDialog.en-us",
+        "SkillFlowDecider.en-us"
+      ]
+    }
+  }
+}

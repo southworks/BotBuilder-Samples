@@ -1,0 +1,33 @@
+openapi: 3.0.1
+info:
+  title: Max Bot Product API
+  version: 1.0.0
+  description: Service to get the list of Top Products
+  contact:
+    name: Sandeep Rathi
+    email: sandeep.rathi@optum.com
+paths:
+  /v1/api/topProducts:
+    description: List of Top Products
+    get:
+      tags:
+        - Operation to fetch Product
+      responses:
+        '200':
+          description: Sucess Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TopProducts'
+components:
+  schemas:
+    TopProducts:
+      type: array
+      items:
+        properties:
+          Product:
+            type: string
+            example: DOMAINS
+          Count_In_ID:
+            type: integer
+            example: 8781

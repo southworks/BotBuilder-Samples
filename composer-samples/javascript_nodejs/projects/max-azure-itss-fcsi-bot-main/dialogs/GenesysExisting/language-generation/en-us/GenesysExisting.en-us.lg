@@ -1,0 +1,96 @@
+[import](common.lg)
+
+# BeginSkill_Activity_1oVifY()
+[Activity
+  type = message
+  name = preChat
+  Value = ${{preChatDynamicInfo:{ENT_SubFunction: `${dialog.entSubFunction}`, ENT_SubFunctionDetail: `${dialog.entSubFunctionDetail}`}}}
+]
+# TextInput_Prompt_0nOM8P_attachment_FCGNm3()
+> To learn more Adaptive Cards format, read the documentation at
+> https://docs.microsoft.com/en-us/adaptive-cards/getting-started/bots
+- ```
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "type": "AdaptiveCard",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "RichTextBlock",
+            "inlines": [
+                {
+                    "type": "TextRun",
+                    "text": "You have an open chat which is currently paused. Do you want to continue and connect with a Live Chat Agent again?"
+                }
+            ]
+        }
+    ],
+    "actions": [
+        {
+            "type": "Action.Submit",
+            "title": "Yes, continue chat with live agent.",
+            "data": {
+                "title": "yes"
+            }
+        },
+        {
+            "type": "Action.Submit",
+            "title": "No, I don't want to continue",
+            "data": {
+                "title": "no"
+            }
+        }
+    ]
+}
+```
+# TextInput_Prompt_0nOM8P()
+[Activity
+    Attachments = ${json(TextInput_Prompt_0nOM8P_attachment_FCGNm3())}
+]
+
+# BeginSkill_Activity_laBlEd()
+[Activity
+	type = message
+	name = endChat
+	Value = ${{asyncPreChatdynamicInfo:{ENT_SubFunction: `${dialog.entSubFunction}`, _ENT_ContactConstituentID: `${conversation.urluserid}`, _ENT_ContactFirstNm: `${conversation.fname}`, _ENT_ContactLastNm: `${conversation.lname}`, _email: `${conversation.email}`}, microsoftAppId: `${conversation.msAppIdEnv}`}}
+]
+# BeginSkill_Activity_wWjzCn()
+[Activity
+  type = message
+  name = preChatAsync
+  Value = ${{asyncPreChatdynamicInfo:{ENT_SubFunction: `${dialog.entSubFunction}`, _ENT_ContactConstituentID: `${conversation.urluserid}`, _ENT_ContactFirstNm: `${conversation.fname}`,_ENT_ContactLastNm: `${conversation.lname}`, _email: `${conversation.email}`}, microsoftAppId: `${conversation.msAppIdEnv}`}}
+]
+# SendActivity_HR8F24_text()
+- ```Live Chat is not available at this time.
+Please fill the details below to submit a ticket.```
+# SendActivity_HR8F24()
+[Activity
+    Text = ${SendActivity_HR8F24_text()}
+]
+
+# BeginSkill_Activity_o0SxRu()
+[Activity
+	type = message
+	name = endChat
+	Value = ${{asyncPreChatdynamicInfo:{_ENT_SubFunction: `${dialog.entSubFunction}`, _ENT_ContactConstituentID: `${conversation.urluserid}`, _ENT_ContactFirstNm: `${conversation.fname}`, _ENT_ContactLastNm: `${conversation.lname}`, _email: `${conversation.email}`}, microsoftAppId: `${conversation.msAppIdEnv}`}}
+]
+# SendActivity_KeL6bU()
+[Activity
+    Text = ${SendActivity_KeL6bU_text()}
+]
+
+# SendActivity_KeL6bU_text()
+- Please type any message to let the agent know you are back.
+# BeginSkill_Activity_1dxKOt()
+[Activity
+  type = message
+  name = connectToLiveAgent
+  Value = ${{asyncPreChatdynamicInfo:{ENT_SubFunction: `${dialog.entSubFunction}`, _ENT_ContactConstituentID: `${conversation.urluserid}`,_ENT_ContactFirstNm: `${conversation.fname}`, _ENT_ContactLastNm: `${conversation.lname}`, _email: `${conversation.email}`}, newChatDynamicInfo: {nickname: `${conversation.urlusername}`, ENT_ContactFirstNm: `${conversation.fname}`,ENT_SubFunction: `${dialog.entSubFunction}`, ENT_FromAddress: `${conversation.email}`, ENT_DeviceIssueDesc: `${dialog.userQuery}` ,ENT_ContactLastNm: `${conversation.lname}`, ENT_SubFunctionDetail: `${dialog.entSubFunctionDetail}`,  CHAT_PortalPage:'helpdesk', ENT_ContactConstituentID: `${conversation.urluserid}`, ENT_ContactPhoneNbr: '', ENT_UHGLocationId: `${conversation.urllocation}`}, microsoftAppId: `${conversation.msAppIdEnv}`}}
+]
+# SendActivity_gFKW1u()
+[Activity
+    Text = ${SendActivity_gFKW1u_text()}
+]
+
+# SendActivity_gFKW1u_text()
+- Live Chat is not available at this time.

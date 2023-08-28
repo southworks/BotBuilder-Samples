@@ -1,0 +1,770 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "6BSYBo",
+    "name": "thdiSearch",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "mznoU3"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "HME7QM"
+          },
+          "property": "conversation.pathTaken",
+          "value": "=concat(conversation.pathTaken,\" -> \",\"thdiSearch\")"
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "378lEq"
+          },
+          "properties": "{\"pathTraversed\" : `${conversation.pathTaken}`}",
+          "name": "user-path"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "UtqoGZ"
+          },
+          "property": "dialog.searched_thdi"
+        },
+        {
+          "$kind": "Microsoft.EditArray",
+          "$designer": {
+            "id": "V0qUTL"
+          },
+          "changeType": "clear",
+          "itemsProperty": "conversation.searched_thdi"
+        },
+        {
+          "$kind": "Microsoft.EditArray",
+          "$designer": {
+            "id": "sWg78x"
+          },
+          "changeType": "clear",
+          "itemsProperty": "dialog.searched_product"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "mlNDjj"
+          },
+          "assignments": [
+            {
+              "property": "dialog.user_issue",
+              "value": "=conversation.firstIssue"
+            },
+            {
+              "property": "dialog.productLowerCase",
+              "value": "=toLower(conversation.prod)"
+            },
+            {
+              "property": "dialog.user_product",
+              "value": "=dialog.productLowerCase"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "8iP2lS"
+          },
+          "assignments": [
+            {
+              "property": "dialog.utcNow",
+              "value": "=utcNow()"
+            },
+            {
+              "property": "dialog.isTokenValid",
+              "value": "=less(dialog.utcNow, conversation.tokenExpiryTime)"
+            }
+          ],
+          "disabled": true
+        },
+        {
+          "$kind": "StargateProvider",
+          "$designer": {
+            "id": "nSDK3s",
+            "name": "Stargate API HTTP Request -THDI"
+          },
+          "resultProperty": "dialog.api_thdi",
+          "contentType": "application/json",
+          "httpMethod": "GET",
+          "url": "${settings.thdi.getThdi}",
+          "authType": "oauth2"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "OiUtVg"
+          },
+          "activity": "${SendActivity_OiUtVg()}",
+          "disabled": true
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "3m62Tx"
+          },
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "VJOHOD"
+              },
+              "property": "dialog.thdi",
+              "value": "=dialog.api_thdi.content.message"
+            },
+            {
+              "$kind": "Microsoft.Foreach",
+              "$designer": {
+                "id": "oPRZmk"
+              },
+              "index": "dialog.foreach.index",
+              "value": "dialog.foreach.value",
+              "itemsProperty": "dialog.thdi",
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "LlYmZN",
+                    "comment": "Checking for Message_Open == 1"
+                  },
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "TFo4gh"
+                      },
+                      "assignments": [
+                        {
+                          "property": "dialog.ticket_status",
+                          "value": "=replace(uriComponentToString(dialog.foreach.value.Incident_Ticket_Status), '+', ' ')"
+                        },
+                        {
+                          "property": "dialog.common_symptoms",
+                          "value": "=replace(uriComponentToString(dialog.foreach.value.Common_symptoms), '+', ' ')"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "7ybrUF"
+                      },
+                      "activity": "${SendActivity_7ybrUF()}",
+                      "disabled": true
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "MVkMfJ"
+                      },
+                      "property": "dialog.results",
+                      "value": {
+                        "Product_Name": "${dialog.foreach.value.Product_Name}",
+                        "Incident_ID": "${dialog.foreach.value.Incident_ID}",
+                        "reported_tickets": "${dialog.foreach.value.Incident_ID}",
+                        "Incident_Priority": "${dialog.foreach.value.Incident_Priority}",
+                        "Incident_Ticket_Status": "${dialog.ticket_status}",
+                        "Details_Short": "${dialog.foreach.value.Details_Short}",
+                        "Message_Open": "${dialog.foreach.value.Message_Open}",
+                        "Action_Title": "${dialog.foreach.value.Action_Title}",
+                        "Common_Symptoms": "${dialog.common_symptoms}"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.EditArray",
+                      "$designer": {
+                        "id": "w9Vd7p",
+                        "comment": "API searched with Message open ==1"
+                      },
+                      "changeType": "push",
+                      "itemsProperty": "dialog.search_thdi",
+                      "value": "=dialog.results"
+                    }
+                  ],
+                  "elseActions": [],
+                  "condition": "= dialog.foreach.value.message_open == \"1\""
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "dwARJO"
+              },
+              "activity": "${SendActivity_dwARJO()}",
+              "disabled": true
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "mY6Kc4"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.isThdiEmpty",
+                  "value": "=empty(dialog.search_thdi)"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "qmrbVK",
+                "comment": "if there are no open thdi then false block will run which will skip all the below searching logic and return the control to create incident flow"
+              },
+              "condition": "= !dialog.isThdiEmpty",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "X8xrpx",
+                    "comment": ""
+                  },
+                  "property": "dialog.search_thdiTwo",
+                  "value": "=dialog.search_thdi"
+                },
+                {
+                  "$kind": "Microsoft.Foreach",
+                  "$designer": {
+                    "id": "HtXeko"
+                  },
+                  "index": "dialog.foreach.index",
+                  "value": "dialog.foreach.value",
+                  "itemsProperty": "dialog.search_thdi",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "cMH0sA"
+                      },
+                      "property": "dialog.thdiProductTrimmed",
+                      "value": "=trim(toLower(dialog.foreach.value.product_name, 'en-US'))"
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "c7PWDj"
+                      },
+                      "assignments": [
+                        {
+                          "property": "dialog.userProductWordCount",
+                          "value": "=countWord(dialog.user_product)"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "yABeZj"
+                      },
+                      "condition": "= dialog.userProductWordCount > 1",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "KPOVp6"
+                          },
+                          "assignments": [
+                            {
+                              "property": "dialog.userProductSplittedTwo",
+                              "value": "=split(trim(dialog.user_product), ' ')"
+                            }
+                          ]
+                        }
+                      ],
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "Y3iJMa"
+                          },
+                          "assignments": [
+                            {
+                              "property": "dialog.userProductSplittedTwo",
+                              "value": "=[dialog.user_product, 'kkkkkk']"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.Foreach",
+                      "$designer": {
+                        "id": "jhLA7M"
+                      },
+                      "index": "dialog.foreach.in",
+                      "value": "dialog.foreach.va",
+                      "itemsProperty": "dialog.userProductSplittedTwo",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "0bklAU"
+                          },
+                          "property": "dialog.productSplitTrimmed",
+                          "value": "=trim(dialog.foreach.va)"
+                        },
+                        {
+                          "$kind": "Microsoft.EditArray",
+                          "$designer": {
+                            "id": "xVCdnY"
+                          },
+                          "changeType": "push",
+                          "itemsProperty": "dialog.userProductSplitted",
+                          "value": "=dialog.productSplitTrimmed"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.Foreach",
+                      "$designer": {
+                        "id": "CgQEYw"
+                      },
+                      "index": "dialog.foreach.i",
+                      "value": "dialog.foreach.v",
+                      "itemsProperty": "dialog.userProductSplitted",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.IfCondition",
+                          "$designer": {
+                            "id": "ZhNchA"
+                          },
+                          "condition": "= indexOf(dialog.thdiProductTrimmed, dialog.foreach.v) > -1",
+                          "actions": [
+                            {
+                              "$kind": "Microsoft.SetProperty",
+                              "$designer": {
+                                "id": "btirqk"
+                              },
+                              "property": "dialog.product_results",
+                              "value": {
+                                "Product_Name": "${dialog.foreach.value.Product_Name}",
+                                "Incident_ID": "${dialog.foreach.value.Incident_ID}",
+                                "reported_tickets": "${dialog.foreach.value.Incident_ID}",
+                                "Incident_Priority": "${dialog.foreach.value.Incident_Priority}",
+                                "Incident_Ticket_Status": "${dialog.foreach.value.Incident_Ticket_Status}",
+                                "Details_Short": "${dialog.foreach.value.Details_Short}",
+                                "Message_Open": "${dialog.foreach.value.Message_Open}",
+                                "Action_Title": "${dialog.foreach.value.Action_Title}",
+                                "Common_Symptoms": "${dialog.foreach.value.Common_Symptoms}"
+                              }
+                            },
+                            {
+                              "$kind": "Microsoft.EditArray",
+                              "$designer": {
+                                "id": "CRcLLa"
+                              },
+                              "changeType": "push",
+                              "itemsProperty": "conversation.searched_thdi",
+                              "value": "=dialog.product_results"
+                            },
+                            {
+                              "$kind": "Microsoft.EditArray",
+                              "$designer": {
+                                "id": "ko72uc"
+                              },
+                              "changeType": "remove",
+                              "itemsProperty": "dialog.search_thdiTwo",
+                              "value": "=dialog.foreach.value"
+                            },
+                            {
+                              "$kind": "Microsoft.BreakLoop",
+                              "$designer": {
+                                "id": "TJcPH3"
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "MpM11b"
+                  },
+                  "condition": "= !empty(dialog.search_thdiTwo)",
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "1N5tEW",
+                        "comment": "log"
+                      },
+                      "activity": "${SendActivity_1N5tEW()}",
+                      "disabled": true
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "hZgxWa"
+                      },
+                      "assignments": [
+                        {
+                          "property": "dialog.user_issue_trim",
+                          "value": "=toLower(trim(dialog.user_issue), 'en-US')"
+                        },
+                        {
+                          "property": "dialog.user_issue_split",
+                          "value": "=split(dialog.user_issue_trim, \" \")"
+                        },
+                        {
+                          "property": "dialog.userIssueFinal",
+                          "value": "=where(dialog.user_issue_split, x, length(x)>4)"
+                        },
+                        {
+                          "property": "dialog.keywords",
+                          "value": "=\"myself ours ourselves you’re you’ve you’ll you’d your yours yourself yourselves himself she’s hers herself it’s itself they them their theirs themselves what which whom this that that’l these those were been being have having does doing because until while with about against between into through during before after above below from down over under again further then once here there when where both each more most other some such only same than very will just don don’t should shouldve aren aren’t couldn couldn’t didn didn’t doesn doesn’t hadn hadn’t hasn hasn’t haven haven’t isn isn’t mightn mightn’t mustn mustn’t needn needn’t shan shan’t shouldn shouldn’t wasn wasn’t weren weren’t won’t wouldn wouldn’tthose around alone regarding hereafter front  used wherein everything onto never either anyway since amount therefore even somewhere thereupon nothing whereas much whenever seem whereby also last already noone thus next whatever although though would therein somehow whereupon besides whoever without third anything twelve twenty if however done seems else call perhaps nevertheless otherwise still within together elsewhere throughout others show anywhere anyhow hence something hereby nowhere latterly neither forty namely could five unless nine whereafter bottom thereby become whole every except several among mine becomes using seeming wherever beforehand fifty becoming might amongst empty thence thereafter almost least someone often keep nobody sometime across hundred name eight three back became move formerly whence always herein sixty made indeed everywhere fifteen must along beside side former anyone full whose behind please seemed sometimes take rather really latter hereupon part eleven ever enough moreover mostlymeanwhile whither toward give quite everyone towards cannot afterwards beyond make whether well another first upon none many serious various less that’ll should’ve arent couldnt does’n wont wouldn’t\""
+                        },
+                        {
+                          "property": "dialog.keywords_split",
+                          "value": "=split(dialog.keywords, \" \")"
+                        },
+                        {
+                          "property": "conversation.count",
+                          "value": "=count(dialog.keywords_split)"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.Foreach",
+                      "$designer": {
+                        "id": "HxB02O"
+                      },
+                      "index": "dialog.foreach.index",
+                      "value": "dialog.foreach.value",
+                      "itemsProperty": "dialog.userIssueFinal",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "gg8V4p",
+                            "comment": "LOG"
+                          },
+                          "value": "=indexOf(dialog.keywords_split,dialog.foreach.value)",
+                          "property": "dialog.indexof"
+                        },
+                        {
+                          "$kind": "Microsoft.IfCondition",
+                          "$designer": {
+                            "id": "flRGlY"
+                          },
+                          "condition": "=indexOf(dialog.keywords_split,dialog.foreach.value) == -1",
+                          "actions": [
+                            {
+                              "$kind": "Microsoft.EditArray",
+                              "$designer": {
+                                "id": "tsMgYP",
+                                "comment": "Skipped Keywords"
+                              },
+                              "changeType": "push",
+                              "itemsProperty": "dialog.skipped_keywords",
+                              "value": "=dialog.foreach.value"
+                            }
+                          ],
+                          "elseActions": []
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.Foreach",
+                      "$designer": {
+                        "id": "A4xPwJ",
+                        "comment": "Checking for skipwords in API respone"
+                      },
+                      "index": "dialog.foreach.index",
+                      "value": "dialog.foreach.value",
+                      "itemsProperty": "dialog.search_thdiTwo",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "kTPa86"
+                          },
+                          "assignments": [
+                            {
+                              "property": "dialog.respo",
+                              "value": {
+                                "Product_Name": "${dialog.foreach.value.Product_Name}",
+                                "Incident_ID": "${dialog.foreach.value.Incident_ID}",
+                                "reported_tickets": "${dialog.foreach.value.Incident_ID}",
+                                "Incident_Priority": "${dialog.foreach.value.Incident_Priority}",
+                                "Incident_Ticket_Status": "${dialog.foreach.value.Incident_Ticket_Status}",
+                                "Details_Short": "${dialog.foreach.value.Details_Short}",
+                                "Message_Open": "${dialog.foreach.value.Message_Open}",
+                                "Action_Title": "${dialog.foreach.value.Action_Title}",
+                                "Common_Symptoms": "${dialog.foreach.value.Common_Symptoms}"
+                              }
+                            },
+                            {
+                              "property": "dialog.details",
+                              "value": "=dialog.foreach.value.details_short"
+                            },
+                            {
+                              "property": "dialog.symptoms",
+                              "value": "=dialog.foreach.value.common_symptoms"
+                            },
+                            {
+                              "property": "dialog.details_lowerCase",
+                              "value": "=toLower(dialog.details, \"en-us\")"
+                            },
+                            {
+                              "property": "dialog.symptoms_lowerCase",
+                              "value": "=toLower(dialog.symptoms, \"en-us\")"
+                            },
+                            {
+                              "property": "dialog.details_trim",
+                              "value": "=trim(dialog.details_lowerCase)"
+                            },
+                            {
+                              "property": "dialog.symptoms_trim",
+                              "value": "=trim(dialog.symptoms_lowerCase)"
+                            },
+                            {
+                              "property": "dialog.details_split1",
+                              "value": "=split(dialog.details_trim, \" \")"
+                            },
+                            {
+                              "property": "dialog.symptoms_split1",
+                              "value": "=split(dialog.symptoms_trim, \" \")"
+                            },
+                            {
+                              "property": "dialog.details_split",
+                              "value": "=where(dialog.details_split1, x, length(x)>4)"
+                            },
+                            {
+                              "property": "dialog.symptoms_split",
+                              "value": "=where(dialog.symptoms_split1, x, length(x)>4)"
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.Foreach",
+                          "$designer": {
+                            "id": "nJe0hr"
+                          },
+                          "index": "dialog.foreach.ind",
+                          "value": "dialog.foreach.val",
+                          "itemsProperty": "dialog.skipped_keywords",
+                          "actions": [
+                            {
+                              "$kind": "Microsoft.IfCondition",
+                              "$designer": {
+                                "id": "wdnSQ4"
+                              },
+                              "condition": "=((indexOf(dialog.details_split,dialog.foreach.val)>-1) || (indexOf(dialog.symptoms_split,dialog.foreach.val)>-1))",
+                              "actions": [
+                                {
+                                  "$kind": "Microsoft.IfCondition",
+                                  "$designer": {
+                                    "id": "7Ng3LA"
+                                  },
+                                  "actions": [
+                                    {
+                                      "$kind": "Microsoft.SetProperty",
+                                      "$designer": {
+                                        "id": "jQU7y5"
+                                      },
+                                      "property": "dialog.keywords_results",
+                                      "value": {
+                                        "Product_Name": "${dialog.foreach.value.Product_Name}",
+                                        "Incident_ID": "${dialog.foreach.value.Incident_ID}",
+                                        "reported_tickets": "${dialog.foreach.value.Incident_ID}",
+                                        "Incident_Priority": "${dialog.foreach.value.Incident_Priority}",
+                                        "Incident_Ticket_Status": "${dialog.foreach.value.Incident_Ticket_Status}",
+                                        "Details_Short": "${dialog.foreach.value.Details_Short}",
+                                        "Message_Open": "${dialog.foreach.value.Message_Open}",
+                                        "Action_Title": "${dialog.foreach.value.Action_Title}",
+                                        "Common_Symptoms": "${dialog.foreach.value.Common_Symptoms}"
+                                      }
+                                    },
+                                    {
+                                      "$kind": "Microsoft.SetProperty",
+                                      "$designer": {
+                                        "id": "eIwd9s"
+                                      },
+                                      "property": "dialog.product_check",
+                                      "value": "=dialog.foreach.value.product_name"
+                                    },
+                                    {
+                                      "$kind": "Microsoft.EditArray",
+                                      "$designer": {
+                                        "id": "L2uJbt"
+                                      },
+                                      "changeType": "push",
+                                      "itemsProperty": "dialog.keywords_final",
+                                      "value": "=dialog.keywords_results"
+                                    },
+                                    {
+                                      "$kind": "Microsoft.EditArray",
+                                      "$designer": {
+                                        "id": "dy9P96"
+                                      },
+                                      "changeType": "push",
+                                      "value": "=dialog.keywords_results",
+                                      "itemsProperty": "conversation.searched_thdi"
+                                    }
+                                  ],
+                                  "elseActions": [],
+                                  "condition": "=dialog.foreach.value.product_name!=dialog.product_check"
+                                },
+                                {
+                                  "$kind": "Microsoft.BreakLoop",
+                                  "$designer": {
+                                    "id": "XINcRA"
+                                  }
+                                }
+                              ],
+                              "elseActions": []
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "elseActions": []
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "TTTp5q"
+              },
+              "activity": "${SendActivity_TTTp5q()}",
+              "disabled": true
+            }
+          ],
+          "condition": "=dialog.api_thdi.statusCode == 200"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "C94adG"
+          },
+          "value": "=count(conversation.searched_thdi)",
+          "property": "dialog.searchedThdiCount"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "R3sqdK"
+          },
+          "condition": "= conversation.whichFlow == 'thdiQnaSearchFlow'",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "gitWtk"
+              },
+              "property": "conversation.searchedThdiCount",
+              "value": "=dialog.searchedThdiCount"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "zBU4Ev"
+          },
+          "condition": "= dialog.searchedThdiCount",
+          "actions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "nEfl8d"
+              },
+              "condition": "= dialog.searchedThdiCount == 1",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "1c3Qro",
+                    "comment": "added"
+                  },
+                  "activity": "${SendActivity_1c3Qro()}"
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "q2voqR",
+                    "comment": "added"
+                  },
+                  "activity": "${SendActivity_q2voqR()}"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "TZ2Niy"
+              },
+              "activityProcessed": true,
+              "dialog": "THDI_MeToo"
+            },
+            {
+              "$kind": "Microsoft.DeleteProperties",
+              "$designer": {
+                "id": "7HUSwi"
+              },
+              "properties": [
+                "conversation.searched_thdi",
+                "conversation.searched_thdi1"
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "7SrpOK"
+              },
+              "condition": "= conversation.whichFlow == 'thdiQnaSearchFlow'",
+              "actions": [],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "Ascbgx"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "Create_Incident"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "BD9y5W"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "thdiSearch.lg",
+  "recognizer": "thdiSearch.lu.qna",
+  "id": "thdiSearch"
+}

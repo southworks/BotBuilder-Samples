@@ -1,0 +1,286 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "8dpv4V",
+    "name": "ChatDecider",
+    "comment": "this dialog will decide, which chat service MAX should use between bomgar and genesys\n\nIMPORTANT\nWhile calling this dialog from anywhere, send dialog.route parameter, the valid values are BOMGAR and GENESYS"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "K3Pt7B"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "rJ6JAM"
+          },
+          "property": "conversation.pathTaken",
+          "value": "=concat(conversation.pathTaken,\" -> \",\"ChatDecider\")"
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "S0MLrQ"
+          },
+          "properties": "{\"pathTraversed\" : `${conversation.pathTaken}`}",
+          "name": "user-path"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperties",
+          "$designer": {
+            "id": "kBbygk"
+          },
+          "properties": [
+            "conversation.BomgarAvailable",
+            "conversation.GenesysAvailable"
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "ycsRJM"
+          },
+          "activityProcessed": true,
+          "dialog": "LiveChatAvailabilities"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "MoI1At"
+          },
+          "condition": "=conversation.genesysLuisApproach == 'yes' && ! conversation.TicketStatus",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "KYq9nw"
+              },
+              "activityProcessed": true,
+              "dialog": "GenesysMatchingProducts"
+            }
+          ],
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "6tQSMD"
+              },
+              "activityProcessed": true,
+              "dialog": "GenesysMatchingProductsLuisApproach"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "K5VtCw"
+          },
+          "property": "conversation.TicketStatus"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "zml6WT"
+          },
+          "condition": "= ! conversation.BomgarAvailable && ! conversation.GenesysAvailable",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "ex1EiV"
+              },
+              "condition": "= conversation.GenesysAvailable",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "6tkrS2"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "GenesysChat"
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "OmDKvR"
+                  },
+                  "condition": "= conversation.BomgarAvailable",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "HOh6Sn"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "LiveAgent"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "EfKrk7"
+                      },
+                      "activity": "${SendActivity_EfKrk7()}"
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "bcW0Mz"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "IncidentForm-Flow"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "hhb8rp"
+              },
+              "activity": "${SendActivity_hhb8rp()}"
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "Se3owg"
+              },
+              "activityProcessed": true,
+              "dialog": "IncidentForm-Flow"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "2c7sMx"
+          },
+          "condition": "= dialog.route == 'BOMGAR'",
+          "actions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "AR7dtl"
+              },
+              "condition": "= conversation.BomgarAvailable",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "FGv1nr"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "LiveAgent",
+                  "disabled": true
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "E9wEPf"
+                  },
+                  "activity": "${SendActivity_E9wEPf()}",
+                  "disabled": true
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "6OhvPd"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "IncidentForm-Flow",
+                  "disabled": true
+                }
+              ],
+              "disabled": true
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "RgvxcK"
+              },
+              "condition": "= dialog.route == 'GENESYS'",
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "goVfPg"
+                  },
+                  "condition": "= conversation.GenesysAvailable",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "tKDAqP"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "GenesysChat",
+                      "disabled": true
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "Rgwp2t"
+                      },
+                      "activity": "${SendActivity_Rgwp2t()}",
+                      "disabled": true
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "GHkGt9"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "IncidentForm-Flow",
+                      "disabled": true
+                    }
+                  ],
+                  "disabled": true
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.ThrowException",
+                  "$designer": {
+                    "id": "Nf1Ka7"
+                  },
+                  "errorValue": "'A valid input was not passed to ChatDecider dialog'",
+                  "disabled": true
+                }
+              ],
+              "disabled": true
+            }
+          ],
+          "disabled": true
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "7nl9cT"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "ChatDecider.lg",
+  "recognizer": "ChatDecider.lu.qna",
+  "id": "ChatDecider"
+}

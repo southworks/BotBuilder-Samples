@@ -1,0 +1,160 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "GPj3nP",
+    "name": "thdiQnaSearch",
+    "comment": "THDI and QNA search dialog"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "7H2KlO"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "po2Lqm"
+          },
+          "property": "conversation.pathTaken",
+          "value": "=concat(conversation.pathTaken,\" -> \",\"thdiQnaSearch\")"
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "yOazcX"
+          },
+          "properties": "{\"pathTraversed\" : `${conversation.pathTaken}`}",
+          "name": "user-path"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "QArVuV"
+          },
+          "assignments": [
+            {
+              "property": "conversation.firstUtterance",
+              "value": "= turn.activity.value.firstUtterance"
+            },
+            {
+              "property": "conversation.firstIssue",
+              "value": "=replace(replace(conversation.firstUtterance,'\"',''),\"'\",\"\")"
+            },
+            {
+              "property": "conversation.prod",
+              "value": "=turn.activity.value.product"
+            },
+            {
+              "property": "conversation.productsummary",
+              "value": "=string(conversation.prod,\"en-us\")"
+            },
+            {
+              "property": "conversation.joinedIntent",
+              "value": "=conversation.firstIssue"
+            },
+            {
+              "property": "conversation.qnaId",
+              "value": "=turn.activity.value.qnaId"
+            },
+            {
+              "property": "conversation.thdi_feedback ",
+              "value": "=''"
+            },
+            {
+              "property": "conversation.searchedThdiCount",
+              "value": "=0"
+            }
+          ]
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "xLuxYx"
+          },
+          "properties": "{\"product\" : `${conversation.productsummary}`}",
+          "name": "product-selected"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "vNOGzZ"
+          },
+          "activityProcessed": true,
+          "dialog": "thdiSearch"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "lcfbtQ"
+          },
+          "condition": "= conversation.thdi_feedback == 'notrelated' || conversation.searchedThdiCount == 0",
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "FfLL1i"
+              },
+              "activityProcessed": true,
+              "dialog": "qnaSearch"
+            },
+            {
+              "$kind": "Microsoft.DeleteProperties",
+              "$designer": {
+                "id": "42th7Y"
+              },
+              "properties": [
+                "conversation.firstUtterance",
+                "conversation.firstIssue",
+                "conversation.prod",
+                "conversation.joinedIntent",
+                "conversation.qnaId",
+                "conversation.productsummary",
+                "conversation.thdi_feedback ",
+                "conversation.searchedThdiCount"
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "dhdYeE"
+          },
+          "activityProcessed": true,
+          "dialog": "FurtherHelp"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperties",
+          "$designer": {
+            "id": "b56SER"
+          },
+          "properties": [
+            "conversation.firstUtterance",
+            "conversation.firstIssue",
+            "conversation.prod",
+            "conversation.joinedIntent",
+            "conversation.qnaId",
+            "conversation.productsummary",
+            "conversation.thdi_feedback ",
+            "conversation.searchedThdiCount"
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "GUKUo1"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "thdiQnaSearch.lg",
+  "recognizer": "thdiQnaSearch.lu.qna",
+  "id": "thdiQnaSearch"
+}

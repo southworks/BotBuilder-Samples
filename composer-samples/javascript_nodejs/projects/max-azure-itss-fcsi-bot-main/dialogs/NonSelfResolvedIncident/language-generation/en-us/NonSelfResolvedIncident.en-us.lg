@@ -1,0 +1,702 @@
+[import](common.lg)
+
+# SendActivity_N5d7it_text()
+- Please fill the details below to submit the ticket
+
+# SendActivity_N5d7it()
+[Activity
+    Text = ${SendActivity_N5d7it_text()}
+]
+
+# TextInput_Prompt_A73bz8_attachment_m521n1()
+> To learn more Adaptive Cards format, read the documentation at
+> https://docs.microsoft.com/en-us/adaptive-cards/getting-started/bots
+- ```{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "type": "AdaptiveCard",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "TextBlock",
+            "text":"Did you mean any of these?"
+        },
+        {
+            "type": "Input.ChoiceSet",
+            "id": "intentSelected",
+            "style": "compact",
+            "placeholder": "Please select the intent",
+            "choices": [
+                {
+                    "title": "${dialog.lessthanIntents[0]}",
+                    "value": "${dialog.lessthanIntents[0]}"
+                },
+                {
+                    "title": "${dialog.lessthanIntents[1]}",
+                    "value": "${dialog.lessthanIntents[1]}"
+                },
+                {
+                    "title": "${dialog.lessthanIntents[2]}",
+                    "value": "${dialog.lessthanIntents[2]}"
+                },
+                {
+                    "title": "None of the above",
+                    "value": "None of the above"
+                }
+            ]
+        }
+    ],
+    "actions": [
+        {
+            "type": "Action.Submit",
+            "title": "Submit"
+        }
+    ]
+}```
+# TextInput_Prompt_A73bz8()
+[Activity
+    Attachments = ${json(TextInput_Prompt_A73bz8_attachment_m521n1())}
+]
+
+# TextInput_Prompt_cZYDi0_attachment_lrygOG()
+> To learn more Adaptive Cards format, read the documentation at
+> https://docs.microsoft.com/en-us/adaptive-cards/getting-started/bots
+- ```
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "type": "AdaptiveCard",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "TextBlock",
+            "text": "What tool, application, or system are you having a problem with?"
+        },
+        {
+            "type": "Input.ChoiceSet",
+            "id": "userProductSelect",
+            "style": "compact",
+            "placeholder": "Please select the product",
+            "choices": [
+                {
+                    "title": "${dialog.toptwenty[0]}",
+                    "value": "${dialog.toptwenty[0]}"
+                },
+                {
+                    "title": "${dialog.toptwenty[1]}",
+                    "value": "${dialog.toptwenty[1]}"
+                },
+                {
+                    "title": "${dialog.toptwenty[2]}",
+                    "value": "${dialog.toptwenty[2]}"
+                },
+                {
+                    "title": "${dialog.toptwenty[3]}",
+                    "value": "${dialog.toptwenty[3]}"
+                },
+                {
+                    "title": "${dialog.toptwenty[4]}",
+                    "value": "${dialog.toptwenty[4]}"
+                },
+                {
+                    "title": "${dialog.toptwenty[5]}",
+                    "value": "${dialog.toptwenty[5]}"
+                },
+                {
+                    "title": "${dialog.toptwenty[6]}",
+                    "value": "${dialog.toptwenty[6]}"
+                },
+                {
+                    "title": "${dialog.toptwenty[7]}",
+                    "value": "${dialog.toptwenty[7]}"
+                },
+                {
+                    "title": "${dialog.toptwenty[8]}",
+                    "value": "${dialog.toptwenty[8]}"
+                },
+                {
+                    "title": "${dialog.toptwenty[9]}",
+                    "value": "${dialog.toptwenty[9]}"
+                },
+                {
+                    "title": "${dialog.toptwenty[10]}",
+                    "value": "${dialog.toptwenty[10]}"
+                },
+                {
+                    "title": "${dialog.toptwenty[11]}",
+                    "value": "${dialog.toptwenty[11]}"
+                },
+                {
+                    "title": "${dialog.toptwenty[12]}",
+                    "value": "${dialog.toptwenty[12]}"
+                },
+                {
+                    "title": "${dialog.toptwenty[13]}",
+                    "value": "${dialog.toptwenty[13]}"
+                },
+                {
+                    "title": "${dialog.toptwenty[14]}",
+                    "value": "${dialog.toptwenty[14]}"
+                },
+                {
+                    "title": "${dialog.toptwenty[15]}",
+                    "value": "${dialog.toptwenty[15]}"
+                },
+                {
+                    "title": "${dialog.toptwenty[16]}",
+                    "value": "${dialog.toptwenty[16]}"
+                },
+                {
+                    "title": "${dialog.toptwenty[17]}",
+                    "value": "${dialog.toptwenty[17]}"
+                },
+                {
+                    "title": "${dialog.toptwenty[18]}",
+                    "value": "${dialog.toptwenty[18]}"
+                },
+                {
+                    "title": "${dialog.toptwenty[19]}",
+                    "value": "${dialog.toptwenty[19]}"
+                },
+                {
+                    "title": "Other",
+                    "value": "other"
+                }
+            ]
+        }
+    ],
+    "actions": [
+        {
+            "type": "Action.Submit",
+            "title": "Submit"
+        }
+    ]
+}
+```
+# TextInput_Prompt_cZYDi0()
+[Activity
+    Attachments = ${json(TextInput_Prompt_cZYDi0_attachment_lrygOG())}
+]
+
+# TextInput_Prompt_t8vvZv_attachment_5b9dd2()
+> To learn more Adaptive Cards format, read the documentation at
+> https://docs.microsoft.com/en-us/adaptive-cards/getting-started/bots
+- ```
+{
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "Input.Text",
+                    "id": "otherProduct",
+                    "isMultiline": false,
+                    "isRequired": true,
+                    "label": "Please write the product name and click on submit",
+                    "regex": "[^\\\s&!@#$%*]?[a-zA-Z0-9]",
+                    "errorMessage": "Required field. Please avoid white space or special characters.",
+                    "placeholder": "Write the product name here"
+                },
+                {
+                    "type": "ActionSet",
+                    "actions": [
+                        {
+                            "type": "Action.Submit",
+                            "title": "Submit"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+```
+# TextInput_Prompt_t8vvZv()
+[Activity
+    Attachments = ${json(TextInput_Prompt_t8vvZv_attachment_5b9dd2())}
+]
+
+# SendActivity_F3wTNn()
+[Activity
+    Text = ${SendActivity_F3wTNn_text()}
+]
+
+# SendActivity_F3wTNn_text()
+- Please fill the details below to submit the ticket
+# SendActivity_Gcx0sk_text()
+- The described problem/product is NOT understood by Max. Please create a ticket in ServiceNow by filling below details.
+# SendActivity_Gcx0sk()
+[Activity
+    Text = ${SendActivity_Gcx0sk_text()}
+]
+
+# TextInput_Prompt_qVSSdg()
+[Activity
+    Attachments = ${json(TextInput_Prompt_qVSSdg_attachment_CPXlTI())}
+]
+
+# TextInput_Prompt_qVSSdg_attachment_CPXlTI()
+- ```
+{
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "TextBlock",
+            "text": "Okay, I am sorry I did not understand, would you like to **connect with a Live Chat Agent** ?",
+            "wrap": true
+        },
+        {
+            "type": "RichTextBlock",
+            "inlines": [
+                {
+                    "type": "TextRun",
+                    "text": "Chat wait time: ${conversation.urlwaittime}",
+                    "isSubtle": true,
+                    "italic": true,
+                    "fontType": "monospace",
+                    "color": "Good",
+                    "weight": "lighter"
+                    
+                }
+            ],
+            "spacing": "Small"
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "ActionSet",
+                            "actions": [
+                                {
+                                    "type": "Action.Submit",
+                                    "title": "Connect with a live agent",
+                                    "data": {
+                                        "flow": "ConnectwithaLiveAgent"
+                                    },
+                                    "id": "ConnectwithaLiveAgent"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "ActionSet",
+                            "actions": [
+                                {
+                                    "type": "Action.Submit",
+                                    "title": "Submit a ticket",
+                                    "data": {
+                                        "flow": "Submitaticket"
+                                    },
+                                    "id": "Submitaticket"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+```
+# TextInput_Prompt_6a3ID3_attachment_MSb4Yv()
+> To learn more Adaptive Cards format, read the documentation at
+> https://docs.microsoft.com/en-us/adaptive-cards/getting-started/bots
+- ```
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "type": "AdaptiveCard",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "TextBlock",
+            "text": "What tool, application, or system are you having a problem with?"
+        },
+        {
+            "type": "Input.ChoiceSet",
+            "id": "userProductSelectTwo",
+            "placeholder": "Please select the product",
+            "choices": [
+                {
+                    "title": "${dialog.multiProdSorted[0]}",
+                    "value": "${dialog.multiProdSorted[0]}"
+                },
+                {
+                    "title": "${dialog.multiProdSorted[1]}",
+                    "value": "${dialog.multiProdSorted[1]}"
+                },
+                {
+                    "title": "Other",
+                    "value": "other"
+                }
+            ]
+        }
+    ],
+    "actions": [
+        {
+            "type": "Action.Submit",
+            "title": "Submit"
+        }
+    ]
+}
+```
+# TextInput_Prompt_6a3ID3()
+[Activity
+    Attachments = ${json(TextInput_Prompt_6a3ID3_attachment_MSb4Yv())}
+]
+
+# TextInput_Prompt_hEbZnn_attachment_5b9dd2()
+> To learn more Adaptive Cards format, read the documentation at
+> https://docs.microsoft.com/en-us/adaptive-cards/getting-started/bots
+- ```
+{
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "Input.Text",
+                    "id": "otherProduct",
+                    "isMultiline": false,
+                    "isRequired": true,
+                    "label": "Please write the product name and click on submit",
+                    "regex": "[^\\\s&!@#$%*]?[a-zA-Z0-9]",
+                    "errorMessage": "Required field. Please avoid white space or special characters.",
+                    "placeholder": "Write the product name here"
+                },
+                {
+                    "type": "ActionSet",
+                    "actions": [
+                        {
+                            "type": "Action.Submit",
+                            "title": "Submit"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+```
+# TextInput_Prompt_hEbZnn()
+[Activity
+    Attachments = ${json(TextInput_Prompt_hEbZnn_attachment_5b9dd2())}
+]
+
+# TextInput_Prompt_hMF41h_attachment_MSb4Yv()
+> To learn more Adaptive Cards format, read the documentation at
+> https://docs.microsoft.com/en-us/adaptive-cards/getting-started/bots
+- ```
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "type": "AdaptiveCard",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "TextBlock",
+            "text": "Please select the product, you are having issue with"
+        },
+        {
+            "type": "Input.ChoiceSet",
+            "id": "userProductSelectThree",
+            "placeholder": "Please select the product",
+            "choices": [
+                {
+                    "title": "${dialog.multiProdSorted[0]}",
+                    "value": "${dialog.multiProdSorted[0]}"
+                },
+                {
+                    "title": "${dialog.multiProdSorted[1]}",
+                    "value": "${dialog.multiProdSorted[1]}"
+                },
+                {
+                    "title": "${dialog.multiProdSorted[2]}",
+                    "value": "${dialog.multiProdSorted[2]}"
+                },
+                {
+                    "title": "Other",
+                    "value": "other"
+                }
+            ]
+        }
+    ],
+    "actions": [
+        {
+            "type": "Action.Submit",
+            "title": "Submit"
+        }
+    ]
+}
+```
+# TextInput_Prompt_hMF41h()
+[Activity
+    Attachments = ${json(TextInput_Prompt_hMF41h_attachment_MSb4Yv())}
+]
+
+# TextInput_Prompt_395PEn_attachment_5b9dd2()
+> To learn more Adaptive Cards format, read the documentation at
+> https://docs.microsoft.com/en-us/adaptive-cards/getting-started/bots
+- ```
+{
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "Input.Text",
+                    "id": "otherProduct",
+                    "isMultiline": false,
+                    "isRequired": true,
+                    "label": "Please write the product name and click on submit",
+                    "regex": "[^\\\s&!@#$%*]?[a-zA-Z0-9]",
+                    "errorMessage": "Required field. Please avoid white space or special characters.",
+                    "placeholder": "Write the product name here"
+                },
+                {
+                    "type": "ActionSet",
+                    "actions": [
+                        {
+                            "type": "Action.Submit",
+                            "title": "Submit"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+```
+# TextInput_Prompt_395PEn()
+[Activity
+    Attachments = ${json(TextInput_Prompt_395PEn_attachment_5b9dd2())}
+]
+
+# TextInput_Prompt_BKoQIn_attachment_MSb4Yv()
+> To learn more Adaptive Cards format, read the documentation at
+> https://docs.microsoft.com/en-us/adaptive-cards/getting-started/bots
+- ```
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "type": "AdaptiveCard",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "TextBlock",
+            "text": "Please select the product, you are having issue with"
+        },
+        {
+            "type": "Input.ChoiceSet",
+            "id": "userProductSelectFour",
+            "placeholder": "Please select the product",
+            "choices": [
+                {
+                    "title": "${dialog.multiProdSorted[0]}",
+                    "value": "${dialog.multiProdSorted[0]}"
+                },
+                {
+                    "title": "${dialog.multiProdSorted[1]}",
+                    "value": "${dialog.multiProdSorted[1]}"
+                },
+                {
+                    "title": "${dialog.multiProdSorted[2]}",
+                    "value": "${dialog.multiProdSorted[2]}"
+                },
+                {
+                    "title": "${dialog.multiProdSorted[3]}",
+                    "value": "${dialog.multiProdSorted[3]}"
+                },
+                {
+                    "title": "Other",
+                    "value": "other"
+                }
+            ]
+        }
+    ],
+    "actions": [
+        {
+            "type": "Action.Submit",
+            "title": "Submit"
+        }
+    ]
+}
+```
+# TextInput_Prompt_BKoQIn()
+[Activity
+    Attachments = ${json(TextInput_Prompt_BKoQIn_attachment_MSb4Yv())}
+]
+
+# TextInput_Prompt_g0BKS9_attachment_5b9dd2()
+> To learn more Adaptive Cards format, read the documentation at
+> https://docs.microsoft.com/en-us/adaptive-cards/getting-started/bots
+- ```
+{
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "Input.Text",
+                    "id": "otherProduct",
+                    "isMultiline": false,
+                    "isRequired": true,
+                    "label": "Please write the product name and click on submit",
+                    "regex": "[^\\\s&!@#$%*]?[a-zA-Z0-9]",
+                    "errorMessage": "Required field. Please avoid white space or special characters.",
+                    "placeholder": "Write the product name here"
+                },
+                {
+                    "type": "ActionSet",
+                    "actions": [
+                        {
+                            "type": "Action.Submit",
+                            "title": "Submit"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+```
+# TextInput_Prompt_g0BKS9()
+[Activity
+    Attachments = ${json(TextInput_Prompt_g0BKS9_attachment_5b9dd2())}
+]
+
+# TextInput_Prompt_FOglWd_attachment_MSb4Yv()
+> To learn more Adaptive Cards format, read the documentation at
+> https://docs.microsoft.com/en-us/adaptive-cards/getting-started/bots
+- ```
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "type": "AdaptiveCard",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "TextBlock",
+            "text": "Please select the product, you are having issue with"
+        },
+        {
+            "type": "Input.ChoiceSet",
+            "id": "userProductSelectFive",
+            "placeholder": "Please select the product",
+            "choices": [
+                {
+                    "title": "${dialog.multiProdSorted[0]}",
+                    "value": "${dialog.multiProdSorted[0]}"
+                },
+                {
+                    "title": "${dialog.multiProdSorted[1]}",
+                    "value": "${dialog.multiProdSorted[1]}"
+                },
+                {
+                    "title": "${dialog.multiProdSorted[2]}",
+                    "value": "${dialog.multiProdSorted[2]}"
+                },
+                {
+                    "title": "${dialog.multiProdSorted[3]}",
+                    "value": "${dialog.multiProdSorted[3]}"
+                },
+                {
+                    "title": "${dialog.multiProdSorted[4]}",
+                    "value": "${dialog.multiProdSorted[4]}"
+                },
+                {
+                    "title": "Other",
+                    "value": "other"
+                }
+            ]
+        }
+    ],
+    "actions": [
+        {
+            "type": "Action.Submit",
+            "title": "Submit"
+        }
+    ]
+}
+```
+# TextInput_Prompt_FOglWd()
+[Activity
+    Attachments = ${json(TextInput_Prompt_FOglWd_attachment_MSb4Yv())}
+]
+
+
+
+# TextInput_Prompt_8vuNvp_attachment_5b9dd2()
+> To learn more Adaptive Cards format, read the documentation at
+> https://docs.microsoft.com/en-us/adaptive-cards/getting-started/bots
+- ```
+{
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "Input.Text",
+                    "id": "otherProduct",
+                    "isMultiline": false,
+                    "isRequired": true,
+                    "label": "Please write the product name and click on submit",
+                    "regex": "[^\\\s&!@#$%*]?[a-zA-Z0-9]",
+                    "errorMessage": "Required field. Please avoid white space or special characters.",
+                    "placeholder": "Write the product name here"
+                },
+                {
+                    "type": "ActionSet",
+                    "actions": [
+                        {
+                            "type": "Action.Submit",
+                            "title": "Submit"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+```
+# TextInput_Prompt_8vuNvp()
+[Activity
+    Attachments = ${json(TextInput_Prompt_8vuNvp_attachment_5b9dd2())}
+]
+
+
+# SendActivity_f9Jezh_text()
+- ```Live Chat is not an option for your location at this time.
+Please fill the details below to submit the ticket.```
+# SendActivity_f9Jezh()
+[Activity
+    Text = ${SendActivity_f9Jezh_text()}
+]
+
+# SendActivity_ZrF9SM_text()
+- ```Live Chat is not an option for your location at this time.
+Please fill the details below to submit the ticket.```
+# SendActivity_ZrF9SM()
+[Activity
+    Text = ${SendActivity_ZrF9SM_text()}
+]

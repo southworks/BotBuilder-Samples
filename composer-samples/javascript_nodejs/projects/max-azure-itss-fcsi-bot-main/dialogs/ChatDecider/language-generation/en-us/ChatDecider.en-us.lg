@@ -1,0 +1,61 @@
+[import](common.lg)
+
+# SendActivity_Rgwp2t()
+[Activity
+    Text = ${SendActivity_Rgwp2t_text()}
+]
+
+# SendActivity_Rgwp2t_text()
+- ```Live Chat is not an option for your location at this time.
+Please fill the details below to submit the ticket.```
+# SendActivity_E9wEPf()
+[Activity
+    Text = ${SendActivity_E9wEPf_text()}
+]
+
+# SendActivity_E9wEPf_text()
+- ```Live Chat is not an option for your location at this time.
+Please fill the details below to submit the ticket.```
+# SendActivity_hhb8rp_text()
+- ```Live Chat is not an option for your location at this time.
+Please fill the details below to submit the ticket.```
+# SendActivity_hhb8rp()
+[Activity
+    Text = ${SendActivity_hhb8rp_text()}
+]
+
+# SendActivity_EfKrk7_text()
+- ```Live Chat is not an option for your location at this time.
+Please fill the details below to submit the ticket.```
+# SendActivity_EfKrk7()
+[Activity
+    Text = ${SendActivity_EfKrk7_text()}
+]
+
+# SendActivity_IG2EE4_text()
+- Going through Luis Approach
+# SendActivity_IG2EE4()
+[Activity
+    Text = ${SendActivity_IG2EE4_text()}
+]
+
+# SendActivity_dPtitx_text()
+- Going through keyword based approach
+# SendActivity_dPtitx()
+[Activity
+    Text = ${SendActivity_dPtitx_text()}
+]
+
+# SendActivity_hC23M0_text()
+- Going through Luis Approach
+# SendActivity_hC23M0()
+[Activity
+    Text = ${SendActivity_hC23M0_text()}
+]
+
+# SendActivity_sMdxgP_text()
+- Going through keyword based approach
+# SendActivity_sMdxgP()
+[Activity
+    Text = ${SendActivity_sMdxgP_text()}
+]

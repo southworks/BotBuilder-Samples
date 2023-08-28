@@ -1,0 +1,47 @@
+{
+  "name": "azure-itss-fcsi-bot",
+  "private": true,
+  "scripts": {
+    "postinstall": "(cp -n templates/appsettings.json.template settings/appsettings.json); (npm run build:customaction);",
+    "setup": "./scripts/setup.sh dev itss-fcsi-bot",
+    "dev": "cross-env NODE_ENV=dev node index.js",
+    "start": "node index.js",
+    "build:customaction": "cd customaction && npm run build",
+    "build:schema": "cd schemas && sh ./update-schema.sh",
+    "test": "node_modules/mocha/bin/mocha -r ts-node/register --extension ts --extension js --recursive __tests__",
+    "coverage": "nyc --reporter=lcov --reporter=text npm run test",
+    "test:dialog": "node_modules/mocha/bin/mocha __spec__ --reporter mochawesome --reporter-options reportDir=botium-report,reportFilename=botium-report.html",
+    "test:dialog-smoke": "TEST_SCOPE=smoke node_modules/mocha/bin/mocha __spec__ --reporter mochawesome --reporter-options reportDir=botium-report,reportFilename=botium-report.htm"
+  },
+  "botium": {
+    "expandConvos": true,
+    "expandUtterancesToConvos": false,
+    "expandScriptingMemoryToConvos": false
+  },
+  "dependencies": {
+    "@advanceddevelopment/caip-bot-core": "0.1.29",
+    "@advanceddevelopment/caip-custom-actions": "2.0.1",
+    "botbuilder-ai-luis": "4.17.0-preview",
+    "botbuilder-ai-qna": "4.17.0-preview",
+    "botbuilder-dialogs-adaptive-runtime": "4.17.0-preview",
+    "botbuilder-dialogs-adaptive-runtime-integration-express": "4.17.0-preview",
+    "cross-env": "latest",
+    "custom-actions": "file:customaction"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.18",
+    "@types/mocha": "^8.2.2",
+    "@types/sinon": "^10.0.2",
+    "botium-core": "^1.13.17",
+    "botium-bindings": "^2.1.13",
+    "botium-connector-directline3": "0.1.1",
+    "chai": "^4.3.4",
+    "dotenv": "^10.0.0",
+    "mocha": "^9.0.0",
+    "mochawesome": "^7.1.3",
+    "nyc": "^15.1.0",
+    "sinon": "^11.1.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.8.3"
+  }
+}

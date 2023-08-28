@@ -1,0 +1,450 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "VSybWi",
+    "name": "qnaSearch",
+    "comment": "this dialog will search inside qna and return the result"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "W0V3XZ"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "5wdjCU"
+          },
+          "property": "conversation.pathTaken",
+          "value": "=concat(conversation.pathTaken,\" -> \",\"qnaSearch\")"
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "LyBjvu"
+          },
+          "properties": "{\"pathTraversed\" : `${conversation.pathTaken}`}",
+          "name": "user-path"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperties",
+          "$designer": {
+            "id": "BbA2yg"
+          },
+          "properties": [
+            "conversation.qnaContextAnswer",
+            "conversation.qnaContext",
+            "conversation.qnaSkipLevel"
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "WfP1ZM",
+            "comment": "Now query will contain the joined Intent"
+          },
+          "condition": "=conversation.prod==''",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "RAV3vS",
+                "comment": "Now query will contain the joined Intent"
+              },
+              "property": "conversation.searchQuery",
+              "value": "=conversation.joinedIntent"
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "XTwfvG"
+              },
+              "property": "conversation.prod",
+              "value": "=\".\""
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "FxSb0G",
+                "comment": "Now query will contain the joined Intent"
+              },
+              "property": "conversation.searchQuery",
+              "value": "=conversation.prod+ \"-\" +conversation.joinedIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "u6wTck",
+            "name": "SendEventTelemetry - qnaSearchQuery"
+          },
+          "properties": "{\"searchQuery\" : `${conversation.searchQuery}`}",
+          "name": "qna-search-query"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "psJ0oO"
+          },
+          "property": "conversation.prod",
+          "value": "=toLower(conversation.prod, 'en-US')"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "0kHalD"
+          },
+          "property": "dialog.qnaproducts",
+          "value": "=`${settings.qnaProducts.products}`"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "9LQryI"
+          },
+          "condition": "=contains(dialog.qnaproducts, conversation.prod)",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "bo6q52"
+              },
+              "condition": "= conversation.whichFlow == 'thdiQnaSearchFlow'",
+              "actions": [],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "6PIZ5J",
+                    "comment": "Call the KB in case of knowledge search"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "kbSearch"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "hAf4Xt"
+              },
+              "activity": "${SendActivity_hAf4Xt()}",
+              "disabled": true
+            }
+          ],
+          "actions": [
+            {
+              "$kind": "Microsoft.HttpRequest",
+              "$designer": {
+                "id": "8LDFrW",
+                "comment": "Call QnA Api to avoid DeferToRecognizer_QnA_itss-fcsi-bot' and 'No good match found in KB.' search results from QnA Now query will contain the joined Intent"
+              },
+              "resultProperty": "dialog.qnaresults",
+              "method": "POST",
+              "headers": {
+                "Authorization": "=`EndpointKey ${settings.qna.endpointKey}`",
+                "Content-Type": "application/json"
+              },
+              "url": "=`${settings.qna.hostname}/knowledgebases/${settings.qna.knowledgebaseid}/generateAnswer`",
+              "body": "={\"question\":`${conversation.searchQuery}`}"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "64Gou2"
+              },
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "nijLJ4"
+                  },
+                  "condition": "= conversation.whichFlow == 'thdiQnaSearchFlow'",
+                  "actions": [],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "aXR75r"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "kbSearch"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "YHlxxb"
+                  },
+                  "activity": "${SendActivity_YHlxxb()}",
+                  "disabled": true
+                }
+              ],
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "j8K6An",
+                    "comment": "Now query will contain the joined Intent"
+                  },
+                  "condition": "=(dialog.qnaresults.content.answers[0].answer == \"No good match found in KB.\" || dialog.qnaresults.content.answers[0].answer == \"intent=DeferToRecognizer_LUIS_itss-fcsi-bot\" || dialog.qnaresults.content.answers[0].score<30)",
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "ynFOEy",
+                        "comment": "Now query will contain the joined Intent"
+                      },
+                      "value": "=conversation.searchQuery",
+                      "property": "turn.activity.text"
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "CaSmTo"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.qnaContextAnswer",
+                          "value": "=dialog.qnaresults.content.answers[0].answer"
+                        },
+                        {
+                          "property": "conversation.qnaContext",
+                          "value": "=dialog.qnaresults.content.answers[0].context.prompts"
+                        },
+                        {
+                          "property": "conversation.qnaSkipLevel",
+                          "value": "=int(0)"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "exqV3G"
+                      },
+                      "activity": "${SendActivity_exqV3G()}"
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "kuE3RQ"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "qnaResults"
+                    },
+                    {
+                      "$kind": "Microsoft.DeleteProperty",
+                      "$designer": {
+                        "id": "UgnEZB"
+                      },
+                      "property": "turn.activity.value.title"
+                    },
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "p64j6H"
+                      },
+                      "condition": "=conversation.qnaUserResponse=='999' || turn.activity.text=='Sorry, I did not find an answer.' || turn.activity.text =='intent=DeferToRecognizer_LUIS_itss-fcsi-bot'",
+                      "elseActions": [
+                        {
+                          "$kind": "SendEventTelemetry",
+                          "$designer": {
+                            "id": "yLtzmJ",
+                            "name": "SendEventTelemetry-QnA Results"
+                          },
+                          "name": "qna-results",
+                          "properties": "{ \"qnaResults\" : `${dialog.qnaresults.content}`}"
+                        },
+                        {
+                          "$kind": "Microsoft.ConfirmInput",
+                          "$designer": {
+                            "id": "HWRw99"
+                          },
+                          "defaultLocale": "en-us",
+                          "disabled": false,
+                          "maxTurnCount": 1,
+                          "alwaysPrompt": false,
+                          "allowInterruptions": false,
+                          "prompt": "${ConfirmInput_Prompt_HWRw99()}",
+                          "unrecognizedPrompt": "",
+                          "invalidPrompt": "",
+                          "choiceOptions": {
+                            "includeNumbers": true,
+                            "inlineOrMore": ", or ",
+                            "inlineOr": " or ",
+                            "inlineSeparator": ", "
+                          },
+                          "property": "dialog.qnahelpful",
+                          "confirmChoices": [
+                            "Yes",
+                            "No"
+                          ],
+                          "style": "heroCard"
+                        },
+                        {
+                          "$kind": "Microsoft.IfCondition",
+                          "$designer": {
+                            "id": "Yl1Gok"
+                          },
+                          "condition": "=turn.activity.text == 'Yes'",
+                          "actions": [
+                            {
+                              "$kind": "SendEventTelemetry",
+                              "$designer": {
+                                "id": "mBJ0wf",
+                                "name": "SendEventTelemetry-QNAHelpful"
+                              },
+                              "name": "qna-result-helpful",
+                              "properties": "{ \"helpful\" : \"Yes\", \"kbbnumber\": `${conversation.qnaKBBnumber}`}"
+                            },
+                            {
+                              "$kind": "Microsoft.BeginDialog",
+                              "$designer": {
+                                "id": "RDjfPu"
+                              },
+                              "activityProcessed": true,
+                              "dialog": "FurtherHelp"
+                            },
+                            {
+                              "$kind": "Microsoft.CancelAllDialogs",
+                              "$designer": {
+                                "id": "yqr4fs"
+                              },
+                              "activityProcessed": true
+                            }
+                          ],
+                          "elseActions": [
+                            {
+                              "$kind": "SendEventTelemetry",
+                              "$designer": {
+                                "id": "pc1fho",
+                                "name": "SendEventTelemetry-QNAHelpful"
+                              },
+                              "name": "qna-result-helpful",
+                              "properties": "{ \"helpful\" : \"No\", \"kbbnumber\": `${conversation.qnaKBBnumber}`}"
+                            },
+                            {
+                              "$kind": "Microsoft.IfCondition",
+                              "$designer": {
+                                "id": "ZSMY2E"
+                              },
+                              "condition": "= conversation.whichFlow == 'thdiQnaSearchFlow'",
+                              "actions": [],
+                              "elseActions": [
+                                {
+                                  "$kind": "Microsoft.BeginDialog",
+                                  "$designer": {
+                                    "id": "eR0baP"
+                                  },
+                                  "activityProcessed": true,
+                                  "dialog": "kbSearch"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ],
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.IfCondition",
+                          "$designer": {
+                            "id": "vIyjDj"
+                          },
+                          "condition": "=conversation.qnaUserResponse=='999'",
+                          "actions": [
+                            {
+                              "$kind": "SendEventTelemetry",
+                              "$designer": {
+                                "id": "imtvYP",
+                                "name": "SendEventTelemetry-QNASkipped"
+                              },
+                              "name": "qna-result-skip",
+                              "properties": "{ \"skip\" : \"yes\", \"skiplevel\" : `${string(conversation.qnaSkipLevel)}`}"
+                            }
+                          ],
+                          "elseActions": [
+                            {
+                              "$kind": "SendEventTelemetry",
+                              "$designer": {
+                                "id": "99rERx",
+                                "name": "SendEventTelemetry-QNAHelpful"
+                              },
+                              "name": "qna-result-helpful",
+                              "properties": "{ \"helpful\" : \"No Answer\"}"
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.IfCondition",
+                          "$designer": {
+                            "id": "5hnpr1"
+                          },
+                          "condition": "= conversation.whichFlow == 'thdiQnaSearchFlow'",
+                          "actions": [],
+                          "elseActions": [
+                            {
+                              "$kind": "Microsoft.BeginDialog",
+                              "$designer": {
+                                "id": "2zkblR"
+                              },
+                              "activityProcessed": true,
+                              "dialog": "kbSearch"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "$kind": "SendEventTelemetry",
+                      "$designer": {
+                        "id": "42VkW8",
+                        "name": "SendEventTelemetry-QNAHelpful"
+                      },
+                      "name": "qna-result-helpful",
+                      "properties": "{ \"helpful\" : \"No Answer\", \"qnaResults\" : `${dialog.qnaresults.content}`}"
+                    },
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "mVTf7d"
+                      },
+                      "condition": "= conversation.whichFlow == 'thdiQnaSearchFlow'",
+                      "actions": [],
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "l0PLcw"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "kbSearch"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "condition": "=dialog.qnaresults.statusCode == 200"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "qnaSearch.lg",
+  "recognizer": "qnaSearch.lu.qna",
+  "id": "qnaSearch"
+}

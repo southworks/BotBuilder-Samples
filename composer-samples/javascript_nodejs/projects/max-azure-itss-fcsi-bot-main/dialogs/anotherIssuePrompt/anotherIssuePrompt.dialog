@@ -1,0 +1,49 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "jJVwog",
+    "name": "anotherIssuePrompt",
+    "comment": "this dialog will ask the user if he/she has another issue to get help"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "LrhL8s"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "RljTRz"
+          },
+          "property": "conversation.pathTaken",
+          "value": "=concat(conversation.pathTaken,\" -> \",\"anotherIssuePrompt\")"
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "ItbFpH"
+          },
+          "properties": "{\"pathTraversed\" : `${conversation.pathTaken}`}",
+          "name": "user-path"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "1XZPvP"
+          },
+          "activityProcessed": true,
+          "dialog": "FurtherHelp"
+        }
+      ]
+    }
+  ],
+  "generator": "anotherIssuePrompt.lg",
+  "recognizer": "anotherIssuePrompt.lu.qna",
+  "id": "anotherIssuePrompt"
+}

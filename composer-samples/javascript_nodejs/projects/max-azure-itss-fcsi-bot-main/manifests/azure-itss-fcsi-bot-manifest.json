@@ -1,0 +1,29 @@
+{
+  "$schema": "https://schemas.botframework.com/schemas/skills/v2.2/skill-manifest.json",
+  "$id": "azure-itss-fcsi-bot-c71202d1-49e0-4876-8eeb-c803839f7870",
+  "endpoints": [
+    {
+      "protocol": "BotFrameworkV3",
+      "name": "itssProd",
+      "endpointUrl": "https://prod.ava.optum.com/itss-fcsi-bot-prod-a36878cc/messages",
+      "description": "<description>",
+      "msAppId": "5e296e28-1bd3-4a69-820d-0ca4f64cec12"
+    }
+  ],
+  "name": "azure-itss-fcsi-bot",
+  "version": "1.0",
+  "publisherName": "ITSS",
+  "description": "max  Prod endpoint for smartbot",
+  "dispatchModels": {
+    "languages": {
+      "en-us": [
+        {
+          "name": "itss-fcsi-bot",
+          "contentType": "application/qna",
+          "url": "https://prod.ava.optum.com/itss-fcsi-bot-prod-a36878cc/manifests/skill-itss-fcsi-bot.en-us.qna",
+          "description": "<description>"
+        }
+      ]
+    }
+  }
+}

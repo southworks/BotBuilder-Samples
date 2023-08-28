@@ -1,0 +1,255 @@
+[import](common.lg)
+
+# TextInput_Prompt_9D1is1()
+-
+# SendActivity_Pul7yd()
+-
+
+# SendActivity_lxsqJf_text()
+- From skill unknown intent :${turn.activity.value}
+# SendActivity_lxsqJf()
+[Activity
+    Text = ${SendActivity_lxsqJf_text()}
+]
+
+# SendActivity_oRLZLi_text()
+- turn.activity.value is an object. Start New flow.
+# SendActivity_oRLZLi()
+[Activity
+    Text = ${SendActivity_oRLZLi_text()}
+]
+
+# SendActivity_UVPtQg_text()
+- Hello ${conversation.firstName}, I am Max, your virtual assistant.
+# SendActivity_UVPtQg()
+[Activity
+    Text = ${SendActivity_UVPtQg_text()}
+]
+
+# SendActivity_Wmbeeq_text()
+- value fromidkStmt1 :  ${conversation.skillObj.Origin}
+# SendActivity_Wmbeeq()
+[Activity
+    Text = ${SendActivity_Wmbeeq_text()}
+]
+
+# SendActivity_G4Bv7W_text()
+- turn.activity.value is not an object. Start Old flow.
+# SendActivity_G4Bv7W()
+[Activity
+    Text = ${SendActivity_G4Bv7W_text()}
+]
+
+# SendActivity_1q1kYL_text()
+- Sorry I did not get that.
+# SendActivity_1q1kYL()
+[Activity
+    Text = ${SendActivity_1q1kYL_text()}
+]
+
+# ConfirmInput_Prompt_Zg6RJc_text()
+- Do you need help with another issue?
+# ConfirmInput_Prompt_Zg6RJc()
+[Activity
+    Text = ${ConfirmInput_Prompt_Zg6RJc_text()}
+]
+
+# TextInput_Prompt_FDp68S_attachment_yA7wyX()
+> To learn more Adaptive Cards format, read the documentation at
+> https://docs.microsoft.com/en-us/adaptive-cards/getting-started/bots
+- ```{
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.2",
+    "body": [
+        {
+            "type": "TextBlock",
+            "text": "Are you satisified with how our Max serviced your today?",
+            "size": "Medium",
+            "weight": "Bolder",
+            "wrap": true
+        },
+        {
+            "type": "TextBlock",
+            "text": "Click submit when you are satisified with your changes.",
+            "wrap": true
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "ActionSet",
+                            "actions": [
+                                {
+                                    "type": "Action.ToggleVisibility",
+                                    "title": "Yes",
+                                    "targetElements": [
+                                        {
+                                            "elementId": "1",
+                                            "isVisible": false
+                                        },
+                                        {
+                                            "elementId": "2",
+                                            "isVisible": false
+                                        },
+                                        {
+                                            "elementId": "3",
+                                            "isVisible": false
+                                        },
+                                        {
+                                            "elementId": "4",
+                                            "isVisible": false
+                                        },
+                                        {
+                                            "elementId": "5",
+                                            "isVisible": false
+                                        },
+                                        {
+                                            "elementId": "6",
+                                            "isVisible": false
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "ActionSet",
+                            "actions": [
+                                {
+                                    "type": "Action.ToggleVisibility",
+                                    "title": "No",
+                                    "targetElements": [
+                                        "1",
+                                        "2",
+                                        "3",
+                                        "4",
+                                        "5",
+                                        "6"
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "Input.Toggle",
+            "id": "1",
+            "isVisible": false,
+            "title": "Did not understand what I needed"
+        },
+        {
+            "type": "Input.Toggle",
+            "id": "2",
+            "isVisible": false,
+            "title": "Gave unhelpful reference and the issue is still unresolved"
+        },
+        {
+            "type": "Input.Toggle",
+            "id": "3",
+            "isVisible": false,
+            "title": "Freezes or closes in the middle of the session"
+        },
+        {
+            "type": "Input.Toggle",
+            "id": "4",
+            "isVisible": false,
+            "title": "Is complicated to use"
+        },
+        {
+            "type": "Input.Toggle",
+            "id": "5",
+            "isVisible": false,
+            "title": "Language is hard to understand or difficult to communicate with"
+        },
+        {
+            "type": "Input.Toggle",
+            "id": "6",
+            "isVisible": false,
+            "title": "Other reasons"
+        },
+        {
+            "type": "ActionSet",
+            "actions": [
+                {
+                    "type": "Action.Submit",
+                    "title": "Submit"
+                }
+            ]
+        }
+    ]
+}```
+# TextInput_Prompt_FDp68S()
+[Activity
+    Attachments = ${json(TextInput_Prompt_FDp68S_attachment_yA7wyX())}
+]
+
+# SendActivity_n52tdn_text()
+- Goodbye!
+- Thanks for chatting!
+- Have a great day!
+- HelpDesk is always here if you need more help. Bye for now!
+- Bye!
+# SendActivity_n52tdn()
+[Activity
+    Text = ${SendActivity_n52tdn_text()}
+]
+
+
+# SendActivity_Greeting_text()
+- Hello! I am Max. Your Virtual Assistant.
+# SendActivity_G6K50D_text()
+- "The result is: ${dialog.result}"
+# SendActivity_G6K50D()
+[Activity
+    Text = ${SendActivity_G6K50D_text()}
+]
+
+# SendActivity_ZMGakK()
+[Activity
+    Text = ${SendActivity_ZMGakK_text()}
+]
+
+# SendActivity_ZMGakK_text()
+- https://docs.microsoft.com/en-us/composer/how-to-create-custom-actions
+
+
+
+# SendActivity_MDKiFJ()
+[Activity
+    Text = Hi, ${conversation.firstName}, I'm Max, your IT Help Desk Virtual Assistant. 
+]
+
+# SendActivity_HU8pb1()
+[Activity
+    Text = ${SendActivity_HU8pb1_text()}
+]
+
+
+# SendActivity_HU8pb1_text()
+- Hi, ${titleCase(conversation.urlusername, 'en-US')}, I'm Max, your IT Help Desk Virtual Assistant. 
+
+# SendActivity_PKM71N_text()
+- Hi, ${titleCase(conversation.urlusername, 'en-US')}, I'm Max, your IT Help Desk Virtual Assistant. 
+
+# SendActivity_PKM71N()
+[Activity
+    Text = ${SendActivity_PKM71N_text()}
+]
+
+
+# SendActivity_ehz5ED()
+[Activity
+    Text = Hi, ${conversation.firstName}, I'm Max, your IT Help Desk Virtual Assistant. 
+]

@@ -1,0 +1,119 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "ki2owj",
+    "name": "addComment",
+    "comment": "add comment to open ticket of the logged-in user, this dialog will be called from openTickets dialog"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "S2FvUM"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "AVn2dP"
+          },
+          "property": "conversation.pathTaken",
+          "value": "=concat(conversation.pathTaken,\" -> \",\"addComment\")"
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "DdjGiZ"
+          },
+          "properties": "{\"pathTraversed\" : `${conversation.pathTaken}`}",
+          "name": "user-path"
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "3n6Lv4"
+          },
+          "properties": "{\"incidentNumber\" : `${conversation.incidentIdSel}`}",
+          "name": "add-comment"
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "so0rWA"
+          },
+          "resultProperty": "dialog.commentResult",
+          "method": "POST",
+          "url": "${settings.servicenow.URL}",
+          "headers": {
+            "Authorization": "${settings.servicenow.Authorization}"
+          },
+          "body": "={\"number\": `${conversation.incidentIdSel}`,\"comments\": `${conversation.commentAdded}`}"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "q6rAgH"
+          },
+          "condition": "= dialog.commentResult.statusCode == 201 && dialog.commentResult.content.result[0].status == \"updated\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "VAvRhB"
+              },
+              "property": "dialog.sys_id",
+              "value": "=dialog.commentResult.content.result[0].sys_id"
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "wMIvN2"
+              },
+              "property": "dialog.ticketUrl",
+              "value": "=`${settings.thdi.helpdeskUrl}?id=itss_hc_ticket&table=incident&sys_id=${dialog.sys_id}`"
+            },
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "MdH0tf"
+              },
+              "activity": "${SendActivity_MdH0tf()}"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "QM78XH"
+              },
+              "activity": "${SendActivity_QM78XH()}"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperties",
+          "$designer": {
+            "id": "VmXubL"
+          },
+          "properties": [
+            "conversation.incidentIdSel",
+            "conversation.commentAdded"
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "zd43iu"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "addComment.lg",
+  "recognizer": "addComment.lu.qna",
+  "id": "addComment"
+}

@@ -1,0 +1,46 @@
+[import](common.lg)
+
+# SendActivity_1c3Qro_text()
+- There’s a trending HelpDesk issue that looks like it could be your problem.
+# SendActivity_1c3Qro()
+[Activity
+    Text = ${SendActivity_1c3Qro_text()}
+]
+
+# SendActivity_q2voqR_text()
+- There are some trending HelpDesk issues that looks like it could be your problem
+# SendActivity_q2voqR()
+[Activity
+    Text = ${SendActivity_q2voqR_text()}
+]
+
+
+# SendActivity_1N5tEW_text()
+- empty
+# SendActivity_1N5tEW()
+[Activity
+    Text = ${SendActivity_1N5tEW_text()}
+]
+
+# SendActivity_TTTp5q_text()
+- StargateAPI for Trending Issues fails !!
+# SendActivity_TTTp5q()
+[Activity
+    Text = ${SendActivity_TTTp5q_text()}
+]
+
+# SendActivity_OiUtVg()
+[Activity
+    Text = ${SendActivity_OiUtVg_text()}
+]
+
+# SendActivity_OiUtVg_text()
+- ```API Results are ${dialog.api_thdi}
+User Product ${dialog.user_product}```
+# SendActivity_dwARJO()
+[Activity
+    Text = ${SendActivity_dwARJO_text()}
+]
+
+# SendActivity_dwARJO_text()
+- Search THDI is ${dialog.search_thdi}

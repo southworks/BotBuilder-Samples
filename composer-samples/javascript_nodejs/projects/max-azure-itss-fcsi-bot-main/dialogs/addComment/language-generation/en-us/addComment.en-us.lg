@@ -1,0 +1,15 @@
+[import](common.lg)
+
+# SendActivity_MdH0tf_text()
+- Your comment has been successfully added to the ticket [${conversation.incidentIdSel}](${dialog.ticketUrl})
+# SendActivity_MdH0tf()
+[Activity
+    Text = ${SendActivity_MdH0tf_text()}
+]
+
+# SendActivity_QM78XH_text()
+- Sorry! Something went wrong, please try again.
+# SendActivity_QM78XH()
+[Activity
+    Text = ${SendActivity_QM78XH_text()}
+]

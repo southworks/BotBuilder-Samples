@@ -1,0 +1,799 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "L4BYMK",
+    "name": "openTickets",
+    "comment": "trigger this dialog when Existing Issue flow is selected"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "OU9kiZ"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "L9nNyc"
+          },
+          "property": "conversation.pathTaken",
+          "value": "=concat(conversation.pathTaken,\" -> \",\"openTickets\")"
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "Jqd9A6"
+          },
+          "properties": "{\"pathTraversed\" : `${conversation.pathTaken}`}",
+          "name": "user-path"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperties",
+          "$designer": {
+            "id": "yNMpfk"
+          },
+          "properties": [
+            "conversation.commentAdded",
+            "conversation.incidentIdSel",
+            "conversation.SysIdSel"
+          ]
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "YSI2D3"
+          },
+          "resultProperty": "dialog.openTicketsRes",
+          "method": "GET",
+          "url": "=`${settings.thdi.openincidents}&u_ms_id=${conversation.urlmsid}&sysparm_query=active=true^ORDERBYDESCopened_at&sysparm_limit=10&sysparm_fields=comments,opened_at,sys_updated_on,number,short_description,state,sys_id,u_count_escalation,priority,caller_id,priority,assignment_group,assigned_to`",
+          "headers": {
+            "Authorization": "${settings.servicenow.Authorization}"
+          }
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "nXFLBE"
+          },
+          "condition": "= dialog.openTicketsRes.statusCode == 200",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "K3POrQ"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.openTickets",
+                  "value": "=dialog.openTicketsRes.content.result"
+                },
+                {
+                  "property": "dialog.isEmptyOpenTickets",
+                  "value": "=empty(dialog.openTicketsRes.content.result)"
+                },
+                {
+                  "property": "dialog.totalOpenTicketsStr",
+                  "value": "=dialog.openTicketsRes.headers[\"x-total-count\"]"
+                },
+                {
+                  "property": "dialog.totalOpenTickets",
+                  "value": "=int(dialog.totalOpenTicketsStr)"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "jZAgTT",
+                "comment": "true means the user doesn't has any open ticket"
+              },
+              "condition": "=dialog.isEmptyOpenTickets",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "5FuU5B"
+                  },
+                  "activity": "${SendActivity_5FuU5B()}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "cT2S3j"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "anotherIssuePrompt"
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "opNRAL"
+                  }
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.Foreach",
+                  "$designer": {
+                    "id": "12lcTc"
+                  },
+                  "index": "dialog.foreach.index",
+                  "value": "dialog.foreach.value",
+                  "itemsProperty": "dialog.openTickets",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "lH5GVw"
+                      },
+                      "assignments": [
+                        {
+                          "property": "dialog.comments",
+                          "value": "=dialog.foreach.value.comments"
+                        },
+                        {
+                          "property": "dialog.isCommentsEmpty",
+                          "value": "=empty(dialog.comments)"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "ConvertDateCT",
+                      "$designer": {
+                        "id": "wEnOet",
+                        "name": "ConvertDateCT-openedAt"
+                      },
+                      "date": "=dialog.foreach.value.opened_at",
+                      "resultProperty": "dialog.Oldopened_at"
+                    },
+                    {
+                      "$kind": "ConvertDateCT",
+                      "$designer": {
+                        "id": "8vZJcC",
+                        "name": "ConvertDateCT-updatedAt"
+                      },
+                      "date": "=dialog.foreach.value.sys_updated_on",
+                      "resultProperty": "dialog.Oldsys_updated_on"
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "0fg40i"
+                      },
+                      "property": "dialog.ticketUrl",
+                      "value": "=`${settings.thdi.helpdeskUrl}?id=itss_hc_ticket&table=incident&sys_id=${dialog.foreach.value.sys_id}`"
+                    },
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "lpDvuK"
+                      },
+                      "condition": "=dialog.isCommentsEmpty",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "tgdgFS"
+                          },
+                          "property": "dialog.incidentDetails",
+                          "value": {
+                            "incidentId": "${dialog.foreach.value.number}",
+                            "incidentUrl": "${dialog.ticketUrl}",
+                            "shortDescription": "${dialog.foreach.value.short_description}",
+                            "ticketState": "${dialog.foreach.value.state}",
+                            "sysId": "${dialog.foreach.value.sys_id}",
+                            "openedAt": "${dialog.Oldopened_at}",
+                            "updatedAt": "${dialog.Oldsys_updated_on}",
+                            "escalationCount": "${dialog.foreach.value.u_count_escalation}",
+                            "callerId": "${dialog.foreach.value.caller_id.display_value}",
+                            "priority": "${dialog.foreach.value.priority}",
+                            "assignmentGroup": "${dialog.foreach.value.assignment_group.display_value}",
+                            "assignedTo": "${dialog.foreach.value.assigned_to.display_value}",
+                            "commentCount": "0",
+                            "oneDate": "",
+                            "oneName": "",
+                            "oneComment": "",
+                            "twoDate": "",
+                            "twoName": "",
+                            "twoComment": "",
+                            "threeDate": "",
+                            "threeName": "",
+                            "threeComment": "",
+                            "totalTicketsNum": "${dialog.totalOpenTickets}"
+                          }
+                        }
+                      ],
+                      "elseActions": [
+                        {
+                          "$kind": "ShowComments",
+                          "$designer": {
+                            "id": "BeW5Je"
+                          },
+                          "comments": "=dialog.comments",
+                          "resultProperty": "dialog.filteredComments"
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "V8muT7"
+                          },
+                          "assignments": [
+                            {
+                              "property": "dialog.commentsCount",
+                              "value": "=count(dialog.filteredComments)"
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.SwitchCondition",
+                          "$designer": {
+                            "id": "i1fp0L"
+                          },
+                          "condition": "dialog.commentsCount",
+                          "cases": [
+                            {
+                              "value": "1",
+                              "actions": [
+                                {
+                                  "$kind": "ConvertDateCT",
+                                  "$designer": {
+                                    "id": "NnXUeW",
+                                    "name": "ConvertDateCT-oneDate"
+                                  },
+                                  "date": "=dialog.filteredComments[0][0]",
+                                  "resultProperty": "dialog.newDateOne"
+                                },
+                                {
+                                  "$kind": "Microsoft.SetProperties",
+                                  "$designer": {
+                                    "id": "GHWied"
+                                  },
+                                  "assignments": [
+                                    {
+                                      "property": "dialog.oneDate",
+                                      "value": "=dialog.newDateOne"
+                                    },
+                                    {
+                                      "property": "dialog.oneName",
+                                      "value": "=dialog.filteredComments[0][1]"
+                                    },
+                                    {
+                                      "property": "dialog.oneComment",
+                                      "value": "=dialog.filteredComments[0][2]"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "$kind": "Microsoft.SetProperty",
+                                  "$designer": {
+                                    "id": "A3YJX8"
+                                  },
+                                  "property": "dialog.incidentDetails",
+                                  "value": {
+                                    "incidentId": "${dialog.foreach.value.number}",
+                                    "incidentUrl": "${dialog.ticketUrl}",
+                                    "shortDescription": "${dialog.foreach.value.short_description}",
+                                    "ticketState": "${dialog.foreach.value.state}",
+                                    "sysId": "${dialog.foreach.value.sys_id}",
+                                    "openedAt": "${dialog.Oldopened_at}",
+                                    "updatedAt": "${dialog.Oldsys_updated_on}",
+                                    "escalationCount": "${dialog.foreach.value.u_count_escalation}",
+                                    "callerId": "${dialog.foreach.value.caller_id.display_value}",
+                                    "priority": "${dialog.foreach.value.priority}",
+                                    "assignmentGroup": "${dialog.foreach.value.assignment_group.display_value}",
+                                    "assignedTo": "${dialog.foreach.value.assigned_to.display_value}",
+                                    "commentCount": "1",
+                                    "oneDate": "${dialog.oneDate}",
+                                    "oneName": "${dialog.oneName}",
+                                    "oneComment": "${dialog.oneComment}",
+                                    "twoDate": "",
+                                    "twoName": "",
+                                    "twoComment": "",
+                                    "threeDate": "",
+                                    "threeName": "",
+                                    "threeComment": "",
+                                    "totalTicketsNum": "${dialog.totalOpenTickets}"
+                                  }
+                                }
+                              ]
+                            },
+                            {
+                              "value": "2",
+                              "actions": [
+                                {
+                                  "$kind": "ConvertDateCT",
+                                  "$designer": {
+                                    "id": "OVQyU4",
+                                    "name": "ConvertDateCT-oneDate"
+                                  },
+                                  "date": "=dialog.filteredComments[0][0]",
+                                  "resultProperty": "dialog.newDateOne"
+                                },
+                                {
+                                  "$kind": "Microsoft.SetProperties",
+                                  "$designer": {
+                                    "id": "VRfBLK"
+                                  },
+                                  "assignments": [
+                                    {
+                                      "property": "dialog.oneDate",
+                                      "value": "=dialog.newDateOne"
+                                    },
+                                    {
+                                      "property": "dialog.oneName",
+                                      "value": "=dialog.filteredComments[0][1]"
+                                    },
+                                    {
+                                      "property": "dialog.oneComment",
+                                      "value": "=dialog.filteredComments[0][2]"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "$kind": "ConvertDateCT",
+                                  "$designer": {
+                                    "id": "Vdp70i",
+                                    "name": "ConvertDateCT-twoDate"
+                                  },
+                                  "date": "=dialog.filteredComments[1][0]",
+                                  "resultProperty": "dialog.newDateTwo"
+                                },
+                                {
+                                  "$kind": "Microsoft.SetProperties",
+                                  "$designer": {
+                                    "id": "eULB0F"
+                                  },
+                                  "assignments": [
+                                    {
+                                      "property": "dialog.twoDate",
+                                      "value": "=dialog.newDateTwo"
+                                    },
+                                    {
+                                      "property": "dialog.twoName",
+                                      "value": "=dialog.filteredComments[1][1]"
+                                    },
+                                    {
+                                      "property": "dialog.twoComment",
+                                      "value": "=dialog.filteredComments[1][2]"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "$kind": "Microsoft.SetProperty",
+                                  "$designer": {
+                                    "id": "JnoAUq"
+                                  },
+                                  "property": "dialog.incidentDetails",
+                                  "value": {
+                                    "incidentId": "${dialog.foreach.value.number}",
+                                    "incidentUrl": "${dialog.ticketUrl}",
+                                    "shortDescription": "${dialog.foreach.value.short_description}",
+                                    "ticketState": "${dialog.foreach.value.state}",
+                                    "sysId": "${dialog.foreach.value.sys_id}",
+                                    "openedAt": "${dialog.Oldopened_at}",
+                                    "updatedAt": "${dialog.Oldsys_updated_on}",
+                                    "escalationCount": "${dialog.foreach.value.u_count_escalation}",
+                                    "callerId": "${dialog.foreach.value.caller_id.display_value}",
+                                    "priority": "${dialog.foreach.value.priority}",
+                                    "assignmentGroup": "${dialog.foreach.value.assignment_group.display_value}",
+                                    "assignedTo": "${dialog.foreach.value.assigned_to.display_value}",
+                                    "commentCount": "2",
+                                    "oneDate": "${dialog.oneDate}",
+                                    "oneName": "${dialog.oneName}",
+                                    "oneComment": "${dialog.oneComment}",
+                                    "twoDate": "${dialog.twoDate}",
+                                    "twoName": "${dialog.twoName}",
+                                    "twoComment": "${dialog.twoComment}",
+                                    "threeDate": "",
+                                    "threeName": "",
+                                    "threeComment": "",
+                                    "totalTicketsNum": "${dialog.totalOpenTickets}"
+                                  }
+                                }
+                              ]
+                            }
+                          ],
+                          "default": [
+                            {
+                              "$kind": "ConvertDateCT",
+                              "$designer": {
+                                "id": "bZb5wh",
+                                "name": "ConvertDateCT-oneDate"
+                              },
+                              "date": "=dialog.filteredComments[0][0]",
+                              "resultProperty": "dialog.newDateOne"
+                            },
+                            {
+                              "$kind": "Microsoft.SetProperties",
+                              "$designer": {
+                                "id": "lhX0Eh"
+                              },
+                              "assignments": [
+                                {
+                                  "property": "dialog.oneDate",
+                                  "value": "=dialog.newDateOne"
+                                },
+                                {
+                                  "property": "dialog.oneName",
+                                  "value": "=dialog.filteredComments[0][1]"
+                                },
+                                {
+                                  "property": "dialog.oneComment",
+                                  "value": "=dialog.filteredComments[0][2]"
+                                }
+                              ]
+                            },
+                            {
+                              "$kind": "ConvertDateCT",
+                              "$designer": {
+                                "id": "FwQVoE",
+                                "name": "ConvertDateCT-twoDate"
+                              },
+                              "date": "=dialog.filteredComments[1][0]",
+                              "resultProperty": "dialog.newDateTwo"
+                            },
+                            {
+                              "$kind": "Microsoft.SetProperties",
+                              "$designer": {
+                                "id": "DN1Zwx"
+                              },
+                              "assignments": [
+                                {
+                                  "property": "dialog.twoDate",
+                                  "value": "=dialog.newDateTwo"
+                                },
+                                {
+                                  "property": "dialog.twoName",
+                                  "value": "=dialog.filteredComments[1][1]"
+                                },
+                                {
+                                  "property": "dialog.twoComment",
+                                  "value": "=dialog.filteredComments[1][2]"
+                                }
+                              ]
+                            },
+                            {
+                              "$kind": "ConvertDateCT",
+                              "$designer": {
+                                "id": "184atp",
+                                "name": "ConvertDateCT-threeDate"
+                              },
+                              "date": "=dialog.filteredComments[2][0]",
+                              "resultProperty": "dialog.newDateThree"
+                            },
+                            {
+                              "$kind": "Microsoft.SetProperties",
+                              "$designer": {
+                                "id": "x2J29S"
+                              },
+                              "assignments": [
+                                {
+                                  "property": "dialog.threeDate",
+                                  "value": "=dialog.newDateThree"
+                                },
+                                {
+                                  "property": "dialog.threeName",
+                                  "value": "=dialog.filteredComments[2][1]"
+                                },
+                                {
+                                  "property": "dialog.threeComment",
+                                  "value": "=dialog.filteredComments[2][2]"
+                                }
+                              ]
+                            },
+                            {
+                              "$kind": "Microsoft.SetProperty",
+                              "$designer": {
+                                "id": "4pBaCZ"
+                              },
+                              "property": "dialog.incidentDetails",
+                              "value": {
+                                "incidentId": "${dialog.foreach.value.number}",
+                                "incidentUrl": "${dialog.ticketUrl}",
+                                "shortDescription": "${dialog.foreach.value.short_description}",
+                                "ticketState": "${dialog.foreach.value.state}",
+                                "sysId": "${dialog.foreach.value.sys_id}",
+                                "openedAt": "${dialog.Oldopened_at}",
+                                "updatedAt": "${dialog.Oldsys_updated_on}",
+                                "escalationCount": "${dialog.foreach.value.u_count_escalation}",
+                                "callerId": "${dialog.foreach.value.caller_id.display_value}",
+                                "priority": "${dialog.foreach.value.priority}",
+                                "assignmentGroup": "${dialog.foreach.value.assignment_group.display_value}",
+                                "assignedTo": "${dialog.foreach.value.assigned_to.display_value}",
+                                "commentCount": "3",
+                                "oneDate": "${dialog.oneDate}",
+                                "oneName": "${dialog.oneName}",
+                                "oneComment": "${dialog.oneComment}",
+                                "twoDate": "${dialog.twoDate}",
+                                "twoName": "${dialog.twoName}",
+                                "twoComment": "${dialog.twoComment}",
+                                "threeDate": "${dialog.threeDate}",
+                                "threeName": "${dialog.threeName}",
+                                "threeComment": "${dialog.threeComment}",
+                                "totalTicketsNum": "${dialog.totalOpenTickets}"
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.EditArray",
+                      "$designer": {
+                        "id": "9Jd5ER"
+                      },
+                      "changeType": "push",
+                      "value": "=dialog.incidentDetails",
+                      "itemsProperty": "dialog.openTicketsInfo"
+                    },
+                    {
+                      "$kind": "Microsoft.DeleteProperties",
+                      "$designer": {
+                        "id": "QqjaPi"
+                      },
+                      "properties": [
+                        "dialog.incidentDetails",
+                        "dialog.ticketUrl",
+                        "dialog.comments",
+                        "dialog.isCommentsEmpty",
+                        "dialog.filteredComments",
+                        "dialog.commentsCount",
+                        "dialog.oneDate",
+                        "dialog.oneName",
+                        "dialog.oneComment",
+                        "dialog.twoDate",
+                        "dialog.twoName",
+                        "dialog.twoComment",
+                        "dialog.threeDate",
+                        "dialog.threeName",
+                        "dialog.threeComment",
+                        "dialog.Oldopened_at",
+                        "dialog.Oldsys_updated_on"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "HOyeEU",
+                    "comment": "TABULAR FORM WITH INPUT"
+                  },
+                  "maxTurnCount": 3,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": false,
+                  "prompt": "${TextInput_Prompt_HOyeEU()}",
+                  "property": "dialog.optionSelect",
+                  "value": "=string(turn.activity.value)",
+                  "validations": [
+                    "this.value == 'skip' || toLower(this.value) == 'continue' || json(this.value).title == 'skip' || (json(this.value).title == 'addNote' && json(this.value).ticketNumber != '' && json(this.value).sysId != '') || (json(this.value).title == 'closeInc' && json(this.value).ticketNumber != '' && json(this.value).sysId != '') || (json(this.value).title == 'escalateInc' && json(this.value).ticketNumber != '' && json(this.value).callerId != '' && json(this.value).escalationCount != '')"
+                  ],
+                  "invalidPrompt": "${TextInput_InvalidPrompt_HOyeEU()}",
+                  "defaultValue": "NOVALIDINPUT"
+                },
+                {
+                  "$kind": "SendEventTelemetry",
+                  "$designer": {
+                    "id": "ulJlB0"
+                  },
+                  "properties": "{\"TicketOption\" : `${dialog.optionSelect`}",
+                  "name": "user-ticketoption"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "sGV7aw"
+                  },
+                  "condition": "= dialog.optionSelect == \"NOVALIDINPUT\"",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "Xgn51M"
+                      },
+                      "activity": "${SendActivity_Xgn51M()}"
+                    },
+                    {
+                      "$kind": "Microsoft.CancelAllDialogs",
+                      "$designer": {
+                        "id": "NdCBeu"
+                      },
+                      "activityProcessed": true
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "hBVgrN"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.incidentIdSel",
+                      "value": "=turn.activity.value.ticketNumber"
+                    },
+                    {
+                      "property": "conversation.SysIdSel",
+                      "value": "=turn.activity.value.sysId"
+                    },
+                    {
+                      "property": "dialog.optionSelected",
+                      "value": "=turn.activity.value.title"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "5315sI"
+                  },
+                  "condition": "dialog.optionSelected",
+                  "cases": [
+                    {
+                      "value": "=\"addNote\"",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.TextInput",
+                          "$designer": {
+                            "id": "5arTNd"
+                          },
+                          "disabled": false,
+                          "maxTurnCount": 1,
+                          "alwaysPrompt": false,
+                          "allowInterruptions": false,
+                          "unrecognizedPrompt": "",
+                          "property": "conversation.commentAdded",
+                          "prompt": "${TextInput_Prompt_5arTNd()}",
+                          "value": "=trim(turn.activity.value.commentAdded)"
+                        },
+                        {
+                          "$kind": "Microsoft.IfCondition",
+                          "$designer": {
+                            "id": "MBGcHI"
+                          },
+                          "condition": "=length(conversation.commentAdded)>0",
+                          "elseActions": [
+                            {
+                              "$kind": "Microsoft.SendActivity",
+                              "$designer": {
+                                "id": "gYAQUG"
+                              },
+                              "activity": "${SendActivity_gYAQUG()}"
+                            }
+                          ],
+                          "actions": [
+                            {
+                              "$kind": "Microsoft.BeginDialog",
+                              "$designer": {
+                                "id": "d51XzD"
+                              },
+                              "activityProcessed": true,
+                              "dialog": "addComment"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "value": "=\"escalateInc\"",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "gu5CEM"
+                          },
+                          "assignments": [
+                            {
+                              "property": "conversation.escalationCountSel",
+                              "value": "=add(int(turn.activity.value.escalationCount), 1)"
+                            },
+                            {
+                              "property": "conversation.callerIdSel",
+                              "value": "=turn.activity.value.callerId"
+                            },
+                            {
+                              "property": "conversation.prioritySel",
+                              "value": "=turn.activity.value.priority"
+                            },
+                            {
+                              "property": "conversation.assignmentGroupSel",
+                              "value": "=turn.activity.value.assignmentGroup"
+                            },
+                            {
+                              "property": "conversation.assignedToSel",
+                              "value": "=turn.activity.value.assignedTo"
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.TextInput",
+                          "$designer": {
+                            "id": "egAw21"
+                          },
+                          "disabled": false,
+                          "maxTurnCount": 1,
+                          "alwaysPrompt": false,
+                          "allowInterruptions": false,
+                          "unrecognizedPrompt": "",
+                          "invalidPrompt": "",
+                          "property": "conversation.escalationAdded",
+                          "prompt": "${TextInput_Prompt_egAw21()}",
+                          "value": "=trim(turn.activity.value.escalationAdded)"
+                        },
+                        {
+                          "$kind": "Microsoft.IfCondition",
+                          "$designer": {
+                            "id": "GS8fAb"
+                          },
+                          "condition": "=length(conversation.escalationAdded)>0",
+                          "elseActions": [
+                            {
+                              "$kind": "Microsoft.SendActivity",
+                              "$designer": {
+                                "id": "oJ51R8"
+                              },
+                              "activity": "${SendActivity_oJ51R8()}"
+                            }
+                          ],
+                          "actions": [
+                            {
+                              "$kind": "Microsoft.BeginDialog",
+                              "$designer": {
+                                "id": "xcjhUX"
+                              },
+                              "activityProcessed": true,
+                              "dialog": "escalateIncidents"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "value": "=\"closeInc\"",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "7WrHBj"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "closeIncident",
+                          "options": {}
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "wdS9yA"
+          },
+          "condition": "= dialog.callingFrom != \"closeIncident\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "0rMLlW"
+              },
+              "activityProcessed": true,
+              "dialog": "anotherIssuePrompt"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "openTickets.lg",
+  "recognizer": "openTickets.lu.qna",
+  "id": "openTickets"
+}

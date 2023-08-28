@@ -1,0 +1,432 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "5bGAQI",
+    "name": "kbSearch",
+    "comment": "this dialog will search inside knowledge base and return the result"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "J0QDJq"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "kUngKo"
+          },
+          "property": "conversation.pathTaken",
+          "value": "=concat(conversation.pathTaken,\" -> \",\"kbSearch\")"
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "FgEVPe"
+          },
+          "properties": "{\"pathTraversed\" : `${conversation.pathTaken}`}",
+          "name": "user-path"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "NX6MHR"
+          },
+          "value": "=`${settings.kbStopWD.stopword}`",
+          "property": "dialog.stopwords"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "UTBvYg"
+          },
+          "property": "dialog.newStr",
+          "value": " "
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "smAoHH"
+          },
+          "property": "dialog.searchStr",
+          "value": "=conversation.prod+\" - \"+conversation.firstIssue"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "Pyy3uu"
+          },
+          "property": "dialog.strArray",
+          "value": "=split(dialog.searchStr, \" \")"
+        },
+        {
+          "$kind": "Microsoft.Foreach",
+          "$designer": {
+            "id": "qB778L"
+          },
+          "index": "dialog.foreach.index",
+          "value": "dialog.foreach.value",
+          "itemsProperty": "dialog.strArray",
+          "actions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "Q7wAGR"
+              },
+              "condition": "=contains(dialog.stopwords, toLower(dialog.foreach.value, 'en-US'))",
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "Aa1pLZ"
+                  },
+                  "value": "=dialog.newStr + \" \"+dialog.foreach.value",
+                  "property": "dialog.newStr"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "1Rnwiw",
+            "comment": "Search will happen based on intent and product now"
+          },
+          "resultProperty": "dialog.kbres",
+          "method": "GET",
+          "headers": {
+            "api-key": "=`${settings.kbSearch.azureSearchKey}`"
+          },
+          "url": "=`${settings.kbSearch.azureSearchHostName}servicenow-index/docs?api-version=2020-06-30&$top=3&search=${uriComponent(dialog.newStr)}`"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "a7lPCc"
+          },
+          "assignments": [
+            {
+              "property": "dialog.statusCode",
+              "value": "=dialog.kbres.statusCode"
+            },
+            {
+              "property": "dialog.results",
+              "value": "=dialog.kbres.content.value"
+            },
+            {
+              "property": "dialog.resultCount",
+              "value": "=count(dialog.results)"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "hiFb2n"
+          },
+          "condition": "= dialog.statusCode == 200",
+          "actions": [
+            {
+              "$kind": "SendEventTelemetry",
+              "$designer": {
+                "id": "4SHPoY",
+                "name": "SendEventTelemetry-KBResults"
+              },
+              "name": "kb-results",
+              "properties": "{ \"kbResults\" : `${dialog.results}`}",
+              "disabled": true
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "FCcdIv"
+              },
+              "condition": "= dialog.resultCount > 0",
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "evWMPx"
+                  },
+                  "activity": "${SendActivity_evWMPx()}"
+                },
+                {
+                  "$kind": "SendEventTelemetry",
+                  "$designer": {
+                    "id": "1Ohihw",
+                    "name": "SendEventTelemetry-KBResultHelpful"
+                  },
+                  "name": "kb-result-helpful",
+                  "properties": "{ \"helpful\" : \"No Article Found\"}"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "ZTefhp",
+                    "comment": ""
+                  },
+                  "property": "conversation.livechatsource",
+                  "value": "knowledge",
+                  "disabled": true
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "QFFv5e"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "LiveAgent",
+                  "disabled": true
+                }
+              ],
+              "actions": [
+                {
+                  "$kind": "Microsoft.EditArray",
+                  "$designer": {
+                    "id": "25EtCg"
+                  },
+                  "changeType": "clear",
+                  "itemsProperty": "dialog.kbResults"
+                },
+                {
+                  "$kind": "Microsoft.Foreach",
+                  "$designer": {
+                    "id": "9SLeiT"
+                  },
+                  "index": "dialog.foreach.index",
+                  "value": "dialog.foreach.value",
+                  "itemsProperty": "dialog.results",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "dy6bmB",
+                        "comment": "kb number of the knowledge article"
+                      },
+                      "assignments": [
+                        {
+                          "property": "dialog.kbResShortDesc",
+                          "value": "=dialog.foreach.value.content.short_desc"
+                        },
+                        {
+                          "property": "dialog.permalink",
+                          "value": "=dialog.foreach.value.content.permalink"
+                        },
+                        {
+                          "property": "dialog.element",
+                          "value": {
+                            "content": {
+                              "permalink": "${dialog.permalink}",
+                              "short_desc": "${dialog.kbResShortDesc}"
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "removeSpecialCharacters",
+                      "$designer": {
+                        "id": "e0tX8u"
+                      },
+                      "userIssue": "${dialog.kbResShortDesc}",
+                      "resultProperty": "dialog.kbResShortDesc"
+                    },
+                    {
+                      "$kind": "Microsoft.EditArray",
+                      "$designer": {
+                        "id": "AU9Rkr"
+                      },
+                      "changeType": "push",
+                      "itemsProperty": "dialog.kbResults",
+                      "value": "=dialog.element"
+                    },
+                    {
+                      "$kind": "Microsoft.DeleteProperties",
+                      "$designer": {
+                        "id": "7pwVzY"
+                      },
+                      "properties": [
+                        "dialog.kbResShortDesc",
+                        "dialog.element",
+                        "dialog.permalink"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "SendEventTelemetry",
+                  "$designer": {
+                    "id": "e5QC7Q",
+                    "name": "SendEventTelemetry-KBResults"
+                  },
+                  "name": "kb-results",
+                  "properties": "{ \"kbResults\" : `${dialog.kbResults}`}"
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "KZAz2k"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 3,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": false,
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "defaultValueResponse": "",
+                  "property": "dialog.KBConfirmation",
+                  "value": "=turn.activity.value.title",
+                  "prompt": "${TextInput_Prompt_KZAz2k()}"
+                },
+                {
+                  "$kind": "SendEventTelemetry",
+                  "$designer": {
+                    "id": "n4EOg7"
+                  },
+                  "properties": "{\"IsKBHelpful\" : `${dialog.KBConfirmation`}",
+                  "name": "kb-help"
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "K7ObSh"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.kbclicked",
+                      "value": "=turn.activity.value.articlenumber"
+                    },
+                    {
+                      "property": "dialog.isEmptyKbClicked",
+                      "value": "=empty(dialog.kbclicked)"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "LyDPgZ"
+                  },
+                  "condition": "=!dialog.isEmptyKbClicked",
+                  "actions": [
+                    {
+                      "$kind": "SendEventTelemetry",
+                      "$designer": {
+                        "id": "7xVySt"
+                      },
+                      "name": "kb-article-clicked",
+                      "properties": "{ \"kbnumber\": `${dialog.kbclicked}`}"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "XXuhwQ"
+                  },
+                  "disabled": true,
+                  "maxTurnCount": 3,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": false,
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "defaultValueResponse": "",
+                  "prompt": "${TextInput_Prompt_XXuhwQ()}",
+                  "property": "dialog.KBConfirmation",
+                  "value": "=turn.activity.value.title"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "8Iz6H8"
+                  },
+                  "condition": "= turn.activity.text == 'Yes' || turn.activity.text == 'helpful' || dialog.KBConfirmation =='Yes, the issue is resolved'",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "JVeiJG"
+                      },
+                      "activity": "${SendActivity_JVeiJG()}"
+                    },
+                    {
+                      "$kind": "SendEventTelemetry",
+                      "$designer": {
+                        "id": "WFYOly",
+                        "name": "SendEventTelemetry-KBResultHelpful"
+                      },
+                      "name": "kb-result-helpful",
+                      "properties": "{ \"helpful\" : \"Yes\"}"
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "MX5YwQ"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "FurtherHelp"
+                    },
+                    {
+                      "$kind": "Microsoft.CancelAllDialogs",
+                      "$designer": {
+                        "id": "AshlZv"
+                      },
+                      "activityProcessed": true
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "Rwj0Sv"
+                      },
+                      "condition": "=conversation.urlflowdirection=='ticket'",
+                      "actions": [],
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.IfCondition",
+                          "$designer": {
+                            "id": "r40A6d"
+                          },
+                          "condition": "=conversation.urllivechatavailable== '0'",
+                          "elseActions": [
+                            {
+                              "$kind": "Microsoft.SendActivity",
+                              "$designer": {
+                                "id": "NLSodB"
+                              },
+                              "activity": "${SendActivity_NLSodB()}"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "SendEventTelemetry",
+                      "$designer": {
+                        "id": "0CnmRY",
+                        "name": "SendEventTelemetry-KBResultHelpful"
+                      },
+                      "name": "kb-result-helpful",
+                      "properties": "{ \"helpful\" : \"No\"}"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "elseActions": []
+        }
+      ]
+    }
+  ],
+  "generator": "kbSearch.lg",
+  "recognizer": "kbSearch.lu.qna",
+  "id": "kbSearch"
+}

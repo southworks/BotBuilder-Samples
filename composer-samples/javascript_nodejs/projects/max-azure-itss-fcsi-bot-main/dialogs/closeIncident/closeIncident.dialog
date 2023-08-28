@@ -1,0 +1,197 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "4XOmAo",
+    "name": "closeIncident",
+    "comment": "Incident will be closed through rest API call"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "8ZFWTh"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "QA3ygM"
+          },
+          "property": "conversation.pathTaken",
+          "value": "=concat(conversation.pathTaken,\" -> \",\"Close Incident\")"
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "JWzgLR"
+          },
+          "properties": "{\"pathTraversed\" : `${conversation.pathTaken}`}",
+          "name": "user-path"
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "eoLpv6",
+            "comment": "Close incident for Telemetry"
+          },
+          "properties": "{\"incidentNumber\" : `${conversation.incidentIdSel}`}",
+          "name": "close-incident"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "cGIIrZ"
+          },
+          "property": "dialog.ticketUrl",
+          "value": "=`${settings.thdi.helpdeskUrl}?id=itss_hc_ticket&table=incident&sys_id=${conversation.SysIdSel}`"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "QOQojp"
+          },
+          "maxTurnCount": 3,
+          "alwaysPrompt": false,
+          "allowInterruptions": false,
+          "property": "dialog.closeOption",
+          "value": "=turn.activity.value.flow",
+          "prompt": "${TextInput_Prompt_QOQojp()}",
+          "defaultValue": "NOVALIDINPUT",
+          "validations": [
+            "this.value == 'closeIncident' ||this.value == 'cancelRequest'"
+          ],
+          "invalidPrompt": "${TextInput_InvalidPrompt_QOQojp()}"
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "37l68W"
+          },
+          "properties": "{\"TicketCloseOption\" : `${dialog.closeOption`}",
+          "name": "user-closeoption"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "nmYV9g"
+          },
+          "condition": "dialog.closeOption",
+          "cases": [
+            {
+              "value": "=\"closeIncident\"",
+              "actions": [
+                {
+                  "$kind": "Microsoft.HttpRequest",
+                  "$designer": {
+                    "id": "yHVEBf"
+                  },
+                  "resultProperty": "dialog.incidentClosedResult",
+                  "method": "POST",
+                  "url": "${settings.servicenow.URL}",
+                  "headers": {
+                    "Authorization": "${settings.servicenow.Authorization}"
+                  },
+                  "body": "={  \"number\": `${conversation.incidentIdSel}`, \"state\": \"Cancelled\", \"close_code\": \"Withdrawn\", \"close_notes\": \"Withdrawn\", \"comments\": \"client requested to withdraw this issue\" }"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "Zn5lPJ"
+                  },
+                  "condition": "= dialog.incidentClosedResult.statusCode == 201 && dialog.incidentClosedResult.content.result[0].status == \"updated\"",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "LdL0Gq"
+                      },
+                      "property": "dialog.ticketUrl",
+                      "value": "=`${settings.thdi.helpdeskUrl}?id=itss_hc_ticket&table=incident&sys_id=${conversation.SysIdSel}`"
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "pUM6Yn"
+                      },
+                      "property": "dialog.closedTicketUrl",
+                      "value": "=`${settings.thdi.helpdeskUrl}?id=itss_hc_ticket&table=incident&sys_id=${conversation.SysIdSel}`"
+                    },
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "deM1F5"
+                      },
+                      "activity": "${SendActivity_deM1F5()}"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "TQleqr"
+                      },
+                      "activity": "${SendActivity_TQleqr()}"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "=\"cancelRequest\"",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "jhuKL4"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "openTickets",
+                  "options": {
+                    "callingFrom": "closeIncident"
+                  }
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "hGBSUW"
+              },
+              "activity": "${SendActivity_hGBSUW()}"
+            },
+            {
+              "$kind": "Microsoft.CancelAllDialogs",
+              "$designer": {
+                "id": "93n2xD"
+              },
+              "activityProcessed": true
+            },
+            {
+              "$kind": "Microsoft.CancelAllDialogs",
+              "$designer": {
+                "id": "9UjAaY"
+              },
+              "activityProcessed": true,
+              "disabled": true
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "EmfYOj"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "closeIncident.lg",
+  "recognizer": "closeIncident.lu.qna",
+  "id": "closeIncident"
+}

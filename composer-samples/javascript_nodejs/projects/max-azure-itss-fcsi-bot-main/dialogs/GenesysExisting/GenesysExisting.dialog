@@ -1,0 +1,439 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "8caMnJ",
+    "name": "GenesysExisting",
+    "comment": "check if user has existing conversation with genesys or not, if yes, resume the conversation based on user's selection"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "BJ7CsQ"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "jfvbVS"
+          },
+          "property": "conversation.pathTaken",
+          "value": "=concat(conversation.pathTaken,\" -> \",\"GenesysExisting\")"
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "bt4rYb"
+          },
+          "properties": "{\"pathTraversed\" : `${conversation.pathTaken}`}",
+          "name": "user-path"
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "SKEExv"
+          },
+          "resultProperty": "dialog.entApiRes",
+          "method": "GET",
+          "url": "=`${settings.chat.genesysEntinfoStarturl}'${conversation.urlmsid}',${settings.chat.genesysEntinfoEndurl}&tn=genesyssubfunctiontable`",
+          "headers": {
+            "Accept": "application/json"
+          },
+          "contentType": "application/json",
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "9ZK2pn"
+          },
+          "condition": "= dialog.entApiRes.statusCode == 200",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "xQr0E2"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.entSubFunction",
+                  "value": "=dialog.entApiRes.content.EntSubFunction"
+                },
+                {
+                  "property": "dialog.entSubFunctionDetail",
+                  "value": "=dialog.entApiRes.content.EntSubFunctionDetail"
+                },
+                {
+                  "property": "dialog.userQuery",
+                  "value": "=dialog.entApiRes.content.UserQuery"
+                },
+                {
+                  "property": "dialog.preChatActivity",
+                  "value": {
+                    "type": "message",
+                    "name": "preChat",
+                    "Value": "${{preChatDynamicInfo:{ENT_SubFunction: `${dialog.entSubFunction}`, ENT_SubFunctionDetail: `${dialog.entSubFunctionDetail}`}}}"
+                  }
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.BeginSkill",
+              "$designer": {
+                "id": "1oVifY",
+                "name": "Connect to a skill-preChat"
+              },
+              "activityProcessed": true,
+              "botId": "=settings.MicrosoftAppId",
+              "skillHostEndpoint": "=settings.skillHostEndpoint",
+              "connectionName": "=settings.connectionName",
+              "allowInterruptions": false,
+              "activity": "${BeginSkill_Activity_1oVifY()}",
+              "resultProperty": "dialog.preChat",
+              "skillEndpoint": "=settings.skill['liveAgentSkillBot'].endpointUrl",
+              "skillAppId": "=settings.skill['liveAgentSkillBot'].msAppId"
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "rbKOoL"
+              },
+              "activityProcessed": true,
+              "dialog": "GenesysError",
+              "options": {
+                "codeValue": "=turn.activity.code",
+                "temp": "=turn.activity"
+              }
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "Rx4mxz"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.preChatJson",
+                  "value": "=json(dialog.preChat)"
+                }
+              ]
+            },
+            {
+              "$kind": "SendEventTelemetry",
+              "$designer": {
+                "id": "H67cr2"
+              },
+              "properties": "{\"preChatResponse\" : `${dialog.preChatJson}`}",
+              "name": "GenesysExistingPreChat"
+            },
+            {
+              "$kind": "Microsoft.BeginSkill",
+              "$designer": {
+                "id": "wWjzCn",
+                "name": "Connect to a skill-preChatAsync"
+              },
+              "activityProcessed": true,
+              "botId": "=settings.MicrosoftAppId",
+              "skillHostEndpoint": "=settings.skillHostEndpoint",
+              "connectionName": "=settings.connectionName",
+              "allowInterruptions": false,
+              "activity": "${BeginSkill_Activity_wWjzCn()}",
+              "resultProperty": "dialog.preChatAsync",
+              "skillEndpoint": "=settings.skill['liveAgentSkillBot'].endpointUrl",
+              "skillAppId": "=settings.skill['liveAgentSkillBot'].msAppId"
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "sPi1Sp"
+              },
+              "activityProcessed": true,
+              "dialog": "GenesysError",
+              "options": {
+                "codeValue": "=turn.activity.code"
+              }
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "2ZJHDp"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.preChatAsyncJson",
+                  "value": "=json(dialog.preChatAsync)"
+                }
+              ]
+            },
+            {
+              "$kind": "SendEventTelemetry",
+              "$designer": {
+                "id": "PGYnrV"
+              },
+              "properties": "{\"preChatAsyncResponse\" : `${dialog.preChatAsyncJson}`}",
+              "name": "GenesysExistingPreChatAsync"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "bf2bmJ"
+              },
+              "condition": "= dialog.preChatJson.hoursOfOperationStatus == 'open'",
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "KwuaWJ"
+                  },
+                  "condition": "= dialog.preChatAsyncJson.asyncChatStatus == 'existing'",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.TextInput",
+                      "$designer": {
+                        "id": "0nOM8P"
+                      },
+                      "disabled": false,
+                      "maxTurnCount": 3,
+                      "alwaysPrompt": false,
+                      "allowInterruptions": false,
+                      "unrecognizedPrompt": "",
+                      "invalidPrompt": "",
+                      "defaultValueResponse": "",
+                      "prompt": "${TextInput_Prompt_0nOM8P()}",
+                      "property": "dialog.resumeChat",
+                      "value": "=turn.activity.value.title"
+                    },
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "dd5tl8"
+                      },
+                      "condition": "= dialog.resumeChat == 'yes'",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "KeL6bU"
+                          },
+                          "activity": "${SendActivity_KeL6bU()}"
+                        },
+                        {
+                          "$kind": "Microsoft.DeleteProperties",
+                          "$designer": {
+                            "id": "MzIOzH"
+                          },
+                          "properties": [
+                            "conversation.BomgarAvailable",
+                            "conversation.GenesysAvailable"
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "fxcjS8"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LiveChatAvailabilities"
+                        },
+                        {
+                          "$kind": "Microsoft.IfCondition",
+                          "$designer": {
+                            "id": "ZkdtlL"
+                          },
+                          "condition": "=conversation.GenesysAvailable",
+                          "actions": [
+                            {
+                              "$kind": "SendEvent",
+                              "$designer": {
+                                "id": "vm40xj",
+                                "name": "Send Event - Enable"
+                              },
+                              "input": "=\"Enable\""
+                            },
+                            {
+                              "$kind": "Microsoft.BeginSkill",
+                              "$designer": {
+                                "id": "1dxKOt",
+                                "name": "Connect to a skill-handover"
+                              },
+                              "activityProcessed": true,
+                              "botId": "=settings.MicrosoftAppId",
+                              "skillHostEndpoint": "=settings.skillHostEndpoint",
+                              "connectionName": "=settings.connectionName",
+                              "allowInterruptions": false,
+                              "activity": "${BeginSkill_Activity_1dxKOt()}",
+                              "resultProperty": "dialog.existingChatAgent",
+                              "skillEndpoint": "=settings.skill['liveAgentSkillBot'].endpointUrl",
+                              "skillAppId": "=settings.skill['liveAgentSkillBot'].msAppId"
+                            },
+                            {
+                              "$kind": "Microsoft.BeginDialog",
+                              "$designer": {
+                                "id": "FMrxAB"
+                              },
+                              "activityProcessed": true,
+                              "dialog": "GenesysError",
+                              "options": {
+                                "codeValue": "=turn.activity.code"
+                              }
+                            }
+                          ],
+                          "elseActions": [
+                            {
+                              "$kind": "Microsoft.SendActivity",
+                              "$designer": {
+                                "id": "gFKW1u"
+                              },
+                              "activity": "${SendActivity_gFKW1u()}"
+                            }
+                          ]
+                        }
+                      ],
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.BeginSkill",
+                          "$designer": {
+                            "id": "laBlEd",
+                            "name": "Connect to a skill-endchat"
+                          },
+                          "activityProcessed": true,
+                          "botId": "=settings.MicrosoftAppId",
+                          "skillHostEndpoint": "=settings.skillHostEndpoint",
+                          "connectionName": "=settings.connectionName",
+                          "allowInterruptions": false,
+                          "activity": "${BeginSkill_Activity_laBlEd()}",
+                          "resultProperty": "dialog.endChat",
+                          "skillEndpoint": "=settings.skill['liveAgentSkillBot'].endpointUrl",
+                          "skillAppId": "=settings.skill['liveAgentSkillBot'].msAppId"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "KoBUbc"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "FurtherHelp"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "kLlDvI"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "flowDecider"
+                    }
+                  ]
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "T0GXI2"
+                  },
+                  "condition": "= dialog.preChatAsyncJson.asyncChatStatus == 'existing'",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "HR8F24"
+                      },
+                      "activity": "${SendActivity_HR8F24()}"
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "ubLcpA"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "IncidentForm-Flow"
+                    },
+                    {
+                      "$kind": "Microsoft.BeginSkill",
+                      "$designer": {
+                        "id": "o0SxRu",
+                        "name": "Connect to a skill-endchat"
+                      },
+                      "activityProcessed": true,
+                      "botId": "=settings.MicrosoftAppId",
+                      "skillHostEndpoint": "=settings.skillHostEndpoint",
+                      "connectionName": "=settings.connectionName",
+                      "allowInterruptions": false,
+                      "activity": "${BeginSkill_Activity_o0SxRu()}",
+                      "resultProperty": "dialog.endChat",
+                      "skillEndpoint": "=settings.skill['liveAgentSkillBot'].endpointUrl",
+                      "skillAppId": "=settings.skill['liveAgentSkillBot'].msAppId",
+                      "disabled": true
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "zEXc7N"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "FurtherHelp"
+                    },
+                    {
+                      "$kind": "Microsoft.EndDialog",
+                      "$designer": {
+                        "id": "rN8asu"
+                      }
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "2SI4jr"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "flowDecider"
+                    },
+                    {
+                      "$kind": "Microsoft.EndDialog",
+                      "$designer": {
+                        "id": "r3frOr"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "wTgPs1"
+              },
+              "activityProcessed": true,
+              "dialog": "flowDecider"
+            },
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "jhsVSA"
+              }
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "UiduYV"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "GenesysExisting.lg",
+  "recognizer": "GenesysExisting.lu.qna",
+  "id": "GenesysExisting"
+}

@@ -1,0 +1,231 @@
+[import](common.lg)
+
+# SendActivity_eA62Rm_text()
+- ${dialog.IncidentRes.content.result[0].short_description}
+
+# SendActivity_eA62Rm()
+[Activity
+    Text = ${SendActivity_eA62Rm_text()}
+]
+
+# SendActivity_j5Puz8_text()
+- This ticket could not be found.
+# SendActivity_j5Puz8()
+[Activity
+    Text = ${SendActivity_j5Puz8_text()}
+]
+
+# COMMENTS_SWITCH(incidentId, incidentUrl, shortDescription, ticketState, sysId, openedAt, updatedAt, commentCount, oneDate, oneName, oneComment, twoDate, twoName, twoComment, threeDate, threeName, threeComment)
+- IF: ${ commentCount == "0"}
+    -${NO_COMMENT()}
+- ELSEIF: ${ commentCount == "1"}
+    -${ONE_COMMENT(oneDate, oneName, oneComment)}
+- ELSEIF: ${ commentCount == "2"}
+    -${TWO_COMMENT(oneDate, oneName, oneComment, twoDate, twoName, twoComment)}
+- ELSE:
+    -${THREE_COMMENT(oneDate, oneName, oneComment, twoDate, twoName, twoComment, threeDate, threeName, threeComment)}
+
+
+# NO_COMMENT()
+-```
+    {
+        "type": "TextBlock",
+        "text": "There is no comment on this ticket",
+        "wrap": true
+    }
+```
+
+# ONE_COMMENT(oneDate, oneName, oneComment)
+-```
+		{
+            "type": "TextBlock",
+            "text": "**${oneName}** - *${oneDate} CT*",
+            "wrap": true
+        },
+        {
+            "type": "TextBlock",
+            "text": "(Additional comments) ${replace(replace(replace(replace(oneComment,'\n',' '),'\t',' '),'"',''), '\\', ' ')}",
+            "wrap": true
+        }
+```
+
+# TWO_COMMENT(oneDate, oneName, oneComment, twoDate, twoName, twoComment)
+-```
+    {
+        "type": "TextBlock",
+        "text": "**${oneName}** - *${oneDate} CT*",
+        "wrap": true
+    },
+    {
+        "type": "TextBlock",
+        "text": "(Additional comments) ${replace(replace(replace(replace(oneComment,'\n',' '),'\t',' '),'"',''), '\\', ' ')}",
+        "wrap": true
+    },
+    {
+        "type": "TextBlock",
+        "text": "**${twoName}** - *${twoDate} CT*",
+        "wrap": true
+    },
+    {
+        "type": "TextBlock",
+        "text": "(Additional comments) ${replace(replace(replace(replace(twoComment,'\n',' '),'\t',' '),'"',''), '\\', ' ')}",
+        "wrap": true
+    }
+```
+
+# THREE_COMMENT(oneDate, oneName, oneComment, twoDate, twoName, twoComment, threeDate, threeName, threeComment)
+-```
+    {
+        "type": "TextBlock",
+        "text": "**${oneName}** - *${oneDate} CT*",
+        "wrap": true
+    },
+    {
+        "type": "TextBlock",
+        "text": "(Additional comments) ${replace(replace(replace(replace(oneComment,'\n',' '),'\t',' '),'"',''), '\\', ' ')}",
+        "wrap": true
+    },
+    {
+        "type": "TextBlock",
+        "text": "**${twoName}** - *${twoDate} CT*",
+        "wrap": true
+    },
+    {
+        "type": "TextBlock",
+        "text": "(Additional comments) ${replace(replace(replace(replace(twoComment,'\n',' '),'\t',' '),'"',''), '\\', ' ')}",
+        "wrap": true
+    },
+    {
+        "type": "TextBlock",
+        "text": "**${threeName}** - *${threeDate} CT*",
+        "wrap": true
+    },
+    {
+        "type": "TextBlock",
+        "text": "(Additional comments) ${replace(replace(replace(replace(threeComment,'\n',' '),'\t',' '),'"',''), '\\', ' ')}",
+        "wrap": true
+    }
+```
+
+
+# TextInput_Prompt_WomAdu_attachment_wEaLo3()
+-```
+{
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "**Status**",
+                            "wrap": true,
+                            "horizontalAlignment": "left"
+                        },
+                         {
+                            "type": "TextBlock",
+                            "text": "${dialog.incident_state}",
+                            "wrap": true
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "**Name**",
+                            "wrap": true,
+                            "horizontalAlignment": "left"
+                        },
+                           {
+                            "type": "TextBlock",
+                            "text": "[${dialog.number}](${dialog.incidentUrl}) ${replace(replace(replace(replace(dialog.short_description,'\n',' '),'\t',' '),'"',''), '\\', ' ')}",
+                            "wrap": true
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "**Submitted**",
+                            "wrap": true,
+                            "horizontalAlignment": "left"
+                        },
+                         {
+                            "type": "TextBlock",
+                            "text": "${dialog.Oldopened_at} CT",
+                            "wrap": true
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "**Updated**",
+                            "wrap": true,
+                            "horizontalAlignment": "left"
+                        },
+                         {
+                            "type": "TextBlock",
+                            "text": "${dialog.Oldsys_updated_on} CT",
+                            "wrap": true
+                        }
+                    ]
+                }
+            ]
+        },
+{
+            "type": "ActionSet",
+            "actions": [
+                {
+                    "type": "Action.ShowCard",
+                    "title": "Show comment",
+                    "card": {
+                        "type": "AdaptiveCard",
+                        "body": [
+                            ${COMMENTS_SWITCH(dialog.incidentDetails.incidentId, dialog.incidentDetails.incidentUrl, dialog.incidentDetails.shortDescription, dialog.incidentDetails.ticketState, dialog.incidentDetails.sysId, dialog.incidentDetails.openedAt, dialog.incidentDetails.updatedAt, dialog.incidentDetails.commentCount, dialog.incidentDetails.oneDate, dialog.incidentDetails.oneName, dialog.incidentDetails.oneComment, dialog.incidentDetails.twoDate, dialog.incidentDetails.twoName, dialog.incidentDetails.twoComment, dialog.incidentDetails.threeDate, dialog.incidentDetails.threeName, dialog.incidentDetails.threeComment)}
+                        ]
+                    }
+                }
+            ]
+        },
+{
+            "type": "ActionSet",
+            "actions": [
+                {
+                    "type": "Action.Submit",
+                    "title": "Next",
+                    "data": {
+                        "title": "skip"
+                    }
+                }
+            ]
+        }
+    ]
+}
+```
+# TextInput_Prompt_WomAdu()
+[Activity
+    Attachments = ${json(TextInput_Prompt_WomAdu_attachment_wEaLo3())}
+]
+
+# SendActivity_8gP5wX_text()
+- Could not find the incident in serviceNow
+# SendActivity_8gP5wX()
+[Activity
+    Text = ${SendActivity_8gP5wX_text()}
+]

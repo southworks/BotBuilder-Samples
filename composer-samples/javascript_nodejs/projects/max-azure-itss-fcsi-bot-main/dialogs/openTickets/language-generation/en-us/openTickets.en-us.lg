@@ -1,0 +1,725 @@
+[import](common.lg)
+
+# SendActivity_5FuU5B()
+[Activity
+    Text = ${SendActivity_5FuU5B_text()}
+]
+
+# SendActivity_5FuU5B_text()
+- You don't have any open tickets.
+
+
+# TICKETS_SWITCH(incidentId, incidentUrl, shortDescription, ticketState, sysId, openedAt, updatedAt, commentCount, oneDate, oneName, oneComment, twoDate, twoName, twoComment, threeDate, threeName, threeComment, escalationCount, callerId, priority, assignmentGroup, assignedTo)
+- IF: ${ ticketState == "Pending Closure"}
+    -${PendingClosure(incidentId, incidentUrl, shortDescription, ticketState, sysId, openedAt, updatedAt, commentCount, oneDate, oneName, oneComment, twoDate, twoName, twoComment, threeDate, threeName, threeComment)}
+- ELSEIF: ${ ticketState != "Pending Closure" && escalationCount == '0' }
+    -${IncidentEscalate(incidentId, incidentUrl, shortDescription, ticketState, sysId, openedAt, updatedAt, commentCount, oneDate, oneName, oneComment, twoDate, twoName, twoComment, threeDate, threeName, threeComment, escalationCount, callerId, priority, assignmentGroup, assignedTo)}
+- ELSE:
+    -${TABLE_ROWS(incidentId, incidentUrl, shortDescription, ticketState, sysId, openedAt, updatedAt, commentCount, oneDate, oneName, oneComment, twoDate, twoName, twoComment, threeDate, threeName, threeComment)}
+
+# COMMENTS_SWITCH(incidentId, incidentUrl, shortDescription, ticketState, sysId, openedAt, updatedAt, commentCount, oneDate, oneName, oneComment, twoDate, twoName, twoComment, threeDate, threeName, threeComment)
+- IF: ${ commentCount == "0"}
+    -${NO_COMMENT()}
+- ELSEIF: ${ commentCount == "1"}
+    -${ONE_COMMENT(oneDate, oneName, oneComment)}
+- ELSEIF: ${ commentCount == "2"}
+    -${TWO_COMMENT(oneDate, oneName, oneComment, twoDate, twoName, twoComment)}
+- ELSE:
+    -${THREE_COMMENT(oneDate, oneName, oneComment, twoDate, twoName, twoComment, threeDate, threeName, threeComment)}
+
+# Check_Tickets_Num(totalTicketsNum)
+- IF: ${int(totalTicketsNum) > 10}
+	-${HighTicketsNum()}
+- ELSE:
+	-${LowTicketsNum()}
+	
+# HighTicketsNum()
+-```
+{
+    "type": "TextBlock",
+    "text": "We are showing your recent 10 tickets. for more open tickets please click **[View More](${settings.thdi.helpdeskTicketUrl})**",
+    "wrap": true
+},
+{
+            "type": "ActionSet",
+            "actions": [
+                {
+                    "type": "Action.Submit",
+                    "title": "Continue",
+                    "data": {
+                        "title": "skip"
+                    }
+                }
+            ]
+        }
+    ]
+}
+```
+
+# LowTicketsNum()
+-```
+{
+            "type": "ActionSet",
+            "actions": [
+                {
+                    "type": "Action.Submit",
+                    "title": "Continue",
+                    "data": {
+                        "title": "skip"
+                    }
+                }
+            ]
+        }
+    ]
+}
+```
+
+# NO_COMMENT()
+-```
+    {
+        "type": "TextBlock",
+        "text": "There is no comment on this ticket",
+        "wrap": true
+    }
+```
+
+# ONE_COMMENT(oneDate, oneName, oneComment)
+-```
+		{
+            "type": "TextBlock",
+            "text": "**${oneName}** - *${oneDate} CT*",
+            "wrap": true
+        },
+        {
+            "type": "TextBlock",
+            "text": "(Additional comments) ${replace(replace(replace(replace(oneComment,'\n',' '),'\t',' '),'"',''), '\\', ' ')}",
+            "wrap": true
+        }
+```
+
+# TWO_COMMENT(oneDate, oneName, oneComment, twoDate, twoName, twoComment)
+-```
+    {
+        "type": "TextBlock",
+        "text": "**${oneName}** - *${oneDate} CT*",
+        "wrap": true
+    },
+    {
+        "type": "TextBlock",
+        "text": "(Additional comments) ${replace(replace(replace(replace(oneComment,'\n',' '),'\t',' '),'"',''), '\\', ' ')}",
+        "wrap": true
+    },
+    {
+        "type": "TextBlock",
+        "text": "**${twoName}** - *${twoDate} CT*",
+        "wrap": true
+    },
+    {
+        "type": "TextBlock",
+        "text": "(Additional comments) ${replace(replace(replace(replace(twoComment,'\n',' '),'\t',' '),'"',''), '\\', ' ')}",
+        "wrap": true
+    }
+```
+
+# THREE_COMMENT(oneDate, oneName, oneComment, twoDate, twoName, twoComment, threeDate, threeName, threeComment)
+-```
+    {
+        "type": "TextBlock",
+        "text": "**${oneName}** - *${oneDate} CT*",
+        "wrap": true
+    },
+    {
+        "type": "TextBlock",
+        "text": "(Additional comments) ${replace(replace(replace(replace(oneComment,'\n',' '),'\t',' '),'"',''), '\\', ' ')}",
+        "wrap": true
+    },
+    {
+        "type": "TextBlock",
+        "text": "**${twoName}** - *${twoDate} CT*",
+        "wrap": true
+    },
+    {
+        "type": "TextBlock",
+        "text": "(Additional comments) ${replace(replace(replace(replace(twoComment,'\n',' '),'\t',' '),'"',''), '\\', ' ')}",
+        "wrap": true
+    },
+    {
+        "type": "TextBlock",
+        "text": "**${threeName}** - *${threeDate} CT*",
+        "wrap": true
+    },
+    {
+        "type": "TextBlock",
+        "text": "(Additional comments) ${replace(replace(replace(replace(threeComment,'\n',' '),'\t',' '),'"',''), '\\', ' ')}",
+        "wrap": true
+    }
+```
+
+# PendingClosure(incidentId, incidentUrl, shortDescription, ticketState, sysId, openedAt, updatedAt, commentCount, oneDate, oneName, oneComment, twoDate, twoName, twoComment, threeDate, threeName, threeComment)
+-```
+{
+            "type": "ColumnSet",
+            "separator": true,
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "${ticketState}",
+                            "wrap": true
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "[${incidentId}](${incidentUrl}) ${replace(replace(replace(replace(shortDescription,'\n',' '),'\t',' '),'"',''), '\\', ' ')}",
+                            "wrap": true
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "${openedAt} CT",
+                            "wrap": true
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "${updatedAt} CT",
+                            "wrap": true
+                        }
+                    ]
+                }
+            ]
+        },
+      
+        {
+            "type": "ActionSet",
+            "actions": [
+                {
+                    "type": "Action.ShowCard",
+                    "title": "Show comment",
+                    "card": {
+                        "type": "AdaptiveCard",
+                        "body": [
+                            ${COMMENTS_SWITCH(incidentId, incidentUrl, shortDescription, ticketState, sysId, openedAt, updatedAt, commentCount, oneDate, oneName, oneComment, twoDate, twoName, twoComment, threeDate, threeName, threeComment)}
+                        ]
+                    }
+                }
+            ]
+        }
+```
+# IncidentEscalate(incidentId, incidentUrl, shortDescription, ticketState, sysId, openedAt, updatedAt, commentCount, oneDate, oneName, oneComment, twoDate, twoName, twoComment, threeDate, threeName, threeComment, escalationCount, callerId, priority, assignmentGroup, assignedTo)
+-```
+{
+            "type": "ColumnSet",
+            "separator": true,
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "${ticketState}",
+                            "wrap": true
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "[${incidentId}](${incidentUrl}) ${replace(replace(replace(replace(shortDescription,'\n',' '),'\t',' '),'"',''), '\\', ' ')}",
+                            "wrap": true
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "${openedAt} CT",
+                            "wrap": true
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "${updatedAt} CT",
+                            "wrap": true
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+        "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "ActionSet",
+                            "actions": [
+                                {
+                                    "type": "Action.Submit",
+                                    "title": "Add comment",
+                                    "data": {
+                                        "title": "addNote",
+                                        "ticketNumber": "${incidentId}",
+                                        "sysId": "${sysId}"
+                                    }                          
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "ActionSet",
+                            "actions": [
+                                {
+                                    "type": "Action.Submit",
+                                    "title": "Close",
+                                    "data": {
+                                        "title": "closeInc",
+                                        "ticketNumber": "${incidentId}",
+                                        "sysId": "${sysId}"
+                                    }                          
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "ActionSet",
+                            "actions": [
+                                {
+                                    "type": "Action.Submit",
+                                    "title": "Escalate",
+                                    "data": {
+                                        "title": "escalateInc",
+                                        "ticketNumber": "${incidentId}",
+                                        "sysId": "${sysId}",
+                                        "escalationCount": "${escalationCount}",
+                                        "callerId": "${callerId}",
+                                        "priority": "${priority}",
+                                        "assignmentGroup": "${assignmentGroup}",
+                                        "assignedTo": "${assignedTo}"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "ActionSet",
+            "actions": [
+                {
+                    "type": "Action.ShowCard",
+                    "title": "Show comment",
+                    "card": {
+                        "type": "AdaptiveCard",
+                        "body": [
+                            ${COMMENTS_SWITCH(incidentId, incidentUrl, shortDescription, ticketState, sysId, openedAt, updatedAt, commentCount, oneDate, oneName, oneComment, twoDate, twoName, twoComment, threeDate, threeName, threeComment)}
+                        ]
+                    }
+                }
+            ]
+        }
+        
+```
+
+# TABLE_ROWS(incidentId, incidentUrl, shortDescription, ticketState, sysId, openedAt, updatedAt, commentCount, oneDate, oneName, oneComment, twoDate, twoName, twoComment, threeDate, threeName, threeComment)
+-```
+{
+            "type": "ColumnSet",
+            "separator": true,
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "${ticketState}",
+                            "wrap": true
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "[${incidentId}](${incidentUrl}) ${replace(replace(replace(replace(shortDescription,'\n',' '),'\t',' '),'"',''), '\\', ' ')}",
+                            "wrap": true
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "${openedAt} CT",
+                            "wrap": true
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "${updatedAt} CT",
+                            "wrap": true
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+        "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "ActionSet",
+                            "actions": [
+                                {
+                                    "type": "Action.Submit",
+                                    "title": "Add comment",
+                                    "data": {
+                                        "title": "addNote",
+                                        "ticketNumber": "${incidentId}",
+                                        "sysId": "${sysId}"
+                                    }                          
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "ActionSet",
+                            "actions": [
+                                {
+                                    "type": "Action.Submit",
+                                    "title": "Close",
+                                    "data": {
+                                        "title": "closeInc",
+                                        "ticketNumber": "${incidentId}",
+                                        "sysId": "${sysId}"
+                                    }                          
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "ActionSet",
+            "actions": [
+                {
+                    "type": "Action.ShowCard",
+                    "title": "Show comment",
+                    "card": {
+                        "type": "AdaptiveCard",
+                        "body": [
+                            ${COMMENTS_SWITCH(incidentId, incidentUrl, shortDescription, ticketState, sysId, openedAt, updatedAt, commentCount, oneDate, oneName, oneComment, twoDate, twoName, twoComment, threeDate, threeName, threeComment)}
+                        ]
+                    }
+                }
+            ]
+        }
+        
+```
+
+# TABLE_HEADER(datas) 
+-```
+{
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "**Status**",
+                            "wrap": true,
+                            "horizontalAlignment": "left"
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "**Name**",
+                            "wrap": true,
+                            "horizontalAlignment": "left"
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "**Submitted**",
+                            "wrap": true,
+                            "horizontalAlignment": "left"
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "**Updated**",
+                            "wrap": true,
+                            "horizontalAlignment": "left"
+                        }
+                    ]
+                }
+            ]
+        },
+${join(foreach(datas, data, TICKETS_SWITCH(data.incidentId, data.incidentUrl, data.shortDescription, data.ticketState, data.sysId, data.openedAt, data.updatedAt, data.commentCount, data.oneDate, data.oneName, data.oneComment, data.twoDate, data.twoName, data.twoComment, data.threeDate, data.threeName, data.threeComment, data.escalationCount, data.callerId, data.priority, data.assignmentGroup, data.assignedTo)), ',')},
+${Check_Tickets_Num(datas[0].totalTicketsNum)}
+```
+# TextInput_Prompt_HOyeEU()
+[Activity
+    Attachments = ${json(TABLE_HEADER(dialog.openTicketsInfo))}
+]
+# TextInput_Prompt_5arTNd()
+[Activity
+    Attachments = ${json(TextInput_Prompt_5arTNd_attachment_ZJkvyn())}
+]
+
+# TextInput_Prompt_5arTNd_attachment_ZJkvyn()
+> To learn more Adaptive Cards format, read the documentation at
+> https://docs.microsoft.com/en-us/adaptive-cards/getting-started/bots
+- ```
+{
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "label": "Please enter your comment below for ${conversation.incidentIdSel} (max 1000 chars):",
+                    "type": "Input.Text",
+                    "id": "commentAdded",
+                    "isMultiline": true,
+                    "maxLength": 1000,
+                    "isRequired": true,
+                    "errorMessage": "Please write a comment before submitting",
+                    "height": "stretch",
+                    "placeholder": "Write your comment here"
+                },
+                {
+                    "type": "ActionSet",
+                    "actions": [
+                        {
+                            "type": "Action.Submit",
+                            "title": "Submit"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+```
+# TextInput_Prompt_egAw21_attachment_ZJkvyn()
+> To learn more Adaptive Cards format, read the documentation at
+> https://docs.microsoft.com/en-us/adaptive-cards/getting-started/bots
+- ```
+{
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "label": "Please enter escalation reason below for ${conversation.incidentIdSel} (max 1000 chars):",
+                    "type": "Input.Text",
+                    "id": "escalationAdded",
+                    "isMultiline": true,
+                    "maxLength": 1000,
+                    "isRequired": true,
+                    "errorMessage": "Please enter a escalation reason before submitting",
+                    "height": "stretch",
+                    "placeholder": "Write your escalation reason here"
+                },
+                {
+                    "type": "ActionSet",
+                    "actions": [
+                        {
+                            "type": "Action.Submit",
+                            "title": "Submit"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+```
+# TextInput_Prompt_egAw21()
+[Activity
+    Attachments = ${json(TextInput_Prompt_egAw21_attachment_ZJkvyn())}
+]
+# TextInput_InvalidPrompt_HOyeEU()
+[Activity
+    Attachments = ${json(TABLE_HEADER(dialog.openTicketsInfo))}
+]
+# REPROMPT_TABLE_HEADER(datas)
+> To learn more Adaptive Cards format, read the documentation at
+> https://docs.microsoft.com/en-us/adaptive-cards/getting-started/bots
+- ```
+{
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.3",
+    "body": [        {
+            "type": "TextBlock",
+            "text": "*Please click on a button instead of typing*",
+            "wrap": true
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "**Status**",
+                            "wrap": true,
+                            "horizontalAlignment": "left"
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "**Name**",
+                            "wrap": true,
+                            "horizontalAlignment": "left"
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "**Submitted**",
+                            "wrap": true,
+                            "horizontalAlignment": "left"
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "**Updated**",
+                            "wrap": true,
+                            "horizontalAlignment": "left"
+                        }
+                    ]
+                }
+            ]
+        },
+${join(foreach(datas, data, TICKETS_SWITCH(data.incidentId, data.incidentUrl, data.shortDescription, data.ticketState, data.sysId, data.openedAt, data.updatedAt, data.commentCount, data.oneDate, data.oneName, data.oneComment, data.twoDate, data.twoName, data.twoComment, data.threeDate, data.threeName, data.threeComment, data.escalationCount, data.callerId, data.priority, data.assignmentGroup, data.assignedTo)), ',')},
+${Check_Tickets_Num(datas[0].totalTicketsNum)}
+```
+# SendActivity_Xgn51M()
+[Activity
+    Text = ${SendActivity_Xgn51M_text()}
+]
+
+# SendActivity_Xgn51M_text()
+- We are returning you back to SmartBot because of invalid inputs
+# SendActivity_gYAQUG()
+[Activity
+    Text = ${SendActivity_gYAQUG_text()}
+]
+
+# SendActivity_gYAQUG_text()
+- You added an empty comment. This comment can not be added to the ticket.
+# SendActivity_oJ51R8()
+[Activity
+    Text = ${SendActivity_oJ51R8_text()}
+]
+
+# SendActivity_oJ51R8_text()
+- Escalation reason can not be empty or blank.

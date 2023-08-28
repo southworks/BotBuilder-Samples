@@ -1,0 +1,7 @@
+{
+  "$kind": "Microsoft.QnAMakerRecognizer",
+  "id": "QnA_itss-fcsi-bot",
+  "knowledgeBaseId": "=settings.qna.itss_fcsi_bot_en_us_qna",
+  "hostname": "=settings.qna.hostname",
+  "endpointKey": "=settings.qna.endpointKey"
+}

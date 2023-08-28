@@ -1,0 +1,154 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "YPDIWF",
+    "name": "AfterGreeting",
+    "comment": "This dialog is called after greeting the user"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "RqQoZt"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "7ThAee"
+          },
+          "property": "conversation.pathTaken",
+          "value": "=concat(conversation.pathTaken,\" -> \",\"AfterGreeting\")"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "BHvGWq"
+          },
+          "property": "conversation.FunctionDetails"
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "0rr7Vc"
+          },
+          "properties": "{\"pathTraversed\" : `${conversation.pathTaken}`}",
+          "name": "user-path"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "DOuDXR"
+          },
+          "assignments": [
+            {
+              "property": "conversation.BomgarAvailable",
+              "value": false
+            },
+            {
+              "property": "conversation.GenesysAvailable",
+              "value": false
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "I5Ip5i"
+          },
+          "condition": "= conversation.urllivechatavailable == '1'",
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "91Bx0H"
+              },
+              "activityProcessed": true,
+              "dialog": "LiveChatAvailabilities"
+            },
+            {
+              "$kind": "Microsoft.HttpRequest",
+              "$designer": {
+                "id": "9tW76g",
+                "comment": "Make an API call to Fun_SubFun.json in blob storage and store it in a property"
+              },
+              "resultProperty": "dialog.SubFunctionResponse",
+              "method": "GET",
+              "url": "=`${settings.chat.GenesysFunSubFunc}`"
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "yvX5Sl"
+              },
+              "property": "conversation.FunctionDetails",
+              "value": "=dialog.SubFunctionResponse.content"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "oOBxuB",
+            "name": "Branch: If/else"
+          },
+          "condition": "= conversation.GenesysAvailable",
+          "actions": [
+            {
+              "$kind": "SendEventTelemetry",
+              "$designer": {
+                "id": "dm8Gfo"
+              },
+              "properties": "{\"chatMethod\" : \"Genesys\"}",
+              "name": "chat-method"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "SendEventTelemetry",
+              "$designer": {
+                "id": "TQo8TC"
+              },
+              "properties": "{\"chatMethod\" : \"Bomgar\"}",
+              "name": "chat-method"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "ZIzumt"
+          },
+          "condition": "= conversation.urllivechatavailable == '1' && conversation.GenesysAvailable",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "2WWH4P"
+              },
+              "activityProcessed": true,
+              "dialog": "flowDecider"
+            }
+          ],
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "8oLIuJ"
+              },
+              "activityProcessed": true,
+              "dialog": "GenesysExisting"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "AfterGreeting.lg",
+  "recognizer": "AfterGreeting.lu.qna",
+  "id": "AfterGreeting"
+}

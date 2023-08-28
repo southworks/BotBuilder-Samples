@@ -1,0 +1,135 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "NnChXA",
+    "name": "uploadFiles1B",
+    "comment": "two verify that user has uploaded only one file"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "b682hK"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "LZHxDl"
+          },
+          "property": "conversation.pathTaken",
+          "value": "=concat(conversation.pathTaken,\" -> \",\"uploadFiles1B\")"
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "uv1Jou"
+          },
+          "properties": "{\"pathTraversed\" : `${conversation.pathTaken}`}",
+          "name": "user-path"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "cB93L8"
+          },
+          "activity": "${SendActivity_cB93L8()}",
+          "disabled": true
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "Bai3Rd"
+          },
+          "property": "conversation.attachment_confirmTwo"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "iz0nK1"
+          },
+          "disabled": false,
+          "maxTurnCount": 3,
+          "alwaysPrompt": false,
+          "allowInterruptions": false,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "defaultValueResponse": "",
+          "prompt": "${TextInput_Prompt_iz0nK1()}",
+          "property": "conversation.attachment_confirmTwo",
+          "value": "=turn.activity.value.title"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "t5baTc"
+          },
+          "condition": "= conversation.attachment_confirmTwo == 'Yes'",
+          "actions": [
+            {
+              "$kind": "Microsoft.AttachmentInput",
+              "$designer": {
+                "id": "kQqGVV"
+              },
+              "disabled": false,
+              "maxTurnCount": 3,
+              "alwaysPrompt": false,
+              "allowInterruptions": false,
+              "unrecognizedPrompt": "",
+              "invalidPrompt": "",
+              "prompt": "${AttachmentInput_Prompt_kQqGVV()}",
+              "property": "conversation.imgAttachTwo",
+              "outputFormat": "all"
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "ajgTnj"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.numOfFilesTwo",
+                  "value": "=count(conversation.imgAttachTwo)"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "f1PTsV"
+              },
+              "condition": "= conversation.numOfFilesTwo == 1",
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.DeleteProperties",
+                  "$designer": {
+                    "id": "T4uqNh"
+                  },
+                  "properties": [
+                    "conversation.numOfFilesTwo",
+                    "conversation.imgAttachTwo"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "DeECGo"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "uploadFiles1A"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "uploadFile2B.lg",
+  "recognizer": "uploadFile2B.lu.qna",
+  "id": "uploadFile2B"
+}

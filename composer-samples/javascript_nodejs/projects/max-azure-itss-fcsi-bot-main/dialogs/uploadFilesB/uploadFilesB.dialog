@@ -1,0 +1,143 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "rtZKOl",
+    "name": "uploadFilesB",
+    "comment": "this is a support dialog to attachments uploading feature"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "28dD9y"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "Ofr6S0"
+          },
+          "property": "conversation.pathTaken",
+          "value": "=concat(conversation.pathTaken,\" -> \",\"uploadFilesB\")"
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "QYnCng"
+          },
+          "properties": "{\"pathTraversed\" : `${conversation.pathTaken}`}",
+          "name": "user-path"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "orcYac"
+          },
+          "activity": "${SendActivity_orcYac()}",
+          "disabled": true
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "I6KpZE"
+          },
+          "property": "conversation.attachment_confirm"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "9HFuXh"
+          },
+          "disabled": false,
+          "maxTurnCount": 3,
+          "alwaysPrompt": false,
+          "allowInterruptions": false,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "defaultValueResponse": "",
+          "prompt": "${TextInput_Prompt_9HFuXh()}",
+          "property": "conversation.attachment_confirm",
+          "value": "=turn.activity.value.title"
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "YtTZDq"
+          },
+          "properties": "{\"ExceedAttachmentConfirm\" : `${conversation.attachmnet_confirm`}",
+          "name": "user-exceedattachment"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "IBZJjf"
+          },
+          "condition": "= conversation.attachment_confirm == 'Yes'",
+          "actions": [
+            {
+              "$kind": "Microsoft.AttachmentInput",
+              "$designer": {
+                "id": "MNIo3Y"
+              },
+              "disabled": false,
+              "maxTurnCount": 3,
+              "alwaysPrompt": false,
+              "allowInterruptions": false,
+              "unrecognizedPrompt": "",
+              "invalidPrompt": "",
+              "prompt": "${AttachmentInput_Prompt_MNIo3Y()}",
+              "property": "conversation.imgAttach",
+              "outputFormat": "all"
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "Ngc3QI"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.numOfFiles",
+                  "value": "=count(conversation.imgAttach)"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "RLwAEJ"
+              },
+              "condition": "= conversation.numOfFiles <=2",
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.DeleteProperties",
+                  "$designer": {
+                    "id": "hUVS7U"
+                  },
+                  "properties": [
+                    "conversation.numOfFiles",
+                    "conversation.imgAttach"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "CsXwOm"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "uploadFilesA"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "uploadFilesB.lg",
+  "recognizer": "uploadFilesB.lu.qna",
+  "id": "uploadFilesB"
+}

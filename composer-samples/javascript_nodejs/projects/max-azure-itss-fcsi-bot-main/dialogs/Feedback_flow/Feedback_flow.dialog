@@ -1,0 +1,352 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "76kjvQ",
+    "name": "Feedback_flow",
+    "comment": "Contains the feedback form & their flows"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "CkIFxn"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "2BB7gI"
+          },
+          "property": "conversation.pathTaken",
+          "value": "=concat(conversation.pathTaken,\" -> \",\" Feedback-flow\")"
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "dXup6l"
+          },
+          "properties": "{\"pathTraversed\" : `${conversation.pathTaken}`}",
+          "name": "user-path"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "yZH731"
+          },
+          "condition": "=getProperty(conversation, 'skillObj')",
+          "actions": [
+            {
+              "$kind": "Microsoft.TextInput",
+              "$designer": {
+                "id": "0e7Jvk"
+              },
+              "disabled": false,
+              "maxTurnCount": 3,
+              "alwaysPrompt": true,
+              "allowInterruptions": false,
+              "prompt": "${TextInput_Prompt_0e7Jvk()}",
+              "property": "dialog.feedback",
+              "value": "=turn.activity.value.title",
+              "validations": [
+                "this.value == \"Helpful\" || this.value == \"NotHelpful\""
+              ],
+              "invalidPrompt": "${TextInput_InvalidPrompt_0e7Jvk()}"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "oTztxU"
+              },
+              "condition": "=dialog.feedback == \"NotHelpful\"",
+              "actions": [
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "j8sMI8"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 3,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": false,
+                  "prompt": "${TextInput_Prompt_j8sMI8()}",
+                  "property": "dialog.negativeValue",
+                  "value": "=turn.activity.value.title",
+                  "validations": [
+                    "this.value == 'Submit'"
+                  ],
+                  "invalidPrompt": "${TextInput_InvalidPrompt_j8sMI8()}"
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "IxrIhm"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.negativeFeedback",
+                      "value": "=turn.activity.value.maxFeedback"
+                    },
+                    {
+                      "property": "dialog.negativeFeedbackOthers",
+                      "value": "=turn.activity.value.othersFeedback"
+                    },
+                    {
+                      "property": "conversation.ff",
+                      "value": "=dialog.negativeFeedback"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "TtpWBE"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.negativeFeedbacks",
+                      "value": "=split(dialog.negativeFeedback, ',')"
+                    },
+                    {
+                      "property": "dialog.Opt1",
+                      "value": "=if(contains(dialog.negativeFeedbacks, 'Did not understand what I needed'), 'true', 'false')"
+                    },
+                    {
+                      "property": "dialog.Opt2",
+                      "value": "=if(contains(dialog.negativeFeedbacks, 'Gave unhelpful reference and the issue is still unresolved'), 'true', 'false')"
+                    },
+                    {
+                      "property": "dialog.Opt3",
+                      "value": "=if(contains(dialog.negativeFeedbacks, 'Freezes or closes in the middle of the session'), 'true', 'false')"
+                    },
+                    {
+                      "property": "dialog.Opt4",
+                      "value": "=if(contains(dialog.negativeFeedbacks, 'Is complicated to use'), 'true', 'false')"
+                    },
+                    {
+                      "property": "dialog.Opt5",
+                      "value": "=if(contains(dialog.negativeFeedbacks, \"Language is hard to understand or communicate with\"), 'true', 'false')"
+                    },
+                    {
+                      "property": "dialog.Opt6",
+                      "value": "=if(contains(dialog.negativeFeedbacks, 'Others'), 'true', 'false')"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "SendEventTelemetry",
+                  "$designer": {
+                    "id": "XyUPvq"
+                  },
+                  "name": "user-feedback",
+                  "properties": "{ \"feedback\" : \"Negative\",  \"Did not understand what I needed\" : `${dialog.Opt1}`,\"Gave unhelpful reference and the issue is still unresolved\": `${dialog.Opt2}`, \"Freezes or closes in the middle of the session\" : `${dialog.Opt3}`,\"Is complicated to use\" : `${dialog.Opt4}`,\"Language is hard to understand or communicate with\" : `${dialog.Opt5}`,\"Other (please specify)\" : `${dialog.Opt6}`, \"Other Resaon\" : `${dialog.negativeFeedbackOthers}`}"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "KqPSwC"
+                  },
+                  "activity": "${SendActivity_KqPSwC()}"
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "SendEventTelemetry",
+                  "$designer": {
+                    "id": "wgxt0h"
+                  },
+                  "name": "user-feedback",
+                  "properties": "{ \"feedback\" : \"positive\"}"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "aXqXfC"
+                  },
+                  "activity": "${SendActivity_aXqXfC()}"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.CancelAllDialogs",
+              "$designer": {
+                "id": "bXUN6L"
+              },
+              "activityProcessed": true
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.TextInput",
+              "$designer": {
+                "id": "oCXjR3"
+              },
+              "disabled": false,
+              "maxTurnCount": 1,
+              "alwaysPrompt": false,
+              "allowInterruptions": false,
+              "unrecognizedPrompt": "",
+              "prompt": "${TextInput_Prompt_oCXjR3()}",
+              "property": "dialog.feedback",
+              "validations": [
+                "json(this.value).title == \"Helpful\" || json(this.value).title == \"NotHelpful\""
+              ],
+              "invalidPrompt": "${TextInput_InvalidPrompt_oCXjR3()}"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "lQyz9Y"
+              },
+              "actions": [
+                {
+                  "$kind": "SendEventTelemetry",
+                  "$designer": {
+                    "id": "rBiL4Q"
+                  },
+                  "name": "user-feedback",
+                  "properties": "{ \"feedback\" : \"positive\"}"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "9Kh2rL"
+                  },
+                  "condition": "=utcNow('', 'en-US') > conversation.After50minute",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "dh8Gmf"
+                      },
+                      "activity": "${SendActivity_dh8Gmf()}"
+                    },
+                    {
+                      "$kind": "Microsoft.DeleteProperty",
+                      "$designer": {
+                        "id": "3uSVKE"
+                      },
+                      "property": "conversation.After50minute"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.TextInput",
+                      "$designer": {
+                        "id": "0FrkZD"
+                      },
+                      "disabled": false,
+                      "maxTurnCount": 1,
+                      "alwaysPrompt": false,
+                      "allowInterruptions": false,
+                      "prompt": "${TextInput_Prompt_0FrkZD()}",
+                      "property": "dialog.continueChat",
+                      "value": "=turn.activity.value.continueChat",
+                      "validations": [],
+                      "invalidPrompt": "${TextInput_InvalidPrompt_0FrkZD()}"
+                    },
+                    {
+                      "$kind": "SendEventTelemetry",
+                      "$designer": {
+                        "id": "kP6Y5U"
+                      },
+                      "name": "continueChat",
+                      "properties": "{ \"answer\" : \"yes\"}"
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "b9RNn9"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "AfterGreeting"
+                    }
+                  ]
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "SendEventTelemetry",
+                  "$designer": {
+                    "id": "XQheUh"
+                  },
+                  "name": "user-feedback",
+                  "properties": "{ \"feedback\" : \"Negative\", \"Did not understand what I needed\" : `${turn.activity.value.Opt1}`,\"Gave unhelpful reference and the issue is still unresolved\": `${turn.activity.value.Opt2}`, \"Freezes or closes in the middle of the session\" : `${turn.activity.value.Opt3}`,\"Is complicated to use\" : `${turn.activity.value.Opt4}`,\"Language is hard to understand or communicate with\" : `${turn.activity.value.Opt5}`,\"Other (please specify)\" : `${turn.activity.value.Opt6}`,\"Other Resaon\" : `${turn.activity.value.Opt7}`}"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "kcdzC3"
+                  },
+                  "condition": "=utcNow('', 'en-US') > conversation.After50minute",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "76lOaE"
+                      },
+                      "activity": "${SendActivity_76lOaE()}"
+                    },
+                    {
+                      "$kind": "Microsoft.DeleteProperty",
+                      "$designer": {
+                        "id": "IRUfvg"
+                      },
+                      "property": "conversation.After50minute"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.TextInput",
+                      "$designer": {
+                        "id": "c32yz8"
+                      },
+                      "disabled": false,
+                      "maxTurnCount": 1,
+                      "alwaysPrompt": false,
+                      "allowInterruptions": false,
+                      "prompt": "${TextInput_Prompt_c32yz8()}",
+                      "property": "dialog.continueChat",
+                      "value": "=turn.activity.value.continueChat",
+                      "validations": [],
+                      "invalidPrompt": "${TextInput_InvalidPrompt_c32yz8()}"
+                    },
+                    {
+                      "$kind": "SendEventTelemetry",
+                      "$designer": {
+                        "id": "Mb8HD5"
+                      },
+                      "name": "continueChat",
+                      "properties": "{ \"answer\" : \"yes\"}"
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "JNMxCn"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "AfterGreeting"
+                    }
+                  ]
+                }
+              ],
+              "condition": "=turn.activity.value.Opt1 =='false' && turn.activity.value.Opt2 =='false' && turn.activity.value.Opt3 =='false' && turn.activity.value.Opt4 =='false' && turn.activity.value.Opt5 =='false' && turn.activity.value.Opt6 =='false'"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "ERXOO4"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "Feedback_flow.lg",
+  "recognizer": "Feedback_flow.lu.qna",
+  "id": "Feedback_flow"
+}

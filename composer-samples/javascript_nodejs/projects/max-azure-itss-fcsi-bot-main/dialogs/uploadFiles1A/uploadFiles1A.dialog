@@ -1,0 +1,135 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "NESGJ1",
+    "name": "uploadFiles1A",
+    "comment": "two verify that user has uploaded only one file"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "lIZn6A"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "61gwrH"
+          },
+          "property": "conversation.pathTaken",
+          "value": "=concat(conversation.pathTaken,\" -> \",\"uploadFiles1A\")"
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "bAWQ3j"
+          },
+          "properties": "{\"pathTraversed\" : `${conversation.pathTaken}`}",
+          "name": "user-path"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "RvIcjP"
+          },
+          "activity": "${SendActivity_RvIcjP()}",
+          "disabled": true
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "ZF9dF7"
+          },
+          "property": "conversation.attachment_confirmTwo"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "iHLaJb"
+          },
+          "disabled": false,
+          "maxTurnCount": 3,
+          "alwaysPrompt": false,
+          "allowInterruptions": false,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "defaultValueResponse": "",
+          "prompt": "${TextInput_Prompt_iHLaJb()}",
+          "property": "conversation.attachment_confirmTwo",
+          "value": "=turn.activity.value.title"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "FcY22M"
+          },
+          "condition": "= conversation.attachment_confirmTwo == 'Yes'",
+          "actions": [
+            {
+              "$kind": "Microsoft.AttachmentInput",
+              "$designer": {
+                "id": "DH2MJU"
+              },
+              "disabled": false,
+              "maxTurnCount": 3,
+              "alwaysPrompt": false,
+              "allowInterruptions": false,
+              "unrecognizedPrompt": "",
+              "invalidPrompt": "",
+              "prompt": "${AttachmentInput_Prompt_DH2MJU()}",
+              "property": "conversation.imgAttachTwo",
+              "outputFormat": "all"
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "2axuQr"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.numOfFilesTwo",
+                  "value": "=count(conversation.imgAttachTwo)"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "GWxxbm"
+              },
+              "condition": "= conversation.numOfFilesTwo == 1",
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.DeleteProperties",
+                  "$designer": {
+                    "id": "iVPhSx"
+                  },
+                  "properties": [
+                    "conversation.numOfFilesTwo",
+                    "conversation.imgAttachTwo"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "fW5tcM"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "uploadFile2B"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "uploadFiles1A.lg",
+  "recognizer": "uploadFiles1A.lu.qna",
+  "id": "uploadFiles1A"
+}

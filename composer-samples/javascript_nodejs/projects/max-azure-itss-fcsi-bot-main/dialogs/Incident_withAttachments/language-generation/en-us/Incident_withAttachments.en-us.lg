@@ -1,0 +1,584 @@
+[import](common.lg)
+
+# ChoiceInput_Prompt_TJkyRv_text()
+- Are you ready to submit this ticket?
+# ChoiceInput_Prompt_TJkyRv()
+[Activity
+    Text = ${ChoiceInput_Prompt_TJkyRv_text()}
+]
+
+# TextInput_Prompt_zCm2PF_attachment_pKwrrA()
+> To learn more Adaptive Cards format, read the documentation at
+> https://docs.microsoft.com/en-us/adaptive-cards/getting-started/bots
+- ```{
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "RichTextBlock",
+            "inlines": [
+                {
+                    "type": "TextRun",
+                    "italic": true,
+                    "color": "Good",
+                    "text": "Do you have any protected data to include as part of this ticket? (Only include protected data (PHI/PII) in the encrypted Protected Information field below, if applicable.)"
+                }
+            ]
+        },
+        {
+            "type": "Input.Text",
+            "label": "Protected Information",
+            "id": "ProtectedVal",
+            "value": "${conversation.adaptive_protected}",
+            "isMultiline": true,
+            "errorMessage": "Value is required"
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "Input.ChoiceSet",
+                            "choices": [
+                                {
+                                    "title": "Phone",
+                                    "value": "phone"
+                                },
+                                {
+                                    "title": "Email",
+                                    "value": "email"
+                                },
+                                {
+                                    "title": "Chat",
+                                    "value": "chat"
+                                }
+                            ],
+                            "id": "ContactType",
+                            "label": "Preferred method of contact",
+                            "value": "${conversation.adaptive_contacttype}",
+                            "wrap": true,
+                            "isRequired": true,
+                            "errorMessage": "Value is required"
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "Input.Text",
+                            "label": "Phone number (xxx-xxx-xxxx)",
+                            "style": "Tel",
+                            "id": "TelVal",
+                            "value": "${conversation.adaptive_phone}",
+                            "regex": "^[0-9]{3}-[0-9]{3}-[0-9]{4}$",
+                            "errorMessage": "Invalid format (E.g., 555-555-5555)",
+                            "maxLength": 12,
+                            "spacing": "Large",
+                            "isMultiline": true
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "Input.ChoiceSet",
+                            "id": "TimeZSelectVal",
+                            "value": "${conversation.adaptive_timezone}",
+                            "label": "Time zone ",
+                            "isRequired": true,
+                            "errorMessage": "Value is required",
+                            "choices": [
+                                {
+                                    "title": "CST",
+                                    "value": "CT"
+                                },
+                                {
+                                    "title": "IST",
+                                    "value": "IST"
+                                }
+                            ],
+                            "wrap": true
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "Input.ChoiceSet",
+                            "id": "HoursSelectVal",
+                            "label": "Hours of Availability ",
+                            "value": "${conversation.adaptive_availability}",
+                            "isRequired": true,
+                            "errorMessage": "Value is required",
+                            "choices": [
+                                {
+                                    "title": "5:00 AM - 8:00 AM",
+                                    "value": "5:00 AM - 8:00 AM"
+                                },
+                                {
+                                    "title": "8:00 AM - 11:00 AM",
+                                    "value": "8:00 AM - 11:00 AM"
+                                },
+                                {
+                                    "title": "11:00 AM - 2:00 PM",
+                                    "value": "11:00 AM - 2:00 PM"
+                                },
+                                {
+                                    "title": "2:00 PM - 5:00 PM",
+                                    "value": "2:00 PM - 5:00 PM"
+                                },
+                                {
+                                    "title": "5:00 PM - 8:00 PM",
+                                    "value": "5:00 PM - 8:00 PM"
+                                },
+                                {
+                                    "title": "8:00 PM - 11:00 PM",
+                                    "value": "8:00 PM - 11:00 PM"
+                                },
+                                {
+                                    "title": "11:00 PM - 2:00 AM",
+                                    "value": "11:00 PM - 2:00 AM"
+                                },
+                                {
+                                    "title": "2:00 AM - 5:00 AM",
+                                    "value": "2:00 AM - 5:00 AM"
+                                }
+                            ],
+                            "wrap": true
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "ActionSet",
+            "actions": [
+                {
+                    "type": "Action.Submit",
+                    "title": "Submit ticket",
+                    "id": "SubmitClicked",
+                    "data": {
+                        "click": "submit"
+                    }
+                },
+                {
+                    "type": "Action.Submit",
+                    "title": "Cancel request",
+                    "associatedInputs": "none",
+                    "id": "CancelClicked",
+                    "data": {
+                        "click": "cancel"
+                    }
+                }
+            ]
+        }
+    ]
+}```
+# TextInput_Prompt_zCm2PF()
+[Activity
+    Attachments = ${json(TextInput_Prompt_zCm2PF_attachment_pKwrrA())}
+]
+
+
+# TextInput_Prompt_SBqdcX_attachment_mLPpCM()
+> To learn more Adaptive Cards format, read the documentation at
+> https://docs.microsoft.com/en-us/adaptive-cards/getting-started/bots
+- ```
+{
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": 3,
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "${conversation.imgAttach[0].name}",
+                            "maxLines": 1,
+                            "wrap": true,
+                            "id": "firstFileName"
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": 2,
+                    "items": [
+                        {
+                            "type": "RichTextBlock",
+                            "inlines": [
+                                {
+                                    "type": "TextRun",
+                                    "text": "Click here to remove",
+                                    "horizontalAlignment": "Center",
+                                    "id": "firstFileBtn",
+                                    "color": "Attention",
+                                    "size": "Medium"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": 3,
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "${conversation.imgAttach[1].name}",
+                            "maxLines": 1,
+                            "wrap": true,
+                            "id": "secondFileName"
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": 2,
+                    "items": [
+                        {
+                            "type": "RichTextBlock",
+                            "inlines": [
+                                {
+                                    "type": "TextRun",
+                                    "text": "Click here to remove",
+                                    "horizontalAlignment": "Center",
+                                    "id": "secondFileBtn",
+                                    "color": "Attention",
+                                    "size": "Medium"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "ActionSet",
+            "actions": [
+                {
+                    "type": "Action.Submit",
+                    "title": "Continue",
+                    "id": "fileSubmitBtn",
+                    "data": {
+                        "click": "delete files"
+                    }
+                }
+            ]
+        }
+    ]
+}
+```
+# TextInput_Prompt_SBqdcX()
+[Activity
+    Attachments = ${json(TextInput_Prompt_SBqdcX_attachment_mLPpCM())}
+]
+
+# AttachmentInput_Prompt_6loKd6_text()
+- You can also click on the paperclip icon below to upload attachments. (Maximum size allowed is 4MB.)
+# AttachmentInput_Prompt_6loKd6()
+[Activity
+    Text = ${AttachmentInput_Prompt_6loKd6_text()}
+]
+
+# AttachmentInput_Prompt_W5O7h6_text()
+- You can also click on the paperclip icon below to upload attachments. (Maximum size allowed is 4MB.)
+# AttachmentInput_Prompt_W5O7h6()
+[Activity
+    Text = ${AttachmentInput_Prompt_W5O7h6_text()}
+]
+
+# TextInput_Prompt_oKFjCB_attachment_mLPpCM()
+> To learn more Adaptive Cards format, read the documentation at
+> https://docs.microsoft.com/en-us/adaptive-cards/getting-started/bots
+- ```
+{
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": 3,
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "${conversation.imgAttach[0].name}",
+                            "maxLines": 1,
+                            "wrap": true,
+                            "id": "singleFileName"
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": 2,
+                    "items": [
+                        {
+                            "type": "RichTextBlock",
+                            "inlines": [
+                                {
+                                    "type": "TextRun",
+                                    "text": "Click here to remove",
+                                    "horizontalAlignment": "Center",
+                                    "id": "singleFileBtn",
+                                    "color": "Attention",
+                                    "size": "Medium"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "ActionSet",
+            "actions": [
+                {
+                    "type": "Action.Submit",
+                    "title": "Continue",
+                    "id": "singleFileSubmitBtn",
+                    "data": {
+                        "click": "delete file"
+                    }
+                }
+            ]
+        }
+    ]
+}
+```
+# TextInput_Prompt_oKFjCB()
+[Activity
+    Attachments = ${json(TextInput_Prompt_oKFjCB_attachment_mLPpCM())}
+]
+
+# AttachmentInput_Prompt_khhleE_text()
+- You can also click on the paperclip icon below to upload attachments. (Maximum size allowed is 4MB.)
+# AttachmentInput_Prompt_khhleE()
+[Activity
+    Text = ${AttachmentInput_Prompt_khhleE_text()}
+]
+
+
+# TextInput_Prompt_FNYlE7_attachment_oIhe0p()
+> To learn more Adaptive Cards format, read the documentation at
+> https://docs.microsoft.com/en-us/adaptive-cards/getting-started/bots
+- ```
+{
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "TextBlock",
+            "text": "Please upload relevant attachments. You can upload up to 2 attachments with a total size of less than 4MB.",
+            "wrap": true
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "ActionSet",
+                            "actions": [
+                                {
+                                    "type": "Action.Submit",
+                                    "title": "Add attachment",
+                                    "id": "addAttachment",
+                                    "data": {
+                                        "title": "Yes"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "ActionSet",
+                            "actions": [
+                                {
+                                    "type": "Action.Submit",
+                                    "title": "Skip",
+                                    "id": "skipAttachment",
+                                    "data": {
+                                        "title": "No"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+```
+# TextInput_Prompt_FNYlE7()
+[Activity
+    Attachments = ${json(TextInput_Prompt_FNYlE7_attachment_oIhe0p())}
+]
+
+# TextInput_Prompt_vO9Fua_attachment_oIhe0p()
+> To learn more Adaptive Cards format, read the documentation at
+> https://docs.microsoft.com/en-us/adaptive-cards/getting-started/bots
+- ```
+{
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "TextBlock",
+            "text": "Please upload relevant attachments. You can upload up to 2 attachments with a total size of less than 4MB.",
+            "wrap": true
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "ActionSet",
+                            "actions": [
+                                {
+                                    "type": "Action.Submit",
+                                    "title": "Add attachment",
+                                    "id": "addAttachment",
+                                    "data": {
+                                        "title": "Yes"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "ActionSet",
+                            "actions": [
+                                {
+                                    "type": "Action.Submit",
+                                    "title": "Skip",
+                                    "id": "skipAttachment",
+                                    "data": {
+                                        "title": "No"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+```
+# TextInput_Prompt_vO9Fua()
+[Activity
+    Attachments = ${json(TextInput_Prompt_vO9Fua_attachment_oIhe0p())}
+]
+
+# TextInput_Prompt_HJhVDL_attachment_oIhe0p()
+> To learn more Adaptive Cards format, read the documentation at
+> https://docs.microsoft.com/en-us/adaptive-cards/getting-started/bots
+- ```
+{
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "TextBlock",
+            "text": "Please upload relevant attachments. You can upload up to 2 attachments with a total size of less than 4MB.",
+            "wrap": true
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "ActionSet",
+                            "actions": [
+                                {
+                                    "type": "Action.Submit",
+                                    "title": "Add attachment",
+                                    "id": "addAttachment",
+                                    "data": {
+                                        "title": "Yes"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "ActionSet",
+                            "actions": [
+                                {
+                                    "type": "Action.Submit",
+                                    "title": "Skip",
+                                    "id": "skipAttachment",
+                                    "data": {
+                                        "title": "No"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+```
+# TextInput_Prompt_HJhVDL()
+[Activity
+    Attachments = ${json(TextInput_Prompt_HJhVDL_attachment_oIhe0p())}
+]

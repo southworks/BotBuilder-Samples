@@ -1,0 +1,9 @@
+[import](common.lg)
+
+# SendActivity_SD7E1s()
+[Activity
+    Text = ${SendActivity_SD7E1s_text()}
+]
+
+# SendActivity_SD7E1s_text()
+- To raise a new ticket, describe your issue here. Note that this entry will be logged as your ticket description.

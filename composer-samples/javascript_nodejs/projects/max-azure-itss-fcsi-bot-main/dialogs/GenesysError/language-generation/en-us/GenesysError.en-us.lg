@@ -1,0 +1,16 @@
+[import](common.lg)
+
+# SendActivity_wN5xUY()
+[Activity
+    Text = ${SendActivity_wN5xUY_text()}
+]
+
+# SendActivity_wN5xUY_text()
+- Please follow the instructions as suggested by the live chat agent.
+# SendActivity_Ty8MwE()
+[Activity
+    Text = ${SendActivity_Ty8MwE_text()}
+]
+
+# SendActivity_Ty8MwE_text()
+- Sorry, due to a technical issue I can't connect you with a Live Chat Agent. For urgent issues, please submit a ticket.

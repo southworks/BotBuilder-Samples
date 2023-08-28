@@ -1,0 +1,625 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "MsUvof",
+    "name": "MainDialog",
+    "comment": "This is the root dialog of Max"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "tksSZx",
+        "comment": "Now query will contain the joined Intent"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.DeleteProperties",
+          "$designer": {
+            "id": "uDPI7C"
+          },
+          "properties": [
+            "conversation.firstIssue",
+            "conversation.joinedIntent",
+            "conversation.prod",
+            "conversation.productsummary",
+            "conversation.searchQuery",
+            "conversation.firstUtterance",
+            "conversation.customIntents",
+            "turn.activity.value.userIssue",
+            "conversation.TicketStatus"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "LCWTlE"
+          },
+          "property": "conversation.pathTaken",
+          "value": "=concat(conversation.pathTaken,\" -> \",\"MainDialog\")"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "ygVUwa"
+          },
+          "assignments": [
+            {
+              "property": "conversation.IssueCategory",
+              "value": "=''"
+            },
+            {
+              "property": "conversation.ProductCategory",
+              "value": "=''"
+            }
+          ]
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "IRhec1"
+          },
+          "properties": "{\"pathTraversed\" : `${conversation.pathTaken}`}",
+          "name": "user-path"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "tx3R8t"
+          },
+          "condition": "=conversation.urlflowdirection=='ticket'",
+          "actions": [
+            {
+              "$kind": "Microsoft.TextInput",
+              "$designer": {
+                "id": "mME2k4"
+              },
+              "disabled": false,
+              "maxTurnCount": 1,
+              "alwaysPrompt": false,
+              "allowInterruptions": false,
+              "unrecognizedPrompt": "",
+              "invalidPrompt": "",
+              "prompt": "${TextInput_Prompt_mME2k4()}",
+              "property": "conversation.firstUtterance",
+              "value": "=turn.activity.value.userIssue"
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "HYZ9BY"
+              },
+              "property": "dialog.submitAction",
+              "value": "=turn.activity.value.cmd"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "HOgkmB"
+              },
+              "condition": "dialog.submitAction == \"newissue_cancel\"",
+              "actions": [
+                {
+                  "$kind": "SendEventTelemetry",
+                  "$designer": {
+                    "id": "gJYTwM"
+                  },
+                  "properties": "{\"UserTicketIssue\" : \"Cancel\"}",
+                  "name": "user-ticketissue"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "TRXvih"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "FurtherHelp"
+                },
+                {
+                  "$kind": "Microsoft.CancelAllDialogs",
+                  "$designer": {
+                    "id": "sMqjhi"
+                  },
+                  "activityProcessed": true
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "SendEventTelemetry",
+                  "$designer": {
+                    "id": "Rlzp7h"
+                  },
+                  "properties": "{\"UserTicketIssue\" : \"Submit\"}",
+                  "name": "user-ticketissue"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "6VsfND"
+              },
+              "value": "=replace(replace(conversation.firstUtterance,'\"',''),\"'\",\"\")",
+              "property": "conversation.firstIssue"
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "VSmhfd"
+              },
+              "activityProcessed": true,
+              "dialog": "RemoveGreetings",
+              "options": {
+                "parentDialog": "='MainDialog'"
+              }
+            },
+            {
+              "$kind": "Microsoft.TextInput",
+              "$designer": {
+                "id": "p23bsM"
+              },
+              "disabled": false,
+              "maxTurnCount": 3,
+              "alwaysPrompt": false,
+              "allowInterruptions": false,
+              "unrecognizedPrompt": "",
+              "invalidPrompt": "",
+              "defaultValueResponse": "",
+              "prompt": "${TextInput_Prompt_p23bsM()}",
+              "property": "dialog.selfresolveconfirm",
+              "value": "=turn.activity.value.confirm"
+            },
+            {
+              "$kind": "SendEventTelemetry",
+              "$designer": {
+                "id": "O3Y8H8"
+              },
+              "properties": "{\"SelfResolvedTicket\" : `${dialog.selfresolveconfirm}`}",
+              "name": "user-selfresolved"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "jqraTp"
+              },
+              "condition": "=dialog.selfresolveconfirm =='Yes'",
+              "actions": [
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "VKVCVJ"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 3,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": false,
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "defaultValueResponse": "",
+                  "prompt": "${TextInput_Prompt_VKVCVJ()}",
+                  "property": "dialog.selfresolvedoubleconfirm",
+                  "value": "=turn.activity.value.doubleconfirm"
+                },
+                {
+                  "$kind": "SendEventTelemetry",
+                  "$designer": {
+                    "id": "mQwDrB"
+                  },
+                  "properties": "{\"SelfResolvedTicketConfirm\" : `${dialog.selfresolveconfirm}`}",
+                  "name": "user-selfresolvedconfirm"
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "mtG57P"
+                  },
+                  "property": "dialog.selfresolvedoubleconfirm",
+                  "value": "='No'"
+                }
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.TextInput",
+              "$designer": {
+                "id": "WQtGmH"
+              },
+              "disabled": false,
+              "maxTurnCount": 1,
+              "alwaysPrompt": false,
+              "allowInterruptions": false,
+              "unrecognizedPrompt": "",
+              "invalidPrompt": "",
+              "prompt": "${TextInput_Prompt_WQtGmH()}",
+              "property": "conversation.firstUtterance",
+              "value": "=turn.activity.value.userIssue"
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "l8a3Gx"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.selfresolvedoubleconfirm",
+                  "value": "='No'"
+                },
+                {
+                  "property": "dialog.submitAction",
+                  "value": "=turn.activity.value.cmd"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "6zcyrn"
+              },
+              "condition": "dialog.submitAction == \"newissue_cancel\"",
+              "actions": [
+                {
+                  "$kind": "SendEventTelemetry",
+                  "$designer": {
+                    "id": "3i9thY"
+                  },
+                  "properties": "{\"UserIssue\" : \"Cancel\"}",
+                  "name": "user-issue"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "QtLMug"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "FurtherHelp"
+                },
+                {
+                  "$kind": "Microsoft.CancelAllDialogs",
+                  "$designer": {
+                    "id": "FS6nIq"
+                  },
+                  "activityProcessed": true
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "SendEventTelemetry",
+                  "$designer": {
+                    "id": "PxnpZb"
+                  },
+                  "properties": "{\"UserIssue\" : \"Submit\"}",
+                  "name": "user-issue"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "MfsVBT"
+              },
+              "value": "=replace(replace(conversation.firstUtterance,'\"',''),\"'\",\"\")",
+              "property": "conversation.firstIssue"
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "Ia5zFo"
+              },
+              "activityProcessed": true,
+              "dialog": "RemoveGreetings",
+              "options": {
+                "parentDialog": "='MainDialog'"
+              }
+            }
+          ]
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "vNTCnc",
+            "name": "SendEventTelemetry-userQuery"
+          },
+          "name": "user-query",
+          "properties": "{\"query\" : `${conversation.firstUtterance}`}"
+        },
+        {
+          "$kind": "removeSpecialCharacters",
+          "$designer": {
+            "id": "6DeKas"
+          },
+          "userIssue": "${conversation.firstIssue}",
+          "resultProperty": "conversation.firstIssue"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "iGFRwT"
+          },
+          "property": "dialog.wordcount",
+          "value": "=countWord(conversation.firstIssue)"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "xrIwdk"
+          },
+          "condition": "=dialog.selfresolvedoubleconfirm!=\"Yes\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "Cba4mr",
+                "comment": "initialization"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.ticketStatusMatch",
+                  "value": false
+                },
+                {
+                  "property": "dialog.ticketNumberFound",
+                  "value": false
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.HttpRequest",
+              "$designer": {
+                "id": "P56exC"
+              },
+              "resultProperty": "dialog.GenesysProducts",
+              "method": "GET",
+              "url": "=`${settings.chat.GenesysMatchingProducts}`"
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "JDnL2E"
+              },
+              "property": "conversation.GenesysMatchingProduct",
+              "value": "=dialog.GenesysProducts"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "nc3epF"
+              },
+              "condition": "=dialog.GenesysProducts.statusCode == 200",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "0h0rxU"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.apiContent",
+                      "value": "=dialog.GenesysProducts.content"
+                    },
+                    {
+                      "property": "dialog.isTicketSearch",
+                      "value": "=dialog.apiResponse.content"
+                    },
+                    {
+                      "property": "dialog.ticketStatusWords",
+                      "value": "=dialog.apiContent.products[1]"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "NFoNEc"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.splitUserIssue",
+                      "value": "=split(toLower(conversation.firstIssue, 'en-US'), ' ')"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "2cEPoS"
+                  },
+                  "condition": "= dialog.apiContent.ticketSearch == 'yes'",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.Foreach",
+                      "$designer": {
+                        "id": "yNDdTx"
+                      },
+                      "index": "dialog.foreach.index",
+                      "value": "dialog.foreach.value",
+                      "itemsProperty": "dialog.ticketStatusWords",
+                      "actions": [
+                        {
+                          "$kind": "StringIncludes",
+                          "$designer": {
+                            "id": "U5qCZQ"
+                          },
+                          "sentence": "=toLower(conversation.firstIssue, 'en-US')",
+                          "word": "=toLower(dialog.foreach.value, 'en-US')",
+                          "resultProperty": "dialog.ticketStatusMatch"
+                        },
+                        {
+                          "$kind": "Microsoft.IfCondition",
+                          "$designer": {
+                            "id": "MrznmT"
+                          },
+                          "condition": "=dialog.ticketStatusMatch",
+                          "actions": [
+                            {
+                              "$kind": "Microsoft.BreakLoop",
+                              "$designer": {
+                                "id": "ox75Gk"
+                              }
+                            }
+                          ],
+                          "elseActions": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "Ibdy7U"
+                  },
+                  "condition": "= dialog.apiContent.regexSearch == 'yes'",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.Foreach",
+                      "$designer": {
+                        "id": "ENLUgO"
+                      },
+                      "index": "dialog.foreach.index",
+                      "value": "dialog.foreach.value",
+                      "itemsProperty": "dialog.splitUserIssue",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.IfCondition",
+                          "$designer": {
+                            "id": "k6BZhM"
+                          },
+                          "condition": "=dialog.foreach.value != ''",
+                          "actions": [
+                            {
+                              "$kind": "Microsoft.SetProperties",
+                              "$designer": {
+                                "id": "eUrddX"
+                              },
+                              "assignments": [
+                                {
+                                  "property": "dialog.ticketNumberFound",
+                                  "value": "=isMatch(dialog.foreach.value, '^inc\\d{8}$')"
+                                }
+                              ]
+                            },
+                            {
+                              "$kind": "Microsoft.IfCondition",
+                              "$designer": {
+                                "id": "FZbBgZ"
+                              },
+                              "condition": "=dialog.ticketNumberFound",
+                              "actions": [
+                                {
+                                  "$kind": "Microsoft.BreakLoop",
+                                  "$designer": {
+                                    "id": "k7Jgoa"
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "mAekEG"
+              },
+              "condition": "= (dialog.ticketStatusMatch || dialog.ticketNumberFound) && conversation.urllivechatavailable == '1'",
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "ymwrJA"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "NonSelfResolvedIncident"
+                }
+              ],
+              "actions": [
+                {
+                  "$kind": "SendEventTelemetry",
+                  "$designer": {
+                    "id": "ywKu5O"
+                  },
+                  "name": "Genesys-Approach",
+                  "properties": {
+                    "approach": "KeywordBasedTicketSearch"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "gzisER"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.TicketStatus",
+                      "value": true
+                    },
+                    {
+                      "property": "conversation.IssueCategory",
+                      "value": "='TicketStatus'"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "GVs5Qw"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "GenesysMatchingProducts"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "jRbAwE"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "thdiSearch"
+                }
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "voiHyg"
+              },
+              "activityProcessed": true,
+              "dialog": "selfResolvedIncident"
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "iJ8TZE"
+              },
+              "activityProcessed": true,
+              "dialog": "FurtherHelp"
+            },
+            {
+              "$kind": "Microsoft.CancelAllDialogs",
+              "$designer": {
+                "id": "alDiLe"
+              },
+              "activityProcessed": true
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "MainDialog.lg",
+  "recognizer": "MainDialog.lu.qna",
+  "id": "MainDialog"
+}

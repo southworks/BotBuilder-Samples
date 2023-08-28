@@ -1,0 +1,77 @@
+[import](common.lg)
+
+# TextInput_Prompt_lorJ30()
+[Activity
+    Attachments = ${json(TextInput_Prompt_lorJ30_attachment_gxjzIg())}
+]
+
+# TextInput_Prompt_lorJ30_attachment_gxjzIg()
+> To learn more Adaptive Cards format, read the documentation at
+> https://docs.microsoft.com/en-us/adaptive-cards/getting-started/bots
+- ```
+{
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "TextBlock",
+            "text": "What can I help you get started with today? ",
+            "wrap": true
+        },
+   {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "ActionSet",
+                    "actions": [
+                        {
+                            "type": "Action.Submit",
+                              "title": "Existing Issue",
+                                    "data": {
+                                        "flow": "existingIssueFlow"
+                                    },
+                                    "id": "existingIssueId"
+                        },
+                        {
+                            "type": "Action.Submit",
+                             "title": "New Issue",
+                                    "data": {
+                                        "flow": "newIssueFlow"
+                                    },
+                                    "id": "newIssueId"
+                        }
+                    ]
+                }
+            ]
+        }
+        
+
+
+    ]
+}
+```
+
+# ThdiAndQnaSearch_SWITCH(buttonTitle, firstUtterance, product, qnaId)
+    -${ThdiAndQnaSearch_buttons(buttonTitle, firstUtterance, product, qnaId)}
+
+# ThdiAndQnaSearch_buttons(buttonTitle, firstUtterance, product, qnaId)
+-```
+
+        {
+            "type": "ActionSet",
+            "actions": [
+                {
+                    "type": "Action.Submit",
+                    "title": "${buttonTitle}",
+                    "data": {
+                        "flow": "thdiQnaSearchFlow",
+                        "firstUtterance": "${firstUtterance}",
+                        "product": "${product}",
+                        "qnaId": "${qnaId}"
+                    },
+                    "id": "button${qnaId}"
+                }
+            ]
+        }
+```

@@ -1,0 +1,302 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "unqtfq",
+    "name": "GenesysMatchingProductsLuisApproach",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "feZmqd"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.DeleteProperties",
+          "$designer": {
+            "id": "wxvvHn"
+          },
+          "properties": [
+            "conversation.urlwaittime",
+            "conversation.Funcresults"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "XVzKmc"
+          },
+          "property": "conversation.pathTaken",
+          "value": "=concat(conversation.pathTaken,\" -> \",\"GenesysMatchingProductsLuisApproach\")"
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "3KpnR8"
+          },
+          "properties": "{\"pathTraversed\" : `${conversation.pathTaken}`}",
+          "name": "user-path"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "zs920D"
+          },
+          "property": "conversation.GenesysQueuesOpen",
+          "value": "=[]"
+        },
+        {
+          "$kind": "Microsoft.Foreach",
+          "$designer": {
+            "id": "7Cwy45"
+          },
+          "index": "dialog.foreach.index",
+          "value": "dialog.foreach.value",
+          "itemsProperty": "conversation.GenesysIssueList",
+          "actions": [
+            {
+              "$kind": "Microsoft.EditArray",
+              "$designer": {
+                "id": "FAKVx0"
+              },
+              "changeType": "push",
+              "itemsProperty": "conversation.GenesysQueuesOpen",
+              "value": "=dialog.foreach.value.UserOption1"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "P4qDZJ"
+          },
+          "condition": "= conversation.GenesysAvailable",
+          "actions": [
+            {
+              "$kind": "GetFuncAndSubfunction",
+              "$designer": {
+                "id": "5woDiE",
+                "comment": ""
+              },
+              "intents": "= conversation.intentsGen",
+              "product": "=conversation.productsummary",
+              "blobData": "=conversation.FunctionDetails",
+              "resultProperty": "conversation.Funcresults",
+              "queuesOpen": "=conversation.GenesysQueuesOpen",
+              "products": "=conversation.productsDetected",
+              "genesysEntitiesDetected": "conversation.GenesysEntitiesDetected"
+            },
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "cNF9tQ"
+              },
+              "activity": "${SendActivity_cNF9tQ()}",
+              "disabled": true
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "LZVebN"
+              },
+              "condition": "= (conversation.Funcresults.found)",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "vQk3K2"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.IssueCategory",
+                      "value": "=conversation.Funcresults.function"
+                    },
+                    {
+                      "property": "conversation.ProductCategory",
+                      "value": "=conversation.Funcresults.subfunction"
+                    }
+                  ]
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "ttK7DR"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.IssueCategory",
+                      "value": "='Other Issue'"
+                    },
+                    {
+                      "property": "conversation.ProductCategory",
+                      "value": "= ''"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "PV62fz"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.GenesysAvailable",
+                  "value": true
+                },
+                {
+                  "property": "conversation.BomgarAvailable",
+                  "value": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "zhSUGO"
+          },
+          "condition": "=conversation.GenesysAvailable",
+          "actions": [
+            {
+              "$kind": "Microsoft.HttpRequest",
+              "$designer": {
+                "id": "ErtSJG"
+              },
+              "resultProperty": "dialog.waitTimeApiResponse",
+              "method": "GET",
+              "url": "=`${settings.chat.GenesysWaitTimeAPI}`"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "ocNW9V"
+              },
+              "condition": "= dialog.waitTimeApiResponse.statusCode == 200",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "zSmkEd"
+                  },
+                  "property": "dialog.waitTime",
+                  "value": "=dialog.waitTimeApiResponse.content.GenesysChatWaitTime"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "pTFHXw"
+                  },
+                  "condition": "=dialog.waitTime == 'temporarily unknown'",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "GKA8IE"
+                      },
+                      "property": "dialog.waitTime",
+                      "value": "='temporarily unknown'"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "RGr9AA"
+                      },
+                      "property": "dialog.waitTime",
+                      "value": "=concat(dialog.waitTime, ' mins')"
+                    }
+                  ]
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "njNuTG"
+                  },
+                  "property": "dialog.waitTime",
+                  "value": "='temporarily unknown'"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "UYQKSl"
+              },
+              "property": "conversation.urlwaittime",
+              "value": "=dialog.waitTime"
+            },
+            {
+              "$kind": "SendEventTelemetry",
+              "$designer": {
+                "id": "2NQjVJ"
+              },
+              "properties": "{\"tool\" : 'Genesys'}",
+              "name": "ChatTool"
+            },
+            {
+              "$kind": "SendEventTelemetry",
+              "$designer": {
+                "id": "rZ78QS"
+              },
+              "properties": "{\"ENTSubFunction\" : `${conversation.GenesysIssueList}`, \"ENTSubFunctionDetail\": `${conversation.GenesysAllProductList}`}",
+              "name": "AvailableVirtualQueues"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "j50GTC"
+              },
+              "condition": "=conversation.BomgarAvailable",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "SkPcnH"
+                  },
+                  "property": "conversation.urlwaittime",
+                  "value": "=concat(conversation.bomgarwaittime, ' mins')"
+                },
+                {
+                  "$kind": "SendEventTelemetry",
+                  "$designer": {
+                    "id": "EokLkQ"
+                  },
+                  "properties": "{\"tool\" : 'Bomgar'}",
+                  "name": "ChatTool"
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "SendEventTelemetry",
+                  "$designer": {
+                    "id": "jxhxnp"
+                  },
+                  "properties": "{\"tool\" : 'None'}",
+                  "name": "ChatTool"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "GenesysMatchingProductsLuisApproach.lg",
+  "recognizer": "GenesysMatchingProductsLuisApproach.lu.qna",
+  "id": "GenesysMatchingProductsLuisApproach"
+}

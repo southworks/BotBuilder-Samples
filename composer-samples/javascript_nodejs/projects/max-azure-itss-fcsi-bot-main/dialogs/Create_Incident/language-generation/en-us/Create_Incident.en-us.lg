@@ -1,0 +1,257 @@
+[import](common.lg)
+
+# TextInput_Prompt_2afr6f()
+[Activity
+    Attachments = ${json(TextInput_Prompt_2afr6f_attachment_CD1l2W())}
+]
+
+# TextInput_Prompt_2afr6f_attachment_CD1l2W()
+> To learn more about the LG file format, read the documentation at
+> https://aka.ms/lg-file-format> To learn more Adaptive Cards format, read the documentation at
+> https://docs.microsoft.com/en-us/adaptive-cards/getting-started/bots
+- ```{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "type": "AdaptiveCard",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "TextBlock",
+            "text": "Are multiple users experiencing this issue OR is the issue impacting finance and compliance?",
+            "wrap": true
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "ActionSet",
+                            "actions": [
+                                {
+                                    "type": "Action.Submit",
+                                    "title": "Yes",
+                                    "data": {
+                                        "highimpact": "yes"
+                                    },
+                                    "id": "yes"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "ActionSet",
+                            "actions": [
+                                {
+                                    "type": "Action.Submit",
+                                    "title": "No",
+                                    "data": {
+                                        "highimpact": "no"
+                                    },
+                                    "id": "no"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}```
+# SendActivity_X1M29u_text()
+- Okay. I'm sorry this did not resolve your issue. Please complete the information below and one of our agents will contact you directly.
+# SendActivity_X1M29u()
+[Activity
+    Text = ${SendActivity_X1M29u_text()}
+]
+
+# TextInput_Prompt_RjnTz3_attachment_gxjzIg()
+> To learn more Adaptive Cards format, read the documentation at
+> https://docs.microsoft.com/en-us/adaptive-cards/getting-started/bots
+- ```
+{
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "TextBlock",
+            "text": "Okay, I am sorry this did not resolve your issue, would you like to **Connect with a Live Chat Agent** or **Submit an online ticket** ?",
+            "wrap": true
+        },
+        {
+            "type": "RichTextBlock",
+            "inlines": [
+                {
+                    "type": "TextRun",
+                    "text": "Chat wait time: ${conversation.urlwaittime}",
+                    "isSubtle": true,
+                    "italic": true,
+                    "color": "Good",
+                    "weight": "lighter"
+                    
+                }
+            ],
+            "spacing": "Small"
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "ActionSet",
+                            "actions": [
+                                {
+                                    "type": "Action.Submit",
+                                    "title": "Connect with a live agent",
+                                    "data": {
+                                        "flow": "ConnectwithaLiveAgent"
+                                    },
+                                    "id": "ConnectwithaLiveAgent"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "ActionSet",
+                            "actions": [
+                                {
+                                    "type": "Action.Submit",
+                                    "title": "Submit a ticket",
+                                    "data": {
+                                        "flow": "Submitaticket"
+                                    },
+                                    "id": "Submitaticket"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+```
+
+# TextInput_Prompt_RjnTz3()
+[Activity
+    Attachments = ${json(TextInput_Prompt_RjnTz3_attachment_gxjzIg())}
+]
+
+
+# SendActivity_KkIZ3d()
+[Activity
+    Text = ${SendActivity_KkIZ3d_text()}
+]
+
+# SendActivity_KkIZ3d_text()
+- Thanks for your input, since your issue is high impacting let me connect you with a Live Chat Agent.
+# TextInput_Prompt_rbZLt1()
+[Activity
+    Attachments = ${json(TextInput_Prompt_rbZLt1_attachment_upOL2y())}
+]
+
+# TextInput_Prompt_rbZLt1_attachment_upOL2y()
+> To learn more Adaptive Cards format, read the documentation at
+> https://docs.microsoft.com/en-us/adaptive-cards/getting-started/bots
+- ```
+{
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "TextBlock",
+            "text": "This is a high priority issue; do you want to **connect with a Live Chat Agent** or **Continue here for further assistance** ?",
+            "wrap": true
+        },
+        {
+            "type": "RichTextBlock",
+            "inlines": [
+                {
+                    "type": "TextRun",
+                    "text": "Chat wait time: ${conversation.urlwaittime}",
+                    "isSubtle": true,
+                    "italic": true,
+                    "fontType": "monospace",
+                    "color": "Good",
+                    "weight": "lighter"
+                    
+                }
+            ],
+            "spacing": "Small"
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "ActionSet",
+                            "actions": [
+                                {
+                                    "type": "Action.Submit",
+                                    "title": "Connect with a live agent",
+                                    "data": {
+                                        "flow": "ConnectwithaLiveAgent"
+                                    },
+                                    "id": "ConnectwithaLiveAgent"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "ActionSet",
+                            "actions": [
+                                {
+                                    "type": "Action.Submit",
+                                    "title": "Continue here",
+                                    "data": {
+                                        "flow": "continuehere"
+                                    },
+                                    "id": "continuehere"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+```
+# SendActivity_VSQMDF_text()
+- Thanks for your input, since your issue is high impacting let me connect you with a Live Chat Agent.
+# SendActivity_VSQMDF()
+[Activity
+    Text = ${SendActivity_VSQMDF_text()}
+]
+
+# SendActivity_XEDAky_text()
+- ```Live Chat is not an option for your location at this time.
+Please fill the details below to submit the ticket.```
+# SendActivity_XEDAky()
+[Activity
+    Text = ${SendActivity_XEDAky_text()}
+]

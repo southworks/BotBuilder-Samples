@@ -1,0 +1,186 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "lf8JXL",
+    "name": "qnaResults",
+    "comment": "To display all the results from QnA API"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "eS6PmI"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "ldtu4P"
+          },
+          "property": "conversation.pathTaken",
+          "value": "=concat(conversation.pathTaken,\" -> \",\"qnaResults\")"
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "trq1iz"
+          },
+          "properties": "{\"pathTraversed\" : `${conversation.pathTaken}`}",
+          "name": "user-path"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperties",
+          "$designer": {
+            "id": "rdn2c8"
+          },
+          "properties": [
+            "conversation.qnaUserResponse",
+            "conversation.tmpContext",
+            "turn.activity.value.title",
+            "conversation.qnaKBBnumber"
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "LovzrJ"
+          },
+          "condition": "=count(conversation.qnaContext) > 0",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "Hr5vJd"
+              },
+              "property": "conversation.qnaSkipLevel",
+              "value": "=int(conversation.qnaSkipLevel) + int(1)"
+            },
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "K0Wvl0"
+              },
+              "activity": "${SendActivity_K0Wvl0()}"
+            },
+            {
+              "$kind": "Microsoft.TextInput",
+              "$designer": {
+                "id": "3W5VW0"
+              },
+              "disabled": false,
+              "maxTurnCount": 3,
+              "alwaysPrompt": false,
+              "allowInterruptions": false,
+              "unrecognizedPrompt": "",
+              "invalidPrompt": "",
+              "prompt": "${TextInput_Prompt_3W5VW0()}",
+              "property": "conversation.qnaUserResponse",
+              "value": "=turn.activity.value.title"
+            },
+            {
+              "$kind": "SendEventTelemetry",
+              "$designer": {
+                "id": "naNpCq"
+              },
+              "properties": "{\"QnAUserResponse\" : `${conversation.qnaUserResponse`}",
+              "name": "qna-userResponse"
+            },
+            {
+              "$kind": "Microsoft.DeleteProperty",
+              "$designer": {
+                "id": "9lS2DJ"
+              },
+              "property": "turn.activity.value.title"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "9g1poa"
+              },
+              "condition": "=conversation.qnaUserResponse != \"999\"",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "XBDK8a"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "qnaQueryAPI"
+                }
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "C9rwx1"
+              },
+              "condition": "=(conversation.qnaContextAnswer == \"No good match found in KB.\" || conversation.qnaContextAnswer == \"intent=DeferToRecognizer_LUIS_itss-fcsi-bot\")",
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "Job0o4"
+                  },
+                  "condition": "=indexOf(conversation.qnaContextAnswer, 'KBB') > -1",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "duNVRM"
+                      },
+                      "property": "conversation.qnaKBBnumber",
+                      "value": "=substring(conversation.qnaContextAnswer, indexOf(conversation.qnaContextAnswer, 'KBB'), 10)"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "viCQbB"
+                      },
+                      "property": "conversation.qnaKBBnumber",
+                      "value": "='No KBB found'"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "7Qp4UG"
+                  },
+                  "activity": "${SendActivity_7Qp4UG()}"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperties",
+          "$designer": {
+            "id": "eEkuJ2"
+          },
+          "properties": [
+            "conversation.qnaContext",
+            "conversation.tmpContext",
+            "conversation.qnaContextAnswer"
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "dGrjMr"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "qnaResults.lg",
+  "recognizer": "qnaResults.lu.qna",
+  "id": "qnaResults"
+}

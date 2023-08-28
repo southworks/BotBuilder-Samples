@@ -1,0 +1,520 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "name": "itss-fcsi-bot",
+    "description": "",
+    "id": "A79tBe"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnUnknownIntent",
+      "$designer": {
+        "id": "mb2n1u"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "bFkOeT"
+          },
+          "property": "conversation.idkStmt",
+          "value": "=turn.activity.value",
+          "disabled": true
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "lxsqJf"
+          },
+          "activity": "${SendActivity_lxsqJf()}",
+          "disabled": true
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "E3qsvJ"
+          },
+          "condition": "=isObject(turn.activity.value)",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "G4Bv7W"
+              },
+              "activity": "${SendActivity_G4Bv7W()}",
+              "disabled": true
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "2Gf9dD"
+              },
+              "property": "conversation.idkCount",
+              "value": 0
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "L7VkLA"
+              },
+              "property": "conversation.idkCount",
+              "value": "=conversation.idkCount+1"
+            },
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "1q1kYL"
+              },
+              "activity": "${SendActivity_1q1kYL()}"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "UltENd"
+              },
+              "condition": "= conversation.idkCount == 1",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "d6RgDa"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "flowDecider"
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "Q5Gx7Y"
+                  }
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "LRbNk1"
+                  },
+                  "property": "conversation.idkCount",
+                  "value": 0
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "WB6v3r"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "LiveAgent"
+                },
+                {
+                  "$kind": "Microsoft.ConfirmInput",
+                  "$designer": {
+                    "id": "Zg6RJc"
+                  },
+                  "defaultLocale": "en-us",
+                  "disabled": false,
+                  "maxTurnCount": 3,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": false,
+                  "prompt": "${ConfirmInput_Prompt_Zg6RJc()}",
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "choiceOptions": {
+                    "includeNumbers": true,
+                    "inlineOrMore": ", or ",
+                    "inlineOr": " or ",
+                    "inlineSeparator": ", "
+                  },
+                  "property": "dialog.anotherIssueRes",
+                  "style": "heroCard"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "NfH9wa"
+                  },
+                  "condition": "= dialog.anotherIssueRes",
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.TextInput",
+                      "$designer": {
+                        "id": "FDp68S"
+                      },
+                      "disabled": false,
+                      "maxTurnCount": 1,
+                      "alwaysPrompt": false,
+                      "allowInterruptions": false,
+                      "unrecognizedPrompt": "",
+                      "invalidPrompt": "",
+                      "prompt": "${TextInput_Prompt_FDp68S()}",
+                      "property": "dialog.feedback"
+                    },
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "n52tdn"
+                      },
+                      "activity": "${SendActivity_n52tdn()}"
+                    },
+                    {
+                      "$kind": "Microsoft.EndDialog",
+                      "$designer": {
+                        "id": "qAXIro"
+                      }
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "oOm6gQ"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "MainDialog"
+                    },
+                    {
+                      "$kind": "Microsoft.EndDialog",
+                      "$designer": {
+                        "id": "uGjDRE"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "oRLZLi"
+              },
+              "activity": "${SendActivity_oRLZLi()}",
+              "disabled": true
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "Z6VPHu"
+              },
+              "property": "conversation.skillObj ",
+              "value": "=turn.activity.value"
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "xhPbmE"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.urlusername",
+                  "value": "=turn.activity.value.Fullname"
+                },
+                {
+                  "property": "conversation.urluserid",
+                  "value": "=turn.activity.value.Employeeid"
+                },
+                {
+                  "property": "conversation.urlmsid",
+                  "value": "=turn.activity.value.Msid"
+                },
+                {
+                  "value": "=turn.activity.value.Location",
+                  "property": "conversation.urllocation"
+                },
+                {
+                  "value": "=turn.activity.value.IsLiveChatAvailable",
+                  "property": "conversation.urllivechatavailable"
+                },
+                {
+                  "value": "='ticket'",
+                  "property": "conversation.urlflowdirection"
+                },
+                {
+                  "value": "'0'",
+                  "property": "conversation.urlwaittime"
+                },
+                {
+                  "property": "conversation.urllocationname",
+                  "value": "=turn.activity.value.locationName"
+                },
+                {
+                  "property": "conversation.firstName",
+                  "value": "=if(indexOf(trim(conversation.urlusername), ' ')>=0, sentenceCase(split(trim(conversation.urlusername), ' ')[1], 'en-US'), if(indexOf(trim(conversation.urlusername),  ',')>=0, sentenceCase(split(trim(conversation.urlusername), ',')[1], 'en-US'), conversation.urlusername))"
+                },
+                {
+                  "property": "conversation.conversation_id",
+                  "value": "=turn.activity.conversation.id"
+                },
+                {
+                  "value": "='true'",
+                  "property": "conversation.helpShow"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "UVPtQg"
+              },
+              "activity": "${SendActivity_UVPtQg()}",
+              "disabled": true
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "AQqp5P"
+              },
+              "property": "conversation.idkCount",
+              "value": 0
+            },
+            {
+              "$kind": "SendEventTelemetry",
+              "$designer": {
+                "id": "I4OPBR"
+              },
+              "name": "user-information",
+              "properties": "{\"botuserid\" : `${conversation.urluserid}`, \"botusername\" : `${conversation.urlusername}`, \"botusermsid\" : `${conversation.urlmsid}`, \"botuserchatorticket\" : `${conversation.urlflowdirection}`, \"botuserconversationid\" : `${conversation.conversation_id}`, \"firstname\" : `${conversation.fname}`, \"lastname\" : `${conversation.lname}`, \"email\" : `${conversation.email}`, \"origin\" : 'smartbot'}"
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "g1MjFO"
+              },
+              "activityProcessed": true,
+              "dialog": "SkillFlowDecider"
+            },
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "Wmbeeq"
+              },
+              "activity": "${SendActivity_Wmbeeq()}",
+              "disabled": true
+            },
+            {
+              "$kind": "Microsoft.DeleteProperties",
+              "$designer": {
+                "id": "ma1SV7"
+              },
+              "properties": [
+                "conversation.skillObj",
+                "conversation.urlusername",
+                "conversation.urluserid",
+                "conversation.urlmsid",
+                "conversation.urllocation",
+                "conversation.urllivechatavailable",
+                "conversation.urlflowdirection",
+                "conversation.urlwaittime",
+                "conversation.urllocationname",
+                "conversation.firstName",
+                "conversation.conversation_id",
+                "conversation.helpShow",
+                "conversation.bomgarwaittime"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnEventActivity",
+      "$designer": {
+        "id": "RDv3jX",
+        "name": "Greetings - Events Received",
+        "comment": "This is first item that will run when user visits the web page"
+      },
+      "condition": "=turn.activity.name ==\"chat\" || turn.activity.name ==\"ticket\"",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "IYy6jk"
+          },
+          "assignments": [
+            {
+              "property": "conversation.urlusername",
+              "value": "=turn.activity.value.username"
+            },
+            {
+              "property": "conversation.urluserid",
+              "value": "=turn.activity.value.userID"
+            },
+            {
+              "property": "conversation.urlmsid",
+              "value": "=turn.activity.value.msid"
+            },
+            {
+              "value": "=turn.activity.value.location",
+              "property": "conversation.urllocation"
+            },
+            {
+              "value": "=turn.activity.value.liveChatAvailable",
+              "property": "conversation.urllivechatavailable"
+            },
+            {
+              "value": "=turn.activity.name",
+              "property": "conversation.urlflowdirection"
+            },
+            {
+              "value": "=turn.activity.value.waitTime",
+              "property": "conversation.bomgarwaittime"
+            },
+            {
+              "property": "conversation.urllocationname",
+              "value": "=turn.activity.value.locationname"
+            },
+            {
+              "property": "conversation.firstName",
+              "value": "=if(indexOf(trim(conversation.urlusername), ' ')>=0, sentenceCase(split(trim(conversation.urlusername), ' ')[1], 'en-US'), if(indexOf(trim(conversation.urlusername),  ',')>=0, sentenceCase(split(trim(conversation.urlusername), ',')[1], 'en-US'), conversation.urlusername))"
+            },
+            {
+              "property": "conversation.conversation_id",
+              "value": "=turn.activity.conversation.id"
+            },
+            {
+              "value": "='true'",
+              "property": "conversation.helpShow"
+            },
+            {
+              "value": "=turn.activity.value.firstname",
+              "property": "conversation.fname"
+            },
+            {
+              "property": "conversation.lname",
+              "value": "=turn.activity.value.lastname"
+            },
+            {
+              "property": "conversation.email",
+              "value": "=turn.activity.value.email"
+            },
+            {
+              "property": "conversation.origin",
+              "value": "=turn.activity.value.origin"
+            },
+            {
+              "property": "conversation.convStartTime",
+              "value": "=utcNow('','en-US')"
+            },
+            {
+              "property": "conversation.After50minute",
+              "value": "=addMinutes(conversation.convStartTime, 50, '', 'en-US')"
+            },
+            {
+              "property": "conversation.msAppIdEnv",
+              "value": "=settings.thdi.msAppIdEnv"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "KIGajt"
+          },
+          "condition": "= conversation.origin == 'hc'",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "MDKiFJ"
+              },
+              "activity": "${SendActivity_MDKiFJ()}"
+            }
+          ],
+          "actions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "HU8pb1"
+              },
+              "activity": "${SendActivity_HU8pb1()}"
+            }
+          ]
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "5R2lks"
+          },
+          "name": "user-information",
+          "properties": "{\"botuserid\" : `${conversation.urluserid}`, \"botusername\" : `${conversation.urlusername}`, \"botusermsid\" : `${conversation.urlmsid}`, \"botuserchatorticket\" : `${conversation.urlflowdirection}`, \"botuserconversationid\" : `${conversation.conversation_id}`, \"firstname\" : `${conversation.fname}`, \"lastname\" : `${conversation.lname}`, \"email\" : `${conversation.email}`, \"origin\" : `${conversation.origin}`}"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "0ciSXI"
+          },
+          "activityProcessed": true,
+          "dialog": "AfterGreeting"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnError",
+      "$designer": {
+        "id": "v3mNNZ",
+        "name": "Error occurred (Error event)"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "1nxa6u"
+          },
+          "assignments": [
+            {
+              "property": "dialog.error",
+              "value": "=turn.dialogEvent"
+            },
+            {
+              "property": "dialog.errorMessage",
+              "value": "=dialog.error.value.message"
+            },
+            {
+              "property": "dialog.parentDialog",
+              "value": "=dialog.error.value.dialogContext.parent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "TtRwcE"
+          },
+          "property": "conversation.pathTaken",
+          "value": "=concat(conversation.pathTaken,\" -> \",\"Error occurred trigger\")"
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "wmcWiG"
+          },
+          "properties": "{\"pathTraversed\" : `${conversation.pathTaken}`}",
+          "name": "user-path"
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "1kSAlU",
+            "name": "Error Telemetry"
+          },
+          "properties": "{\"dialog\" : `${dialog.parentDialog}`, \"error\" : `${dialog.errorMessage}`, \"details\" : `${dialog.error}`}",
+          "name": "BotLevelError"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "lJIS0k"
+          },
+          "activity": "${SendActivity_lJIS0k()}"
+        }
+      ],
+      "runOnce": true
+    }
+  ],
+  "generator": "itss-fcsi-bot.lg",
+  "id": "itss-fcsi-bot",
+  "recognizer": "itss-fcsi-bot.lu.qna"
+}

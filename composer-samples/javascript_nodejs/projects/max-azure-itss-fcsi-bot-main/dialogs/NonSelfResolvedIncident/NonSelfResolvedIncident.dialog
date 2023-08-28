@@ -1,0 +1,1544 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "mFXLdJ",
+    "name": "NonSelfResolvedIncident",
+    "comment": "For normal incident creation"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "jC7PNK"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.DeleteProperties",
+          "$designer": {
+            "id": "HTP2de"
+          },
+          "properties": [
+            "conversation.productsDetected",
+            "conversation.GenesysEntities",
+            "conversation.isGenesysEntityEmpty",
+            "conversation.GenesysQueuesOpen",
+            "conversation.intentsGen"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "8hhyjc"
+          },
+          "property": "conversation.pathTaken",
+          "value": "=concat(conversation.pathTaken,\" -> \",\" NonSelfResolvedInicdent\")"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "JlDpfr",
+            "comment": "Initialize variables"
+          },
+          "assignments": [
+            {
+              "property": "conversation.prod",
+              "value": "= ''"
+            }
+          ]
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "EIeaSq"
+          },
+          "properties": "{\"pathTraversed\" : `${conversation.pathTaken}`}",
+          "name": "user-path"
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "K8oqlM"
+          },
+          "resultProperty": "dialog.luisResult",
+          "method": "GET",
+          "url": "=`${settings.luis.endpoint}luis/prediction/v3.0/apps/${settings.luis.appId}/slots/production/predict?verbose=true&show-all-intents=true&log=true&subscription-key=${settings.luis.endpointKey}&query=${uriComponent(conversation.firstIssue)}`"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "oX6LUf",
+            "comment": "Now query will contain the joined Intent"
+          },
+          "condition": "=dialog.luisResult.statusCode!=200",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "0u8tQc",
+                "comment": "Now query will contain the joined Intent"
+              },
+              "property": "conversation.joinedIntent",
+              "value": "=conversation.firstIssue"
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "lmjNbn"
+              },
+              "property": "dialog.isProductEmpty",
+              "value": "='true'"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "T35Igl"
+              },
+              "property": "dialog.intents",
+              "value": "=dialog.luisResult.content.prediction.intents"
+            },
+            {
+              "$kind": "TopThreeIntents",
+              "$designer": {
+                "id": "yuQcAk"
+              },
+              "intents": "dialog.intents",
+              "resultProperty": "conversation.customIntents"
+            },
+            {
+              "$kind": "Microsoft.Foreach",
+              "$designer": {
+                "id": "IpOJwn"
+              },
+              "index": "dialog.foreach.index",
+              "value": "dialog.foreach.value",
+              "itemsProperty": "conversation.customIntents",
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "C00Qlg"
+                  },
+                  "condition": "=dialog.foreach.value[0] == 'None'|| dialog.foreach.value[0] =='DeferToRecognizer_QnA_itss-fcsi-bot' || dialog.foreach.value[0] =='Cancel'|| dialog.foreach.value[0] =='null' || dialog.foreach.value[0] =='Help' || dialog.foreach.value[0] =='Incident' || dialog.foreach.value[0] =='THDI'",
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.EditArray",
+                      "$designer": {
+                        "id": "rO4uOU"
+                      },
+                      "changeType": "push",
+                      "itemsProperty": "dialog.filteredIntents",
+                      "value": "=dialog.foreach.value"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "yqPmcP"
+              },
+              "property": "conversation.intentsGen",
+              "value": "=dialog.filteredIntents"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "vsd8mn"
+              },
+              "condition": "=dialog.filteredIntents[0][1] > '0.6'",
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "OHMBq4"
+                  },
+                  "condition": "=dialog.luisResult.content.prediction.topIntent== 'None'|| dialog.luisResult.content.prediction.topIntent =='DeferToRecognizer_QnA_itss-fcsi-bot'",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "z9b2dj",
+                        "comment": "Now query will contain the joined Intent"
+                      },
+                      "property": "conversation.joinedIntent",
+                      "value": "=conversation.firstIssue"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "yG4oCq",
+                        "comment": "Now query will contain the joined Intent"
+                      },
+                      "property": "conversation.joinedIntent",
+                      "value": "=trim(dialog.luisResult.content.prediction.topIntent)"
+                    },
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "SlU01L"
+                      },
+                      "condition": "=conversation.joinedIntent == \"Assign to Assignment group\" ",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "N5d7it"
+                          },
+                          "activity": "${SendActivity_N5d7it()}"
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "ZoLZG8"
+                          },
+                          "assignments": [
+                            {
+                              "value": "='Assign to Assignment group - Request for Help Desk support'",
+                              "property": "conversation.issueType"
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "L0HDVm"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "IncidentForm-Flow"
+                        },
+                        {
+                          "$kind": "SendEventTelemetry",
+                          "$designer": {
+                            "id": "jAyA6B",
+                            "name": "SendEventTelemetry-custom-flow"
+                          },
+                          "name": "custom-flow",
+                          "properties": "{\"name\" : 'Assign to Assignment group from TopIntent'}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "HnUY0L"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "FurtherHelp"
+                        },
+                        {
+                          "$kind": "Microsoft.EndDialog",
+                          "$designer": {
+                            "id": "Rmz26Q"
+                          }
+                        }
+                      ],
+                      "elseActions": []
+                    }
+                  ]
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "XevWhU"
+                  },
+                  "condition": "=dialog.filteredIntents[0][1] > '0.169'",
+                  "elseActions": [
+                    {
+                      "$kind": "SendEventTelemetry",
+                      "$designer": {
+                        "id": "uzKLHQ",
+                        "name": "SendEventTelemetry-ProductSelected"
+                      },
+                      "name": "product-selected",
+                      "properties": "{\"product\" : \"User Issue/Product not understood by Max\"}"
+                    },
+                    {
+                      "$kind": "SendEventTelemetry",
+                      "$designer": {
+                        "id": "x8F7g4",
+                        "name": "SendEventTelemetry-LUIS"
+                      },
+                      "name": "luis-result",
+                      "properties": "=dialog.luisResult.content"
+                    },
+                    {
+                      "$kind": "SendEventTelemetry",
+                      "$designer": {
+                        "id": "9UVNF0",
+                        "name": "SendEventTelemetry-luislessthan17toliveagent"
+                      },
+                      "properties": "{\"luislessthan17\":\"yes\",\"score\" : `${dialog.filteredIntents[0][1]}`}",
+                      "name": "luislessthan17toliveagent"
+                    },
+                    {
+                      "$kind": "SendEventTelemetry",
+                      "$designer": {
+                        "id": "lhE3tI",
+                        "name": "SendEventTelemetry-UserIntent"
+                      },
+                      "properties": "{\"userintent\" : `${conversation.firstIssue}`}",
+                      "name": "User-Intent"
+                    },
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "yqlIi2"
+                      },
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "RBFUkp"
+                          },
+                          "assignments": [
+                            {
+                              "property": "conversation.livechatsource",
+                              "value": "=\"luislessthan17\""
+                            },
+                            {
+                              "property": "conversation.issueType",
+                              "value": "=\"User Issue/Product not understood by Max\""
+                            },
+                            {
+                              "value": "=\"User Issue/Product not understood by Max\"",
+                              "property": "conversation.productsummary"
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.TextInput",
+                          "$designer": {
+                            "id": "qVSSdg"
+                          },
+                          "disabled": false,
+                          "maxTurnCount": 1,
+                          "alwaysPrompt": false,
+                          "allowInterruptions": false,
+                          "unrecognizedPrompt": "",
+                          "invalidPrompt": "",
+                          "prompt": "${TextInput_Prompt_qVSSdg()}"
+                        },
+                        {
+                          "$kind": "SendEventTelemetry",
+                          "$designer": {
+                            "id": "he4yPM"
+                          },
+                          "properties": "{\"LiveAgent\" : `${turn.activity.value.flow}`}",
+                          "name": "user-liveagent"
+                        },
+                        {
+                          "$kind": "Microsoft.IfCondition",
+                          "$designer": {
+                            "id": "AQJ3N3"
+                          },
+                          "condition": "=turn.activity.value.flow == 'ConnectwithaLiveAgent'",
+                          "actions": [
+                            {
+                              "$kind": "Microsoft.BeginDialog",
+                              "$designer": {
+                                "id": "WRjnv8"
+                              },
+                              "activityProcessed": true,
+                              "dialog": "ChatDecider",
+                              "options": {
+                                "route": "='BOMGAR'"
+                              },
+                              "disabled": true
+                            },
+                            {
+                              "$kind": "Microsoft.IfCondition",
+                              "$designer": {
+                                "id": "N7kGOG"
+                              },
+                              "condition": "= conversation.BomgarAvailable",
+                              "actions": [
+                                {
+                                  "$kind": "Microsoft.BeginDialog",
+                                  "$designer": {
+                                    "id": "yPjbYI"
+                                  },
+                                  "activityProcessed": true,
+                                  "dialog": "LiveAgent",
+                                  "disabled": true
+                                }
+                              ],
+                              "elseActions": [
+                                {
+                                  "$kind": "Microsoft.SendActivity",
+                                  "$designer": {
+                                    "id": "f9Jezh"
+                                  },
+                                  "activity": "${SendActivity_f9Jezh()}",
+                                  "disabled": true
+                                },
+                                {
+                                  "$kind": "Microsoft.BeginDialog",
+                                  "$designer": {
+                                    "id": "eJjDvn"
+                                  },
+                                  "activityProcessed": true,
+                                  "dialog": "IncidentForm-Flow",
+                                  "disabled": true
+                                }
+                              ],
+                              "disabled": true
+                            },
+                            {
+                              "$kind": "Microsoft.IfCondition",
+                              "$designer": {
+                                "id": "7zmcQH"
+                              },
+                              "condition": "= conversation.GenesysAvailable",
+                              "actions": [
+                                {
+                                  "$kind": "Microsoft.BeginDialog",
+                                  "$designer": {
+                                    "id": "4XpeMl"
+                                  },
+                                  "activityProcessed": true,
+                                  "dialog": "ChatDecider",
+                                  "options": {
+                                    "route": "='GENESYS'"
+                                  }
+                                }
+                              ],
+                              "elseActions": [
+                                {
+                                  "$kind": "Microsoft.SendActivity",
+                                  "$designer": {
+                                    "id": "ZrF9SM"
+                                  },
+                                  "activity": "${SendActivity_ZrF9SM()}"
+                                },
+                                {
+                                  "$kind": "Microsoft.BeginDialog",
+                                  "$designer": {
+                                    "id": "0yph6V"
+                                  },
+                                  "activityProcessed": true,
+                                  "dialog": "IncidentForm-Flow"
+                                }
+                              ]
+                            }
+                          ],
+                          "elseActions": [
+                            {
+                              "$kind": "Microsoft.BeginDialog",
+                              "$designer": {
+                                "id": "gnvzfO"
+                              },
+                              "activityProcessed": true,
+                              "dialog": "IncidentForm-Flow"
+                            }
+                          ]
+                        }
+                      ],
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "99j5QQ"
+                          },
+                          "assignments": [
+                            {
+                              "property": "conversation.livechatsource",
+                              "value": "=\"luislessthan17\""
+                            },
+                            {
+                              "property": "conversation.issueType",
+                              "value": "=\"User Issue/Product not understood by Max\""
+                            },
+                            {
+                              "value": "=\"User Issue/Product not understood by Max\"",
+                              "property": "conversation.productsummary"
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "Gcx0sk"
+                          },
+                          "activity": "${SendActivity_Gcx0sk()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "V3a3JU"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "IncidentForm-Flow"
+                        }
+                      ],
+                      "condition": "=getProperty(conversation, 'skillObj')"
+                    },
+                    {
+                      "$kind": "Microsoft.DeleteProperties",
+                      "$designer": {
+                        "id": "6ovmZk"
+                      },
+                      "properties": [
+                        "conversation.productsummary",
+                        "conversation.issueType"
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "nc7BCd"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "FurtherHelp"
+                    },
+                    {
+                      "$kind": "Microsoft.EndDialog",
+                      "$designer": {
+                        "id": "7no2YH"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.Foreach",
+                  "$designer": {
+                    "id": "LCCBHY"
+                  },
+                  "index": "dialog.foreach.index",
+                  "value": "dialog.foreach.value",
+                  "itemsProperty": "dialog.filteredIntents",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.EditArray",
+                      "$designer": {
+                        "id": "b5AMI2"
+                      },
+                      "changeType": "push",
+                      "itemsProperty": "dialog.lessthanIntents",
+                      "value": "=dialog.foreach.value[0]"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "A73bz8"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 1,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": false,
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "property": "dialog.selectedIntent",
+                  "value": "=turn.activity.value.intentSelected",
+                  "prompt": "${TextInput_Prompt_A73bz8()}"
+                },
+                {
+                  "$kind": "SendEventTelemetry",
+                  "$designer": {
+                    "id": "cGOix4",
+                    "name": "SendEventTelemetry-LUIS Selected"
+                  },
+                  "name": "luis-result-selected",
+                  "properties": "{\"selectedintent\" : `${dialog.selectedIntent}`}"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "4LkXab"
+                  },
+                  "condition": "=dialog.selectedIntent=='None of the above'",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "VnXnNJ",
+                        "comment": "Now query will contain the joined Intent"
+                      },
+                      "property": "conversation.joinedIntent",
+                      "value": "=conversation.firstIssue"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "hux3Gx",
+                        "comment": "Now query will contain the joined Intent"
+                      },
+                      "property": "conversation.joinedIntent",
+                      "value": "=dialog.selectedIntent"
+                    },
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "Cgfjs8"
+                      },
+                      "condition": "=conversation.joinedIntent == \"Assign to Assignment group\"",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "F3wTNn"
+                          },
+                          "activity": "${SendActivity_F3wTNn()}"
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "RvjRzv"
+                          },
+                          "assignments": [
+                            {
+                              "value": "='Assign to Assignment group - Request for Help Desk support'",
+                              "property": "conversation.issueType"
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "ZZgHFL"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "IncidentForm-Flow"
+                        },
+                        {
+                          "$kind": "SendEventTelemetry",
+                          "$designer": {
+                            "id": "JqieqF",
+                            "name": "SendEventTelemetry-custom-flow"
+                          },
+                          "name": "custom-flow",
+                          "properties": "{\"name\" : 'Assign to Assignment group from UserSelected'}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "FrRLfq"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "FurtherHelp"
+                        },
+                        {
+                          "$kind": "Microsoft.EndDialog",
+                          "$designer": {
+                            "id": "oB6iOK"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "SendEventTelemetry",
+                  "$designer": {
+                    "id": "aXUIrO",
+                    "name": "SendEventTelemetry-UserIntent"
+                  },
+                  "properties": "{\"userintent\" : `${conversation.joinedIntent}`}",
+                  "name": "User-Intent"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "9nat2a",
+                "comment": "Now query will contain the joined Intent"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.products",
+                  "value": "=dialog.luisResult.content.prediction.entities.product"
+                },
+                {
+                  "property": "dialog.isProductEmpty",
+                  "value": "=empty(dialog.products)"
+                },
+                {
+                  "property": "conversation.GenesysEntities",
+                  "value": "=dialog.luisResult.content.prediction.entities.genesysQueues"
+                },
+                {
+                  "property": "conversation.isGenesysEntityEmpty",
+                  "value": "=empty(conversation.GenesysEntities)"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "BYG6Ji"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.productsDetected",
+                  "value": "=[]"
+                },
+                {
+                  "property": "conversation.GenesysEntitiesDetected",
+                  "value": "=[]"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.Foreach",
+              "$designer": {
+                "id": "yEhdwi"
+              },
+              "index": "dialog.foreach.prodIndex1",
+              "value": "dialog.foreach.prodValue1",
+              "itemsProperty": "dialog.products",
+              "actions": [
+                {
+                  "$kind": "Microsoft.Foreach",
+                  "$designer": {
+                    "id": "2uDc7u"
+                  },
+                  "index": "dialog.foreach.prodIndex",
+                  "value": "dialog.foreach.prodValue",
+                  "itemsProperty": "dialog.foreach.prodValue1",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "62VJ34"
+                      },
+                      "property": "dialog.prodSenCase",
+                      "value": "=sentenceCase(dialog.foreach.prodValue, 'en-US')"
+                    },
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "MFsx8x"
+                      },
+                      "condition": "= contains(conversation.productsDetected, dialog.prodSenCase)",
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.EditArray",
+                          "$designer": {
+                            "id": "Hycyjq"
+                          },
+                          "changeType": "push",
+                          "itemsProperty": "conversation.productsDetected",
+                          "value": "=dialog.prodSenCase"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.Foreach",
+              "$designer": {
+                "id": "FfXxhm"
+              },
+              "index": "dialog.foreach.genIndex1",
+              "value": "dialog.foreach.genValue1",
+              "itemsProperty": "conversation.GenesysEntities",
+              "actions": [
+                {
+                  "$kind": "Microsoft.Foreach",
+                  "$designer": {
+                    "id": "6ueUM4"
+                  },
+                  "index": "dialog.foreach.genIndex",
+                  "value": "dialog.foreach.genValue",
+                  "itemsProperty": "dialog.foreach.genValue1",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "DF7vuH"
+                      },
+                      "condition": "=contains(conversation.GenesysEntitiesDetected, dialog.foreach.genValue)",
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.EditArray",
+                          "$designer": {
+                            "id": "HSjPEF"
+                          },
+                          "changeType": "push",
+                          "itemsProperty": "conversation.GenesysEntitiesDetected",
+                          "value": "=dialog.foreach.genValue"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "$kind": "SendEventTelemetry",
+              "$designer": {
+                "id": "g4y6Va",
+                "name": "SendEventTelemetry-LUIS"
+              },
+              "name": "luis-result",
+              "properties": "=dialog.luisResult.content"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EditArray",
+          "$designer": {
+            "id": "768q4W"
+          },
+          "changeType": "clear",
+          "itemsProperty": "dialog.multiProd"
+        },
+        {
+          "$kind": "Microsoft.Foreach",
+          "$designer": {
+            "id": "W5umlm"
+          },
+          "index": "dialog.foreach.index",
+          "value": "dialog.foreach.value",
+          "itemsProperty": "dialog.products",
+          "actions": [
+            {
+              "$kind": "Microsoft.Foreach",
+              "$designer": {
+                "id": "XRdMaU"
+              },
+              "index": "dialog.foreach.ind",
+              "value": "dialog.foreach.val",
+              "itemsProperty": "dialog.foreach.value",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "3ApiMR"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.multiProductCase",
+                      "value": "=sentenceCase(dialog.foreach.val, 'en-US')"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "RNvUIC"
+                  },
+                  "condition": "= contains(dialog.multiProd, dialog.multiProductCase)",
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "RIIRKP"
+                      },
+                      "property": "dialog.countMultiProd",
+                      "value": "=count(dialog.multiProd)"
+                    },
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "HyK22z"
+                      },
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.BreakLoop",
+                          "$designer": {
+                            "id": "g2ZGmq"
+                          }
+                        }
+                      ],
+                      "condition": "= dialog.countMultiProd < 5",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.EditArray",
+                          "$designer": {
+                            "id": "pQTdsh"
+                          },
+                          "changeType": "push",
+                          "itemsProperty": "dialog.multiProd",
+                          "value": "=dialog.multiProductCase"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "nJ5wxx"
+          },
+          "property": "dialog.multiProdSorted",
+          "value": "=sortBy(dialog.multiProd)"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "OavlfJ"
+          },
+          "condition": "=dialog.isProductEmpty",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "VNJ7qE"
+              },
+              "property": "dialog.multiProdCount",
+              "value": "=count(dialog.multiProd)"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "3NtCvY"
+              },
+              "condition": "= dialog.multiProdCount > 1",
+              "actions": [
+                {
+                  "$kind": "Microsoft.HttpRequest",
+                  "$designer": {
+                    "id": "BKl2AP"
+                  },
+                  "resultProperty": "dialog.importantProducts",
+                  "method": "GET",
+                  "url": "=`${settings.thdi.blobImportantProducts}`"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "XoFHGo"
+                  },
+                  "condition": "= dialog.importantProducts.statusCode == 200",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.Foreach",
+                      "$designer": {
+                        "id": "stFDkU"
+                      },
+                      "index": "dialog.foreach.index",
+                      "value": "dialog.foreach.value",
+                      "itemsProperty": "dialog.importantProducts.content",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.Foreach",
+                          "$designer": {
+                            "id": "Q3qhdX"
+                          },
+                          "index": "dialog.foreach.ind",
+                          "value": "dialog.foreach.val",
+                          "itemsProperty": "dialog.multiProd",
+                          "actions": [
+                            {
+                              "$kind": "Microsoft.IfCondition",
+                              "$designer": {
+                                "id": "0Fsa8l"
+                              },
+                              "condition": "= trim(toLower(dialog.foreach.value[0])) == trim(toLower(dialog.foreach.val)) ",
+                              "actions": [
+                                {
+                                  "$kind": "Microsoft.SetProperties",
+                                  "$designer": {
+                                    "id": "DUD53C"
+                                  },
+                                  "assignments": [
+                                    {
+                                      "property": "conversation.prod",
+                                      "value": "=dialog.foreach.value[0]"
+                                    },
+                                    {
+                                      "property": "conversation.joinedIntent",
+                                      "value": "=dialog.foreach.value[1]"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "$kind": "Microsoft.BreakLoop",
+                                  "$designer": {
+                                    "id": "XySwcC"
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "UjYnnK"
+              },
+              "condition": "= length(conversation.prod) == 0",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "DwuIlS"
+                  },
+                  "condition": "dialog.multiProdCount",
+                  "cases": [
+                    {
+                      "value": 1,
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "Jox4rm"
+                          },
+                          "property": "conversation.prod",
+                          "value": "=dialog.multiProd[0]"
+                        }
+                      ]
+                    },
+                    {
+                      "value": 2,
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.TextInput",
+                          "$designer": {
+                            "id": "6a3ID3"
+                          },
+                          "disabled": false,
+                          "maxTurnCount": 3,
+                          "alwaysPrompt": false,
+                          "allowInterruptions": false,
+                          "unrecognizedPrompt": "",
+                          "invalidPrompt": "",
+                          "defaultValueResponse": "",
+                          "prompt": "${TextInput_Prompt_6a3ID3()}",
+                          "property": "dialog.prod",
+                          "value": "=turn.activity.value.userProductSelectTwo"
+                        },
+                        {
+                          "$kind": "Microsoft.IfCondition",
+                          "$designer": {
+                            "id": "9D6BrC"
+                          },
+                          "actions": [
+                            {
+                              "$kind": "Microsoft.TextInput",
+                              "$designer": {
+                                "id": "hEbZnn"
+                              },
+                              "maxTurnCount": 3,
+                              "alwaysPrompt": true,
+                              "allowInterruptions": false,
+                              "prompt": "${TextInput_Prompt_hEbZnn()}",
+                              "unrecognizedPrompt": "",
+                              "invalidPrompt": "",
+                              "property": "dialog.prod",
+                              "value": "=turn.activity.value.otherProduct"
+                            }
+                          ],
+                          "condition": "= dialog.prod == 'other'"
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "LogySu"
+                          },
+                          "property": "conversation.prod",
+                          "value": "=dialog.prod"
+                        }
+                      ]
+                    },
+                    {
+                      "value": 3,
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.TextInput",
+                          "$designer": {
+                            "id": "hMF41h"
+                          },
+                          "disabled": false,
+                          "maxTurnCount": 3,
+                          "alwaysPrompt": false,
+                          "allowInterruptions": false,
+                          "unrecognizedPrompt": "",
+                          "invalidPrompt": "",
+                          "defaultValueResponse": "",
+                          "prompt": "${TextInput_Prompt_hMF41h()}",
+                          "property": "dialog.prod",
+                          "value": "=turn.activity.value.userProductSelectThree"
+                        },
+                        {
+                          "$kind": "Microsoft.IfCondition",
+                          "$designer": {
+                            "id": "OerOZL"
+                          },
+                          "actions": [
+                            {
+                              "$kind": "Microsoft.TextInput",
+                              "$designer": {
+                                "id": "395PEn"
+                              },
+                              "maxTurnCount": 3,
+                              "alwaysPrompt": true,
+                              "allowInterruptions": false,
+                              "prompt": "${TextInput_Prompt_395PEn()}",
+                              "unrecognizedPrompt": "",
+                              "invalidPrompt": "",
+                              "property": "dialog.prod",
+                              "value": "=turn.activity.value.otherProduct"
+                            }
+                          ],
+                          "condition": "= dialog.prod == 'other'"
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "kAfr5v"
+                          },
+                          "property": "conversation.prod",
+                          "value": "=dialog.prod"
+                        }
+                      ]
+                    },
+                    {
+                      "value": 4,
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.TextInput",
+                          "$designer": {
+                            "id": "BKoQIn"
+                          },
+                          "disabled": false,
+                          "maxTurnCount": 3,
+                          "alwaysPrompt": false,
+                          "allowInterruptions": false,
+                          "unrecognizedPrompt": "",
+                          "invalidPrompt": "",
+                          "defaultValueResponse": "",
+                          "prompt": "${TextInput_Prompt_BKoQIn()}",
+                          "property": "dialog.prod",
+                          "value": "=turn.activity.value.userProductSelectFour"
+                        },
+                        {
+                          "$kind": "Microsoft.IfCondition",
+                          "$designer": {
+                            "id": "ycjtU4"
+                          },
+                          "actions": [
+                            {
+                              "$kind": "Microsoft.TextInput",
+                              "$designer": {
+                                "id": "g0BKS9"
+                              },
+                              "maxTurnCount": 3,
+                              "alwaysPrompt": true,
+                              "allowInterruptions": false,
+                              "prompt": "${TextInput_Prompt_g0BKS9()}",
+                              "unrecognizedPrompt": "",
+                              "invalidPrompt": "",
+                              "property": "dialog.prod",
+                              "value": "=turn.activity.value.otherProduct"
+                            }
+                          ],
+                          "condition": "= dialog.prod == 'other'"
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "8RPTTc"
+                          },
+                          "property": "conversation.prod",
+                          "value": "=dialog.prod"
+                        }
+                      ]
+                    },
+                    {
+                      "value": 5,
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.TextInput",
+                          "$designer": {
+                            "id": "FOglWd"
+                          },
+                          "disabled": false,
+                          "maxTurnCount": 3,
+                          "alwaysPrompt": false,
+                          "allowInterruptions": false,
+                          "unrecognizedPrompt": "",
+                          "invalidPrompt": "",
+                          "defaultValueResponse": "",
+                          "prompt": "${TextInput_Prompt_FOglWd()}",
+                          "property": "dialog.prod",
+                          "value": "=turn.activity.value.userProductSelectFive"
+                        },
+                        {
+                          "$kind": "Microsoft.IfCondition",
+                          "$designer": {
+                            "id": "OgUmK5"
+                          },
+                          "actions": [
+                            {
+                              "$kind": "Microsoft.TextInput",
+                              "$designer": {
+                                "id": "8vuNvp"
+                              },
+                              "maxTurnCount": 3,
+                              "alwaysPrompt": true,
+                              "allowInterruptions": false,
+                              "prompt": "${TextInput_Prompt_8vuNvp()}",
+                              "unrecognizedPrompt": "",
+                              "invalidPrompt": "",
+                              "property": "dialog.prod",
+                              "value": "=turn.activity.value.otherProduct"
+                            }
+                          ],
+                          "condition": "= dialog.prod == 'other'"
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "QHckYf"
+                          },
+                          "property": "conversation.prod",
+                          "value": "=dialog.prod"
+                        }
+                      ]
+                    }
+                  ],
+                  "default": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "3rkEMY"
+                      },
+                      "property": "conversation.prod",
+                      "value": "=dialog.multiProd[0]"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "LG80Gi"
+              },
+              "property": "conversation.productsummary",
+              "value": "=string(conversation.prod,\"en-us\")"
+            }
+          ],
+          "actions": [
+            {
+              "$kind": "Microsoft.HttpRequest",
+              "$designer": {
+                "id": "0bOCOX"
+              },
+              "resultProperty": "dialog.blobProducts",
+              "method": "GET",
+              "url": "=`${settings.thdi.blobProducts}`"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "1N00V0"
+              },
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "zNu0Ro"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.productsRes",
+                      "value": "=dialog.blobProducts.content"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "VuzpYd"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.productsSplitted",
+                      "value": "=split(dialog.productsRes, ';')"
+                    },
+                    {
+                      "property": "dialog.productsCount",
+                      "value": "=count(dialog.productsSplitted)"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "GQpXDE"
+                  },
+                  "condition": "= dialog.productsCount == 20",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.Foreach",
+                      "$designer": {
+                        "id": "16VNCO"
+                      },
+                      "index": "dialog.foreach.index",
+                      "value": "dialog.foreach.value",
+                      "itemsProperty": "dialog.productsSplitted",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "BpAsxI"
+                          },
+                          "assignments": [
+                            {
+                              "property": "dialog.singleProductCase",
+                              "value": "=sentenceCase(dialog.foreach.value, 'en-US')"
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.IfCondition",
+                          "$designer": {
+                            "id": "6q30rD"
+                          },
+                          "condition": "= dialog.singleProductCase ==\"Icue (integrated clinical user experience)\"",
+                          "actions": [
+                            {
+                              "$kind": "Microsoft.SetProperties",
+                              "$designer": {
+                                "id": "SqUrYa"
+                              },
+                              "assignments": [
+                                {
+                                  "property": "dialog.singleProductCase ",
+                                  "value": "=\"ICUE (Integrated Clinical User Experience)\""
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.IfCondition",
+                          "$designer": {
+                            "id": "Qg3FHV"
+                          },
+                          "condition": "= dialog.singleProductCase ==\"Microsoft teams\"",
+                          "actions": [
+                            {
+                              "$kind": "Microsoft.SetProperties",
+                              "$designer": {
+                                "id": "APpu46"
+                              },
+                              "assignments": [
+                                {
+                                  "property": "dialog.singleProductCase ",
+                                  "value": "=\"Microsoft Teams\""
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.EditArray",
+                          "$designer": {
+                            "id": "IUojMH"
+                          },
+                          "changeType": "push",
+                          "itemsProperty": "dialog.toptwentyCase",
+                          "value": "=dialog.singleProductCase"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "IDEc0P"
+                      },
+                      "assignments": [
+                        {
+                          "property": "dialog.toptwenty",
+                          "value": "=sortBy(dialog.toptwentyCase)"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.TextInput",
+                      "$designer": {
+                        "id": "cZYDi0"
+                      },
+                      "disabled": false,
+                      "maxTurnCount": 3,
+                      "alwaysPrompt": false,
+                      "allowInterruptions": false,
+                      "unrecognizedPrompt": "",
+                      "invalidPrompt": "",
+                      "property": "dialog.prod",
+                      "value": "=turn.activity.value.userProductSelect",
+                      "prompt": "${TextInput_Prompt_cZYDi0()}"
+                    },
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "sDkrQn"
+                      },
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.TextInput",
+                          "$designer": {
+                            "id": "t8vvZv"
+                          },
+                          "maxTurnCount": 3,
+                          "alwaysPrompt": true,
+                          "allowInterruptions": false,
+                          "prompt": "${TextInput_Prompt_t8vvZv()}",
+                          "unrecognizedPrompt": "",
+                          "invalidPrompt": "",
+                          "property": "dialog.prod",
+                          "value": "=turn.activity.value.otherProduct"
+                        }
+                      ],
+                      "condition": "= dialog.prod == 'other'"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "MbikaP"
+                      },
+                      "property": "dialog.prod",
+                      "value": "=''"
+                    }
+                  ]
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "Eur8An"
+                  },
+                  "property": "dialog.prod",
+                  "value": "=''"
+                }
+              ],
+              "condition": "= dialog.blobProducts.statusCode == 200"
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "dCQaYg"
+              },
+              "property": "conversation.prod",
+              "value": "=dialog.prod"
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "L41yPS"
+              },
+              "property": "conversation.productsummary",
+              "value": "=string(conversation.prod,\"en-us\")"
+            }
+          ]
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "wM0koz"
+          },
+          "name": "product-selected",
+          "properties": "{\"product\" : `${conversation.productsummary}`}"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "rVdk81"
+          },
+          "condition": "=contains(conversation.productsDetected,conversation.productsummary)",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.EditArray",
+              "$designer": {
+                "id": "grKIfa"
+              },
+              "changeType": "push",
+              "itemsProperty": "conversation.productsDetected",
+              "value": "=conversation.productsummary"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "inLaNG"
+          },
+          "condition": "=conversation.genesysLuisApproach == 'yes'",
+          "actions": [
+            {
+              "$kind": "SendEventTelemetry",
+              "$designer": {
+                "id": "D2VYpJ"
+              },
+              "name": "Genesys-Approach",
+              "properties": {
+                "approach": "LUISGenysysEntitySearch"
+              }
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "lvOdew"
+              },
+              "activityProcessed": true,
+              "dialog": "GenesysMatchingProductsLuisApproach"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "SendEventTelemetry",
+              "$designer": {
+                "id": "4DfFou"
+              },
+              "name": "Genesys-Approach",
+              "properties": {
+                "approach": "KeywordBasedSearch"
+              }
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "XErep2"
+              },
+              "activityProcessed": true,
+              "dialog": "GenesysMatchingProducts"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "lqZt7y"
+          },
+          "activityProcessed": true,
+          "dialog": "thdiSearch"
+        }
+      ]
+    }
+  ],
+  "generator": "NonSelfResolvedIncident.lg",
+  "recognizer": "NonSelfResolvedIncident.lu.qna",
+  "id": "NonSelfResolvedIncident"
+}

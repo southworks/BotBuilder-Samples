@@ -1,0 +1,154 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "u0x9Eh",
+    "name": "RemoveGreetings",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "WSJDNG"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "rRNq1i"
+          },
+          "property": "conversation.pathTaken",
+          "value": "=concat(conversation.pathTaken,\" -> \",\"RemoveGreetings\")"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "nmEWSj"
+          },
+          "assignments": [
+            {
+              "property": "dialog.user_issue_trim",
+              "value": "=toLower(trim(conversation.firstIssue), 'en-US')"
+            },
+            {
+              "property": "dialog.user_issue_split",
+              "value": "=split(dialog.user_issue_trim, \" \")"
+            },
+            {
+              "property": "dialog.greetingSynonyms",
+              "value": "=\"Hi;hello;sorry;thankyou;Hallo;Hey;Ciao;Hej;Helo;Oi;thanks;MAX;MAX,;thank;MAX!;\""
+            },
+            {
+              "property": "dialog.greetingSynonyms_split",
+              "value": "=split(toLower(dialog.greetingSynonyms), \";\")"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.Foreach",
+          "$designer": {
+            "id": "QxkLMS"
+          },
+          "index": "dialog.foreach.index",
+          "value": "dialog.foreach.value",
+          "itemsProperty": "dialog.user_issue_split",
+          "actions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "9RhrsZ"
+              },
+              "condition": "=indexOf(dialog.greetingSynonyms_split, dialog.foreach.value) == -1",
+              "actions": [
+                {
+                  "$kind": "Microsoft.EditArray",
+                  "$designer": {
+                    "id": "kUNdXo"
+                  },
+                  "itemsProperty": "dialog.queryWIthoutGreetings",
+                  "changeType": "push",
+                  "value": "=dialog.foreach.value"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "tfJbhu"
+          },
+          "condition": "= !empty(dialog.queryWIthoutGreetings)",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "MrpLMB"
+              },
+              "property": "conversation.firstIssue",
+              "value": "=join(dialog.queryWIthoutGreetings, \" \")"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "0tQRju"
+              },
+              "condition": "= dialog.parentDialog == 'MainDialog'",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "SD7E1s"
+                  },
+                  "activity": "${SendActivity_SD7E1s()}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "wO6kkQ"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "MainDialog"
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "qXWJxv"
+                  },
+                  "condition": "= dialog.parentDialog == 'SmartBotCreateNewTicket'",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "Ac8syY"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "SmartBotCreateNewTicket"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "PQXCzR"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "RemoveGreetings.lg",
+  "recognizer": "RemoveGreetings.lu.qna",
+  "id": "RemoveGreetings"
+}

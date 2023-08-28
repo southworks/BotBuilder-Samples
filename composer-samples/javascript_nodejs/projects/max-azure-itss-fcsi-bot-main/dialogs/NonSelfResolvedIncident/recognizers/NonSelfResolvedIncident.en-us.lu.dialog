@@ -1,0 +1,8 @@
+{
+  "$kind": "Microsoft.LuisRecognizer",
+  "id": "LUIS_NonSelfResolvedIncident",
+  "applicationId": "=settings.luis.NonSelfResolvedIncident_en_us_lu.appId",
+  "version": "=settings.luis.NonSelfResolvedIncident_en_us_lu.version",
+  "endpoint": "=settings.luis.endpoint",
+  "endpointKey": "=settings.luis.endpointKey"
+}

@@ -1,0 +1,629 @@
+[import](common.lg)
+
+# SendActivity_Dy88WW_text()
+- Please fill the form and click 'Proceed' to create a ticket
+# SendActivity_Dy88WW()
+[Activity
+    Text = ${SendActivity_Dy88WW_text()}
+]
+
+# TextInput_Prompt_6jXHqE_attachment_toilRV()
+> To learn more Adaptive Cards format, read the documentation at
+> https://docs.microsoft.com/en-us/adaptive-cards/getting-started/bots
+- ```{
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "Input.Text",
+            "label": "Contact",
+            "id": "CallerVal",
+            "value": "${conversation.urlusername}",
+            "isRequired": true,
+            "errorMessage": "Value is required"
+        },
+        {
+            "type": "Input.Text",
+            "label": "Describe Issue Type",
+            "id": "StateVal",
+            "value": "${conversation.issueType}",
+            "isRequired": true,
+            "errorMessage": "Value is required"
+        },
+        {
+            "type": "Input.Text",
+            "label": "Describe Issue",
+            "id": "DescriptionVal",
+            "isMultiline": true,
+            "isRequired": true,
+            "value": "${conversation.firstIssue}",
+            "errorMessage": "Value is required"
+        },
+        {
+            "type": "RichTextBlock",
+            "inlines": [
+                {
+                    "type": "TextRun",
+                    "italic": true,
+                    "color": "Good",
+                    "text": "Do you have any protected data to include as part of this ticket? (Only include it in the Protected Information section below)"
+                }
+            ]
+        },
+        {
+            "type": "Input.Text",
+            "label": "Protected Information",
+            "id": "ProtectedVal",
+            "isMultiline": true,
+            "errorMessage": "Value is required"
+        },
+        {
+            "type": "TextBlock",
+            "text": "Preferred method of contact",
+            "isRequired": true,
+            "errorMessage": "Value is required",
+            "wrap": true
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "ActionSet",
+                            "actions": [
+                                {
+                                    "type": "Action.ToggleVisibility",
+                                    "title": "Phone",
+                                    "data": {
+                                        "clickT": "phone"
+                                    },
+                                    "targetElements": [
+                                        "TelVal"
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "ActionSet",
+                            "actions": [
+                                {
+                                    "type": "Action.ToggleVisibility",
+                                    "title": "Email",
+                                    "data": {
+                                        "clickT": "email"
+                                    },
+                                    "targetElements": [
+                                        {
+                                            "elementId": "TelVal",
+                                            "isVisible": false
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "ActionSet",
+                            "actions": [
+                                {
+                                    "type": "Action.ToggleVisibility",
+                                    "title": "Chat",
+                                    "data": {
+                                        "clickT": "chat"
+                                    },
+                                    "targetElements": [
+                                        {
+                                            "elementId": "TelVal",
+                                            "isVisible": false
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "Input.Text",
+            "label": "Phone number (xxx-xxx-xxxx)",
+            "style": "Tel",
+            "id": "TelVal",
+            "regex": "^[0-9]{3}-[0-9]{3}-[0-9]{4}$",
+            "errorMessage": "Invalid format (E.g., 555-555-5555)",
+            "isVisible": false
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "Input.ChoiceSet",
+                            "id": "TimeZSelectVal",
+                            "label": "Time Zone ",
+                            "isRequired": true,
+                            "errorMessage": "Value is required",
+                            "choices": [
+                                {
+                                    "title": "CST",
+                                    "value": "CT"
+                                },
+                                {
+                                    "title": "IST",
+                                    "value": "IST"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "Input.ChoiceSet",
+                            "id": "HoursSelectVal",
+                            "label": "Hours of Availability ",
+                            "isRequired": true,
+                            "errorMessage": "Value is required",
+                            "choices": [
+                                {
+                                    "title": "5:00 AM - 8:00 AM",
+                                    "value": "5:00 AM - 8:00 AM"
+                                },
+                                {
+                                    "title": "8:00 AM - 11:00 AM",
+                                    "value": "8:00 AM - 11:00 AM"
+                                },
+                                {
+                                    "title": "11:00 AM - 2:00 PM",
+                                    "value": "11:00 AM - 2:00 PM"
+                                },
+                                {
+                                    "title": "2:00 PM - 5:00 PM",
+                                    "value": "2:00 PM - 5:00 PM"
+                                },
+                                {
+                                    "title": "5:00 PM - 8:00 PM",
+                                    "value": "5:00 PM - 8:00 PM"
+                                },
+                                {
+                                    "title": "8:00 PM - 11:00 PM",
+                                    "value": "8:00 PM - 11:00 PM"
+                                },
+                                {
+                                    "title": "11:00 PM - 2:00 AM",
+                                    "value": "11:00 PM - 2:00 AM"
+                                },
+                                {
+                                    "title": "2:00 AM - 5:00 AM",
+                                    "value": "2:00 AM - 5:00 AM"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "ActionSet",
+            "actions": [
+                {
+                    "type": "Action.Submit",
+                    "title": "Continue",
+                    "id": "SubmitClicked",
+                    "data": {
+                        "click": "submit"
+                    }
+                },
+                {
+                    "type": "Action.Submit",
+                    "title": "Cancel",
+                    "associatedInputs": "none",
+                    "id": "CancelClicked",
+                    "data": {
+                        "click": "cancel"
+                    }
+                }
+            ]
+        }
+    ]
+}
+```
+# TextInput_Prompt_6jXHqE()
+[Activity
+    Attachments = ${json(TextInput_Prompt_6jXHqE_attachment_toilRV())}
+]
+
+
+# TextInput_Prompt_7CeEzy_attachment_toilRV()
+> To learn more Adaptive Cards format, read the documentation at
+> https://docs.microsoft.com/en-us/adaptive-cards/getting-started/bots
+- ```{
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "RichTextBlock",
+            "inlines": [
+                {
+                    "type": "TextRun",
+                    "italic": true,
+                    "color": "Good",
+                    "text": "Do you have any protected data to include as part of this ticket? (Only include protected data (PHI/PII) in the encrypted Protected Information field below, if applicable.)"
+                }
+            ]
+        },
+        {
+            "type": "Input.Text",
+            "label": "Protected Information",
+            "id": "ProtectedVal",
+            "isMultiline": true,
+            "errorMessage": "Value is required"
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "Input.ChoiceSet",
+                            "choices": [
+                                {
+                                    "title": "Phone",
+                                    "value": "phone"
+                                },
+                                {
+                                    "title": "Email",
+                                    "value": "email"
+                                },
+                                {
+                                    "title": "Chat",
+                                    "value": "chat"
+                                }
+                            ],
+                            "label": "Preferred method of contact",
+                            "wrap": true,
+                            "isRequired": true,
+                            "errorMessage": "Value is required",
+                            "id": "ContactType"
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "Input.Text",
+                            "label": "Phone number (xxx-xxx-xxxx)",
+                            "style": "Tel",
+                            "id": "TelVal",
+                            "regex": "^[0-9]{3}-[0-9]{3}-[0-9]{4}$",
+                            "errorMessage": "Invalid format (E.g., 555-555-5555)",
+                            "maxLength": 12,
+                            "spacing": "Large",
+                            "isMultiline": true
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "Input.ChoiceSet",
+                            "id": "TimeZSelectVal",
+                            "label": "Time Zone ",
+                            "isRequired": true,
+                            "errorMessage": "Value is required",
+                            "choices": [
+                                {
+                                    "title": "CST",
+                                    "value": "CT"
+                                },
+                                {
+                                    "title": "IST",
+                                    "value": "IST"
+                                }
+                            ],
+                            "wrap": true
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "Input.ChoiceSet",
+                            "id": "HoursSelectVal",
+                            "label": "Hours of Availability ",
+                            "isRequired": true,
+                            "errorMessage": "Value is required",
+                            "choices": [
+                                {
+                                    "title": "5:00 AM - 8:00 AM",
+                                    "value": "5:00 AM - 8:00 AM"
+                                },
+                                {
+                                    "title": "8:00 AM - 11:00 AM",
+                                    "value": "8:00 AM - 11:00 AM"
+                                },
+                                {
+                                    "title": "11:00 AM - 2:00 PM",
+                                    "value": "11:00 AM - 2:00 PM"
+                                },
+                                {
+                                    "title": "2:00 PM - 5:00 PM",
+                                    "value": "2:00 PM - 5:00 PM"
+                                },
+                                {
+                                    "title": "5:00 PM - 8:00 PM",
+                                    "value": "5:00 PM - 8:00 PM"
+                                },
+                                {
+                                    "title": "8:00 PM - 11:00 PM",
+                                    "value": "8:00 PM - 11:00 PM"
+                                },
+                                {
+                                    "title": "11:00 PM - 2:00 AM",
+                                    "value": "11:00 PM - 2:00 AM"
+                                },
+                                {
+                                    "title": "2:00 AM - 5:00 AM",
+                                    "value": "2:00 AM - 5:00 AM"
+                                }
+                            ],
+                            "wrap": true
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "ActionSet",
+            "actions": [
+                {
+                    "type": "Action.Submit",
+                    "title": "Continue",
+                    "id": "SubmitClicked",
+                    "data": {
+                        "click": "submit"
+                    }
+                },
+                {
+                    "type": "Action.Submit",
+                    "title": "Cancel Ticket - Information will be deleted",
+                    "associatedInputs": "none",
+                    "id": "CancelClicked",
+                    "data": {
+                        "click": "cancel"
+                    }
+                }
+            ]
+        }
+    ]
+}```
+# TextInput_Prompt_7CeEzy()
+[Activity
+    Attachments = ${json(TextInput_Prompt_7CeEzy_attachment_toilRV())}
+]
+
+
+# TextInput_InvalidPrompt_7CeEzy()
+[Activity
+    Attachments = ${json(TextInput_InvalidPrompt_7CeEzy_attachment_SiZQEm())}
+]
+
+# TextInput_InvalidPrompt_7CeEzy_attachment_SiZQEm()
+> To learn more Adaptive Cards format, read the documentation at
+> https://docs.microsoft.com/en-us/adaptive-cards/getting-started/bots
+- ```
+{
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "RichTextBlock",
+            "inlines": [
+                {
+                    "type": "TextRun",
+                    "italic": true,
+                    "color": "Good",
+                    "text": "Do you have any protected data to include as part of this ticket? (Only include protected data (PHI/PII) in the encrypted Protected Information field below, if applicable.)"
+                }
+            ]
+        },
+        {
+            "type": "Input.Text",
+            "label": "Protected Information",
+            "id": "ProtectedVal",
+            "isMultiline": true,
+            "errorMessage": "Value is required"
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "Input.ChoiceSet",
+                            "choices": [
+                                {
+                                    "title": "Phone",
+                                    "value": "phone"
+                                },
+                                {
+                                    "title": "Email",
+                                    "value": "email"
+                                },
+                                {
+                                    "title": "Chat",
+                                    "value": "chat"
+                                }
+                            ],
+                            "label": "Preferred method of contact",
+                            "wrap": true,
+                            "isRequired": true,
+                            "errorMessage": "Value is required",
+                            "id": "ContactType"
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "Input.Text",
+                            "label": "Phone number (xxx-xxx-xxxx)",
+                            "style": "Tel",
+                            "id": "TelVal",
+                            "regex": "^[0-9]{3}-[0-9]{3}-[0-9]{4}$",
+                            "errorMessage": "Invalid format (E.g., 555-555-5555)",
+                            "maxLength": 12,
+                            "spacing": "Large",
+                            "isMultiline": true
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "Input.ChoiceSet",
+                            "id": "TimeZSelectVal",
+                            "label": "Time Zone ",
+                            "isRequired": true,
+                            "errorMessage": "Value is required",
+                            "choices": [
+                                {
+                                    "title": "CST",
+                                    "value": "CT"
+                                },
+                                {
+                                    "title": "IST",
+                                    "value": "IST"
+                                }
+                            ],
+                            "wrap": true
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "Input.ChoiceSet",
+                            "id": "HoursSelectVal",
+                            "label": "Hours of Availability ",
+                            "isRequired": true,
+                            "errorMessage": "Value is required",
+                            "choices": [
+                                {
+                                    "title": "5:00 AM - 8:00 AM",
+                                    "value": "5:00 AM - 8:00 AM"
+                                },
+                                {
+                                    "title": "8:00 AM - 11:00 AM",
+                                    "value": "8:00 AM - 11:00 AM"
+                                },
+                                {
+                                    "title": "11:00 AM - 2:00 PM",
+                                    "value": "11:00 AM - 2:00 PM"
+                                },
+                                {
+                                    "title": "2:00 PM - 5:00 PM",
+                                    "value": "2:00 PM - 5:00 PM"
+                                },
+                                {
+                                    "title": "5:00 PM - 8:00 PM",
+                                    "value": "5:00 PM - 8:00 PM"
+                                },
+                                {
+                                    "title": "8:00 PM - 11:00 PM",
+                                    "value": "8:00 PM - 11:00 PM"
+                                },
+                                {
+                                    "title": "11:00 PM - 2:00 AM",
+                                    "value": "11:00 PM - 2:00 AM"
+                                },
+                                {
+                                    "title": "2:00 AM - 5:00 AM",
+                                    "value": "2:00 AM - 5:00 AM"
+                                }
+                            ],
+                            "wrap": true
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "ActionSet",
+            "actions": [
+                {
+                    "type": "Action.Submit",
+                    "title": "Continue",
+                    "id": "SubmitClicked",
+                    "data": {
+                        "click": "submit"
+                    }
+                },
+                {
+                    "type": "Action.Submit",
+                    "title": "Cancel Ticket - Information will be deleted",
+                    "associatedInputs": "none",
+                    "id": "CancelClicked",
+                    "data": {
+                        "click": "cancel"
+                    }
+                }
+            ]
+        }
+    ]
+}
+```
+# SendActivity_Qz9906_text()
+- We are returning you back to SmartBot because of invalid inputs
+# SendActivity_Qz9906()
+[Activity
+    Text = ${SendActivity_Qz9906_text()}
+]

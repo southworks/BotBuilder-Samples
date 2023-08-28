@@ -1,0 +1,159 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "bhNBb9",
+    "name": "selfResolvedIncident",
+    "comment": "this dialog calls the create incident dialog to just create the incident"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "58CPB8"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "3zRDtM"
+          },
+          "property": "conversation.pathTaken",
+          "value": "=concat(conversation.pathTaken,\" -> \",\"selfResolvedIncident\")"
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "kaiPHH"
+          },
+          "properties": "{\"pathTraversed\" : `${conversation.pathTaken}`}",
+          "name": "user-path"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperties",
+          "$designer": {
+            "id": "T972nW"
+          },
+          "properties": [
+            "conversation.issueType",
+            "conversation.adaptive_user",
+            "conversation.adaptive_state",
+            "conversation.adaptive_description",
+            "conversation.adaptive_protected",
+            "conversation.adaptive_availability",
+            "conversation.adaptive_contact",
+            "conversation.adaptive_phone",
+            "conversation.adaptive_caller",
+            "conversation.livechatsource",
+            "conversation.attachment_confirm",
+            "conversation.imgAttach",
+            "conversation.IncSelfResolved",
+            "conversation.incState",
+            "conversation.incType",
+            "conversation.incCloseCode",
+            "conversation.incCloseNotes",
+            "conversation.incGroup"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "wyozRA"
+          },
+          "assignments": [
+            {
+              "property": "conversation.IncSelfResolved",
+              "value": "='true'"
+            },
+            {
+              "property": "conversation.issueType",
+              "value": "=settings.servicenow.SelfShortDes"
+            },
+            {
+              "property": "conversation.adaptive_reference3",
+              "value": "='8:00 PM - 11:00 PM IST | Preferred method of contact : chat'"
+            },
+            {
+              "property": "conversation.incGroup",
+              "value": "='TSC HELP DESK - SPT'"
+            },
+            {
+              "property": "conversation.ishighimpactissue",
+              "value": "='0'"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "YB4pl3"
+          },
+          "assignments": [
+            {
+              "property": "conversation.IncSelfResolved",
+              "value": "='true'"
+            },
+            {
+              "property": "conversation.issueType",
+              "value": "='Self-Service ticket: Information ticket only, no further support needed'"
+            },
+            {
+              "property": "conversation.incState",
+              "value": "='Pending Closure'"
+            },
+            {
+              "property": "conversation.incType",
+              "value": "='Integration'"
+            },
+            {
+              "property": "conversation.incCloseCode",
+              "value": "='Closed/Resolved by Caller'"
+            },
+            {
+              "property": "conversation.incCloseNotes",
+              "value": "='Closed by Caller'"
+            },
+            {
+              "property": "conversation.incGroup",
+              "value": "='TSC HELP DESK - SPT'"
+            },
+            {
+              "property": "conversation.adaptive_reference3",
+              "value": "='8:00 PM - 11:00 PM IST | Preferred method of contact - chat :'"
+            }
+          ],
+          "disabled": true
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "CHADR8"
+          },
+          "activityProcessed": true,
+          "dialog": "IncidentForm-Flow",
+          "disabled": true
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "IWodES"
+          },
+          "activityProcessed": true,
+          "dialog": "Incident_API"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "bauwV7"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "selfResolvedIncident.lg",
+  "recognizer": "selfResolvedIncident.lu.qna",
+  "id": "selfResolvedIncident"
+}

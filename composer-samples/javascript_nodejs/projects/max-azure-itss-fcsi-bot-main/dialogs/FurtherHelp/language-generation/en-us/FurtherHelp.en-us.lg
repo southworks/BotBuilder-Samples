@@ -1,0 +1,9 @@
+[import](common.lg)
+
+
+# ConfirmInput_Prompt_k2AuEZ_text()
+- Do you need help with another issue?
+# ConfirmInput_Prompt_k2AuEZ()
+[Activity
+    Text = ${ConfirmInput_Prompt_k2AuEZ_text()}
+]

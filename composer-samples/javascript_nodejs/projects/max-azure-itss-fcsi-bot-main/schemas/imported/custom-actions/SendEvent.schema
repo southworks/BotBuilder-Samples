@@ -1,0 +1,15 @@
+{
+    "$schema": "https://raw.githubusercontent.com/microsoft/botframework-sdk/master/schemas/component/component.schema",
+    "$role": "implements(Microsoft.IDialog)",
+    "title": "Send Event",
+    "description": "Send an event to the channel",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "input": {
+            "$ref": "schema:#/definitions/stringExpression",
+            "title": "Event Name",
+            "description": "Write the name of the event, which you want to send, and catch in channel"
+        }
+    }
+}

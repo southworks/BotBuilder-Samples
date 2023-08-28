@@ -1,0 +1,488 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "fPMOiT",
+    "name": "Create_Incident",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "65nik9"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "ssnMpn"
+          },
+          "property": "conversation.pathTaken",
+          "value": "=concat(conversation.pathTaken,\" -> \",\"Create_Incident\")"
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "b67Dss"
+          },
+          "properties": "{\"pathTraversed\" : `${conversation.pathTaken}`}",
+          "name": "user-path"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperties",
+          "$designer": {
+            "id": "rHdKRM"
+          },
+          "properties": [
+            "conversation.issueType",
+            "conversation.adaptive_user",
+            "conversation.adaptive_state",
+            "conversation.adaptive_description",
+            "conversation.adaptive_protected",
+            "conversation.adaptive_availability",
+            "conversation.adaptive_contact",
+            "conversation.adaptive_phone",
+            "conversation.adaptive_caller",
+            "conversation.livechatsource",
+            "conversation.attachment_confirm",
+            "conversation.imgAttach",
+            "conversation.adaptive_timezone",
+            "conversation.ishighimpactissue"
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "MYdIbq"
+          },
+          "condition": "=getProperty(conversation, 'skillObj')",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "VV7BZv"
+              },
+              "property": "conversation.issueType",
+              "value": "'Request for Help Desk support'"
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "0OVhSd"
+              },
+              "property": "conversation.ishighimpactissue",
+              "value": "='no'"
+            }
+          ],
+          "elseActions": []
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "2afr6f"
+          },
+          "disabled": false,
+          "maxTurnCount": 3,
+          "alwaysPrompt": false,
+          "allowInterruptions": false,
+          "defaultValueResponse": "",
+          "prompt": "${TextInput_Prompt_2afr6f()}",
+          "property": "conversation.ishighimpactissue",
+          "value": "=turn.activity.value.highimpact"
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "fXfZJk"
+          },
+          "properties": "{\"MultipleUserImpact\" : `${conversation.ishighimpactissue}`}",
+          "name": "user-multipleuser"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "RGKCDx"
+          },
+          "condition": "= conversation.ishighimpactissue == \"yes\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "XdrVfe"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.issueType",
+                  "value": "='Multiple users experiencing the issue OR Issue impacting finance and compliance'"
+                },
+                {
+                  "property": "conversation.ishighimpactissue",
+                  "value": "='1'"
+                },
+                {
+                  "property": "conversation.multipleUser",
+                  "value": "='Y'"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "7WjHz6"
+              },
+              "property": "conversation.livechatsource",
+              "value": "createincident"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "BhheEd"
+              },
+              "condition": "= conversation.urllivechatavailable == '1'",
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "7rxEuW"
+                  },
+                  "condition": "= conversation.urlflowdirection == 'chat'",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "5NuOzL"
+                      },
+                      "condition": "= conversation.GenesysAvailable",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "KkIZ3d"
+                          },
+                          "activity": "${SendActivity_KkIZ3d()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "ozvWeh"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "ChatDecider",
+                          "options": {
+                            "route": "='GENESYS'"
+                          }
+                        }
+                      ],
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "VairXL"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "ChatDecider",
+                          "options": {
+                            "route": "='BOMGAR'"
+                          }
+                        }
+                      ]
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.TextInput",
+                      "$designer": {
+                        "id": "rbZLt1"
+                      },
+                      "disabled": false,
+                      "maxTurnCount": 3,
+                      "alwaysPrompt": false,
+                      "allowInterruptions": false,
+                      "unrecognizedPrompt": "",
+                      "invalidPrompt": "",
+                      "defaultValueResponse": "",
+                      "prompt": "${TextInput_Prompt_rbZLt1()}",
+                      "value": "=turn.activity.value.flow"
+                    },
+                    {
+                      "$kind": "SendEventTelemetry",
+                      "$designer": {
+                        "id": "ldkpvd"
+                      },
+                      "properties": "{\"IncLiveAgentwhenflowIsChat\" : `${turn.activity.value.flow`}",
+                      "name": "user-liveagentchat"
+                    },
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "xIuaKO"
+                      },
+                      "condition": "= turn.activity.value.flow == 'ConnectwithaLiveAgent'",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.IfCondition",
+                          "$designer": {
+                            "id": "6XEWF2"
+                          },
+                          "condition": "= conversation.GenesysAvailable",
+                          "actions": [
+                            {
+                              "$kind": "Microsoft.SendActivity",
+                              "$designer": {
+                                "id": "VSQMDF"
+                              },
+                              "activity": "${SendActivity_VSQMDF()}"
+                            },
+                            {
+                              "$kind": "Microsoft.BeginDialog",
+                              "$designer": {
+                                "id": "ijPxIe"
+                              },
+                              "activityProcessed": true,
+                              "dialog": "ChatDecider",
+                              "options": {
+                                "route": "='GENESYS'"
+                              }
+                            }
+                          ],
+                          "elseActions": [
+                            {
+                              "$kind": "Microsoft.BeginDialog",
+                              "$designer": {
+                                "id": "MP9COw"
+                              },
+                              "activityProcessed": true,
+                              "dialog": "ChatDecider",
+                              "options": {
+                                "route": "='BOMGAR'"
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "XEDAky"
+                  },
+                  "activity": "${SendActivity_XEDAky()}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "NK8gmj"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "IncidentForm-Flow"
+                }
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "bECWXg"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.issueType",
+                  "value": "='Request for Help Desk support'"
+                },
+                {
+                  "property": "conversation.ishighimpactissue",
+                  "value": "='0'"
+                },
+                {
+                  "property": "conversation.multipleUser",
+                  "value": "='N'"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "yS8zeG"
+              },
+              "activityProcessed": true,
+              "dialog": "qnaSearch"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "x3ks9F"
+              },
+              "condition": "=conversation.urlflowdirection=='chat'",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "1HYhe3"
+                  },
+                  "property": "conversation.livechatsource",
+                  "value": "chat"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "4ac0hC"
+                  },
+                  "condition": "= conversation.GenesysAvailable",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "fgkAwS"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "ChatDecider",
+                      "options": {
+                        "route": "='GENESYS'"
+                      }
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "UunoZz"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "ChatDecider",
+                      "options": {
+                        "route": "='BOMGAR'"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "q17KBv"
+                  },
+                  "condition": "=conversation.urllivechatavailable == '1'",
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "X1M29u"
+                      },
+                      "activity": "${SendActivity_X1M29u()}"
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "b2CAJ7"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "IncidentForm-Flow"
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.TextInput",
+                      "$designer": {
+                        "id": "RjnTz3"
+                      },
+                      "disabled": false,
+                      "maxTurnCount": 3,
+                      "alwaysPrompt": false,
+                      "allowInterruptions": false,
+                      "unrecognizedPrompt": "",
+                      "invalidPrompt": "",
+                      "defaultValueResponse": "",
+                      "prompt": "${TextInput_Prompt_RjnTz3()}",
+                      "value": "=turn.activity.value.flow"
+                    },
+                    {
+                      "$kind": "SendEventTelemetry",
+                      "$designer": {
+                        "id": "vXlUiP"
+                      },
+                      "properties": "{\"IncLiveAgent\" : `${turn.activity.value.flow`}",
+                      "name": "user-incliveagent"
+                    },
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "SoWSmg"
+                      },
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.IfCondition",
+                          "$designer": {
+                            "id": "HGfTRV"
+                          },
+                          "condition": "= conversation.GenesysAvailable",
+                          "actions": [
+                            {
+                              "$kind": "Microsoft.BeginDialog",
+                              "$designer": {
+                                "id": "HYh4DZ"
+                              },
+                              "activityProcessed": true,
+                              "dialog": "ChatDecider",
+                              "options": {
+                                "route": "='GENESYS'"
+                              }
+                            }
+                          ],
+                          "elseActions": [
+                            {
+                              "$kind": "Microsoft.BeginDialog",
+                              "$designer": {
+                                "id": "B4Gfsi"
+                              },
+                              "activityProcessed": true,
+                              "dialog": "ChatDecider",
+                              "options": {
+                                "route": "='BOMGAR'"
+                              }
+                            }
+                          ]
+                        }
+                      ],
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "5gu6Tf"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "IncidentForm-Flow"
+                        }
+                      ],
+                      "condition": "=turn.activity.value.flow == 'ConnectwithaLiveAgent'"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "qycL5U"
+          },
+          "activityProcessed": true,
+          "dialog": "FurtherHelp"
+        }
+      ]
+    }
+  ],
+  "generator": "Create_Incident.lg",
+  "recognizer": "Create_Incident.lu.qna",
+  "id": "Create_Incident"
+}

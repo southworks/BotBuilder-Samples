@@ -1,0 +1,85 @@
+[import](common.lg)
+
+# TextInput_Prompt_3W5VW0()
+[Activity
+    Attachments = ${json(TextInput_Prompt_3W5VW0_attachment_dUMRDn())}
+]
+
+# getFurtherQuestions(displayLabel,qnaId)
+- ```
+{
+	"type": "Action.Submit",
+	"title": "${replace(displayLabel,'"','')}",
+	"id": "${qnaId}",
+	"associatedInputs": "none",
+	"data": {
+		"title": "${qnaId}"
+	},
+	"style": "positive"
+}```
+# TextInput_Prompt_3W5VW0_attachment_dUMRDn()
+> To learn more Adaptive Cards format, read the documentation at
+> https://docs.microsoft.com/en-us/adaptive-cards/getting-started/bots
+- ```{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.3",
+  "type": "AdaptiveCard",
+    "body": [
+        
+        
+		{
+			"type": "ActionSet",
+			"actions": [
+						${join(foreach(conversation.qnaContext,lineItem,getFurtherQuestions(lineItem.displayText,lineItem.qnaId)), ',')}			
+						
+					]
+		},
+		{
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": "stretch"
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch"
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "ActionSet",
+                            "actions": [
+                                {
+									"type": "Action.Submit",
+									"title": "SKIP THIS STEP",
+									"id": "999",
+									"associatedInputs": "none",
+									"data": {
+										"title": "999"
+									},
+									"style": "positive"
+								}
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}```
+# SendActivity_7Qp4UG()
+[Activity
+    Text = ${SendActivity_7Qp4UG_text()}
+]
+
+# SendActivity_7Qp4UG_text()
+- ${conversation.qnaContextAnswer}
+# SendActivity_K0Wvl0_text()
+- ${conversation.qnaContextAnswer}
+# SendActivity_K0Wvl0()
+[Activity
+    Text = ${SendActivity_K0Wvl0_text()}
+]

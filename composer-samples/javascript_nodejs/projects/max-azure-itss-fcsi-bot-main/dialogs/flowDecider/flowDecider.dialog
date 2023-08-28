@@ -1,0 +1,129 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "rgWsHC",
+    "name": "flowDecider",
+    "comment": "it runs after Greetings-Events Received, it decides, which LOB the user has selected, and it triggers that flow"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "RSxQxq"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "dhQgOP"
+          },
+          "property": "conversation.pathTaken",
+          "value": "=concat(conversation.pathTaken,\" -> \",\"flowDecider\")"
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "kbUvsy"
+          },
+          "properties": "{\"pathTraversed\" : `${conversation.pathTaken}`}",
+          "name": "user-path"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperties",
+          "$designer": {
+            "id": "TAfK8x"
+          },
+          "properties": [
+            "conversation.whichFlow"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "41DtBC"
+          },
+          "property": "dialog.thdiAndQnaSearchProducts",
+          "value": "=`${settings.thdiAndQnaSrcProdDtls}`"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "kafbFH"
+          },
+          "property": "dialog.thdiAndQnaSearchProducts",
+          "value": "=json(dialog.thdiAndQnaSearchProducts)"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "lorJ30"
+          },
+          "disabled": false,
+          "maxTurnCount": 3,
+          "alwaysPrompt": false,
+          "allowInterruptions": false,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "defaultValueResponse": "",
+          "prompt": "${TextInput_Prompt_lorJ30()}",
+          "property": "conversation.whichFlow",
+          "value": "=turn.activity.value.flow"
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "XDEEc3"
+          },
+          "properties": "{\"flow\" : `${conversation.whichFlow}`}",
+          "name": "which-flow"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "Cwma4N"
+          },
+          "condition": "conversation.whichFlow",
+          "cases": [
+            {
+              "value": "existingIssueFlow",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "g1gD3N"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "openTickets"
+                }
+              ]
+            },
+            {
+              "value": "newIssueFlow",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "WlyM0i"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "MainDialog"
+                }
+              ]
+            },
+            {
+              "value": "thdiQnaSearchFlow",
+              "actions": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "flowDecider.lg",
+  "recognizer": "flowDecider.lu.qna",
+  "id": "flowDecider"
+}

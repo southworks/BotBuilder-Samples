@@ -1,0 +1,130 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "Qt6KcJ",
+    "name": "GenesysError",
+    "comment": "This dialog is called to check if Genesys skill has returned completedSuccessfully or an error code"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "b8KLFq"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "DGVtIz"
+          },
+          "property": "conversation.pathTaken",
+          "value": "=concat(conversation.pathTaken,\" -> \",\"GenesysError\")"
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "gZuObU"
+          },
+          "properties": "{\"pathTraversed\" : `${conversation.pathTaken}`}",
+          "name": "user-path"
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "Fem9Sk"
+          },
+          "properties": "{\"errorCode\" : `${dialog.codeValue}`}",
+          "name": "GenesysTriggered"
+        },
+        {
+          "$kind": "SendEvent",
+          "$designer": {
+            "id": "yrei0U",
+            "name": "Send Event - Disable"
+          },
+          "input": "=\"Disable\""
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "bVz78V"
+          },
+          "condition": "= dialog.codeValue == 'PausedSuccessfully' ||  dialog.codeValue == 'completedSuccessfully'",
+          "elseActions": [
+            {
+              "$kind": "SendEventTelemetry",
+              "$designer": {
+                "id": "2e4dpm"
+              },
+              "properties": "{\"errorCode\" : `${dialog.codeValue}`}",
+              "name": "GenesysError"
+            },
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "Ty8MwE"
+              },
+              "activity": "${SendActivity_Ty8MwE()}"
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "N0wnrD"
+              },
+              "activityProcessed": true,
+              "dialog": "IncidentForm-Flow"
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "uHWNWz"
+              },
+              "activityProcessed": true,
+              "dialog": "FurtherHelp"
+            },
+            {
+              "$kind": "Microsoft.CancelAllDialogs",
+              "$designer": {
+                "id": "ekp8DR"
+              },
+              "activityProcessed": true,
+              "eventName": "EndedAllDialogs"
+            }
+          ],
+          "actions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "PfYgUV"
+              },
+              "condition": "= dialog.codeValue == 'PausedSuccessfully'",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "wN5xUY"
+                  },
+                  "activity": "${SendActivity_wN5xUY()}"
+                },
+                {
+                  "$kind": "Microsoft.CancelAllDialogs",
+                  "$designer": {
+                    "id": "XLuYrW"
+                  },
+                  "activityProcessed": true
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "GenesysError.lg",
+  "recognizer": "GenesysError.lu.qna",
+  "id": "GenesysError"
+}

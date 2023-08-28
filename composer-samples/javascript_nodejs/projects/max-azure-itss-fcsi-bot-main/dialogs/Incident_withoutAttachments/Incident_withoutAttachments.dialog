@@ -1,0 +1,259 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "iEgWaD",
+    "name": "Incident_withoutAttachments",
+    "comment": "when user hasn't uploaded any attachments"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "3lVdLR"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.ChoiceInput",
+          "$designer": {
+            "id": "bzqnnQ",
+            "comment": "multiple choices"
+          },
+          "defaultLocale": "en-us",
+          "disabled": false,
+          "maxTurnCount": 3,
+          "alwaysPrompt": false,
+          "allowInterruptions": false,
+          "choiceOptions": {
+            "includeNumbers": true,
+            "inlineOrMore": ", or ",
+            "inlineOr": " or ",
+            "inlineSeparator": ", "
+          },
+          "prompt": "${ChoiceInput_Prompt_bzqnnQ()}",
+          "style": "heroCard",
+          "choices": [
+            "Yes, submit ticket",
+            "No, keep editing ticket"
+          ],
+          "property": "dialog.confirmChoices",
+          "recognizerOptions": {
+            "recognizeOrdinals": true,
+            "recognizeNumbers": true
+          }
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "PxOXHd"
+          },
+          "properties": "{\"OnTicketSubmission\" : `${dialog.confirmChoices}`}",
+          "name": "user-ticketsubmissionoption"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "Hosnz1"
+          },
+          "condition": "=dialog.confirmChoices",
+          "cases": [
+            {
+              "value": "== \"Yes, submit ticket\"",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "V9r2Lg"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "Incident_API"
+                }
+              ]
+            },
+            {
+              "value": "== \"No, keep editing ticket\"",
+              "actions": [
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "hgK5VY"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 3,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": false,
+                  "prompt": "${TextInput_Prompt_hgK5VY()}",
+                  "property": "dialog.adaptive_caller_again",
+                  "value": "=string(turn.activity.value)",
+                  "validations": [
+                    "toLower(this.value) == \"cancel\" || toLower(json(this.value).click) == \"cancel\" || (json(this.value).click == \"submit\" && json(this.value).HoursSelectVal != \"\" && json(this.value).TimeZSelectVal != \"\" && json(this.value).ContactType != \"\")"
+                  ],
+                  "invalidPrompt": "${TextInput_InvalidPrompt_hgK5VY()}",
+                  "defaultValue": "NOVALIDINPUT"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "878bJ0"
+                  },
+                  "condition": "=getProperty(conversation, 'skillObj')",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "bTJZVf"
+                      },
+                      "condition": "=dialog.adaptive_caller_again == \"NOVALIDINPUT\"",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "i10NuD"
+                          },
+                          "activity": "${SendActivity_i10NuD()}"
+                        },
+                        {
+                          "$kind": "Microsoft.CancelAllDialogs",
+                          "$designer": {
+                            "id": "e0h7CN"
+                          },
+                          "activityProcessed": true
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "o6O7tg"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.adaptive_state ",
+                      "value": "=conversation.issueType"
+                    },
+                    {
+                      "property": "conversation.adaptive_description",
+                      "value": "=conversation.firstIssue"
+                    },
+                    {
+                      "property": "conversation.adaptive_protected",
+                      "value": "=turn.activity.value.ProtectedVal"
+                    },
+                    {
+                      "property": "conversation.adaptive_availability",
+                      "value": "=turn.activity.value.HoursSelectVal"
+                    },
+                    {
+                      "property": "conversation.adaptive_contact",
+                      "value": "=turn.activity.value.ContactSelectVal"
+                    },
+                    {
+                      "property": "conversation.adaptive_user",
+                      "value": "=conversation.urlusername"
+                    },
+                    {
+                      "property": "conversation.adaptive_phone",
+                      "value": "=turn.activity.value.TelVal"
+                    },
+                    {
+                      "property": "dialog.adaptive_button",
+                      "value": "=turn.activity.value.click"
+                    },
+                    {
+                      "property": "conversation.adaptive_timezone",
+                      "value": "=turn.activity.value.TimeZSelectVal"
+                    },
+                    {
+                      "property": "conversation.adaptive_contactbutton",
+                      "value": "=turn.activity.value.clickT"
+                    },
+                    {
+                      "property": "conversation.adaptive_contacttype",
+                      "value": "=turn.activity.value.ContactType"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "B10SeF"
+                  },
+                  "property": "conversation.adaptive_reference3",
+                  "value": "=conversation.adaptive_availability + ' ' + conversation.adaptive_timezone + ' | Preferred method of contact - ' + conversation.adaptive_contacttype + ' : ' + conversation.adaptive_phone+''"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "aktehI"
+                  },
+                  "condition": "=dialog.adaptive_button=='submit'",
+                  "actions": [
+                    {
+                      "$kind": "SendEventTelemetry",
+                      "$designer": {
+                        "id": "N8tH6t"
+                      },
+                      "properties": "{\"WithoutAttachmentTicketSubmission\" : \"Yes\"}",
+                      "name": "user-ticketsubmission"
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "pBgKVd"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "Incident_API"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "SendEventTelemetry",
+                      "$designer": {
+                        "id": "LBUprH"
+                      },
+                      "properties": "{\"WithoutAttachmentTicketSubmission\" : \"No\"}",
+                      "name": "user-ticketsubmission"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "phdfIQ"
+              },
+              "condition": "=getProperty(conversation, 'skillObj')",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "7fk3iN"
+                  },
+                  "activity": "${SendActivity_7fk3iN()}"
+                },
+                {
+                  "$kind": "Microsoft.CancelAllDialogs",
+                  "$designer": {
+                    "id": "pmjpEn"
+                  },
+                  "activityProcessed": true
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "Incident_withoutAttachments.lg",
+  "recognizer": "Incident_withoutAttachments.lu.qna",
+  "id": "Incident_withoutAttachments"
+}

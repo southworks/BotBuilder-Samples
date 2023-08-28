@@ -1,0 +1,648 @@
+[import](common.lg)
+
+# WITH_CHILD()
+-```
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "type": "AdaptiveCard",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "TextBlock",
+            "wrap": true,
+            "horizontalAlignment": "Center",
+            "size": "Medium",
+            "text": "${dialog.foreach.value.Product_Name}"
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": 3,
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "Common symptoms: ",
+                            "wrap": true,
+                            "weight": "bolder"
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": 6,
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "${replace(replace(replace(dialog.foreach.value.Common_Symptoms, '\r', ''), '\\n',''), '\n','')}",
+                            "horizontalAlignment": "Left",
+                            "wrap": true,
+                            "maxLines": 2
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": 3,
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "Incident number: ",
+                            "wrap": true,
+                            "weight": "bolder"
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": 6,
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "${dialog.foreach.value.Incident_ID}",
+                            "horizontalAlignment": "Left",
+                            "wrap": true
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": 3,
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "Ticket status: ",
+                            "wrap": true,
+                            "weight": "bolder"
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": 6,
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "${dialog.foreach.value.Incident_Ticket_Status}",
+                            "horizontalAlignment": "Left",
+                            "wrap": true
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "Your child incident ticket [${dialog.foreach.val.number}](${dialog.inc_url})",
+                            "wrap": true
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+```
+
+# THDI_NOCHILD_FOR_COOL(datas)
+-${foreach(datas, data, json(THDI_SWITCH(data)))}
+
+# THDI_SWITCH(data)
+- IF: ${ data.Message_Open == "1" && data.Action_Title == "Add+to+My+Tickets" }
+    -${THDI_NOCHILD(data)}
+- ELSE:
+    -${THDI_INFORMATIONAL(data)}
+
+
+# running(data)
+-```
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.2",
+  "type": "AdaptiveCard",
+  "body": [
+    {
+      "type": "TextBlock",
+      "text": "a",
+      "weight": "bolder",
+      "isSubtle": false
+    }
+  ]
+}
+```
+
+# runningb(data)
+-```
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.2",
+  "type": "AdaptiveCard",
+  "body": [
+    {
+      "type": "TextBlock",
+      "text": "b",
+      "weight": "bolder",
+      "isSubtle": false
+    }
+  ]
+}
+```
+
+# THDI_NOCHILD(data)
+-```
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "type": "AdaptiveCard",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "TextBlock",
+            "wrap": true,
+            "horizontalAlignment": "center",
+            "size": "medium",
+            "text": "${data.Product_Name}"
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": 3,
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "Common Symptoms: ",
+                            "wrap": true
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": 6,
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "${replace(replace(replace(data.Common_Symptoms, '\r', ''), '\\n',''), '\n','')}",
+                            "horizontalAlignment": "Left",
+                            "wrap": true
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": 3,
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "Incident Number: ",
+                            "wrap": true
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": 6,
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "${data.Incident_ID}",
+                            "horizontalAlignment": "Left",
+                            "wrap": true
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": 3,
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "Ticket Status: ",
+                            "wrap": true
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": 6,
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "${data.Incident_Ticket_Status}",
+                            "horizontalAlignment": "Left",
+                            "wrap": true
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "ActionSet",
+            "actions": [
+                {
+                    "type": "Action.Submit",
+                    "title": "Add To Tickets",
+                    "data": {
+                        "title": "metoo",
+                        "parentIncident": "${data.Incident_ID}",
+                        "shortDescription": "${replace(replace(replace(data.Common_Symptoms, '\r', ''), '\\n',''), '\n','')}",
+                        "product": "${data.Product_Name}"
+                    }
+                }
+            ]
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "ColumnSet",
+                            "columns": [
+                                {
+                                    "type": "Column",
+                                    "width": "stretch",
+                                    "items": [
+                                        {
+                                            "type": "ActionSet",
+                                            "actions": [
+                                                {
+                                                    "type": "Action.Submit",
+                                                    "title": "This is helpful",
+                                                    "data": {
+                                                        "title": "helpful"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "Column",
+                                    "width": "stretch",
+                                    "items": [
+                                        {
+                                            "type": "ActionSet",
+                                            "actions": [
+                                                {
+                                                    "type": "Action.Submit",
+                                                    "title": "This is not relevant",
+                                                    "data": {
+                                                        "title": "notrelated"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+```
+
+# THDI_INFORMATIONAL(data)
+-```
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "type": "AdaptiveCard",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "TextBlock",
+            "wrap": true,
+            "horizontalAlignment": "center",
+            "size": "medium",
+            "text": "${data.Product_Name}"
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": 3,
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "Common symptoms: ",
+                            "wrap": true
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": 6,
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "${replace(replace(replace(data.Common_Symptoms, '\r', ''), '\\n',''), '\n','')}",
+                            "horizontalAlignment": "Left",
+                            "wrap": true,
+                            "maxLines": 2
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "ColumnSet",
+                            "columns": [
+                                {
+                                    "type": "Column",
+                                    "width": "stretch",
+                                    "items": [
+                                        {
+                                            "type": "ActionSet",
+                                            "actions": [
+                                                {
+                                                    "type": "Action.Submit",
+                                                    "title": "This is helpful",
+                                                    "data": {
+                                                        "title": "helpful"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "Column",
+                                    "width": "stretch",
+                                    "items": [
+                                        {
+                                            "type": "ActionSet",
+                                            "actions": [
+                                                {
+                                                    "type": "Action.Submit",
+                                                    "title": "This is not relevant",
+                                                    "data": {
+                                                        "title": "notrelated"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+```
+
+
+
+# SendActivity_FJXDr4_text()
+- Something went wrong while fetching open incidents!
+# SendActivity_FJXDr4()
+[Activity
+    Text = ${SendActivity_FJXDr4_text()}
+]
+
+# SendActivity_abfxwK_text()
+- You have a child incident for this trnding help desk issue.
+# SendActivity_abfxwK()
+[Activity
+    Text = ${SendActivity_abfxwK_text()}
+]
+
+# SendActivity_51G5bh()
+[Activity
+    Attachments = ${json(WITH_CHILD())}
+    AttachmentLayout = carousel
+]
+
+# TextInput_Prompt_rdufoy()
+[Activity
+    Attachments = ${THDI_NOCHILD_FOR_COOL(conversation.searched_thdi1)}
+    AttachmentLayout = carousel
+]
+# SendActivity_OfUEZW_text()
+- Here's your related ticket for the matching trending issue.
+# SendActivity_OfUEZW()
+[Activity
+    Text = ${SendActivity_OfUEZW_text()}
+]
+
+# SendActivity_0Hlywd_attachment_cMHKrX()
+> To learn more Adaptive Cards format, read the documentation at
+> https://docs.microsoft.com/en-us/adaptive-cards/getting-started/bots
+- ```
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "type": "AdaptiveCard",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "TextBlock",
+            "wrap": true,
+            "horizontalAlignment": "center",
+            "size": "medium",
+            "text": "[${dialog.childIncidentNumber}](${dialog.childIncidentURL})"
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": 3,
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "Short description: ",
+                            "wrap": true,
+                            "weight": "bolder"
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": 6,
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "${dialog.childIncidentShortDescription}",
+                            "horizontalAlignment": "Left",
+                            "wrap": true,
+                            "maxLines": 2
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": 3,
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "Description: ",
+                            "wrap": true,
+                            "weight": "bolder"
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": 6,
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "${dialog.childIncidentDescription}",
+                            "horizontalAlignment": "Left",
+                            "wrap": true
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": 3,
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "Ticket status: ",
+                            "wrap": true,
+                            "weight": "bolder"
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": 6,
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "${dialog.childIncidentState}",
+                            "horizontalAlignment": "Left",
+                            "wrap": true
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": 3,
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "Priority: ",
+                            "wrap": true,
+                            "weight": "bolder"
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": 6,
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "${dialog.childIncidentPriority}",
+                            "horizontalAlignment": "Left",
+                            "wrap": true
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+```
+# SendActivity_0Hlywd()
+[Activity
+    Attachments = ${json(SendActivity_0Hlywd_attachment_cMHKrX())}
+]
+
+# SendActivity_nDkZoY_text()
+- A child ticket for the matching trending issue has been created.
+# SendActivity_nDkZoY()
+[Activity
+    Text = ${SendActivity_nDkZoY_text()}
+]
+
+# SendActivity_G8ysBM_text()
+- There was a problem and your ticket wasn’t submitted.
+# SendActivity_G8ysBM()
+[Activity
+    Text = ${SendActivity_G8ysBM_text()}
+]
+
+# SendActivity_WPAvjE_text()
+- ```Here’s a direct link to a ticket submission form.
+[Link To Form](https://helpdesktools.uhg.com/tools/BCP/ESS)```
+# SendActivity_WPAvjE()
+[Activity
+    Text = ${SendActivity_WPAvjE_text()}
+]
+
+# SendActivity_bioXu1_text()
+- ```Success! A child ticket for the matching trending issue is created.
+Here's your ticket number \- [${dialog.childIncidentNumber}](${dialog.childIncidentURL})```
+# SendActivity_bioXu1()
+[Activity
+    Text = ${SendActivity_bioXu1_text()}
+]
+
+
+# SendActivity_01Xf4a_text()
+- Thank you for your feedback!
+# SendActivity_01Xf4a()
+[Activity
+    Text = ${SendActivity_01Xf4a_text()}
+]

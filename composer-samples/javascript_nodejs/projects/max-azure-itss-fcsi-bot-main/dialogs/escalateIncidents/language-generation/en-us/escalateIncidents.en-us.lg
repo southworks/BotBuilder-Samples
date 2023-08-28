@@ -1,0 +1,16 @@
+[import](common.lg)
+
+# SendActivity_qgOcGz()
+[Activity
+    Text = ${SendActivity_qgOcGz_text()}
+]
+
+# SendActivity_2hgqBR()
+[Activity
+    Text = ${SendActivity_2hgqBR_text()}
+]
+
+# SendActivity_2hgqBR_text()
+- Sorry!  Escalation failed. Please try again.
+# SendActivity_qgOcGz_text()
+- Incident ([${conversation.incidentIdSel}](${dialog.ticketUrl})) has been escalated.

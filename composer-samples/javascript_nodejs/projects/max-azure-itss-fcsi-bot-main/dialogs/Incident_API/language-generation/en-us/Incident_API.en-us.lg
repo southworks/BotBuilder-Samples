@@ -1,0 +1,241 @@
+[import](common.lg)
+
+# SendActivity_b9E7uP_text()
+- Hold tight, your ticket is being submitted…
+# SendActivity_b9E7uP()
+[Activity
+    Text = ${SendActivity_b9E7uP_text()}
+]
+
+# SendActivity_kfEuzA_text()
+- ```Success! Your ticket is submitted.
+Here's your ticket number \- [${dialog.inc_number}](${dialog.inc_url})```
+# SendActivity_kfEuzA()
+[Activity
+    Text = ${SendActivity_kfEuzA_text()}
+]
+
+# SendActivity_tD9hCp_attachment_42unKV()
+> To learn more Adaptive Cards format, read the documentation at
+> https://docs.microsoft.com/en-us/adaptive-cards/getting-started/bots
+- ```
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "type": "AdaptiveCard",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "TextBlock",
+            "wrap": true,
+            "horizontalAlignment": "Center",
+            "size": "Medium",
+            "text": "[${dialog.inc_number}](${dialog.inc_url})"
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": 3,
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "Short Description: ",
+                            "wrap": true
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": 5,
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "${conversation.adaptive_state}",
+                            "horizontalAlignment": "Left",
+                            "wrap": true,
+                            "maxLines": 2
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": 3,
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "Description: ",
+                            "wrap": true
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": 5,
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "${conversation.adaptive_description}",
+                            "horizontalAlignment": "Left",
+                            "wrap": true
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}```
+# SendActivity_tD9hCp()
+[Activity
+    Attachments = ${json(SendActivity_tD9hCp_attachment_42unKV())}
+]
+
+# SendActivity_W3XiAN_text()
+- There was a problem and your ticket wasn’t submitted.
+# SendActivity_W3XiAN()
+[Activity
+    Text = ${SendActivity_W3XiAN_text()}
+]
+
+# SendActivity_iq6DTM_text()
+- But don’t worry! Your information is saved on a ticket submission page, and all you have to do is select “submit.”
+# SendActivity_iq6DTM()
+[Activity
+    Text = ${SendActivity_iq6DTM_text()}
+]
+
+# SendActivity_Wu3wTD_text()
+- ```Here’s a direct link to a ticket submission form.
+[Link To Form](https://helpdesktools.uhg.com/tools/BCP/ESS)```
+# SendActivity_Wu3wTD()
+[Activity
+    Text = ${SendActivity_Wu3wTD_text()}
+]
+
+# SendActivity_O01kfu()
+[Activity
+    Text = ${SendActivity_O01kfu_text()}
+]
+
+# SendActivity_O01kfu_text()
+- Bot transfers data to “original” form (help center) and takes user there so that all user has to do is click "submit"
+# SendActivity_w2ETON_text()
+- Hold tight, your ticket is being submitted…
+# SendActivity_w2ETON()
+[Activity
+    Text = ${SendActivity_w2ETON_text()}
+]
+
+# SendActivity_NYkwTN()
+[Activity
+    Attachments = ${json(SendActivity_NYkwTN_attachment_pwHuXm())}
+]
+
+# SendActivity_C4S1nr()
+[Activity
+    Text = ${SendActivity_C4S1nr_text()}
+]
+
+# SendActivity_C4S1nr_text()
+- ```Hold tight, your ticket is being submitted with following attachments
+${dialog.fileName[0]}
+${dialog.fileName[1]}```
+# SendActivity_We8kXh_text()
+- Hold tight, your ticket is being submitted…
+# SendActivity_We8kXh()
+[Activity
+    Text = ${SendActivity_We8kXh_text()}
+]
+
+# SendActivity_UhdRDk()
+[Activity
+    Attachments = ${json(SendActivity_UhdRDk_attachment_OTTMon())}
+]
+
+# SendActivity_UhdRDk_attachment_OTTMon()
+> To learn more Adaptive Cards format, read the documentation at
+> https://docs.microsoft.com/en-us/adaptive-cards/getting-started/bots
+- ```
+{
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "TextBlock",
+            "text": "Hold tight, your ticket is being submitted with following attachments",
+            "wrap": true
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "${dialog.fileName[0]}",
+                            "wrap": true
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "${dialog.fileName[1]}",
+                            "wrap": true
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+```
+# SendActivity_NYkwTN_attachment_pwHuXm()
+> To learn more Adaptive Cards format, read the documentation at
+> https://docs.microsoft.com/en-us/adaptive-cards/getting-started/bots
+- ```
+{
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "TextBlock",
+            "text": "Hold tight, your ticket is being submitted with following attachment",
+            "wrap": true
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "${dialog.fileName[0]}",
+                            "wrap": true
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+```

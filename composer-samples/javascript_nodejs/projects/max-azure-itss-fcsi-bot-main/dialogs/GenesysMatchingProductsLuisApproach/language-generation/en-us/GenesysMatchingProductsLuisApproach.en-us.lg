@@ -1,0 +1,11 @@
+[import](common.lg)
+
+# SendActivity_cNF9tQ_text()
+- ```Function and SubFunction Details Found: ${conversation.Funcresults.found}
+Function Details: ${conversation.Funcresults.function}
+Subfunction Details: ${conversation.Funcresults.subfunction}
+```
+# SendActivity_cNF9tQ()
+[Activity
+    Text = ${SendActivity_cNF9tQ_text()}
+]

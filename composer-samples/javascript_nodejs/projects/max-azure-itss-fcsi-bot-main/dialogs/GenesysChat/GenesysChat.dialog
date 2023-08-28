@@ -1,0 +1,567 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "f9eeAY",
+    "name": "GenesysChat",
+    "comment": "Replacement of LiveAgent dialog.\nthis will handle new chat request to Genesys agent"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "IU3ACZ"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "7sipXk"
+          },
+          "property": "conversation.pathTaken",
+          "value": "=concat(conversation.pathTaken,\" -> \",\"GenesysChat\")"
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "85vsiC"
+          },
+          "properties": "{\"pathTraversed\" : `${conversation.pathTaken}`}",
+          "name": "user-path"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "Ptuf3Y"
+          },
+          "activity": "${SendActivity_Ptuf3Y()}"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "jqQvs9",
+            "comment": "Get from azure storage"
+          },
+          "maxTurnCount": 1,
+          "alwaysPrompt": false,
+          "allowInterruptions": false,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "property": "dialog.selectedIssueCategory",
+          "prompt": "${TextInput_Prompt_jqQvs9()}",
+          "value": "=turn.activity.value.issueCategory"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "CtXo6u",
+            "comment": "Check if the user has changed Prepopulated Issue Category"
+          },
+          "condition": "=dialog.selectedIssueCategory==conversation.IssueCategory || conversation.IssueCategory == ''",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "ywfRQ3"
+              },
+              "property": "dialog.DefaultProduct ",
+              "value": "=conversation.ProductCategory"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "SendEventTelemetry",
+              "$designer": {
+                "id": "u9D2zO"
+              },
+              "name": "Genesys-IssueCategory",
+              "properties": "{     \"changed\" : true,      \"issueCategoryFrom\" : `${conversation.IssueCategory}`,      \"issueCategoryTo\" : `${dialog.selectedIssueCategory}` }"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.Foreach",
+          "$designer": {
+            "id": "aKUL8T"
+          },
+          "index": "dialog.foreach.index",
+          "value": "dialog.foreach.value",
+          "itemsProperty": "conversation.GenesysAllProductList",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "8AIq0i"
+              },
+              "property": "dialog.productCatListItem",
+              "value": "=split(dialog.foreach.value.SubFunctionDetail, \"-\")"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "vj0Jq5"
+              },
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "8XEq3G"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.productList",
+                      "value": {
+                        "UserOption2": "${dialog.foreach.value.UserOption2}",
+                        "SubFunctionDetail": "${dialog.productCatListItem[1]}"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.EditArray",
+                  "$designer": {
+                    "id": "nnlwFs"
+                  },
+                  "changeType": "push",
+                  "itemsProperty": "dialog.productCatsMatched",
+                  "value": "=dialog.productList"
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "ovZh8a"
+                  },
+                  "property": "dialog.productCatListMatched",
+                  "value": "=''"
+                }
+              ],
+              "condition": "=equals(toLower(dialog.selectedIssueCategory, 'en-US'), toLower(dialog.productCatListItem[0], 'en-US'))"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "1Aq9tZ"
+          },
+          "condition": "=count(dialog.productCatsMatched) > 0",
+          "actions": [
+            {
+              "$kind": "Microsoft.TextInput",
+              "$designer": {
+                "id": "NmQtVt"
+              },
+              "maxTurnCount": 1,
+              "alwaysPrompt": false,
+              "allowInterruptions": false,
+              "unrecognizedPrompt": "",
+              "invalidPrompt": "",
+              "property": "dialog.selectedProductCategory",
+              "prompt": "${TextInput_Prompt_NmQtVt()}",
+              "value": "=turn.activity.value.productCategory"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "j0k3Cm"
+              },
+              "property": "dialog.selectedProductCategory",
+              "value": "=''"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "bEk3Zr",
+            "comment": "Check if the user has changed Prepopulated Issue Category"
+          },
+          "condition": "=dialog.selectedProductCategory==conversation.ProductCategory || conversation.ProductCategory =='' || dialog.selectedProductCategory== ''",
+          "actions": [],
+          "elseActions": [
+            {
+              "$kind": "SendEventTelemetry",
+              "$designer": {
+                "id": "0KRJS4"
+              },
+              "name": "Genesys-ProductCategory",
+              "properties": "{\"changed\": \"True\", \"prodCategoryFrom\" : `${conversation.ProductCategory}`,\t\"prodCategoryTo\" : `${dialog.selectedProductCategory}`}"
+            }
+          ]
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "sY4irV",
+            "name": "SendEventTelemetry-ENTSubFunctionDetail"
+          },
+          "properties": "{\"productCategory\" : `${dialog.selectedProductCategory}`}",
+          "name": "SubFunctionDetail"
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "9XvMlU",
+            "name": "SendEventTelemetry-ENTSubFunction"
+          },
+          "properties": "{\"issueCategory\" : `${dialog.selectedIssueCategory}`}",
+          "name": "SubFunction"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "SK730E"
+          },
+          "activity": "${SendActivity_SK730E()}"
+        },
+        {
+          "$kind": "Microsoft.BeginSkill",
+          "$designer": {
+            "id": "zdkGQC",
+            "name": "Connect to a skill-preChat"
+          },
+          "activityProcessed": true,
+          "botId": "=settings.MicrosoftAppId",
+          "skillHostEndpoint": "=settings.skillHostEndpoint",
+          "connectionName": "=settings.connectionName",
+          "allowInterruptions": false,
+          "activity": "${BeginSkill_Activity_zdkGQC()}",
+          "resultProperty": "dialog.preChat",
+          "skillEndpoint": "=settings.skill['liveAgentSkillBot'].endpointUrl",
+          "skillAppId": "=settings.skill['liveAgentSkillBot'].msAppId"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "mg6ZeU"
+          },
+          "property": "conversation.Funcresults"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "9XUNuR"
+          },
+          "activityProcessed": true,
+          "dialog": "GenesysError",
+          "options": {
+            "codeValue": "=turn.activity.code"
+          }
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "EEsDal"
+          },
+          "assignments": [
+            {
+              "property": "dialog.preChatJson",
+              "value": "=json(dialog.preChat)"
+            }
+          ]
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "iGO0Yz"
+          },
+          "properties": "{\"preChatResponse\" : `${dialog.preChatJson}`}",
+          "name": "GenesysNewPreChat"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "lu5jaI"
+          },
+          "condition": "= dialog.preChatJson.hoursOfOperationStatus == 'open'",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "3gidEA"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.longestWaitTime",
+                  "value": "=div(int(dialog.preChatJson.longestWaitTime), 60)"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "INVikU"
+              },
+              "condition": "= dialog.preChatJson.chatsInQueue == 0 || dialog.preChatJson.chatsInQueue == '0'",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "IM0OSv"
+                  },
+                  "activity": "${SendActivity_IM0OSv()}"
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "yZvyiO"
+                  },
+                  "activity": "${SendActivity_yZvyiO()}"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.TextInput",
+              "$designer": {
+                "id": "pdn7q7"
+              },
+              "maxTurnCount": 1,
+              "alwaysPrompt": false,
+              "allowInterruptions": false,
+              "unrecognizedPrompt": "",
+              "invalidPrompt": "",
+              "property": "dialog.livechat",
+              "prompt": "${TextInput_Prompt_pdn7q7()}"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "GJq7U0"
+              },
+              "actions": [],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "ZwX00n"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "FurtherHelp"
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "10EU1l"
+                  }
+                }
+              ],
+              "condition": "=turn.activity.value.flow == 'ConnectwithaLiveAgent'"
+            },
+            {
+              "$kind": "Microsoft.BeginSkill",
+              "$designer": {
+                "id": "xtIMOX",
+                "name": "Connect to a skill-preChatAsync"
+              },
+              "activityProcessed": true,
+              "botId": "=settings.MicrosoftAppId",
+              "skillHostEndpoint": "=settings.skillHostEndpoint",
+              "connectionName": "=settings.connectionName",
+              "allowInterruptions": false,
+              "activity": "${BeginSkill_Activity_xtIMOX()}",
+              "resultProperty": "dialog.preChatAsync",
+              "skillEndpoint": "=settings.skill['liveAgentSkillBot'].endpointUrl",
+              "skillAppId": "=settings.skill['liveAgentSkillBot'].msAppId"
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "80RrXP"
+              },
+              "activityProcessed": true,
+              "dialog": "GenesysError",
+              "options": {
+                "codeValue": "=turn.activity.code"
+              }
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "uDbnMH"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.preChatAsyncJson",
+                  "value": "=json(dialog.preChatAsync)"
+                }
+              ]
+            },
+            {
+              "$kind": "SendEventTelemetry",
+              "$designer": {
+                "id": "buj6vf"
+              },
+              "properties": "{\"preChatAsyncResponse\" : `${dialog.preChatAsyncJson}`}",
+              "name": "GenesysNewPreChatAsync"
+            },
+            {
+              "$kind": "Microsoft.DeleteProperties",
+              "$designer": {
+                "id": "Qw1sWH"
+              },
+              "properties": [
+                "conversation.BomgarAvailable",
+                "conversation.GenesysAvailable"
+              ]
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "w78RUb"
+              },
+              "activityProcessed": true,
+              "dialog": "LiveChatAvailabilities"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "h8B1yo"
+              },
+              "condition": "=conversation.GenesysAvailable",
+              "actions": [
+                {
+                  "$kind": "Microsoft.HttpRequest",
+                  "$designer": {
+                    "id": "K5hyTS"
+                  },
+                  "resultProperty": "dialog.entTableApiRes",
+                  "method": "PUT",
+                  "url": "=`${settings.chat.genesysEntinfoStarturl}'${conversation.urlmsid}',${settings.chat.genesysEntinfoEndurl}&tn=genesyssubfunctiontable`",
+                  "headers": {
+                    "Accept": "application/json;odata=nometadata"
+                  },
+                  "responseType": "json",
+                  "body": "={     \"PartitionKey\": `${conversation.urlmsid}`,     \"RowKey\": \"\",     \"EntSubFunction\": `${dialog.selectedIssueCategory}`,     \"EntSubFunctionDetail\": `${dialog.selectedProductCategory}`, \"UserQuery\": `${conversation.firstIssue}`}"
+                },
+                {
+                  "$kind": "SendEventTelemetry",
+                  "$designer": {
+                    "id": "K6Sbd9"
+                  },
+                  "properties": "{\"chat-to-genesys\" : `${conversation.urlmsid}`}",
+                  "name": "Chat-to-genesys"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "IM4Jtv"
+                  },
+                  "activity": "${SendActivity_IM4Jtv()}"
+                },
+                {
+                  "$kind": "SendEvent",
+                  "$designer": {
+                    "id": "eqY2Ne",
+                    "name": "Send Event - Enable"
+                  },
+                  "input": "=\"Enable\""
+                },
+                {
+                  "$kind": "Microsoft.BeginSkill",
+                  "$designer": {
+                    "id": "JtQ4gL",
+                    "name": "Connect to a skill-handover"
+                  },
+                  "activityProcessed": true,
+                  "botId": "=settings.MicrosoftAppId",
+                  "skillHostEndpoint": "=settings.skillHostEndpoint",
+                  "connectionName": "=settings.connectionName",
+                  "allowInterruptions": false,
+                  "activity": "${BeginSkill_Activity_JtQ4gL()}",
+                  "resultProperty": "dialog.newChatWithGenesys",
+                  "skillEndpoint": "=settings.skill['liveAgentSkillBot'].endpointUrl",
+                  "skillAppId": "=settings.skill['liveAgentSkillBot'].msAppId"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "MdEna9"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "GenesysError",
+                  "options": {
+                    "codeValue": "=turn.activity.code"
+                  }
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "03viGC"
+                  },
+                  "activity": "${SendActivity_03viGC()}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "r3b5kL"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "IncidentForm-Flow"
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "RGDY0N"
+                  }
+                }
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "dxwULL"
+              },
+              "activity": "${SendActivity_dxwULL()}"
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "FvS8tP"
+              },
+              "activityProcessed": true,
+              "dialog": "IncidentForm-Flow"
+            },
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "Iv6J5x"
+              }
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "eKk0Qw"
+          },
+          "activityProcessed": true,
+          "dialog": "FurtherHelp"
+        },
+        {
+          "$kind": "Microsoft.CancelAllDialogs",
+          "$designer": {
+            "id": "SsHngB"
+          },
+          "activityProcessed": true,
+          "eventName": "EndedAllDialogs"
+        }
+      ]
+    }
+  ],
+  "generator": "GenesysChat.lg",
+  "recognizer": "GenesysChat.lu.qna",
+  "id": "GenesysChat"
+}

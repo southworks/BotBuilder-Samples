@@ -1,0 +1,119 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "BudQLi",
+    "name": "SmartBotCreateNewTicket",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "dm7SNL"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "wH8sPv"
+          },
+          "property": "conversation.pathTaken",
+          "value": "=concat(conversation.pathTaken,\" -> \",\"SmartBotCreateNewTicket\")"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperties",
+          "$designer": {
+            "id": "kzPucf"
+          },
+          "properties": [
+            "conversation.firstIssue",
+            "conversation.firstUtterance",
+            "turn.activity.value.userIssue"
+          ]
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "WaCWld"
+          },
+          "disabled": false,
+          "maxTurnCount": 3,
+          "alwaysPrompt": false,
+          "allowInterruptions": false,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "defaultValueResponse": "",
+          "prompt": "${TextInput_Prompt_WaCWld()}",
+          "property": "conversation.firstUtterance",
+          "value": "=turn.activity.value.userIssue"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "ZpvJQk"
+          },
+          "property": "dialog.isIssueResolved",
+          "value": "false"
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "5GT1R0"
+          },
+          "name": "user-query",
+          "properties": "={\"query\" : `${conversation.firstUtterance}`}"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "AyhY3e"
+          },
+          "property": "conversation.firstIssue",
+          "value": "=replace(replace(conversation.firstUtterance,'\"',''),\"'\",\"\")"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "nxW6ya"
+          },
+          "property": "dialog.wordcount",
+          "value": "=countWord(conversation.firstIssue)"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "ucwd24"
+          },
+          "property": "conversation.attachment_confirm",
+          "value": "false"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "bnQzIf"
+          },
+          "property": "conversation.helpShow",
+          "value": "false"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "oocw7Q"
+          },
+          "activityProcessed": true,
+          "dialog": "RemoveGreetings",
+          "options": {
+            "parentDialog": "='SmartBotCreateNewTicket'"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "SmartBotCreateNewTicket.lg",
+  "recognizer": "SmartBotCreateNewTicket.lu.qna",
+  "id": "SmartBotCreateNewTicket"
+}

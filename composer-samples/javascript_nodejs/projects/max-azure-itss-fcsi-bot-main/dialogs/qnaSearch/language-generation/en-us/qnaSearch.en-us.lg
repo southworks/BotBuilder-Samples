@@ -1,0 +1,35 @@
+[import](common.lg)
+
+
+
+
+# SendActivity_hAf4Xt()
+[Activity
+    Text = ${SendActivity_hAf4Xt_text()}
+]
+
+# SendActivity_hAf4Xt_text()
+- Need to emit event for telemetry
+# SendActivity_exqV3G_text()
+- Please select appropriate options to narrow down the search results:
+# SendActivity_exqV3G()
+[Activity
+    Text = ${SendActivity_exqV3G_text()}
+]
+
+
+# ConfirmInput_Prompt_HWRw99_text()
+- Was this helpful?
+- Did this help?
+# ConfirmInput_Prompt_HWRw99()
+[Activity
+    Text = ${ConfirmInput_Prompt_HWRw99_text()}
+]
+
+# SendActivity_YHlxxb()
+[Activity
+    Text = ${SendActivity_YHlxxb_text()}
+]
+
+# SendActivity_YHlxxb_text()
+- Send a telemetry evbent

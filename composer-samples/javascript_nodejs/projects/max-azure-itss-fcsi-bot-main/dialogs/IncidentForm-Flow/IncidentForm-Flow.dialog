@@ -1,0 +1,230 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "5oRwgG",
+    "name": "IncidentForm-Flow",
+    "comment": "Starting from Create Incident form"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "3xIWqL"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "qKwJgI"
+          },
+          "property": "conversation.pathTaken",
+          "value": "=concat(conversation.pathTaken,\" -> \",\"IncidentForm-Flow\")"
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "DpSS0W"
+          },
+          "properties": "{\"pathTraversed\" : `${conversation.pathTaken}`}",
+          "name": "user-path"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperties",
+          "$designer": {
+            "id": "5F5GeQ"
+          },
+          "properties": [
+            "conversation.adaptive_user",
+            "conversation.adaptive_state",
+            "conversation.adaptive_description",
+            "conversation.adaptive_protected",
+            "conversation.adaptive_availability",
+            "conversation.adaptive_contact",
+            "conversation.adaptive_phone",
+            "conversation.adaptive_caller",
+            "conversation.livechatsource",
+            "conversation.attachment_confirm",
+            "conversation.imgAttach",
+            "conversation.adaptive_timezone",
+            "conversation.adaptive_reference3",
+            "conversation.IncSelfResolved"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "Dy88WW"
+          },
+          "activity": "${SendActivity_Dy88WW()}",
+          "disabled": true
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "6jXHqE"
+          },
+          "disabled": true,
+          "maxTurnCount": 1,
+          "alwaysPrompt": false,
+          "allowInterruptions": false,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_6jXHqE()}",
+          "property": "dialog.adaptive_caller"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "7CeEzy"
+          },
+          "disabled": false,
+          "maxTurnCount": 3,
+          "alwaysPrompt": false,
+          "allowInterruptions": false,
+          "prompt": "${TextInput_Prompt_7CeEzy()}",
+          "property": "dialog.adaptive_caller",
+          "validations": [
+            "toLower(this.value) == \"cancel\" || toLower(json(this.value).click) == \"cancel\" || (json(this.value).click == \"submit\" && json(this.value).HoursSelectVal != \"\" && json(this.value).TimeZSelectVal != \"\" && json(this.value).ContactType != \"\")"
+          ],
+          "invalidPrompt": "${TextInput_InvalidPrompt_7CeEzy()}",
+          "value": "=string(turn.activity.value)",
+          "defaultValue": "NOVALIDINPUT"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "sRL6ha"
+          },
+          "condition": "=getProperty(conversation, 'skillObj')",
+          "actions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "BU0a2S"
+              },
+              "condition": "=dialog.adaptive_caller == \"NOVALIDINPUT\"",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "Qz9906"
+                  },
+                  "activity": "${SendActivity_Qz9906()}"
+                },
+                {
+                  "$kind": "Microsoft.CancelAllDialogs",
+                  "$designer": {
+                    "id": "ecfdxl"
+                  },
+                  "activityProcessed": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "mKqnlT"
+          },
+          "assignments": [
+            {
+              "property": "conversation.adaptive_state ",
+              "value": "=conversation.issueType"
+            },
+            {
+              "property": "conversation.adaptive_description",
+              "value": "=conversation.firstIssue"
+            },
+            {
+              "property": "conversation.adaptive_protected",
+              "value": "=replace(turn.activity.value.ProtectedVal,'\\n',' ')"
+            },
+            {
+              "property": "conversation.adaptive_availability",
+              "value": "=turn.activity.value.HoursSelectVal"
+            },
+            {
+              "property": "conversation.adaptive_contact",
+              "value": "=turn.activity.value.ContactSelectVal"
+            },
+            {
+              "property": "conversation.adaptive_user",
+              "value": "=conversation.urlusername"
+            },
+            {
+              "property": "conversation.adaptive_phone",
+              "value": "=turn.activity.value.TelVal"
+            },
+            {
+              "property": "dialog.adaptive_button",
+              "value": "=turn.activity.value.click"
+            },
+            {
+              "property": "conversation.adaptive_timezone",
+              "value": "=turn.activity.value.TimeZSelectVal"
+            },
+            {
+              "property": "conversation.adaptive_contactbutton",
+              "value": "=turn.activity.value.clickT"
+            },
+            {
+              "value": "=turn.activity.value.ContactType",
+              "property": "conversation.adaptive_contacttype"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "4gDpag"
+          },
+          "property": "conversation.adaptive_reference3",
+          "value": "=conversation.adaptive_availability + ' ' + conversation.adaptive_timezone + ' | Preferred method of contact - ' + conversation.adaptive_contacttype + ' : ' + conversation.adaptive_phone+''"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "D5Mj3W"
+          },
+          "actions": [
+            {
+              "$kind": "SendEventTelemetry",
+              "$designer": {
+                "id": "R32iJ9"
+              },
+              "properties": "{\"TicketContinue\" : \"Yes\"}",
+              "name": "user-ticketcontinue"
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "FTs91O"
+              },
+              "activityProcessed": true,
+              "dialog": "Incident_Subflows"
+            }
+          ],
+          "condition": "=dialog.adaptive_button=='submit'",
+          "elseActions": [
+            {
+              "$kind": "SendEventTelemetry",
+              "$designer": {
+                "id": "n8EwNi"
+              },
+              "properties": "{\"TicketContinue\" : \"No\"}",
+              "name": "user-ticketcontinue"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "IncidentForm-Flow.lg",
+  "recognizer": "IncidentForm-Flow.lu.qna",
+  "id": "IncidentForm-Flow"
+}

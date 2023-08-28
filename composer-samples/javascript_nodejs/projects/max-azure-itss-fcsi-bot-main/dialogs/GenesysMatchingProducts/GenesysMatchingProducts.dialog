@@ -1,0 +1,455 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "Hflfhx",
+    "name": "GenesysMatchingProducts",
+    "comment": "An utility to decide between Genesys and Bomgar when both tools are available. This dialog must be called after LiveChatAvailability and NonSelfResolvedIncident"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "rJgmIi"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.DeleteProperties",
+          "$designer": {
+            "id": "zwfIIq"
+          },
+          "properties": [
+            "conversation.urlwaittime"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "PIDoS7"
+          },
+          "property": "conversation.pathTaken",
+          "value": "=concat(conversation.pathTaken,\" -> \",\"GenesysMatchingProducts\")"
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "9KPyQ4"
+          },
+          "properties": "{\"pathTraversed\" : `${conversation.pathTaken}`}",
+          "name": "user-path"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "a07H7S"
+          },
+          "assignments": [
+            {
+              "property": "dialog.GenesysMatchingProduct",
+              "value": false
+            },
+            {
+              "property": "dialog.ExactProductMatching",
+              "value": false
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "DchEfe"
+          },
+          "condition": "=conversation.BomgarAvailable && conversation.GenesysAvailable",
+          "actions": [
+            {
+              "$kind": "Microsoft.HttpRequest",
+              "$designer": {
+                "id": "gn50wB"
+              },
+              "resultProperty": "dialog.GenesysProducts",
+              "method": "GET",
+              "url": "=`${settings.chat.GenesysMatchingProducts}`",
+              "disabled": true
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "uUvUt6"
+              },
+              "property": "dialog.GenesysProducts",
+              "value": "=conversation.GenesysMatchingProduct"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "d1vcHe"
+              },
+              "condition": "=dialog.GenesysProducts.statusCode == 200 && dialog.GenesysProducts.content.flag == 'yes'",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "VeWPmi"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.userQuery",
+                      "value": "=conversation.firstUtterance"
+                    },
+                    {
+                      "property": "dialog.GenesysProductsBlob",
+                      "value": "=dialog.GenesysProducts.content.products"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.Foreach",
+                  "$designer": {
+                    "id": "QkZGfC"
+                  },
+                  "index": "dialog.foreach.i",
+                  "value": "dialog.foreach.v",
+                  "itemsProperty": "dialog.GenesysProductsBlob",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.Foreach",
+                      "$designer": {
+                        "id": "PtNBVM"
+                      },
+                      "index": "dialog.foreach.index",
+                      "value": "dialog.foreach.value",
+                      "itemsProperty": "dialog.foreach.v",
+                      "actions": [
+                        {
+                          "$kind": "StringIncludes",
+                          "$designer": {
+                            "id": "sjqK9r"
+                          },
+                          "sentence": "=toLower(dialog.userQuery, 'en-US')",
+                          "word": "=toLower(dialog.foreach.value, 'en-US')",
+                          "resultProperty": "dialog.matchFound"
+                        },
+                        {
+                          "$kind": "Microsoft.IfCondition",
+                          "$designer": {
+                            "id": "rvx1HC"
+                          },
+                          "condition": "= dialog.matchFound == true",
+                          "actions": [
+                            {
+                              "$kind": "Microsoft.SetProperty",
+                              "$designer": {
+                                "id": "zqzJBk"
+                              },
+                              "property": "dialog.GenesysMatchingProduct",
+                              "value": true
+                            },
+                            {
+                              "$kind": "Microsoft.BreakLoop",
+                              "$designer": {
+                                "id": "W9WcSu"
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "5H652d"
+                      },
+                      "condition": "= dialog.matchFound == true",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BreakLoop",
+                          "$designer": {
+                            "id": "EydTvQ"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "qREjaR"
+          },
+          "condition": "=conversation.BomgarAvailable && conversation.GenesysAvailable",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "sv6Q8y"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.genesysProductList",
+                  "value": "=[]"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.Foreach",
+              "$designer": {
+                "id": "C4BjPG"
+              },
+              "index": "dialog.foreach.index",
+              "value": "dialog.foreach.value",
+              "itemsProperty": "conversation.GenesysQueues",
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "myLaZb"
+                  },
+                  "condition": "=dialog.foreach.value.SubFunctionDetail != '[None]'",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.EditArray",
+                      "$designer": {
+                        "id": "jdJ9YA"
+                      },
+                      "changeType": "push",
+                      "itemsProperty": "dialog.genesysProductList",
+                      "value": "=toLower(dialog.foreach.value.SubFunctionDetail, 'en-US')"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.EditArray",
+                      "$designer": {
+                        "id": "UluWAo"
+                      },
+                      "changeType": "push",
+                      "itemsProperty": "dialog.genesysProductList",
+                      "value": "=toLower(dialog.foreach.value.SubFunction, 'en-US')"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "0YRyhU"
+              },
+              "condition": "= contains(dialog.genesysProductList, toLower(conversation.productsummary, 'en-US'))",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "gYAdTI"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.ExactProductMatching",
+                      "value": true
+                    }
+                  ]
+                }
+              ],
+              "elseActions": []
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "hApenz"
+          },
+          "condition": "= conversation.BomgarAvailable && conversation.GenesysAvailable",
+          "actions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "EDiyWK"
+              },
+              "condition": "= (!empty(conversation.GenesysIssueList)) && (dialog.GenesysMatchingProduct || dialog.ExactProductMatching || conversation.TicketStatus)",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "CQmnpd"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.GenesysAvailable",
+                      "value": true
+                    },
+                    {
+                      "property": "conversation.BomgarAvailable",
+                      "value": false
+                    }
+                  ]
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "cA0rOA"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.GenesysAvailable",
+                      "value": false
+                    },
+                    {
+                      "property": "conversation.BomgarAvailable",
+                      "value": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "MWzSe4"
+          },
+          "condition": "=conversation.GenesysAvailable",
+          "actions": [
+            {
+              "$kind": "Microsoft.HttpRequest",
+              "$designer": {
+                "id": "3HrtrD"
+              },
+              "resultProperty": "dialog.waitTimeApiResponse",
+              "method": "GET",
+              "url": "=`${settings.chat.GenesysWaitTimeAPI}`"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "CBmF0t"
+              },
+              "condition": "= dialog.waitTimeApiResponse.statusCode == 200",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "JkFZbZ"
+                  },
+                  "property": "dialog.waitTime",
+                  "value": "=dialog.waitTimeApiResponse.content.GenesysChatWaitTime"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "muny9g"
+                  },
+                  "condition": "=dialog.waitTime == 'temporarily unknown'",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "2UyWkG"
+                      },
+                      "property": "dialog.waitTime",
+                      "value": "='temporarily unknown'"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "V47g8P"
+                      },
+                      "property": "dialog.waitTime",
+                      "value": "=concat(dialog.waitTime, ' mins')"
+                    }
+                  ]
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "hfdhQU"
+                  },
+                  "property": "dialog.waitTime",
+                  "value": "='temporarily unknown'"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "R0Kayl"
+              },
+              "property": "conversation.urlwaittime",
+              "value": "=dialog.waitTime"
+            },
+            {
+              "$kind": "SendEventTelemetry",
+              "$designer": {
+                "id": "bEUvra"
+              },
+              "properties": "{\"tool\" : 'Genesys'}",
+              "name": "ChatTool"
+            },
+            {
+              "$kind": "SendEventTelemetry",
+              "$designer": {
+                "id": "vAYjk7"
+              },
+              "properties": "{\"ENTSubFunction\" : `${conversation.GenesysIssueList}`, \"ENTSubFunctionDetail\": `${conversation.GenesysAllProductList}`}",
+              "name": "AvailableVirtualQueues"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "26Rymm"
+              },
+              "condition": "=conversation.BomgarAvailable",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "02p58y"
+                  },
+                  "property": "conversation.urlwaittime",
+                  "value": "=concat(conversation.bomgarwaittime, ' mins')"
+                },
+                {
+                  "$kind": "SendEventTelemetry",
+                  "$designer": {
+                    "id": "m0cHIS"
+                  },
+                  "properties": "{\"tool\" : 'Bomgar'}",
+                  "name": "ChatTool"
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "SendEventTelemetry",
+                  "$designer": {
+                    "id": "rDi1Sz"
+                  },
+                  "properties": "{\"tool\" : 'None'}",
+                  "name": "ChatTool"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "GenesysMatchingProducts.lg",
+  "recognizer": "GenesysMatchingProducts.lu.qna",
+  "id": "GenesysMatchingProducts"
+}

@@ -1,0 +1,546 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "uypUAN",
+    "name": "LiveChatAvailabilities",
+    "comment": "This dialog calls the BomgarGenesysConfig API, and checks which tool is available and pass the information\n\nconversation.GenesysAvailable --> Boolean (if true, Genesys is available, else otherwise)\n\nconversation.BomgarAvailable --> Boolean (if true, Bomgar is available, else otherwise)"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "t3JHyF"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "CjRb8V"
+          },
+          "property": "conversation.pathTaken",
+          "value": "=concat(conversation.pathTaken,\" -> \",\"LiveChatAvailability\")"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperties",
+          "$designer": {
+            "id": "eBXp74"
+          },
+          "properties": [
+            "conversation.GenesysQueues",
+            "conversation.urlwaittime",
+            "conversation.genesysLuisApproach"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "sb29aa"
+          },
+          "property": "conversation.urlwaittime",
+          "value": "=concat(conversation.bomgarwaittime, ' mins')"
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "bNxqY3"
+          },
+          "properties": "{\"pathTraversed\" : `${conversation.pathTaken}`}",
+          "name": "user-path"
+        },
+        {
+          "$kind": "ConvertCSTtoUTC",
+          "$designer": {
+            "id": "hDK1yQ"
+          },
+          "resultProperty": "conversation.TimeRightNow"
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "CBXzQr"
+          },
+          "properties": "{\"CstTime\" : `${conversation.TimeRightNow}`}",
+          "name": "TimeRightNow"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "VgC1fo"
+          },
+          "assignments": [
+            {
+              "property": "conversation.GenesysIssueList",
+              "value": "=[]"
+            },
+            {
+              "property": "conversation.GenesysAllProductList",
+              "value": "=[]"
+            },
+            {
+              "property": "dialog.TempIssueList",
+              "value": "=[]"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "oKQbAV"
+          },
+          "resultProperty": "dialog.GenLuisAvaiRes",
+          "method": "GET",
+          "url": "=`${settings.chat.GenesysLuisFlag}`"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "o4axJY"
+          },
+          "condition": "= dialog.GenLuisAvaiRes.statusCode == 200 && !empty(dialog.GenLuisAvaiRes.content)",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "folxW6"
+              },
+              "property": "conversation.genesysLuisApproach",
+              "value": "=dialog.GenLuisAvaiRes.content.LuisApproach"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "4jzZu0"
+          },
+          "resultProperty": "dialog.apiResponse",
+          "method": "GET",
+          "responseType": "json",
+          "url": "=`${settings.chat.genesysMenuOptions}`"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "Sh7mWP"
+          },
+          "condition": "= dialog.apiResponse.statusCode == 200 && !empty(dialog.apiResponse.content)",
+          "actions": [
+            {
+              "$kind": "SendEventTelemetry",
+              "$designer": {
+                "id": "77oPtI"
+              },
+              "properties": "{\"response\" : `${dialog.apiResponse.content}`}",
+              "name": "GenesysFlagAPIResponse"
+            },
+            {
+              "$kind": "Microsoft.Foreach",
+              "$designer": {
+                "id": "QK1axI"
+              },
+              "index": "dialog.foreach.index",
+              "value": "dialog.foreach.value",
+              "itemsProperty": "dialog.apiResponse.content",
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "8qd5bP"
+                  },
+                  "condition": "= dialog.foreach.value.ChatType == 'Bomgar' && dialog.foreach.value.Active == 1 && getProperty(dialog.foreach.value, 'Schedule') && dialog.foreach.value.Schedule != null && !empty(dialog.foreach.value.Schedule)",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.Foreach",
+                      "$designer": {
+                        "id": "Y4Ic5a"
+                      },
+                      "index": "dialog.foreach.i",
+                      "value": "dialog.foreach.v",
+                      "itemsProperty": "dialog.foreach.value.Schedule",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.IfCondition",
+                          "$designer": {
+                            "id": "9kMTVF"
+                          },
+                          "condition": "= conversation.TimeRightNow > dialog.foreach.v.Start &&  conversation.TimeRightNow < dialog.foreach.v.End",
+                          "actions": [
+                            {
+                              "$kind": "Microsoft.SetProperties",
+                              "$designer": {
+                                "id": "AUZsiM"
+                              },
+                              "assignments": [
+                                {
+                                  "property": "conversation.BomgarAvailable",
+                                  "value": true
+                                }
+                              ]
+                            },
+                            {
+                              "$kind": "Microsoft.BreakLoop",
+                              "$designer": {
+                                "id": "8GmtH5"
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "elseActions": []
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "OMibes"
+                  },
+                  "condition": "= dialog.foreach.value.ChatType == 'Genesys' && dialog.foreach.value.Active == 1 && getProperty(dialog.foreach.value, 'Schedule') && dialog.foreach.value.Schedule != null && !empty(dialog.foreach.value.Schedule)",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.Foreach",
+                      "$designer": {
+                        "id": "mmDfh5"
+                      },
+                      "index": "dialog.foreach.genesysIndex",
+                      "value": "dialog.foreach.genesysValue",
+                      "itemsProperty": "dialog.foreach.value.Schedule",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.IfCondition",
+                          "$designer": {
+                            "id": "DhnWID"
+                          },
+                          "condition": "= conversation.TimeRightNow > dialog.foreach.genesysValue.Start &&  conversation.TimeRightNow < dialog.foreach.genesysValue.End && getProperty(dialog.foreach.genesysValue, 'VirtualQueue') && dialog.foreach.genesysValue.VirtualQueue != null && !empty(dialog.foreach.genesysValue.VirtualQueue)",
+                          "actions": [
+                            {
+                              "$kind": "Microsoft.SetProperties",
+                              "$designer": {
+                                "id": "3tWR6y"
+                              },
+                              "assignments": [
+                                {
+                                  "property": "conversation.GenesysAvailable",
+                                  "value": true
+                                },
+                                {
+                                  "property": "dialog.GenesysOptions",
+                                  "value": "=dialog.foreach.genesysValue.VirtualQueue"
+                                },
+                                {
+                                  "property": "conversation.GenesysQueues",
+                                  "value": "=[]"
+                                }
+                              ]
+                            },
+                            {
+                              "$kind": "Microsoft.Foreach",
+                              "$designer": {
+                                "id": "9FEaKP"
+                              },
+                              "index": "dialog.foreach.ind",
+                              "value": "dialog.foreach.val",
+                              "itemsProperty": "dialog.GenesysOptions",
+                              "actions": [
+                                {
+                                  "$kind": "Microsoft.DeleteProperties",
+                                  "$designer": {
+                                    "id": "QUAJIC"
+                                  },
+                                  "properties": [
+                                    "dialog.queueUsersMSID",
+                                    "dialog.queueUsers"
+                                  ]
+                                },
+                                {
+                                  "$kind": "Microsoft.SetProperties",
+                                  "$designer": {
+                                    "id": "bIvnKL"
+                                  },
+                                  "assignments": [
+                                    {
+                                      "property": "dialog.queueUsers",
+                                      "value": "=dialog.foreach.val.VQUser"
+                                    },
+                                    {
+                                      "property": "dialog.IsQueueUsersEmtpy",
+                                      "value": "= dialog.queueUsers == null"
+                                    },
+                                    {
+                                      "property": "dialog.queueUsersMSID",
+                                      "value": "=[]"
+                                    },
+                                    {
+                                      "property": "user.userempty",
+                                      "value": "= dialog.IsQueueUsersEmtpy"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "$kind": "Microsoft.IfCondition",
+                                  "$designer": {
+                                    "id": "YFgZzr"
+                                  },
+                                  "condition": "= !dialog.IsQueueUsersEmtpy",
+                                  "actions": [
+                                    {
+                                      "$kind": "Microsoft.Foreach",
+                                      "$designer": {
+                                        "id": "jsSlAL"
+                                      },
+                                      "index": "dialog.foreach.userIndex",
+                                      "value": "dialog.foreach.userValue",
+                                      "itemsProperty": "dialog.queueUsers",
+                                      "actions": [
+                                        {
+                                          "$kind": "Microsoft.EditArray",
+                                          "$designer": {
+                                            "id": "PEjo4H"
+                                          },
+                                          "changeType": "push",
+                                          "itemsProperty": "dialog.queueUsersMSID",
+                                          "value": "=dialog.foreach.userValue.MSId"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "$kind": "Microsoft.IfCondition",
+                                  "$designer": {
+                                    "id": "tGikBy"
+                                  },
+                                  "condition": "= dialog.IsQueueUsersEmtpy",
+                                  "actions": [
+                                    {
+                                      "$kind": "Microsoft.IfCondition",
+                                      "$designer": {
+                                        "id": "Q4jDyM"
+                                      },
+                                      "condition": "=contains(dialog.TempIssueList, dialog.foreach.val.SubFunction)",
+                                      "actions": [],
+                                      "elseActions": [
+                                        {
+                                          "$kind": "Microsoft.SetProperties",
+                                          "$designer": {
+                                            "id": "wdI7eo"
+                                          },
+                                          "assignments": [
+                                            {
+                                              "property": "dialog.issueList",
+                                              "value": {
+                                                "UserOption1": "${dialog.foreach.val.UserOption1}",
+                                                "SubFunction": "${dialog.foreach.val.SubFunction}"
+                                              }
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "$kind": "Microsoft.EditArray",
+                                          "$designer": {
+                                            "id": "sVquOC"
+                                          },
+                                          "changeType": "push",
+                                          "itemsProperty": "conversation.GenesysIssueList",
+                                          "value": "=dialog.issueList"
+                                        },
+                                        {
+                                          "$kind": "Microsoft.EditArray",
+                                          "$designer": {
+                                            "id": "uhmwWG"
+                                          },
+                                          "changeType": "push",
+                                          "itemsProperty": "dialog.TempIssueList",
+                                          "value": "=dialog.foreach.val.SubFunction"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "$kind": "Microsoft.IfCondition",
+                                      "$designer": {
+                                        "id": "hGrUhb"
+                                      },
+                                      "condition": "=dialog.foreach.val.SubFunctionDetail != '[None]'",
+                                      "actions": [
+                                        {
+                                          "$kind": "Microsoft.SetProperties",
+                                          "$designer": {
+                                            "id": "5ywM4w"
+                                          },
+                                          "assignments": [
+                                            {
+                                              "property": "dialog.productList",
+                                              "value": {
+                                                "UserOption2": "${dialog.foreach.val.UserOption2}",
+                                                "SubFunctionDetail": "${dialog.foreach.val.SubFunction}-${dialog.foreach.val.SubFunctionDetail}"
+                                              }
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "$kind": "Microsoft.EditArray",
+                                          "$designer": {
+                                            "id": "x26Pix"
+                                          },
+                                          "changeType": "push",
+                                          "itemsProperty": "conversation.GenesysAllProductList",
+                                          "value": "=dialog.productList"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "$kind": "Microsoft.EditArray",
+                                      "$designer": {
+                                        "id": "v9IeEW"
+                                      },
+                                      "changeType": "push",
+                                      "itemsProperty": "conversation.GenesysQueues",
+                                      "value": "=dialog.foreach.val"
+                                    }
+                                  ],
+                                  "elseActions": [
+                                    {
+                                      "$kind": "Microsoft.IfCondition",
+                                      "$designer": {
+                                        "id": "i7FG5y"
+                                      },
+                                      "condition": "= contains(dialog.queueUsersMSID, conversation.urlmsid)",
+                                      "actions": [
+                                        {
+                                          "$kind": "Microsoft.IfCondition",
+                                          "$designer": {
+                                            "id": "ne0N3n"
+                                          },
+                                          "condition": "=contains(dialog.TempIssueList, dialog.foreach.val.SubFunction)",
+                                          "actions": [],
+                                          "elseActions": [
+                                            {
+                                              "$kind": "Microsoft.SetProperties",
+                                              "$designer": {
+                                                "id": "LMCiN3"
+                                              },
+                                              "assignments": [
+                                                {
+                                                  "property": "dialog.issueList",
+                                                  "value": {
+                                                    "UserOption1": "${dialog.foreach.val.UserOption1}",
+                                                    "SubFunction": "${dialog.foreach.val.SubFunction}"
+                                                  }
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              "$kind": "Microsoft.EditArray",
+                                              "$designer": {
+                                                "id": "QGodmM"
+                                              },
+                                              "changeType": "push",
+                                              "itemsProperty": "conversation.GenesysIssueList",
+                                              "value": "=dialog.issueList"
+                                            },
+                                            {
+                                              "$kind": "Microsoft.EditArray",
+                                              "$designer": {
+                                                "id": "bFeKlm"
+                                              },
+                                              "changeType": "push",
+                                              "itemsProperty": "dialog.TempIssueList",
+                                              "value": "=dialog.foreach.val.SubFunction"
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "$kind": "Microsoft.IfCondition",
+                                          "$designer": {
+                                            "id": "5kcLR6"
+                                          },
+                                          "condition": "=dialog.foreach.val.SubFunctionDetail != '[None]'",
+                                          "actions": [
+                                            {
+                                              "$kind": "Microsoft.SetProperties",
+                                              "$designer": {
+                                                "id": "EsPdvv"
+                                              },
+                                              "assignments": [
+                                                {
+                                                  "property": "dialog.productList",
+                                                  "value": {
+                                                    "UserOption2": "${dialog.foreach.val.UserOption2}",
+                                                    "SubFunctionDetail": "${dialog.foreach.val.SubFunction}-${dialog.foreach.val.SubFunctionDetail}"
+                                                  }
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              "$kind": "Microsoft.EditArray",
+                                              "$designer": {
+                                                "id": "QAhcNC"
+                                              },
+                                              "changeType": "push",
+                                              "itemsProperty": "conversation.GenesysAllProductList",
+                                              "value": "=dialog.productList"
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "$kind": "Microsoft.EditArray",
+                                          "$designer": {
+                                            "id": "sWzqbX"
+                                          },
+                                          "changeType": "push",
+                                          "itemsProperty": "conversation.GenesysQueues",
+                                          "value": "=dialog.foreach.val"
+                                        }
+                                      ],
+                                      "elseActions": []
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "$kind": "Microsoft.BreakLoop",
+                              "$designer": {
+                                "id": "gs2sJe"
+                              }
+                            }
+                          ],
+                          "elseActions": []
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "ExPS0D"
+              },
+              "condition": "=empty(conversation.GenesysQueues)",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "X5u8Zx"
+                  },
+                  "property": "conversation.GenesysAvailable",
+                  "value": false
+                }
+              ]
+            }
+          ],
+          "elseActions": []
+        }
+      ]
+    }
+  ],
+  "generator": "LiveChatAvailabilities.lg",
+  "recognizer": "LiveChatAvailabilities.lu.qna",
+  "id": "LiveChatAvailabilities"
+}

@@ -1,0 +1,865 @@
+[import](common.lg)
+
+# SendActivity_WPUbbd_text()
+- Inside rerturn Status flow of skill decider
+# SendActivity_WPUbbd()
+[Activity
+    Text = ${SendActivity_WPUbbd_text()}
+]
+
+# SendActivity_tpnm2k_text()
+- Incident Number is invalid. Please share the correct 8 digit number following the format as INCXXXXXXXX.
+# SendActivity_tpnm2k()
+[Activity
+    Text = ${SendActivity_tpnm2k_text()}
+]
+
+# SendActivity_2iRVYk_text()
+- Incident Number is invalid. Please share the correct 8 digit number following the format as INCXXXXXXXX.
+# SendActivity_2iRVYk()
+[Activity
+    Text = ${SendActivity_2iRVYk_text()}
+]
+
+# SendActivity_YTcjdN_text()
+- You don't have any open tickets.
+
+
+# SendActivity_YTcjdN()
+[Activity
+    Text = ${SendActivity_YTcjdN_text()}
+]
+
+# SendActivity_KFwUiB_text()
+- Could not find the incident in serviceNow
+# SendActivity_KFwUiB()
+[Activity
+    Text = ${SendActivity_KFwUiB_text()}
+]
+
+# SendActivity_4sMA6F_text()
+- Incident Number is invalid. Please share the correct 8 digit number following the format as INCXXXXXXXX.
+# SendActivity_4sMA6F()
+[Activity
+    Text = ${SendActivity_4sMA6F_text()}
+]
+
+# SendActivity_bbImz0_text()
+- Inside selfResolved Status flow of skill decider
+# SendActivity_bbImz0()
+[Activity
+    Text = ${SendActivity_bbImz0_text()}
+]
+
+# TextInput_Prompt_eDKVwh_attachment_PhVzSw()
+> To learn more Adaptive Cards format, read the documentation at
+> https://docs.microsoft.com/en-us/adaptive-cards/getting-started/bots
+- ```
+{
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "Input.Text",
+                    "id": "userIssue",
+                    "isMultiline": true,
+                    "isRequired": true,
+                    "maxLength": 500,
+                   "label": "Please describe your issue here. Your description will be reflected in your ticket. ",
+                    "regex": "[^\\\s&!@#$%*]",
+                    "errorMessage": "Required field. Please avoid white space or special characters.",
+                    "height": "stretch",
+                    "placeholder": " "
+                },
+                {
+					"type": "ColumnSet",
+					"columns": [
+						{
+							"type": "Column",
+							"width": "stretch",
+							"separator": true,
+							"items": [
+								{
+									"type": "ActionSet",
+									"actions": [
+										{
+											"type": "Action.Submit",
+											"title": "Submit"
+										}
+									]
+								}
+							]
+						},
+						{
+							"type": "Column",
+							"width": "stretch",
+							"items": [
+								{
+									"type": "ActionSet",
+									"actions": [
+										{
+											"type": "Action.Submit",
+											"title": "Cancel",
+											"associatedInputs" : "none",
+											"data":
+											{
+												"cmd" : "newissue_cancel"
+											}
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+            ]
+        }
+    ]
+}
+```
+# TextInput_Prompt_eDKVwh()
+[Activity
+    Attachments = ${json(TextInput_Prompt_eDKVwh_attachment_PhVzSw())}
+]
+
+# SendActivity_0vgQ4G_text()
+- Inside createNew Status flow of skill decider
+# SendActivity_0vgQ4G()
+[Activity
+    Text = ${SendActivity_0vgQ4G_text()}
+]
+
+# TextInput_Prompt_fG1P1S_attachment_PhVzSw()
+> To learn more Adaptive Cards format, read the documentation at
+> https://docs.microsoft.com/en-us/adaptive-cards/getting-started/bots
+- ```
+{
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "Input.Text",
+                    "id": "userIssue",
+                    "isMultiline": true,
+                    "isRequired": true,
+                    "maxLength": 500,
+                    "label": "Please describe your issue here. Your description will be reflected in your ticket. ",
+                    "regex": "[^\\\s&!@#$%*]",
+                    "errorMessage": "Required field. Please avoid white space or special characters.",
+                    "height": "stretch",
+                    "placeholder": " "
+                },
+                
+                {
+                    "type": "ColumnSet",
+                    "columns": [
+                        {
+                            "type": "Column",
+                            "width": "stretch",
+                            "separator": true,
+                            "items": [
+                                {
+                                    "type": "ActionSet",
+                                    "actions": [
+                                        {
+                                            "type": "Action.Submit",
+                                            "title": "Submit"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "type": "Column",
+                            "width": "stretch",
+                            "items": [
+                                {
+                                    "type": "ActionSet",
+                                    "actions": [
+                                        {
+                                            "type": "Action.Submit",
+                                            "title": "Cancel",
+                                            "associatedInputs" : "none",
+                                            "data":{
+                                                "cmd" : "newissue_cancel"
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+```
+# TextInput_Prompt_fG1P1S()
+[Activity
+    Attachments = ${json(TextInput_Prompt_fG1P1S_attachment_PhVzSw())}
+]
+
+# TextInput_Prompt_Z4c4lg_attachment_YU6l1M()
+-```
+{
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "**Status**",
+                            "wrap": true,
+                            "horizontalAlignment": "left"
+                        },
+                         {
+                            "type": "TextBlock",
+                            "text": "${dialog.incident_state}",
+                            "wrap": true
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "**Name**",
+                            "wrap": true,
+                            "horizontalAlignment": "left"
+                        },
+                           {
+                            "type": "TextBlock",
+                            "text": "[${dialog.number}](${dialog.incidentUrl}) ${replace(replace(replace(replace(dialog.short_description,'\n',' '),'\t',' '),'"',''), '\\', ' ')}",
+                            "wrap": true
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "**Submitted**",
+                            "wrap": true,
+                            "horizontalAlignment": "left"
+                        },
+                         {
+                            "type": "TextBlock",
+                            "text": "${dialog.Oldopened_at} CT",
+                            "wrap": true
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "**Updated**",
+                            "wrap": true,
+                            "horizontalAlignment": "left"
+                        },
+                         {
+                            "type": "TextBlock",
+                            "text": "${dialog.Oldsys_updated_on} CT",
+                            "wrap": true
+                        }
+                    ]
+                }
+            ]
+        },
+{
+            "type": "ActionSet",
+            "actions": [
+                {
+                    "type": "Action.Submit",
+                    "title": "Escalate",
+                    "data": {
+                        "title": "escalate"
+                    }
+                }
+            ]
+        }
+    ]
+}
+```
+# TextInput_Prompt_Z4c4lg()
+[Activity
+    Attachments = ${json(TextInput_Prompt_Z4c4lg_attachment_YU6l1M())}
+]
+
+# TextInput_Prompt_9WeOTp_attachment_ZJkvyn()
+> To learn more Adaptive Cards format, read the documentation at
+> https://docs.microsoft.com/en-us/adaptive-cards/getting-started/bots
+- ```
+{
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "label": "Please enter your reason for escalation below for ${dialog.number} (max 1000 chars):",
+                    "type": "Input.Text",
+                    "id": "commentAdded",
+                    "isMultiline": true,
+                    "maxLength": 1000,
+                    "isRequired": true,
+                    "errorMessage": "Please write a comment before submitting",
+                    "height": "stretch",
+                    "placeholder": "Write your comment here"
+                },
+                {
+                    "type": "ActionSet",
+                    "actions": [
+                        {
+                            "type": "Action.Submit",
+                            "title": "Submit"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+```
+# TextInput_Prompt_9WeOTp()
+[Activity
+    Attachments = ${json(TextInput_Prompt_9WeOTp_attachment_ZJkvyn())}
+]
+
+# SendActivity_AeSMI3_text()
+- Incident ([${dialog.number}](${dialog.ticketUrl})) has been escalated.
+# SendActivity_AeSMI3()
+[Activity
+    Text = ${SendActivity_AeSMI3_text()}
+]
+
+# SendActivity_u9sEKo_text()
+- Sorry!  Escalation failed. Please try again.
+# SendActivity_u9sEKo()
+[Activity
+    Text = ${SendActivity_u9sEKo_text()}
+]
+
+# SendActivity_5kVfyc_text()
+- ={"number": "${dialog.number}", "u_count_escalation":"${dialog.escalationCountSel}", "comments": "Caller Escalation via Max BOT:  \n Escalation Count: ${dialog.escalationCountSel} \n Escalation entered by ${dialog.callerIdSel}  \n Customer: ${dialog.callerIdSel}  \n Escalation Time: ${dialog.utcNow}  \n Priority: ${dialog.priority}  \n Assignment Group: ${dialog.assignment_group}  \n Assigned To: ${dialog.assigned_to}  \n Escalation Reason: ${dialog.escalationAdded}"}
+# SendActivity_5kVfyc()
+[Activity
+    Text = ${SendActivity_5kVfyc_text()}
+]
+
+# TextInput_Prompt_6zb9SE_attachment_YU6l1M()
+-```
+{
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "**Status**",
+                            "wrap": true,
+                            "horizontalAlignment": "left"
+                        },
+                         {
+                            "type": "TextBlock",
+                            "text": "${dialog.incident_state}",
+                            "wrap": true
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "**Name**",
+                            "wrap": true,
+                            "horizontalAlignment": "left"
+                        },
+                           {
+                            "type": "TextBlock",
+                            "text": "[${dialog.number}](${dialog.incidentUrl}) ${replace(replace(replace(replace(dialog.short_description,'\n',' '),'\t',' '),'"',''), '\\', ' ')}",
+                            "wrap": true
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "**Submitted**",
+                            "wrap": true,
+                            "horizontalAlignment": "left"
+                        },
+                         {
+                            "type": "TextBlock",
+                            "text": "${dialog.Oldopened_at} CT",
+                            "wrap": true
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "**Updated**",
+                            "wrap": true,
+                            "horizontalAlignment": "left"
+                        },
+                         {
+                            "type": "TextBlock",
+                            "text": "${dialog.Oldsys_updated_on} CT",
+                            "wrap": true
+                        }
+                    ]
+                }
+            ]
+        },
+{
+            "type": "ActionSet",
+            "actions": [
+                {
+                    "type": "Action.Submit",
+                    "title": "Escalate",
+                    "data": {
+                        "title": "escalate"
+                    }
+                }
+            ]
+        }
+    ]
+}
+```
+# TextInput_Prompt_6zb9SE()
+[Activity
+    Attachments = ${json(TextInput_Prompt_6zb9SE_attachment_YU6l1M())}
+]
+
+# TextInput_Prompt_EczitB_attachment_ZJkvyn()
+> To learn more Adaptive Cards format, read the documentation at
+> https://docs.microsoft.com/en-us/adaptive-cards/getting-started/bots
+- ```
+{
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "label": "Please enter your reason for escalation below for ${dialog.number} (max 1000 chars):",
+                    "type": "Input.Text",
+                    "id": "commentAdded",
+                    "isMultiline": true,
+                    "maxLength": 1000,
+                    "isRequired": true,
+                    "errorMessage": "Please write a comment before submitting",
+                    "height": "stretch",
+                    "placeholder": "Write your comment here"
+                },
+                {
+                    "type": "ActionSet",
+                    "actions": [
+                        {
+                            "type": "Action.Submit",
+                            "title": "Submit"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+```
+# TextInput_Prompt_EczitB()
+[Activity
+    Attachments = ${json(TextInput_Prompt_EczitB_attachment_ZJkvyn())}
+]
+
+# SendActivity_AqsWd3_text()
+- Incident ([${dialog.number}](${dialog.ticketUrl})) has been escalated.
+# SendActivity_AqsWd3()
+[Activity
+    Text = ${SendActivity_AqsWd3_text()}
+]
+
+# SendActivity_UjxbUV_text()
+- Sorry!  Escalation failed. Please try again.
+# SendActivity_UjxbUV()
+[Activity
+    Text = ${SendActivity_UjxbUV_text()}
+]
+
+# TextInput_Prompt_O63Yny_attachment_ZJkvyn()
+> To learn more Adaptive Cards format, read the documentation at
+> https://docs.microsoft.com/en-us/adaptive-cards/getting-started/bots
+- ```
+{
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "label": "Please enter your reason for escalation below for ${dialog.number} (max 1000 chars):",
+                    "type": "Input.Text",
+                    "id": "commentAdded",
+                    "isMultiline": true,
+                    "maxLength": 1000,
+                    "isRequired": true,
+                    "errorMessage": "Please write a comment before submitting",
+                    "height": "stretch",
+                    "placeholder": "Write your comment here"
+                },
+                {
+                    "type": "ActionSet",
+                    "actions": [
+                        {
+                            "type": "Action.Submit",
+                            "title": "Submit"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+```
+# TextInput_Prompt_O63Yny()
+[Activity
+    Attachments = ${json(TextInput_Prompt_O63Yny_attachment_ZJkvyn())}
+]
+
+# SendActivity_pMyjcg_text()
+- Incident ([${dialog.number}](${dialog.ticketUrl})) has been escalated.
+# SendActivity_pMyjcg()
+[Activity
+    Text = ${SendActivity_pMyjcg_text()}
+]
+
+# SendActivity_G4ZMJ0_text()
+- Sorry!  Escalation failed. Please try again.
+# SendActivity_G4ZMJ0()
+[Activity
+    Text = ${SendActivity_G4ZMJ0_text()}
+]
+
+# TextInput_Prompt_OGX757()
+[Activity
+    Attachments = ${json(TextInput_Prompt_OGX757_attachment_7wa4yk())}
+]
+
+# TextInput_Prompt_OGX757_attachment_7wa4yk()
+> To learn more Adaptive Cards format, read the documentation at
+> https://docs.microsoft.com/en-us/adaptive-cards/getting-started/bots
+- ```
+{
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "label": "Please enter escalation reason below for ${conversation.incidentIdSel} (max 1000 chars):",
+                    "type": "Input.Text",
+                    "id": "escalationAdded",
+                    "isMultiline": true,
+                    "maxLength": 1000,
+                    "isRequired": true,
+                    "errorMessage": "Please enter a escalation reason before submitting",
+                    "height": "stretch",
+                    "placeholder": "Write your escalation reason here"
+                },
+                {
+                    "type": "ActionSet",
+                    "actions": [
+                        {
+                            "type": "Action.Submit",
+                            "title": "Submit"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+```
+# SendActivity_GXA2Uy()
+[Activity
+    Text = ${SendActivity_GXA2Uy_text()}
+]
+
+# SendActivity_GXA2Uy_text()
+- We are returning you back to SmartBot because of invalid inputs
+# ChoiceInput_Prompt_TL6WLv()
+[Activity
+    Text = ${ChoiceInput_Prompt_TL6WLv_text()}
+]
+
+# ChoiceInput_Prompt_TL6WLv_text()
+- Do you want to escalate ticket ${dialog.number}?
+# ChoiceInput_InvalidPrompt_TL6WLv()
+[Activity
+    Text = ${ChoiceInput_InvalidPrompt_TL6WLv_text()}
+]
+
+# ChoiceInput_InvalidPrompt_TL6WLv_text()
+- ```Please select Yes or No
+Do you want to escalate ticket ${dialog.number}?```
+# SendActivity_86AsTS_text()
+- The operation selected was ${conversation.skillObj.Event}. Maxbot currently does not support this operation coming from smartbot.
+# SendActivity_86AsTS()
+[Activity
+    Text = ${SendActivity_86AsTS_text()}
+]
+
+# SendActivity_vpOkFn_text()
+- Smartbot has sent ${conversation.skillObj.type}. Maxbot is ending the flow and returning control to Smartbot.
+# SendActivity_vpOkFn()
+[Activity
+    Text = ${SendActivity_vpOkFn_text()}
+]
+
+# SendActivity_v2wCLR_text()
+- Incident Number is still empty. Request can't be processed further. Returning back to main menu.
+# SendActivity_v2wCLR()
+[Activity
+    Text = ${SendActivity_v2wCLR_text()}
+]
+
+# TextInput_Prompt_ytkZ0O_attachment_mILBMU()
+> To learn more Adaptive Cards format, read the documentation at
+> https://docs.microsoft.com/en-us/adaptive-cards/getting-started/bots
+- ```
+{
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "Input.Text",
+            "placeholder": "INC12345678",
+            "label": "Incident Number ",
+            "isRequired": true,
+            "errorMessage": "Please enter 8 digit Incident number like INC12345678",
+            "id": "inc"
+        },
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "ActionSet",
+                    "actions": [
+                        {
+                            "type": "Action.Submit",
+                            "title": "Submit"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+```
+# TextInput_Prompt_ytkZ0O()
+[Activity
+    Attachments = ${json(TextInput_Prompt_ytkZ0O_attachment_mILBMU())}
+]
+
+# TextInput_InvalidPrompt_ytkZ0O()
+[Activity
+    AttachmentLayout = carousel
+]
+
+# SendActivity_JM9S3x_text()
+- Incident Number is still empty. Request can't be processed further. Returning back to main menu.
+# SendActivity_JM9S3x()
+[Activity
+    Text = ${SendActivity_JM9S3x_text()}
+]
+
+# SendActivity_kW7N0X()
+[Activity
+    Text = ${SendActivity_kW7N0X_text()}
+]
+
+# SendActivity_kW7N0X_text()
+- ${conversation.incidentIdSel} is **closed** and no more active . It can not be updated.
+# TextInput_Prompt_iHfaSm_attachment_ZJkvyn()
+> To learn more Adaptive Cards format, read the documentation at
+> https://docs.microsoft.com/en-us/adaptive-cards/getting-started/bots
+- ```
+{
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "label": "Please enter your comment below for ${conversation.incidentIdSel} (max 1000 chars):",
+                    "type": "Input.Text",
+                    "id": "commentAdded",
+                    "isMultiline": true,
+                    "maxLength": 1000,
+                    "isRequired": true,
+                    "errorMessage": "Please write a comment before submitting",
+                    "height": "stretch",
+                    "placeholder": "Write your comment here"
+                },
+                {
+                    "type": "ActionSet",
+                    "actions": [
+                        {
+                            "type": "Action.Submit",
+                            "title": "Submit"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+```
+# TextInput_Prompt_iHfaSm()
+[Activity
+    Attachments = ${json(TextInput_Prompt_iHfaSm_attachment_ZJkvyn())}
+]
+
+# SendActivity_oMoVIG_text()
+- Incident is already escalated and can not be escalated again.
+# SendActivity_oMoVIG()
+[Activity
+    Text = ${SendActivity_oMoVIG_text()}
+]
+
+# SendActivity_RoDhyi_text()
+- Incident is **closed** and can not be escalated.
+# SendActivity_RoDhyi()
+[Activity
+    Text = ${SendActivity_RoDhyi_text()}
+]
+
+
+# SendActivity_IhMibo_text()
+- Incident Number is still empty. Request can't be processed further. Returning back to main menu.
+# SendActivity_IhMibo()
+[Activity
+    Text = ${SendActivity_IhMibo_text()}
+]
+
+# SendActivity_KDSTzO()
+[Activity
+    Text = ${SendActivity_KDSTzO_text()}
+]
+
+# SendActivity_KDSTzO_text()
+- Comment can not be empty.
+# SendActivity_kAbKCu()
+[Activity
+    Text = ${SendActivity_kAbKCu_text()}
+]
+
+# SendActivity_kAbKCu_text()
+- Escalation reason can not be empty.
+# SendActivity_Z0KDyU_text()
+- Incident ([${dialog.number}](${dialog.ticketUrl})) has been escalated.
+# SendActivity_Z0KDyU()
+[Activity
+    Text = ${SendActivity_Z0KDyU_text()}
+]
+
+# SendActivity_FLq04a_text()
+- Sorry!  Escalation failed. Please try again.
+# SendActivity_FLq04a()
+[Activity
+    Text = ${SendActivity_FLq04a_text()}
+]
+
+
+
+# TextInput_Prompt_q6sZyx_attachment_mILBMU()
+> To learn more Adaptive Cards format, read the documentation at
+> https://docs.microsoft.com/en-us/adaptive-cards/getting-started/bots
+- ```
+{
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "Input.Text",
+            "placeholder": "INC12345678",
+            "label": "Incident Number ",
+            "isRequired": true,
+            "errorMessage": "Please enter 8 digit Incident number like INC12345678",
+            "id": "inc"
+        },
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "ActionSet",
+                    "actions": [
+                        {
+                            "type": "Action.Submit",
+                            "title": "Submit"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+```
+# TextInput_Prompt_q6sZyx()
+[Activity
+    Attachments = ${json(TextInput_Prompt_q6sZyx_attachment_mILBMU())}
+]
+
+# TextInput_InvalidPrompt_q6sZyx()
+[Activity
+    AttachmentLayout = carousel
+]

@@ -1,0 +1,53 @@
+[import](common.lg)
+
+
+# SendActivity_nkeq8l()
+[Activity
+    Text = Thanks for your input, since your issue is high impacting let me connect you with a Live Chat Agent.
+]
+
+# TextInput_Prompt_bukKSZ_attachment_CCrMxP()
+- ```
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "type": "AdaptiveCard",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "TextBlock",
+            "text": "Are you ready to join the live chat queue?",
+            "wrap": true
+        }
+    ],
+    "actions": [
+        {
+            "type": "Action.OpenUrl",
+            "id": "livechatbtnyes",
+            "title": "Yes, chat now",
+            "data": {
+                "x": 11
+            },
+            "url": "${dialog.liveAgentURL}"
+        },
+        {
+            "type": "Action.Submit",
+            "title": "No, end this chat",
+            "data": {
+                "x": 13
+            }
+        }
+    ]
+}
+```
+# TextInput_Prompt_bukKSZ()
+[Activity
+    Attachments = ${json(TextInput_Prompt_bukKSZ_attachment_CCrMxP())}
+]
+
+# SendActivity_safAPy_text()
+- ```Live Chat is not an option for your location at this time.
+Please fill the details below to submit the ticket.```
+# SendActivity_safAPy()
+[Activity
+    Text = ${SendActivity_safAPy_text()}
+]

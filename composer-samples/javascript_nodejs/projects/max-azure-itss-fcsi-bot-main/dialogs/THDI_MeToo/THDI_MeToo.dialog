@@ -1,0 +1,821 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "OfsWRc",
+    "name": "THDI_MeToo",
+    "comment": "this dialog displays the searched thdi into adaptive card, and also displays me too button/child incident number and information button"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "7L5L4y",
+        "comment": "This dialog is to display thdi records in adaptive cards."
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "hYvTFT"
+          },
+          "property": "conversation.pathTaken",
+          "value": "=concat(conversation.pathTaken,\" -> \",\"THDI_MeToo\")"
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "itZG3E"
+          },
+          "properties": "{\"pathTraversed\" : `${conversation.pathTaken}`}",
+          "name": "user-path"
+        },
+        {
+          "$kind": "Microsoft.EditArray",
+          "$designer": {
+            "id": "Tron8a"
+          },
+          "changeType": "clear",
+          "itemsProperty": "conversation.searched_thdi1"
+        },
+        {
+          "$kind": "Microsoft.Foreach",
+          "$designer": {
+            "id": "vyAwj9"
+          },
+          "index": "dialog.foreach.index",
+          "value": "dialog.foreach.value",
+          "itemsProperty": "conversation.searched_thdi",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "TakppH"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.rProduct_Name",
+                  "value": "=replace(trim(dialog.foreach.value.Product_Name), '\"', ' ')"
+                },
+                {
+                  "property": "dialog.rCommon_Symptoms",
+                  "value": "=replace(dialog.foreach.value.Common_Symptoms, '\"', ' ')"
+                },
+                {
+                  "property": "dialog.rIncident_ID",
+                  "value": "=replace(dialog.foreach.value.Incident_ID, '\"', ' ')"
+                },
+                {
+                  "value": "=replace(dialog.foreach.value.Incident_Ticket_Status, '\"', ' ')",
+                  "property": "dialog.rIncident_Ticket_Status"
+                },
+                {
+                  "property": "dialog.rreported_tickets",
+                  "value": "=replace(dialog.foreach.value.reported_tickets, '\"', ' ')"
+                },
+                {
+                  "property": "dialog.rIncident_Priority",
+                  "value": "=replace(dialog.foreach.value.Incident_Priority, '\"', ' ')"
+                },
+                {
+                  "property": "dialog.rDetails_Short",
+                  "value": "=replace(dialog.foreach.value.Details_Short, '\"', ' ')"
+                }
+              ]
+            },
+            {
+              "$kind": "removeSpecialCharacters",
+              "$designer": {
+                "id": "sNRWq6"
+              },
+              "userIssue": "${dialog.rProduct_Name}",
+              "resultProperty": "dialog.rProduct_Name"
+            },
+            {
+              "$kind": "removeSpecialCharacters",
+              "$designer": {
+                "id": "KqCi6I"
+              },
+              "userIssue": "${dialog.rCommon_Symptoms}",
+              "resultProperty": "dialog.rCommon_Symptoms"
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "75JYlS"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.cProduct_Name",
+                  "value": "=sentenceCase(dialog.rProduct_Name)"
+                },
+                {
+                  "property": "dialog.cCommon_Symptoms",
+                  "value": "=sentenceCase(dialog.rCommon_Symptoms)"
+                },
+                {
+                  "property": "dialog.cIncident_ID",
+                  "value": "=dialog.rIncident_ID"
+                },
+                {
+                  "property": "dialog.cIncident_Ticket_Status",
+                  "value": "=dialog.rIncident_Ticket_Status"
+                },
+                {
+                  "property": "dialog.cIncident_Ticket_Status",
+                  "value": "=dialog.foreach.value.Incident_Ticket_Status"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "ZkOPb4"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.cFields",
+                  "value": {
+                    "Product_Name": "${dialog.cProduct_Name}",
+                    "Common_Symptoms": "${dialog.cCommon_Symptoms}",
+                    "Incident_ID": "${dialog.cIncident_ID}",
+                    "Incident_Ticket_Status": "${dialog.cIncident_Ticket_Status}",
+                    "reported_tickets": "${dialog.rreported_tickets}",
+                    "Incident_Priority": "${dialog.rIncident_Priority}",
+                    "Details_Short": "${dialog.rDetails_Short}",
+                    "Message_Open": "${dialog.foreach.value.Message_Open}",
+                    "Action_Title": "${dialog.foreach.value.Action_Title}"
+                  }
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.EditArray",
+              "$designer": {
+                "id": "hymtlQ"
+              },
+              "changeType": "push",
+              "itemsProperty": "conversation.searched_thdi1",
+              "value": "=dialog.cFields"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EditArray",
+          "$designer": {
+            "id": "ljqdqR"
+          },
+          "changeType": "clear",
+          "itemsProperty": "dialog.parentIncidents"
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "xWzFni"
+          },
+          "resultProperty": "dialog.res_openIncidents",
+          "method": "GET",
+          "headers": {
+            "Authorization": "${settings.servicenow.Authorization}"
+          },
+          "url": "=`${settings.thdi.openincidents}&active=true&u_ms_id=${conversation.urlmsid}`"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "OWEdEg"
+          },
+          "assignments": [
+            {
+              "value": "=dialog.res_openIncidents.content.result",
+              "property": "dialog.openIncidentsResult"
+            },
+            {
+              "property": "dialog.openIncidentsStatusCode",
+              "value": "=dialog.res_openIncidents.statusCode"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "pApE44"
+          },
+          "condition": "= dialog.openIncidentsStatusCode == 200",
+          "actions": [
+            {
+              "$kind": "Microsoft.Foreach",
+              "$designer": {
+                "id": "Fvr3bG"
+              },
+              "index": "dialog.foreach.index",
+              "value": "dialog.foreach.value",
+              "itemsProperty": "dialog.openIncidentsResult",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "emFPZA"
+                  },
+                  "property": "dialog.action.number",
+                  "value": "=dialog.foreach.value.number"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "62Ntve"
+                  },
+                  "condition": "=dialog.foreach.value.parent_incident.display_value",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "JE9duG"
+                      },
+                      "property": "dialog.parentAction",
+                      "value": {
+                        "number": "${dialog.foreach.value.number}",
+                        "parent": "${dialog.foreach.value.parent_incident.display_value}",
+                        "sys_id": "${dialog.foreach.value.sys_id}"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.EditArray",
+                      "$designer": {
+                        "id": "zK4Gp1"
+                      },
+                      "changeType": "push",
+                      "itemsProperty": "dialog.parentIncidents",
+                      "value": "=dialog.parentAction"
+                    }
+                  ],
+                  "elseActions": []
+                }
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "FJXDr4"
+              },
+              "activity": "${SendActivity_FJXDr4()}",
+              "disabled": true
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "ceDmiq"
+          },
+          "property": "dialog.parentCount",
+          "value": "=count(dialog.parentIncidents)"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "beKMXW"
+          },
+          "condition": "= dialog.parentCount",
+          "actions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "abfxwK"
+              },
+              "activity": "${SendActivity_abfxwK()}",
+              "disabled": true
+            },
+            {
+              "$kind": "Microsoft.Foreach",
+              "$designer": {
+                "id": "sHhPkk"
+              },
+              "index": "dialog.foreach.ind",
+              "value": "dialog.foreach.val",
+              "itemsProperty": "dialog.parentIncidents",
+              "actions": [
+                {
+                  "$kind": "Microsoft.Foreach",
+                  "$designer": {
+                    "id": "MpjnZr"
+                  },
+                  "index": "dialog.foreach.index",
+                  "value": "dialog.foreach.value",
+                  "itemsProperty": "conversation.searched_thdi1",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "woKDG0"
+                      },
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "Z7ZvXz"
+                          },
+                          "assignments": [
+                            {
+                              "property": "dialog.inc_url",
+                              "value": "=`${settings.thdi.helpdeskUrl}?id=itss_hc_ticket&table=incident&sys_id=${dialog.foreach.val.sys_id}`"
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "51G5bh"
+                          },
+                          "activity": "${SendActivity_51G5bh()}"
+                        },
+                        {
+                          "$kind": "Microsoft.EditArray",
+                          "$designer": {
+                            "id": "XYybDI"
+                          },
+                          "changeType": "remove",
+                          "value": "= dialog.foreach.value",
+                          "itemsProperty": "conversation.searched_thdi1"
+                        },
+                        {
+                          "$kind": "Microsoft.BreakLoop",
+                          "$designer": {
+                            "id": "ro2jnM"
+                          }
+                        }
+                      ],
+                      "condition": "= dialog.foreach.value.Incident_ID == dialog.foreach.val.parent",
+                      "elseActions": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "nZHaSU"
+              },
+              "condition": "= count(conversation.searched_thdi1) == 0",
+              "actions": [
+                {
+                  "$kind": "Microsoft.DeleteProperties",
+                  "$designer": {
+                    "id": "0o0yOZ"
+                  },
+                  "properties": [
+                    "conversation.searched_thdi1"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "sAAa0i"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "anotherIssuePrompt"
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "EAD3Wb"
+                  }
+                }
+              ],
+              "elseActions": []
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "Dyfcwm"
+          },
+          "property": "dialog.remainingTHDICount",
+          "value": "=count(conversation.searched_thdi)"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "ehU0HZ"
+          },
+          "condition": "= dialog.remainingTHDICount",
+          "actions": [
+            {
+              "$kind": "Microsoft.TextInput",
+              "$designer": {
+                "id": "rdufoy"
+              },
+              "disabled": false,
+              "maxTurnCount": 3,
+              "alwaysPrompt": false,
+              "allowInterruptions": false,
+              "unrecognizedPrompt": "",
+              "invalidPrompt": "",
+              "defaultValueResponse": "",
+              "prompt": "${TextInput_Prompt_rdufoy()}",
+              "property": "dialog.title",
+              "value": "=turn.activity.value.title"
+            },
+            {
+              "$kind": "SendEventTelemetry",
+              "$designer": {
+                "id": "EAJ46n"
+              },
+              "properties": "{\"MatchingTHDI\" : `${conversation.title`}",
+              "name": "user-thdimatching"
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "nYWTEf"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.parentIncident",
+                  "value": "=turn.activity.value.parentIncident"
+                },
+                {
+                  "property": "dialog.shortDescription",
+                  "value": "=turn.activity.value.shortDescription"
+                },
+                {
+                  "property": "dialog.product",
+                  "value": "=turn.activity.value.product"
+                }
+              ]
+            },
+            {
+              "$kind": "SendEventTelemetry",
+              "$designer": {
+                "id": "NgJCMD"
+              },
+              "properties": "{\"MatchingTHDIOption\" : `${dialog.title`}",
+              "name": "user-thdioption"
+            },
+            {
+              "$kind": "Microsoft.SwitchCondition",
+              "$designer": {
+                "id": "iWpMHH"
+              },
+              "condition": "= dialog.title",
+              "cases": [
+                {
+                  "value": "== \"metoo\"",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.HttpRequest",
+                      "$designer": {
+                        "id": "xnw8eE"
+                      },
+                      "resultProperty": "dialog.parent_response",
+                      "method": "GET",
+                      "headers": {
+                        "Authorization": "${settings.servicenow.Authorization}"
+                      },
+                      "url": "=`${settings.thdi.getParentIncidentUrl}?sysparm_display_value=true&sysparm_limit=1&number=${dialog.parentIncident}`"
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "O6prFa"
+                      },
+                      "assignments": [
+                        {
+                          "property": "dialog.assignmentGroup",
+                          "value": "=dialog.parent_response.content.result[0].assignment_group.display_value"
+                        },
+                        {
+                          "property": "dialog.shortDescription",
+                          "value": "=dialog.parent_response.content.result[0].short_description"
+                        },
+                        {
+                          "property": "dialog.parentProduct",
+                          "value": "=dialog.parent_response.content.result[0].u_tsc_product.display_value"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.HttpRequest",
+                      "$designer": {
+                        "id": "OYDnvc"
+                      },
+                      "resultProperty": "dialog.child_res_inc",
+                      "method": "POST",
+                      "url": "${settings.thdi.createChildIncident}",
+                      "body": {
+                        "short_description": "${dialog.shortDescription}",
+                        "description": "${settings.thdi.meTooDescription}",
+                        "assignment_group": "${dialog.assignmentGroup}",
+                        "state": "1",
+                        "priority": "3",
+                        "u_type": "${settings.thdi.meTooUtype}",
+                        "caller_id": "${conversation.urluserid}",
+                        "parent_incident": "${dialog.parentIncident}",
+                        "u_tsc_product": "${dialog.parentProduct}"
+                      },
+                      "headers": {
+                        "Authorization": "${settings.servicenow.Authorization}"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "ntcRwv"
+                      },
+                      "condition": "= dialog.child_res_inc.statusCode == 201",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "N9bkRG"
+                          },
+                          "assignments": [
+                            {
+                              "property": "dialog.childIncidentNumber",
+                              "value": "= dialog.child_res_inc.content.result[0].display_value"
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.HttpRequest",
+                          "$designer": {
+                            "id": "bopH1J"
+                          },
+                          "resultProperty": "dialog.child_response_incident",
+                          "method": "GET",
+                          "url": "=`${settings.thdi.getChildIncidentDetails}&active=true&sysparm_limit=1&number=${dialog.childIncidentNumber}`",
+                          "headers": {
+                            "Authorization": "${settings.servicenow.Authorization}"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.IfCondition",
+                          "$designer": {
+                            "id": "hjpa3I"
+                          },
+                          "condition": "= dialog.child_response_incident.statusCode == 200",
+                          "elseActions": [
+                            {
+                              "$kind": "Microsoft.SendActivity",
+                              "$designer": {
+                                "id": "nDkZoY"
+                              },
+                              "activity": "${SendActivity_nDkZoY()}"
+                            }
+                          ],
+                          "actions": [
+                            {
+                              "$kind": "Microsoft.SetProperties",
+                              "$designer": {
+                                "id": "L4XdhQ"
+                              },
+                              "assignments": [
+                                {
+                                  "property": "dialog.childIncidentDescription",
+                                  "value": "=dialog.child_response_incident.content.result[0].description"
+                                },
+                                {
+                                  "property": "dialog.childIncidentState",
+                                  "value": "=dialog.child_response_incident.content.result[0].state"
+                                },
+                                {
+                                  "property": "dialog.childIncidentParent",
+                                  "value": "=dialog.child_response_incident.content.result[0].parent_incident.display_value"
+                                },
+                                {
+                                  "property": "dialog.childIncidentPriority",
+                                  "value": "=dialog.child_response_incident.content.result[0].priority"
+                                },
+                                {
+                                  "property": "dialog.childIncidentSys_id",
+                                  "value": "=dialog.child_response_incident.content.result[0].sys_id"
+                                },
+                                {
+                                  "property": "dialog.childIncidentURL",
+                                  "value": "=`${settings.thdi.helpdeskUrl}?id=itss_hc_ticket&table=incident&sys_id=${dialog.childIncidentSys_id}`"
+                                },
+                                {
+                                  "property": "dialog.childIncidentShortDescription",
+                                  "value": "=dialog.child_response_incident.content.result[0].short_description"
+                                }
+                              ]
+                            },
+                            {
+                              "$kind": "Microsoft.SendActivity",
+                              "$designer": {
+                                "id": "OfUEZW",
+                                "comment": "Added"
+                              },
+                              "activity": "${SendActivity_OfUEZW()}",
+                              "disabled": true
+                            },
+                            {
+                              "$kind": "Microsoft.SendActivity",
+                              "$designer": {
+                                "id": "0Hlywd"
+                              },
+                              "activity": "${SendActivity_0Hlywd()}",
+                              "disabled": true
+                            },
+                            {
+                              "$kind": "Microsoft.SendActivity",
+                              "$designer": {
+                                "id": "bioXu1"
+                              },
+                              "activity": "${SendActivity_bioXu1()}"
+                            }
+                          ]
+                        }
+                      ],
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "G8ysBM"
+                          },
+                          "activity": "${SendActivity_G8ysBM()}"
+                        },
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "WPAvjE"
+                          },
+                          "activity": "${SendActivity_WPAvjE()}"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.DeleteProperty",
+                      "$designer": {
+                        "id": "KHHt8n"
+                      },
+                      "property": "conversation.searched_thdi1"
+                    },
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "ecqE7a"
+                      },
+                      "condition": "= conversation.whichFlow == 'thdiQnaSearchFlow'",
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "HUXy6l"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "FurtherHelp"
+                        }
+                      ],
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "xmRRzd"
+                          },
+                          "property": "conversation.thdi_feedback",
+                          "value": "= dialog.title"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.EndDialog",
+                      "$designer": {
+                        "id": "03YlPy"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "value": "== \"helpful\"",
+                  "actions": [
+                    {
+                      "$kind": "SendEventTelemetry",
+                      "$designer": {
+                        "id": "iidlmR"
+                      },
+                      "name": "thdi-helpful",
+                      "properties": "{ \"helpful\" : \"Yes\"}"
+                    },
+                    {
+                      "$kind": "Microsoft.DeleteProperty",
+                      "$designer": {
+                        "id": "fmmg7B"
+                      },
+                      "property": "conversation.searched_thdi1"
+                    },
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "01Xf4a"
+                      },
+                      "activity": "${SendActivity_01Xf4a()}"
+                    },
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "PTvtCR"
+                      },
+                      "condition": "= conversation.whichFlow == 'thdiQnaSearchFlow'",
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "OUMiyf"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "FurtherHelp"
+                        }
+                      ],
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "uU8AG4"
+                          },
+                          "property": "conversation.thdi_feedback",
+                          "value": "= dialog.title"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.EndDialog",
+                      "$designer": {
+                        "id": "yL3ssY"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "value": "== \"notrelated\"",
+                  "actions": [
+                    {
+                      "$kind": "SendEventTelemetry",
+                      "$designer": {
+                        "id": "e1kLp3"
+                      },
+                      "name": "thdi-helpful",
+                      "properties": "{ \"helpful\" : \"No\"}"
+                    },
+                    {
+                      "$kind": "Microsoft.DeleteProperty",
+                      "$designer": {
+                        "id": "77RRwM"
+                      },
+                      "property": "conversation.searched_thdi1"
+                    },
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "7ix6lB"
+                      },
+                      "condition": "= conversation.whichFlow == 'thdiQnaSearchFlow'",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "UunZoY"
+                          },
+                          "property": "conversation.thdi_feedback",
+                          "value": "= dialog.title"
+                        }
+                      ],
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "lucbHw"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "Create_Incident"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.EndDialog",
+                      "$designer": {
+                        "id": "XRjG74"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "default": []
+            }
+          ],
+          "elseActions": []
+        }
+      ]
+    }
+  ],
+  "generator": "THDI_MeToo.lg",
+  "recognizer": "THDI_MeToo.lu.qna",
+  "id": "THDI_MeToo"
+}

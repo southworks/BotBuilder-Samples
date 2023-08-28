@@ -1,0 +1,57 @@
+[import](common.lg)
+
+# TextInput_Prompt_WaCWld()
+[Activity
+    Attachments = ${json(TextInput_Prompt_WaCWld_attachment_5YZSO1())}
+]
+
+# TextInput_Prompt_WaCWld_attachment_5YZSO1()
+> To learn more Adaptive Cards format, read the documentation at
+> https://docs.microsoft.com/en-us/adaptive-cards/getting-started/bots
+- ```
+{
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "Input.Text",
+                    "id": "userIssue",
+                    "isMultiline": true,
+                    "isRequired": true,
+                    "maxLength": 500,
+                    "label": "Please describe your issue here. Your description will be reflected in your ticket. ",
+                    "regex": "[^\\\s&!@#$%*]",
+                    "errorMessage": "Required field. Please avoid white space or special characters.",
+                    "height": "stretch",
+                    "placeholder": " "
+                },
+                {
+                    "type": "Input.ChoiceSet",
+                    "id": "isSelfResolved",
+                    "isMultiSelect": true,
+                    "style": "expanded",
+                    "choices": [
+                        {
+                            "title": "I just need a ticket number. (No support is needed.)",
+                            "value": "true"
+                        }
+                    ]
+                },
+                {
+                    "type": "ActionSet",
+                    "actions": [
+                        {
+                            "type": "Action.Submit",
+                            "title": "Submit"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+```

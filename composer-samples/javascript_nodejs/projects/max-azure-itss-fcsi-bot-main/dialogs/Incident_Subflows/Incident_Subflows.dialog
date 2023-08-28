@@ -1,0 +1,196 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "GoYaB7",
+    "name": "Incident_Subflows",
+    "comment": "Adding the Cancel functionality to submit creating an incident "
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "iz5vWQ"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "4sxzec"
+          },
+          "property": "conversation.pathTaken",
+          "value": "=concat(conversation.pathTaken,\" -> \",\"Incident_Subflows\")"
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "OlaxTf"
+          },
+          "properties": "{\"pathTraversed\" : `${conversation.pathTaken}`}",
+          "name": "user-path"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "Kg1EIy"
+          },
+          "condition": "=getProperty(conversation, 'skillObj')",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "fT8B66"
+              },
+              "property": "conversation.attachment_confirm",
+              "value": "False"
+            }
+          ],
+          "elseActions": []
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "Bp9Rz9"
+          },
+          "disabled": false,
+          "maxTurnCount": 3,
+          "alwaysPrompt": false,
+          "allowInterruptions": false,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "defaultValueResponse": "",
+          "prompt": "${TextInput_Prompt_Bp9Rz9()}",
+          "property": "conversation.attachment_confirm",
+          "value": "=turn.activity.value.title"
+        },
+        {
+          "$kind": "SendEventTelemetry",
+          "$designer": {
+            "id": "YoGN2u"
+          },
+          "properties": "{\"Upload Attachment\" : `${conversation.attachment_confirm}`}",
+          "name": "user-uploadattachment"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "FR4WZi"
+          },
+          "condition": "=conversation.attachment_confirm == 'Yes'",
+          "actions": [
+            {
+              "$kind": "Microsoft.DeleteProperty",
+              "$designer": {
+                "id": "aKhw58"
+              },
+              "property": "conversation.numOfFiles"
+            },
+            {
+              "$kind": "Microsoft.AttachmentInput",
+              "$designer": {
+                "id": "h5nioi"
+              },
+              "disabled": false,
+              "maxTurnCount": 3,
+              "alwaysPrompt": false,
+              "allowInterruptions": false,
+              "unrecognizedPrompt": "",
+              "invalidPrompt": "",
+              "prompt": "${AttachmentInput_Prompt_h5nioi()}",
+              "property": "conversation.imgAttach",
+              "outputFormat": "all"
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "geLC4U"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.numOfFiles",
+                  "value": "=count(conversation.imgAttach)"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "yswHn9"
+              },
+              "condition": "= conversation.numOfFiles <=2",
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.DeleteProperties",
+                  "$designer": {
+                    "id": "SlsxEu"
+                  },
+                  "properties": [
+                    "conversation.numOfFiles",
+                    "conversation.imgAttach"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "DF2py3"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "uploadFilesA"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "STxrRu"
+              },
+              "condition": "= conversation.attachment_confirm == 'Yes'",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "eXvwck"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "Incident_withAttachments"
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "N8xxWt"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "Incident_withoutAttachments"
+                }
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "qEJu9i"
+              },
+              "activityProcessed": true,
+              "dialog": "Incident_withoutAttachments"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "LWElqe"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "Incident_Subflows.lg",
+  "recognizer": "Incident_Subflows.lu.qna",
+  "id": "Incident_Subflows"
+}

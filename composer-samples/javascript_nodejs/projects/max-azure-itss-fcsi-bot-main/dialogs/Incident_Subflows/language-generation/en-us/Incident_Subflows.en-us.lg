@@ -1,0 +1,75 @@
+[import](common.lg)
+
+# AttachmentInput_Prompt_h5nioi()
+[Activity
+    Text = ${AttachmentInput_Prompt_h5nioi_text()}
+]
+
+# AttachmentInput_Prompt_h5nioi_text()
+- You can also click on the paperclip icon below to upload attachments. (Maximum size allowed is 4MB.)
+
+# TextInput_Prompt_Bp9Rz9()
+[Activity
+    Attachments = ${json(TextInput_Prompt_Bp9Rz9_attachment_oIhe0p())}
+]
+
+# TextInput_Prompt_Bp9Rz9_attachment_oIhe0p()
+> To learn more Adaptive Cards format, read the documentation at
+> https://docs.microsoft.com/en-us/adaptive-cards/getting-started/bots
+- ```
+{
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "TextBlock",
+            "text": "Please upload relevant attachments. You can upload up to 2 attachments with a total size of less than 4MB.",
+            "wrap": true
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "ActionSet",
+                            "actions": [
+                                {
+                                    "type": "Action.Submit",
+                                    "title": "Add attachment",
+                                    "id": "addAttachment",
+                                    "data": {
+                                        "title": "Yes"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "ActionSet",
+                            "actions": [
+                                {
+                                    "type": "Action.Submit",
+                                    "title": "Skip",
+                                    "id": "skipAttachment",
+                                    "data": {
+                                        "title": "No"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+```
