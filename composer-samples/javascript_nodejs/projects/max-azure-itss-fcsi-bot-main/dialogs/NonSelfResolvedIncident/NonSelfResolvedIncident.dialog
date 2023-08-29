@@ -64,9 +64,10 @@
             "id": "K8oqlM"
           },
           "disabled": true,
-          "resultProperty": "dialog.luisResult",
+          "resultProperty": "settings.luisResult",
           "method": "GET",
-          "url": "=`${settings.luis.endpoint}luis/prediction/v3.0/apps/${settings.luis.appId}/slots/production/predict?verbose=true&show-all-intents=true&log=true&subscription-key=${settings.luis.endpointKey}&query=${uriComponent(conversation.firstIssue)}`"
+          "url": "=`${settings.luis.endpoint}luis/prediction/v3.0/apps/${settings.luis.appId}/slots/production/predict?verbose=true&show-all-intents=true&log=true&subscription-key=${settings.luis.endpointKey}&query=${uriComponent(conversation.firstIssue)}`",
+          "disabled": true
         },
         {
           "$kind": "Microsoft.IfCondition",
@@ -911,16 +912,17 @@
                   "$designer": {
                     "id": "BKl2AP"
                   },
-                  "resultProperty": "dialog.importantProducts",
+                  "resultProperty": "settings.importantProducts",
                   "method": "GET",
-                  "url": "=`${settings.thdi.blobImportantProducts}`"
+                  "url": "=`${settings.thdi.blobImportantProducts}`",
+                  "disabled": true
                 },
                 {
                   "$kind": "Microsoft.IfCondition",
                   "$designer": {
                     "id": "XoFHGo"
                   },
-                  "condition": "= dialog.importantProducts.statusCode == 200",
+                  "condition": "= settings.importantProducts.statusCode == 200",
                   "actions": [
                     {
                       "$kind": "Microsoft.Foreach",
@@ -929,7 +931,7 @@
                       },
                       "index": "dialog.foreach.index",
                       "value": "dialog.foreach.value",
-                      "itemsProperty": "dialog.importantProducts.content",
+                      "itemsProperty": "settings.importantProducts.content",
                       "actions": [
                         {
                           "$kind": "Microsoft.Foreach",
