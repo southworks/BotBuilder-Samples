@@ -45,6 +45,7 @@
         },
         {
           "$kind": "Microsoft.HttpRequest",
+          "disabled": true,
           "$designer": {
             "id": "YSI2D3"
           },
@@ -60,7 +61,7 @@
           "$designer": {
             "id": "nXFLBE"
           },
-          "condition": "= dialog.openTicketsRes.statusCode == 200",
+          "condition": "=settings.openTicketsRes.statusCode == 200",
           "actions": [
             {
               "$kind": "Microsoft.SetProperties",
@@ -70,15 +71,15 @@
               "assignments": [
                 {
                   "property": "dialog.openTickets",
-                  "value": "=dialog.openTicketsRes.content.result"
+                  "value": "=settings.openTicketsRes.content.result"
                 },
                 {
                   "property": "dialog.isEmptyOpenTickets",
-                  "value": "=empty(dialog.openTicketsRes.content.result)"
+                  "value": "=empty(settings.openTicketsRes.content.result)"
                 },
                 {
                   "property": "dialog.totalOpenTicketsStr",
-                  "value": "=dialog.openTicketsRes.headers[\"x-total-count\"]"
+                  "value": "=settings.openTicketsRes.headers[\"x-total-count\"]"
                 },
                 {
                   "property": "dialog.totalOpenTickets",

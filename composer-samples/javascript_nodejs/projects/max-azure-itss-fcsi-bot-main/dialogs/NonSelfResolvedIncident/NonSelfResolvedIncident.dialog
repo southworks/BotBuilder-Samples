@@ -1240,6 +1240,7 @@
           "actions": [
             {
               "$kind": "Microsoft.HttpRequest",
+              "disabled": true,
               "$designer": {
                 "id": "0bOCOX"
               },
@@ -1261,7 +1262,7 @@
                   "assignments": [
                     {
                       "property": "dialog.productsRes",
-                      "value": "=dialog.blobProducts.content"
+                      "value": "=settings.blobProducts.content"
                     }
                   ]
                 },
@@ -1435,7 +1436,7 @@
                   "value": "=''"
                 }
               ],
-              "condition": "= dialog.blobProducts.statusCode == 200"
+              "condition": "= settings.blobProducts.statusCode == 200"
             },
             {
               "$kind": "Microsoft.SetProperty",

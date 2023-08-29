@@ -495,6 +495,7 @@
                   "actions": [
                     {
                       "$kind": "Microsoft.HttpRequest",
+                      "disabled": true,
                       "$designer": {
                         "id": "C0LQ5c"
                       },
@@ -510,7 +511,7 @@
                       "$designer": {
                         "id": "hq1p4h"
                       },
-                      "condition": "= dialog.IncidentRes.statusCode == 200",
+                      "condition": "= settings.IncidentRes.statusCode == 200",
                       "actions": [
                         {
                           "$kind": "Microsoft.SetProperties",
@@ -520,7 +521,7 @@
                           "assignments": [
                             {
                               "property": "dialog.openTickets",
-                              "value": "=dialog.IncidentRes.content.result"
+                              "value": "=settings.IncidentRes.content.result"
                             },
                             {
                               "property": "dialog.isEmptyOpenTickets",
@@ -550,14 +551,14 @@
                                 "id": "WaWeo7",
                                 "comment": "Check if the ticket can be escalalted"
                               },
-                              "condition": "=  (int(dialog.IncidentRes.content.result[0].u_count_escalation) == 0 && dialog.IncidentRes.content.result[0].state != \"Pending Closure\" && dialog.IncidentRes.content.result[0].active != 'false')",
+                              "condition": "=  (int(settings.IncidentRes.content.result[0].u_count_escalation) == 0 && settings.IncidentRes.content.result[0].state != \"Pending Closure\" && settings.IncidentRes.content.result[0].active != 'false')",
                               "elseActions": [
                                 {
                                   "$kind": "Microsoft.IfCondition",
                                   "$designer": {
                                     "id": "mr5KLG"
                                   },
-                                  "condition": "= dialog.IncidentRes.content.result[0].active == 'false'",
+                                  "condition": "= settings.IncidentRes.content.result[0].active == 'false'",
                                   "elseActions": [
                                     {
                                       "$kind": "Microsoft.SendActivity",
@@ -595,47 +596,47 @@
                                   "assignments": [
                                     {
                                       "property": "dialog.number",
-                                      "value": "=dialog.IncidentRes.content.result[0].number"
+                                      "value": "=settings.IncidentRes.content.result[0].number"
                                     },
                                     {
                                       "property": "dialog.short_description",
-                                      "value": "=dialog.IncidentRes.content.result[0].short_description"
+                                      "value": "=settings.IncidentRes.content.result[0].short_description"
                                     },
                                     {
-                                      "value": "=dialog.IncidentRes.content.result[0].incident_state",
+                                      "value": "=settings.IncidentRes.content.result[0].incident_state",
                                       "property": "dialog.incident_state"
                                     },
                                     {
-                                      "value": "=dialog.IncidentRes.content.result[0].opened_at",
+                                      "value": "=settings.IncidentRes.content.result[0].opened_at",
                                       "property": "dialog.opened_at"
                                     },
                                     {
-                                      "value": "=dialog.IncidentRes.content.result[0].sys_updated_on",
+                                      "value": "=settings.IncidentRes.content.result[0].sys_updated_on",
                                       "property": "dialog.sys_updated_on"
                                     },
                                     {
                                       "property": "dialog.escalationCountSel",
-                                      "value": "=add(int(dialog.IncidentRes.content.result[0].u_count_escalation), 1)"
+                                      "value": "=add(int(settings.IncidentRes.content.result[0].u_count_escalation), 1)"
                                     },
                                     {
                                       "property": "dialog.callerIdSel",
-                                      "value": "=dialog.IncidentRes.content.result[0].caller_id.display_value"
+                                      "value": "=settings.IncidentRes.content.result[0].caller_id.display_value"
                                     },
                                     {
                                       "property": "dialog.priority",
-                                      "value": "=dialog.IncidentRes.content.result[0].priority"
+                                      "value": "=settings.IncidentRes.content.result[0].priority"
                                     },
                                     {
                                       "property": "dialog.assignment_group",
-                                      "value": "=dialog.IncidentRes.content.result[0].assignment_group.display_value"
+                                      "value": "=settings.IncidentRes.content.result[0].assignment_group.display_value"
                                     },
                                     {
                                       "property": "dialog.assigned_to",
-                                      "value": "=dialog.IncidentRes.content.result[0].assigned_to.display_value"
+                                      "value": "=settings.IncidentRes.content.result[0].assigned_to.display_value"
                                     },
                                     {
                                       "property": "dialog.sys_id",
-                                      "value": "=dialog.IncidentRes.content.result[0].sys_id"
+                                      "value": "=settings.IncidentRes.content.result[0].sys_id"
                                     }
                                   ]
                                 },
@@ -812,6 +813,7 @@
                                     },
                                     {
                                       "$kind": "Microsoft.HttpRequest",
+                                      "disabled": true,
                                       "$designer": {
                                         "id": "JFgiNt"
                                       },
@@ -828,7 +830,7 @@
                                       "$designer": {
                                         "id": "j68XMD"
                                       },
-                                      "condition": "= dialog.escalationcommentResult.statusCode == 201 && dialog.escalationcommentResult.content.result[0].status == \"updated\"",
+                                      "condition": "= settings.escalationcommentResult.statusCode == 201 && settings.escalationcommentResult.content.result[0].status == \"updated\"",
                                       "actions": [
                                         {
                                           "$kind": "Microsoft.SetProperty",

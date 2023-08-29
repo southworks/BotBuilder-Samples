@@ -176,12 +176,13 @@
           "$designer": {
             "id": "xWzFni"
           },
-          "resultProperty": "dialog.res_openIncidents",
+          "resultProperty": "settings.res_openIncidents",
           "method": "GET",
           "headers": {
             "Authorization": "${settings.servicenow.Authorization}"
           },
-          "url": "=`${settings.thdi.openincidents}&active=true&u_ms_id=${conversation.urlmsid}`"
+          "url": "=`${settings.thdi.openincidents}&active=true&u_ms_id=${conversation.urlmsid}`",
+          "disabled": true
         },
         {
           "$kind": "Microsoft.SetProperties",
@@ -190,12 +191,12 @@
           },
           "assignments": [
             {
-              "value": "=dialog.res_openIncidents.content.result",
+              "value": "=settings.res_openIncidents.content.result",
               "property": "dialog.openIncidentsResult"
             },
             {
               "property": "dialog.openIncidentsStatusCode",
-              "value": "=dialog.res_openIncidents.statusCode"
+              "value": "=settings.res_openIncidents.statusCode"
             }
           ]
         },
@@ -479,7 +480,8 @@
                       "headers": {
                         "Authorization": "${settings.servicenow.Authorization}"
                       },
-                      "url": "=`${settings.thdi.getParentIncidentUrl}?sysparm_display_value=true&sysparm_limit=1&number=${dialog.parentIncident}`"
+                      "url": "=`${settings.thdi.getParentIncidentUrl}?sysparm_display_value=true&sysparm_limit=1&number=${dialog.parentIncident}`",
+                      "disabled": true
                     },
                     {
                       "$kind": "Microsoft.SetProperties",
@@ -489,20 +491,21 @@
                       "assignments": [
                         {
                           "property": "dialog.assignmentGroup",
-                          "value": "=dialog.parent_response.content.result[0].assignment_group.display_value"
+                          "value": "=settings.parent_response.content.result[0].assignment_group.display_value"
                         },
                         {
                           "property": "dialog.shortDescription",
-                          "value": "=dialog.parent_response.content.result[0].short_description"
+                          "value": "=settings.parent_response.content.result[0].short_description"
                         },
                         {
                           "property": "dialog.parentProduct",
-                          "value": "=dialog.parent_response.content.result[0].u_tsc_product.display_value"
+                          "value": "=settings.parent_response.content.result[0].u_tsc_product.display_value"
                         }
                       ]
                     },
                     {
                       "$kind": "Microsoft.HttpRequest",
+                      "disabled": true,
                       "$designer": {
                         "id": "OYDnvc"
                       },
@@ -529,7 +532,7 @@
                       "$designer": {
                         "id": "ntcRwv"
                       },
-                      "condition": "= dialog.child_res_inc.statusCode == 201",
+                      "condition": "= settings.child_res_inc.statusCode == 201",
                       "actions": [
                         {
                           "$kind": "Microsoft.SetProperties",
@@ -539,12 +542,13 @@
                           "assignments": [
                             {
                               "property": "dialog.childIncidentNumber",
-                              "value": "= dialog.child_res_inc.content.result[0].display_value"
+                              "value": "= settings.child_res_inc.content.result[0].display_value"
                             }
                           ]
                         },
                         {
                           "$kind": "Microsoft.HttpRequest",
+                          "disabled": true,
                           "$designer": {
                             "id": "bopH1J"
                           },
@@ -560,7 +564,7 @@
                           "$designer": {
                             "id": "hjpa3I"
                           },
-                          "condition": "= dialog.child_response_incident.statusCode == 200",
+                          "condition": "= settings.child_response_incident.statusCode == 200",
                           "elseActions": [
                             {
                               "$kind": "Microsoft.SendActivity",
@@ -579,23 +583,23 @@
                               "assignments": [
                                 {
                                   "property": "dialog.childIncidentDescription",
-                                  "value": "=dialog.child_response_incident.content.result[0].description"
+                                  "value": "=settings.child_response_incident.content.result[0].description"
                                 },
                                 {
                                   "property": "dialog.childIncidentState",
-                                  "value": "=dialog.child_response_incident.content.result[0].state"
+                                  "value": "=settings.child_response_incident.content.result[0].state"
                                 },
                                 {
                                   "property": "dialog.childIncidentParent",
-                                  "value": "=dialog.child_response_incident.content.result[0].parent_incident.display_value"
+                                  "value": "=settings.child_response_incident.content.result[0].parent_incident.display_value"
                                 },
                                 {
                                   "property": "dialog.childIncidentPriority",
-                                  "value": "=dialog.child_response_incident.content.result[0].priority"
+                                  "value": "=settings.child_response_incident.content.result[0].priority"
                                 },
                                 {
                                   "property": "dialog.childIncidentSys_id",
-                                  "value": "=dialog.child_response_incident.content.result[0].sys_id"
+                                  "value": "=settings.child_response_incident.content.result[0].sys_id"
                                 },
                                 {
                                   "property": "dialog.childIncidentURL",
@@ -603,7 +607,7 @@
                                 },
                                 {
                                   "property": "dialog.childIncidentShortDescription",
-                                  "value": "=dialog.child_response_incident.content.result[0].short_description"
+                                  "value": "=settings.child_response_incident.content.result[0].short_description"
                                 }
                               ]
                             },
