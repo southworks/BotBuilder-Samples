@@ -8,4 +8,3 @@ node_modules/
 generated/
 
 # settings file containing secrets
-settings/appsettings.json
