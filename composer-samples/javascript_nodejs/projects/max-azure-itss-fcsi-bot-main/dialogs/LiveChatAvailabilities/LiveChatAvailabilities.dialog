@@ -91,7 +91,7 @@
           "$designer": {
             "id": "oKQbAV"
           },
-          "resultProperty": "dialog.GenLuisAvaiRes",
+          "resultProperty": "settings.GenLuisAvaiRes",
           "method": "GET",
           "url": "=`${settings.chat.GenesysLuisFlag}`",
           "disabled": true
@@ -118,7 +118,7 @@
           "$designer": {
             "id": "4jzZu0"
           },
-          "resultProperty": "dialog.apiResponse",
+          "resultProperty": "settings.apiResponse",
           "method": "GET",
           "responseType": "json",
           "url": "=`${settings.chat.genesysMenuOptions}`"
@@ -128,14 +128,14 @@
           "$designer": {
             "id": "Sh7mWP"
           },
-          "condition": "= dialog.apiResponse.statusCode == 200 && !empty(dialog.apiResponse.content)",
+          "condition": "= settings.apiResponse.statusCode == 200 && !empty(settings.apiResponse.content)",
           "actions": [
             {
               "$kind": "SendEventTelemetry",
               "$designer": {
                 "id": "77oPtI"
               },
-              "properties": "{\"response\" : `${dialog.apiResponse.content}`}",
+              "properties": "{\"response\" : `${settings.apiResponse.content}`}",
               "name": "GenesysFlagAPIResponse"
             },
             {
@@ -145,7 +145,7 @@
               },
               "index": "dialog.foreach.index",
               "value": "dialog.foreach.value",
-              "itemsProperty": "dialog.apiResponse.content",
+              "itemsProperty": "settings.apiResponse.content",
               "actions": [
                 {
                   "$kind": "Microsoft.IfCondition",

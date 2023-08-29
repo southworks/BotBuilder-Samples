@@ -45,13 +45,14 @@
           "$designer": {
             "id": "so0rWA"
           },
-          "resultProperty": "dialog.commentResult",
+          "resultProperty": "settings.commentResult",
           "method": "POST",
           "url": "${settings.servicenow.URL}",
           "headers": {
             "Authorization": "${settings.servicenow.Authorization}"
           },
-          "body": "={\"number\": `${conversation.incidentIdSel}`,\"comments\": `${conversation.commentAdded}`}"
+          "body": "={\"number\": `${conversation.incidentIdSel}`,\"comments\": `${conversation.commentAdded}`}",
+          "disabled": true
         },
         {
           "$kind": "Microsoft.IfCondition",

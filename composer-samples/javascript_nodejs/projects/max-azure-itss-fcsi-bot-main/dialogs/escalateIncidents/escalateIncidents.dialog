@@ -53,20 +53,21 @@
           "$designer": {
             "id": "qgg9yn"
           },
-          "resultProperty": "dialog.escalationcommentResult",
+          "resultProperty": "settings.escalationcommentResult",
           "method": "POST",
           "url": "${settings.servicenow.URL}",
           "headers": {
             "Authorization": "${settings.servicenow.Authorization}"
           },
-          "body": "={\"number\": `${conversation.incidentIdSel}`, \"u_count_escalation\":`${conversation.escalationCountSel}`, \"comments\": `Caller Escalation via Max BOT:  \\n Escalation Count: ${conversation.escalationCountSel} \\n Escalation entered by ${conversation.callerIdSel}  \\n Customer: ${conversation.callerIdSel}  \\n Escalation Time: ${dialog.utcNow}  \\n Priority: ${conversation.prioritySel}  \\n Assignment Group: ${conversation.assignmentGroupSel}  \\n Assigned To: ${conversation.assignedToSel}  \\n Escalation Reason: ${conversation.escalationAdded}`}"
+          "body": "={\"number\": `${conversation.incidentIdSel}`, \"u_count_escalation\":`${conversation.escalationCountSel}`, \"comments\": `Caller Escalation via Max BOT:  \\n Escalation Count: ${conversation.escalationCountSel} \\n Escalation entered by ${conversation.callerIdSel}  \\n Customer: ${conversation.callerIdSel}  \\n Escalation Time: ${dialog.utcNow}  \\n Priority: ${conversation.prioritySel}  \\n Assignment Group: ${conversation.assignmentGroupSel}  \\n Assigned To: ${conversation.assignedToSel}  \\n Escalation Reason: ${conversation.escalationAdded}`}",
+          "disabled": true
         },
         {
           "$kind": "Microsoft.IfCondition",
           "$designer": {
             "id": "ev9k2t"
           },
-          "condition": "= dialog.escalationcommentResult.statusCode == 201 && dialog.escalationcommentResult.content.result[0].status == \"updated\"",
+          "condition": "= settings.escalationcommentResult.statusCode == 201 && settings.escalationcommentResult.content.result[0].status == \"updated\"",
           "actions": [
             {
               "$kind": "Microsoft.SetProperty",

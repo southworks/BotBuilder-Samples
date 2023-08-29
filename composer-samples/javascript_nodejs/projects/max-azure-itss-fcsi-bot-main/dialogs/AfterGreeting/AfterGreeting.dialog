@@ -76,9 +76,10 @@
                 "id": "9tW76g",
                 "comment": "Make an API call to Fun_SubFun.json in blob storage and store it in a property"
               },
-              "resultProperty": "dialog.SubFunctionResponse",
+              "resultProperty": "settings.SubFunctionResponse",
               "method": "GET",
-              "url": "=`${settings.chat.GenesysFunSubFunc}`"
+              "url": "=`${settings.chat.GenesysFunSubFunc}`",
+              "disabled": true
             },
             {
               "$kind": "Microsoft.SetProperty",
@@ -86,7 +87,7 @@
                 "id": "yvX5Sl"
               },
               "property": "conversation.FunctionDetails",
-              "value": "=dialog.SubFunctionResponse.content"
+              "value": "=settings.subFunctionResponse.content"
             }
           ]
         },

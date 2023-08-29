@@ -374,9 +374,10 @@
               "$designer": {
                 "id": "P56exC"
               },
-              "resultProperty": "dialog.GenesysProducts",
+              "resultProperty": "settings.GenesysProducts",
               "method": "GET",
-              "url": "=`${settings.chat.GenesysMatchingProducts}`"
+              "url": "=`${settings.chat.GenesysMatchingProducts}`",
+              "disabled": true
             },
             {
               "$kind": "Microsoft.SetProperty",
@@ -384,14 +385,14 @@
                 "id": "JDnL2E"
               },
               "property": "conversation.GenesysMatchingProduct",
-              "value": "=dialog.GenesysProducts"
+              "value": "=settings.GenesysProducts"
             },
             {
               "$kind": "Microsoft.IfCondition",
               "$designer": {
                 "id": "nc3epF"
               },
-              "condition": "=dialog.GenesysProducts.statusCode == 200",
+              "condition": "=settings.GenesysProducts.statusCode == 200",
               "actions": [
                 {
                   "$kind": "Microsoft.SetProperties",
@@ -401,7 +402,7 @@
                   "assignments": [
                     {
                       "property": "dialog.apiContent",
-                      "value": "=dialog.GenesysProducts.content"
+                      "value": "=settings.GenesysProducts.content"
                     },
                     {
                       "property": "dialog.isTicketSearch",

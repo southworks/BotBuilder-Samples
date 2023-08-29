@@ -69,7 +69,7 @@
               "$designer": {
                 "id": "gn50wB"
               },
-              "resultProperty": "dialog.GenesysProducts",
+              "resultProperty": "settings.GenesysProducts",
               "method": "GET",
               "url": "=`${settings.chat.GenesysMatchingProducts}`",
               "disabled": true
@@ -79,7 +79,7 @@
               "$designer": {
                 "id": "uUvUt6"
               },
-              "property": "dialog.GenesysProducts",
+              "property": "settings.GenesysProducts",
               "value": "=conversation.GenesysMatchingProduct"
             },
             {
@@ -87,7 +87,7 @@
               "$designer": {
                 "id": "d1vcHe"
               },
-              "condition": "=dialog.GenesysProducts.statusCode == 200 && dialog.GenesysProducts.content.flag == 'yes'",
+              "condition": "=settings.GenesysProducts.statusCode == 200 && settings.GenesysProducts.content.flag == 'yes'",
               "actions": [
                 {
                   "$kind": "Microsoft.SetProperties",
@@ -101,7 +101,7 @@
                     },
                     {
                       "property": "dialog.GenesysProductsBlob",
-                      "value": "=dialog.GenesysProducts.content.products"
+                      "value": "=settings.GenesysProducts.content.products"
                     }
                   ]
                 },
@@ -325,16 +325,17 @@
               "$designer": {
                 "id": "3HrtrD"
               },
-              "resultProperty": "dialog.waitTimeApiResponse",
+              "resultProperty": "settings.waitTimeApiResponse",
               "method": "GET",
-              "url": "=`${settings.chat.GenesysWaitTimeAPI}`"
+              "url": "=`${settings.chat.GenesysWaitTimeAPI}`",
+              "disabled": true
             },
             {
               "$kind": "Microsoft.IfCondition",
               "$designer": {
                 "id": "CBmF0t"
               },
-              "condition": "= dialog.waitTimeApiResponse.statusCode == 200",
+              "condition": "= settings.waitTimeApiResponse.statusCode == 200",
               "actions": [
                 {
                   "$kind": "Microsoft.SetProperty",
@@ -342,7 +343,7 @@
                     "id": "JkFZbZ"
                   },
                   "property": "dialog.waitTime",
-                  "value": "=dialog.waitTimeApiResponse.content.GenesysChatWaitTime"
+                  "value": "=settings.waitTimeApiResponse.content.GenesysChatWaitTime"
                 },
                 {
                   "$kind": "Microsoft.IfCondition",

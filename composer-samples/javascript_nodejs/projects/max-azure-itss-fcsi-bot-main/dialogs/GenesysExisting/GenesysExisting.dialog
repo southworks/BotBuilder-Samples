@@ -37,21 +37,22 @@
           "$designer": {
             "id": "SKEExv"
           },
-          "resultProperty": "dialog.entApiRes",
+          "resultProperty": "settings.entApiRes",
           "method": "GET",
           "url": "=`${settings.chat.genesysEntinfoStarturl}'${conversation.urlmsid}',${settings.chat.genesysEntinfoEndurl}&tn=genesyssubfunctiontable`",
           "headers": {
             "Accept": "application/json"
           },
           "contentType": "application/json",
-          "responseType": "json"
+          "responseType": "json",
+          "disabled": true
         },
         {
           "$kind": "Microsoft.IfCondition",
           "$designer": {
             "id": "9ZK2pn"
           },
-          "condition": "= dialog.entApiRes.statusCode == 200",
+          "condition": "= settings.entApiRes.statusCode == 200",
           "actions": [
             {
               "$kind": "Microsoft.SetProperties",
@@ -61,15 +62,15 @@
               "assignments": [
                 {
                   "property": "dialog.entSubFunction",
-                  "value": "=dialog.entApiRes.content.EntSubFunction"
+                  "value": "=settings.entApiRes.content.EntSubFunction"
                 },
                 {
                   "property": "dialog.entSubFunctionDetail",
-                  "value": "=dialog.entApiRes.content.EntSubFunctionDetail"
+                  "value": "=settings.entApiRes.content.EntSubFunctionDetail"
                 },
                 {
                   "property": "dialog.userQuery",
-                  "value": "=dialog.entApiRes.content.UserQuery"
+                  "value": "=settings.entApiRes.content.UserQuery"
                 },
                 {
                   "property": "dialog.preChatActivity",
