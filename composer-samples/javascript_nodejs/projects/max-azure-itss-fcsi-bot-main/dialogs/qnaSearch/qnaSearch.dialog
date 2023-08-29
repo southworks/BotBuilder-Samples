@@ -747,7 +747,7 @@
       ]
     }
   ],
-  "generator": "NodeEmptyBot.lg",
-  "recognizer": "NodeEmptyBot.lu.qna",
+  "generator": "qnaSearch.lg",
+  "recognizer": "qnaSearch.lu.qna",
   "id": "qnaSearch"
 }

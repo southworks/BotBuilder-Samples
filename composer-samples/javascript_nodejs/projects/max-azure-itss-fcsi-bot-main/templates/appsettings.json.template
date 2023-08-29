@@ -108,7 +108,7 @@
       "logActivities": true,
       "logPersonalInformation": true,
       "options": {
-        "instrumentationKey": "mock5005-387d-414d-b3df-1eaf75142e12"
+        "instrumentationKey": ""
       }
     }
   },
@@ -703,7 +703,7 @@
   "skill": {
     "liveAgentSkillBot": {
       "endpointUrl": "http://localhost:3981/api/messages",
-      "msAppId": "mock-app-id-9876-5432"
+      "msAppId": ""
     }
   }
 }

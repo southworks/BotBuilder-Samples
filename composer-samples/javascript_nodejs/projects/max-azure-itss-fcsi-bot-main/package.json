@@ -2,12 +2,12 @@
   "name": "azure-itss-fcsi-bot",
   "private": true,
   "scripts": {
-    "postinstall": "(cp -n templates/appsettings.json.template settings/appsettings.json); (npm run build:customaction);",
+    "postinstall": "pwsh --Command \"Copy-Item -Path templates/appsettings.json.template -Destination settings/appsettings.json\"",
     "setup": "./scripts/setup.sh dev itss-fcsi-bot",
     "dev": "cross-env NODE_ENV=dev node index.js",
     "start": "node index.js",
     "build:customaction": "cd customaction && npm run build",
-    "build:schema": "cd schemas && sh ./update-schema.sh",
+    "build:schema": "cd schemas && pwsh ./update-schema.ps1",
     "test": "node_modules/mocha/bin/mocha -r ts-node/register --extension ts --extension js --recursive __tests__",
     "coverage": "nyc --reporter=lcov --reporter=text npm run test",
     "test:dialog": "node_modules/mocha/bin/mocha __spec__ --reporter mochawesome --reporter-options reportDir=botium-report,reportFilename=botium-report.html",
@@ -19,7 +19,6 @@
     "expandScriptingMemoryToConvos": false
   },
   "dependencies": {
-    "@advanceddevelopment/caip-bot-core": "0.1.29",
     "botbuilder-ai-luis": "4.17.0-preview",
     "botbuilder-ai-qna": "4.17.0-preview",
     "botbuilder-dialogs-adaptive-runtime": "4.17.0-preview",
