@@ -89,20 +89,21 @@
                   "$designer": {
                     "id": "yHVEBf"
                   },
-                  "resultProperty": "dialog.incidentClosedResult",
+                  "resultProperty": "settings.incidentClosedResult",
                   "method": "POST",
                   "url": "${settings.servicenow.URL}",
                   "headers": {
                     "Authorization": "${settings.servicenow.Authorization}"
                   },
-                  "body": "={  \"number\": `${conversation.incidentIdSel}`, \"state\": \"Cancelled\", \"close_code\": \"Withdrawn\", \"close_notes\": \"Withdrawn\", \"comments\": \"client requested to withdraw this issue\" }"
+                  "body": "={  \"number\": `${conversation.incidentIdSel}`, \"state\": \"Cancelled\", \"close_code\": \"Withdrawn\", \"close_notes\": \"Withdrawn\", \"comments\": \"client requested to withdraw this issue\" }",
+                  "disabled": true
                 },
                 {
                   "$kind": "Microsoft.IfCondition",
                   "$designer": {
                     "id": "Zn5lPJ"
                   },
-                  "condition": "= dialog.incidentClosedResult.statusCode == 201 && dialog.incidentClosedResult.content.result[0].status == \"updated\"",
+                  "condition": "= settings.incidentClosedResult.statusCode == 201 && settings.incidentClosedResult.content.result[0].status == \"updated\"",
                   "actions": [
                     {
                       "$kind": "Microsoft.SetProperty",

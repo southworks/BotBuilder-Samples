@@ -98,12 +98,13 @@
             "id": "1Rnwiw",
             "comment": "Search will happen based on intent and product now"
           },
-          "resultProperty": "dialog.kbres",
+          "resultProperty": "settings.kbres",
           "method": "GET",
           "headers": {
             "api-key": "=`${settings.kbSearch.azureSearchKey}`"
           },
-          "url": "=`${settings.kbSearch.azureSearchHostName}servicenow-index/docs?api-version=2020-06-30&$top=3&search=${uriComponent(dialog.newStr)}`"
+          "url": "=`${settings.kbSearch.azureSearchHostName}servicenow-index/docs?api-version=2020-06-30&$top=3&search=${uriComponent(dialog.newStr)}`",
+          "disabled": true
         },
         {
           "$kind": "Microsoft.SetProperties",
@@ -113,11 +114,11 @@
           "assignments": [
             {
               "property": "dialog.statusCode",
-              "value": "=dialog.kbres.statusCode"
+              "value": "=settings.kbres.statusCode"
             },
             {
               "property": "dialog.results",
-              "value": "=dialog.kbres.content.value"
+              "value": "=settings.kbres.content.value"
             },
             {
               "property": "dialog.resultCount",

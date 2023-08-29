@@ -376,7 +376,8 @@
               },
               "resultProperty": "dialog.GenesysProducts",
               "method": "GET",
-              "url": "=`${settings.chat.GenesysMatchingProducts}`"
+              "url": "=`${settings.chat.GenesysMatchingProducts}`",
+              "disabled": true
             },
             {
               "$kind": "Microsoft.SetProperty",
@@ -384,7 +385,10 @@
                 "id": "JDnL2E"
               },
               "property": "conversation.GenesysMatchingProduct",
-              "value": "=dialog.GenesysProducts"
+              "value": {
+                "statusCode": 200,
+                "content": {}
+              }
             },
             {
               "$kind": "Microsoft.IfCondition",

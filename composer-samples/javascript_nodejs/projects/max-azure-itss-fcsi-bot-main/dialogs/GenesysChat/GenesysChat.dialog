@@ -433,14 +433,15 @@
                   "$designer": {
                     "id": "K5hyTS"
                   },
-                  "resultProperty": "dialog.entTableApiRes",
+                  "resultProperty": "settings.entTableApiRes",
                   "method": "PUT",
                   "url": "=`${settings.chat.genesysEntinfoStarturl}'${conversation.urlmsid}',${settings.chat.genesysEntinfoEndurl}&tn=genesyssubfunctiontable`",
                   "headers": {
                     "Accept": "application/json;odata=nometadata"
                   },
                   "responseType": "json",
-                  "body": "={     \"PartitionKey\": `${conversation.urlmsid}`,     \"RowKey\": \"\",     \"EntSubFunction\": `${dialog.selectedIssueCategory}`,     \"EntSubFunctionDetail\": `${dialog.selectedProductCategory}`, \"UserQuery\": `${conversation.firstIssue}`}"
+                  "body": "={     \"PartitionKey\": `${conversation.urlmsid}`,     \"RowKey\": \"\",     \"EntSubFunction\": `${dialog.selectedIssueCategory}`,     \"EntSubFunctionDetail\": `${dialog.selectedProductCategory}`, \"UserQuery\": `${conversation.firstIssue}`}",
+                  "disabled": true
                 },
                 {
                   "$kind": "SendEventTelemetry",
