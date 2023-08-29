@@ -3,6 +3,7 @@ botium-report/
 botiumwork/
 coverage/
 node_modules/
+lib/
 
 # files generated during the lubuild process
 generated/

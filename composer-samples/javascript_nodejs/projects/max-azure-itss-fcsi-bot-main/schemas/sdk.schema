@@ -435,10 +435,6 @@
       "title": "CAIPQuestionnaireDialog",
       "description": "Action to send trace to application insights",
       "type": "object",
-      "$package": {
-        "name": "@advanceddevelopment/caip-custom-actions",
-        "version": "2.0.1"
-      },
       "required": [
         "$kind"
       ],
@@ -484,10 +480,6 @@
       "title": "CAIPRatingDialog",
       "description": "Action to send trace to application insights",
       "type": "object",
-      "$package": {
-        "name": "@advanceddevelopment/caip-custom-actions",
-        "version": "2.0.1"
-      },
       "required": [
         "$kind"
       ],
@@ -667,10 +659,6 @@
       "title": "FlushTelemetry",
       "description": "Action to flush queued telemetry to application insights",
       "type": "object",
-      "$package": {
-        "name": "@advanceddevelopment/caip-custom-actions",
-        "version": "2.0.1"
-      },
       "required": [
         "$kind"
       ],
@@ -761,10 +749,6 @@
       "title": "GetStargateToken",
       "description": "This will return the token necessary to communicate over stargate",
       "type": "object",
-      "$package": {
-        "name": "@advanceddevelopment/caip-custom-actions",
-        "version": "2.0.1"
-      },
       "required": [
         "$kind"
       ],
@@ -810,10 +794,6 @@
       "title": "Get Transcripts",
       "description": "This will return chat transcripts",
       "type": "object",
-      "$package": {
-        "name": "@advanceddevelopment/caip-custom-actions",
-        "version": "2.0.1"
-      },
       "required": [
         "$kind"
       ],
@@ -9761,10 +9741,6 @@
       "title": "Multiply",
       "description": "This will return the result of arg1*arg2",
       "type": "object",
-      "$package": {
-        "name": "@advanceddevelopment/caip-custom-actions",
-        "version": "2.0.1"
-      },
       "required": [
         "$kind"
       ],
@@ -9983,10 +9959,6 @@
       "title": "SendEventTelemetry",
       "description": "Action to send customEvent to application insights",
       "type": "object",
-      "$package": {
-        "name": "@advanceddevelopment/caip-custom-actions",
-        "version": "2.0.1"
-      },
       "required": [
         "$kind"
       ],
@@ -10027,10 +9999,6 @@
       "title": "SendTraceTelemetry",
       "description": "Action to send trace to application insights",
       "type": "object",
-      "$package": {
-        "name": "@advanceddevelopment/caip-custom-actions",
-        "version": "2.0.1"
-      },
       "required": [
         "$kind"
       ],
@@ -10111,10 +10079,6 @@
       "title": "Stargate API HTTP Request",
       "description": "This Stargate provider intercepts the request and add Oauth bearer token",
       "type": "object",
-      "$package": {
-        "name": "@advanceddevelopment/caip-custom-actions",
-        "version": "2.0.1"
-      },
       "required": [
         "$kind"
       ],
@@ -10308,10 +10272,6 @@
       "title": "Send a typing indicator and delay",
       "description": "This will send typing indicator and delay the next response till the specified delay value",
       "type": "object",
-      "$package": {
-        "name": "@advanceddevelopment/caip-custom-actions",
-        "version": "2.0.1"
-      },
       "required": [
         "$kind"
       ],
