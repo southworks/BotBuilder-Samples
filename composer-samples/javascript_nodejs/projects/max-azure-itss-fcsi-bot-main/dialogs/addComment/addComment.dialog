@@ -59,7 +59,7 @@
           "$designer": {
             "id": "q6rAgH"
           },
-          "condition": "= dialog.commentResult.statusCode == 201 && dialog.commentResult.content.result[0].status == \"updated\"",
+          "condition": "= settings.commentResult.statusCode == 201 && settings.commentResult.content.result[0].status == \"updated\"",
           "actions": [
             {
               "$kind": "Microsoft.SetProperty",
@@ -67,7 +67,7 @@
                 "id": "VAvRhB"
               },
               "property": "dialog.sys_id",
-              "value": "=dialog.commentResult.content.result[0].sys_id"
+              "value": "=settings.commentResult.content.result[0].sys_id"
             },
             {
               "$kind": "Microsoft.SetProperty",
