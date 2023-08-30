@@ -46,12 +46,12 @@ export class CAIPQuestionnaireDialog extends Dialog {
       this.questionnaireConfig.getValue(dc.state),
       this.questionnaireAdaptiveJSON.getValue(dc.state),
     ].join(", ");
-    dc.context.sendActivities([
-      { type: ActivityTypes.Event, text: `${input}` },
-    ]);
-    dc.context.sendActivities([
-      { type: ActivityTypes.Message, text: this.onComputeId() },
-    ]);
+    // dc.context.sendActivities([
+    //   { type: ActivityTypes.Event, text: `${input}` },
+    // ]);
+    // dc.context.sendActivities([
+    //   { type: ActivityTypes.Message, text: this.onComputeId() },
+    // ]);
 
     return dc.endDialog();
   }

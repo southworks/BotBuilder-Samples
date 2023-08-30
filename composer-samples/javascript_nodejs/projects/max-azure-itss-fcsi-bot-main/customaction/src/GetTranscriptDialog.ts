@@ -40,12 +40,12 @@ export class GetTranscriptDialog extends Dialog {
     const input = [
       this.conversationId.getValue(dc.state),
     ].join(", ");
-    dc.context.sendActivities([
-      { type: ActivityTypes.Event, text: `${input}` },
-    ]);
-    dc.context.sendActivities([
-      { type: ActivityTypes.Message, text: this.onComputeId() },
-    ]);
+    // dc.context.sendActivities([
+    //   { type: ActivityTypes.Event, text: `${input}` },
+    // ]);
+    // dc.context.sendActivities([
+    //   { type: ActivityTypes.Message, text: this.onComputeId() },
+    // ]);
 
     return dc.endDialog();
   }

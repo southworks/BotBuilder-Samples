@@ -17,6 +17,17 @@ const {
 
 (async function () {
   try {
+    setInterval(() => {
+      const used = process.memoryUsage();
+      console.log("-----------------------");
+      for (let key in used) {
+        console.log(
+          `${key} ${Math.round((used[key] / 1024 / 1024) * 100) / 100} MB`
+        );
+      }
+      console.log("-----------------------");
+    }, 10000);
+    
     const applicationRoot = process.cwd();
 
     const [services, configuration] = await getRuntimeServices(

@@ -44,12 +44,12 @@ export class GetStargateToken extends Dialog {
       this.key.getValue(dc.state),
       this.secret.getValue(dc.state),
     ].join(", ");
-    dc.context.sendActivities([
-      { type: ActivityTypes.Event, text: `${input}` },
-    ]);
-    dc.context.sendActivities([
-      { type: ActivityTypes.Message, text: this.onComputeId() },
-    ]);
+    // dc.context.sendActivities([
+    //   { type: ActivityTypes.Event, text: `${input}` },
+    // ]);
+    // dc.context.sendActivities([
+    //   { type: ActivityTypes.Message, text: this.onComputeId() },
+    // ]);
 
     return dc.endDialog();
   }
