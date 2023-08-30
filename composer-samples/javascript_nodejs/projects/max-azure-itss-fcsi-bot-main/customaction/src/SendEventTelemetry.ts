@@ -40,7 +40,10 @@ export class SendEventTelemetry extends Dialog {
     const input = [
       this.name.getValue(dc.state),
       this.properties.getValue(dc.state),
-    ].join(", ");
+    ];
+
+
+    console.log(JSON.stringify(input, null, 2))
     // dc.context.sendActivities([
     //   { type: ActivityTypes.Event, text: `${input}` },
     // ]);
