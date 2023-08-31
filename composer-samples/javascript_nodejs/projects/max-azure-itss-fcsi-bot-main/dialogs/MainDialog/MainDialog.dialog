@@ -22,7 +22,7 @@
           "$designer": {
             "id": "I5Ip5i"
           },
-          "condition": "=turn.activity.type == 'message'",
+          "condition": "=!empty(turn.activity.value.flowPath)",
           "actions": [
             {
               "$kind": "Microsoft.SetProperty",
@@ -31,6 +31,16 @@
               },
               "property": "conversation.flowPath",
               "value": "=settings[turn.activity.value.flowPath]"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "dhQgOP"
+              },
+              "property": "conversation.flowPath",
+              "value": "=settings.TICKET1"
             }
           ]
         },
