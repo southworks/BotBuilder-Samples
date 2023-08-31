@@ -219,7 +219,7 @@
           "$designer": {
             "id": "XDUoxN"
           },
-          "resultProperty": "settings.incidentapi_response",
+          "resultProperty": "conversation.flowPath.incidentapi_response",
           "method": "POST",
           "url": "${settings.servicenow.URL}",
           "headers": {
@@ -233,7 +233,7 @@
           "$designer": {
             "id": "ixFeS8"
           },
-          "condition": "=settings.incidentapi_response.statusCode == 201",
+          "condition": "=conversation.flowPath.incidentapi_response.statusCode == 201",
           "actions": [
             {
               "$kind": "Microsoft.SetProperties",
@@ -243,15 +243,15 @@
               "assignments": [
                 {
                   "property": "dialog.incidentapi_result",
-                  "value": "=settings.incidentapi_response.content.result"
+                  "value": "=conversation.flowPath.incidentapi_response.content.result"
                 },
                 {
                   "property": "dialog.inc_number",
-                  "value": "=settings.incidentapi_response.content.result[0].display_value"
+                  "value": "=conversation.flowPath.incidentapi_response.content.result[0].display_value"
                 },
                 {
                   "property": "dialog.IncSys_id",
-                  "value": "=settings.incidentapi_response.content.result[0].sys_id"
+                  "value": "=conversation.flowPath.incidentapi_response.content.result[0].sys_id"
                 },
                 {
                   "property": "dialog.inc_url",
@@ -353,7 +353,7 @@
                   "$designer": {
                     "id": "5SF8mm"
                   },
-                  "resultProperty": "settings.incidentapi_responses",
+                  "resultProperty": "conversation.flowPath.incidentapi_responses",
                   "method": "POST",
                   "url": "${settings.servicenow.URL}",
                   "headers": {

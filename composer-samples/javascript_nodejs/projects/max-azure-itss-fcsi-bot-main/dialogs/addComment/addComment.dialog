@@ -45,7 +45,7 @@
           "$designer": {
             "id": "so0rWA"
           },
-          "resultProperty": "settings.commentResult",
+          "resultProperty": "conversation.flowPath.commentResult",
           "method": "POST",
           "url": "${settings.servicenow.URL}",
           "headers": {
@@ -59,7 +59,7 @@
           "$designer": {
             "id": "q6rAgH"
           },
-          "condition": "= settings.commentResult.statusCode == 201 && settings.commentResult.content.result[0].status == \"updated\"",
+          "condition": "= conversation.flowPath.commentResult.statusCode == 201 && conversation.flowPath.commentResult.content.result[0].status == \"updated\"",
           "actions": [
             {
               "$kind": "Microsoft.SetProperty",
@@ -67,7 +67,7 @@
                 "id": "VAvRhB"
               },
               "property": "dialog.sys_id",
-              "value": "=settings.commentResult.content.result[0].sys_id"
+              "value": "=conversation.flowPath.commentResult.content.result[0].sys_id"
             },
             {
               "$kind": "Microsoft.SetProperty",

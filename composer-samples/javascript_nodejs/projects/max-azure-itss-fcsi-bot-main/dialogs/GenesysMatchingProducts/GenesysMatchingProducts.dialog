@@ -69,7 +69,7 @@
               "$designer": {
                 "id": "gn50wB"
               },
-              "resultProperty": "settings.GenesysProducts",
+              "resultProperty": "conversation.flowPath.GenesysProducts",
               "method": "GET",
               "url": "=`${settings.chat.GenesysMatchingProducts}`",
               "disabled": true
@@ -79,7 +79,7 @@
               "$designer": {
                 "id": "uUvUt6"
               },
-              "property": "settings.GenesysProducts",
+              "property": "conversation.flowPath.GenesysProducts",
               "value": "=conversation.GenesysMatchingProduct"
             },
             {
@@ -87,7 +87,7 @@
               "$designer": {
                 "id": "d1vcHe"
               },
-              "condition": "=settings.GenesysProducts.statusCode == 200 && settings.GenesysProducts.content.flag == 'yes'",
+              "condition": "=conversation.flowPath.GenesysProducts.statusCode == 200 && conversation.flowPath.GenesysProducts.content.flag == 'yes'",
               "actions": [
                 {
                   "$kind": "Microsoft.SetProperties",
@@ -101,7 +101,7 @@
                     },
                     {
                       "property": "dialog.GenesysProductsBlob",
-                      "value": "=settings.GenesysProducts.content.products"
+                      "value": "=conversation.flowPath.GenesysProducts.content.products"
                     }
                   ]
                 },
@@ -325,7 +325,7 @@
               "$designer": {
                 "id": "3HrtrD"
               },
-              "resultProperty": "settings.waitTimeApiResponse",
+              "resultProperty": "conversation.flowPath.waitTimeApiResponse",
               "method": "GET",
               "url": "=`${settings.chat.GenesysWaitTimeAPI}`",
               "disabled": true
@@ -335,7 +335,7 @@
               "$designer": {
                 "id": "CBmF0t"
               },
-              "condition": "= settings.waitTimeApiResponse.statusCode == 200",
+              "condition": "= conversation.flowPath.waitTimeApiResponse.statusCode == 200",
               "actions": [
                 {
                   "$kind": "Microsoft.SetProperty",
@@ -343,7 +343,7 @@
                     "id": "JkFZbZ"
                   },
                   "property": "dialog.waitTime",
-                  "value": "=settings.waitTimeApiResponse.content.GenesysChatWaitTime"
+                  "value": "=conversation.flowPath.waitTimeApiResponse.content.GenesysChatWaitTime"
                 },
                 {
                   "$kind": "Microsoft.IfCondition",

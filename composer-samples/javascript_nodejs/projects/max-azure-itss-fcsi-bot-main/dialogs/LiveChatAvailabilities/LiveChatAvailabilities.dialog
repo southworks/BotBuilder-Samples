@@ -91,7 +91,7 @@
           "$designer": {
             "id": "oKQbAV"
           },
-          "resultProperty": "settings.GenLuisAvaiRes",
+          "resultProperty": "conversation.flowPath.GenLuisAvaiRes",
           "method": "GET",
           "url": "=`${settings.chat.GenesysLuisFlag}`",
           "disabled": true
@@ -101,7 +101,7 @@
           "$designer": {
             "id": "o4axJY"
           },
-          "condition": "= settings.GenLuisAvaiRes.statusCode == 200 && !empty(settings.GenLuisAvaiRes.content)",
+          "condition": "= conversation.flowPath.GenLuisAvaiRes.statusCode == 200 && !empty(conversation.flowPath.GenLuisAvaiRes.content)",
           "actions": [
             {
               "$kind": "Microsoft.SetProperty",
@@ -109,7 +109,7 @@
                 "id": "folxW6"
               },
               "property": "conversation.genesysLuisApproach",
-              "value": "=settings.GenLuisAvaiRes.content.LuisApproach"
+              "value": "=conversation.flowPath.GenLuisAvaiRes.content.LuisApproach"
             }
           ]
         },
@@ -118,7 +118,7 @@
           "$designer": {
             "id": "4jzZu0"
           },
-          "resultProperty": "settings.apiResponse",
+          "resultProperty": "conversation.flowPath.apiResponse",
           "method": "GET",
           "responseType": "json",
           "url": "=`${settings.chat.genesysMenuOptions}`"
@@ -128,14 +128,14 @@
           "$designer": {
             "id": "Sh7mWP"
           },
-          "condition": "= settings.apiResponse.statusCode == 200 && !empty(settings.apiResponse.content)",
+          "condition": "= conversation.flowPath.apiResponse.statusCode == 200 && !empty(conversation.flowPath.apiResponse.content)",
           "actions": [
             {
               "$kind": "SendEventTelemetry",
               "$designer": {
                 "id": "77oPtI"
               },
-              "properties": "{\"response\" : `${settings.apiResponse.content}`}",
+              "properties": "{\"response\" : `${conversation.flowPath.apiResponse.content}`}",
               "name": "GenesysFlagAPIResponse"
             },
             {
@@ -145,7 +145,7 @@
               },
               "index": "dialog.foreach.index",
               "value": "dialog.foreach.value",
-              "itemsProperty": "settings.apiResponse.content",
+              "itemsProperty": "conversation.flowPath.apiResponse.content",
               "actions": [
                 {
                   "$kind": "Microsoft.IfCondition",

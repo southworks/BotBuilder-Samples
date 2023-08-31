@@ -53,7 +53,7 @@
           "$designer": {
             "id": "qgg9yn"
           },
-          "resultProperty": "settings.escalationcommentResult",
+          "resultProperty": "conversation.flowPath.escalationcommentResult",
           "method": "POST",
           "url": "${settings.servicenow.URL}",
           "headers": {
@@ -67,7 +67,7 @@
           "$designer": {
             "id": "ev9k2t"
           },
-          "condition": "= settings.escalationcommentResult.statusCode == 201 && settings.escalationcommentResult.content.result[0].status == \"updated\"",
+          "condition": "= conversation.flowPath.escalationcommentResult.statusCode == 201 && conversation.flowPath.escalationcommentResult.content.result[0].status == \"updated\"",
           "actions": [
             {
               "$kind": "Microsoft.SetProperty",

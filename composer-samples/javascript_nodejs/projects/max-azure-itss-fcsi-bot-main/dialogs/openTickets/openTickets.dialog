@@ -61,7 +61,7 @@
           "$designer": {
             "id": "nXFLBE"
           },
-          "condition": "=settings.openTicketsRes.statusCode == 200",
+          "condition": "=conversation.flowPath.openTicketsRes.statusCode == 200",
           "actions": [
             {
               "$kind": "Microsoft.SetProperties",
@@ -71,15 +71,15 @@
               "assignments": [
                 {
                   "property": "dialog.openTickets",
-                  "value": "=settings.openTicketsRes.content.result"
+                  "value": "=conversation.flowPath.openTicketsRes.content.result"
                 },
                 {
                   "property": "dialog.isEmptyOpenTickets",
-                  "value": "=empty(settings.openTicketsRes.content.result)"
+                  "value": "=empty(conversation.flowPath.openTicketsRes.content.result)"
                 },
                 {
                   "property": "dialog.totalOpenTicketsStr",
-                  "value": "=settings.openTicketsRes.headers[\"x-total-count\"]"
+                  "value": "=conversation.flowPath.openTicketsRes.headers[\"x-total-count\"]"
                 },
                 {
                   "property": "dialog.totalOpenTickets",

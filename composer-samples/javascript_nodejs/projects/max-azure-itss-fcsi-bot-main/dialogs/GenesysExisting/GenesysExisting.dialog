@@ -37,7 +37,7 @@
           "$designer": {
             "id": "SKEExv"
           },
-          "resultProperty": "settings.entApiRes",
+          "resultProperty": "conversation.flowPath.entApiRes",
           "method": "GET",
           "url": "=`${settings.chat.genesysEntinfoStarturl}'${conversation.urlmsid}',${settings.chat.genesysEntinfoEndurl}&tn=genesyssubfunctiontable`",
           "headers": {
@@ -52,7 +52,7 @@
           "$designer": {
             "id": "9ZK2pn"
           },
-          "condition": "= settings.entApiRes.statusCode == 200",
+          "condition": "= conversation.flowPath.entApiRes.statusCode == 200",
           "actions": [
             {
               "$kind": "Microsoft.SetProperties",
@@ -62,15 +62,15 @@
               "assignments": [
                 {
                   "property": "dialog.entSubFunction",
-                  "value": "=settings.entApiRes.content.EntSubFunction"
+                  "value": "=conversation.flowPath.entApiRes.content.EntSubFunction"
                 },
                 {
                   "property": "dialog.entSubFunctionDetail",
-                  "value": "=settings.entApiRes.content.EntSubFunctionDetail"
+                  "value": "=conversation.flowPath.entApiRes.content.EntSubFunctionDetail"
                 },
                 {
                   "property": "dialog.userQuery",
-                  "value": "=settings.entApiRes.content.UserQuery"
+                  "value": "=conversation.flowPath.entApiRes.content.UserQuery"
                 },
                 {
                   "property": "dialog.preChatActivity",

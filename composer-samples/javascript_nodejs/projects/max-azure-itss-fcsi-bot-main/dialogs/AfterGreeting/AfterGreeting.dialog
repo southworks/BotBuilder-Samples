@@ -76,7 +76,7 @@
                 "id": "9tW76g",
                 "comment": "Make an API call to Fun_SubFun.json in blob storage and store it in a property"
               },
-              "resultProperty": "settings.SubFunctionResponse",
+              "resultProperty": "conversation.flowPath.subFunctionResponse",
               "method": "GET",
               "url": "=`${settings.chat.GenesysFunSubFunc}`",
               "disabled": true
@@ -87,7 +87,7 @@
                 "id": "yvX5Sl"
               },
               "property": "conversation.FunctionDetails",
-              "value": "=settings.subFunctionResponse.content"
+              "value": "=conversation.flowPath.subFunctionResponse.content"
             }
           ]
         },

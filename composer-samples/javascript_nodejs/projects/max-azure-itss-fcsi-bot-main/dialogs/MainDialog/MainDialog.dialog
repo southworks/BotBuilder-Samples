@@ -18,6 +18,23 @@
       },
       "actions": [
         {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "I5Ip5i"
+          },
+          "condition": "=turn.activity.type == 'message'",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "dhQgOP"
+              },
+              "property": "conversation.flowPath",
+              "value": "=settings[turn.activity.value.flowPath]"
+            }
+          ]
+        },
+        {
           "$kind": "Microsoft.DeleteProperties",
           "$designer": {
             "id": "uDPI7C"
@@ -374,7 +391,7 @@
               "$designer": {
                 "id": "P56exC"
               },
-              "resultProperty": "settings.GenesysProducts",
+              "resultProperty": "conversation.flowPath.GenesysProducts",
               "method": "GET",
               "url": "=`${settings.chat.GenesysMatchingProducts}`",
               "disabled": true
@@ -385,14 +402,14 @@
                 "id": "JDnL2E"
               },
               "property": "conversation.GenesysMatchingProduct",
-              "value": "=settings.GenesysProducts"
+              "value": "=conversation.flowPath.GenesysProducts"
             },
             {
               "$kind": "Microsoft.IfCondition",
               "$designer": {
                 "id": "nc3epF"
               },
-              "condition": "=settings.GenesysProducts.statusCode == 200",
+              "condition": "=conversation.flowPath.GenesysProducts.statusCode == 200",
               "actions": [
                 {
                   "$kind": "Microsoft.SetProperties",
@@ -402,7 +419,7 @@
                   "assignments": [
                     {
                       "property": "dialog.apiContent",
-                      "value": "=settings.GenesysProducts.content"
+                      "value": "=conversation.flowPath.GenesysProducts.content"
                     },
                     {
                       "property": "dialog.isTicketSearch",

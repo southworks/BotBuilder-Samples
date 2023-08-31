@@ -172,7 +172,7 @@
               "$designer": {
                 "id": "ErtSJG"
               },
-              "resultProperty": "settings.waitTimeApiResponse",
+              "resultProperty": "conversation.flowPath.waitTimeApiResponse",
               "method": "GET",
               "url": "=`${settings.chat.GenesysWaitTimeAPI}`",
               "disabled": true
@@ -182,7 +182,7 @@
               "$designer": {
                 "id": "ocNW9V"
               },
-              "condition": "= settings.waitTimeApiResponse.statusCode == 200",
+              "condition": "= conversation.flowPath.waitTimeApiResponse.statusCode == 200",
               "actions": [
                 {
                   "$kind": "Microsoft.SetProperty",
@@ -190,7 +190,7 @@
                     "id": "zSmkEd"
                   },
                   "property": "dialog.waitTime",
-                  "value": "=settings.waitTimeApiResponse.content.GenesysChatWaitTime"
+                  "value": "=conversation.flowPath.waitTimeApiResponse.content.GenesysChatWaitTime"
                 },
                 {
                   "$kind": "Microsoft.IfCondition",

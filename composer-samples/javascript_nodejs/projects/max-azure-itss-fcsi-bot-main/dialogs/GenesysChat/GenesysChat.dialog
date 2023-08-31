@@ -433,7 +433,7 @@
                   "$designer": {
                     "id": "K5hyTS"
                   },
-                  "resultProperty": "settings.entTableApiRes",
+                  "resultProperty": "conversation.flowPath.entTableApiRes",
                   "method": "PUT",
                   "url": "=`${settings.chat.genesysEntinfoStarturl}'${conversation.urlmsid}',${settings.chat.genesysEntinfoEndurl}&tn=genesyssubfunctiontable`",
                   "headers": {

@@ -62,7 +62,7 @@
           "$designer": {
             "id": "re1lUn"
           },
-          "condition": "= settings.IncidentRes.statusCode == 200",
+          "condition": "= conversation.flowPath.IncidentRes.statusCode == 200",
           "actions": [
             {
               "$kind": "Microsoft.SetProperties",
@@ -72,7 +72,7 @@
               "assignments": [
                 {
                   "property": "dialog.openTickets",
-                  "value": "=settings.IncidentRes.content.result"
+                  "value": "=conversation.flowPath.IncidentRes.content.result"
                 },
                 {
                   "property": "dialog.isEmptyOpenTickets",
@@ -127,31 +127,31 @@
                   "assignments": [
                     {
                       "property": "dialog.number",
-                      "value": "=settings.IncidentRes.content.result[0].number"
+                      "value": "=conversation.flowPath.IncidentRes.content.result[0].number"
                     },
                     {
                       "property": "dialog.short_description",
-                      "value": "=settings.IncidentRes.content.result[0].short_description"
+                      "value": "=conversation.flowPath.IncidentRes.content.result[0].short_description"
                     },
                     {
-                      "value": "=settings.IncidentRes.content.result[0].incident_state",
+                      "value": "=conversation.flowPath.IncidentRes.content.result[0].incident_state",
                       "property": "dialog.incident_state"
                     },
                     {
-                      "value": "=settings.IncidentRes.content.result[0].opened_at",
+                      "value": "=conversation.flowPath.IncidentRes.content.result[0].opened_at",
                       "property": "dialog.opened_at"
                     },
                     {
-                      "value": "=settings.IncidentRes.content.result[0].sys_updated_on",
+                      "value": "=conversation.flowPath.IncidentRes.content.result[0].sys_updated_on",
                       "property": "dialog.sys_updated_on"
                     },
                     {
-                      "value": "=settings.IncidentRes.content.result[0].active",
+                      "value": "=conversation.flowPath.IncidentRes.content.result[0].active",
                       "property": "dialog.isActive"
                     },
                     {
                       "property": "dialog.sys_id",
-                      "value": "=settings.IncidentRes.content.result[0].sys_id"
+                      "value": "=conversation.flowPath.IncidentRes.content.result[0].sys_id"
                     }
                   ]
                 },
@@ -163,7 +163,7 @@
                   "assignments": [
                     {
                       "property": "dialog.comments",
-                      "value": "=settings.IncidentRes.content.result[0].comments"
+                      "value": "=conversation.flowPath.IncidentRes.content.result[0].comments"
                     },
                     {
                       "property": "dialog.isCommentsEmpty",
@@ -211,18 +211,18 @@
                       },
                       "property": "dialog.incidentDetails",
                       "value": {
-                        "incidentId": "${settings.IncidentRes.content.result[0].number}",
+                        "incidentId": "${conversation.flowPath.IncidentRes.content.result[0].number}",
                         "incidentUrl": "${dialog.ticketUrl}",
-                        "shortDescription": "${settings.IncidentRes.content.result[0].short_description}",
-                        "ticketState": "${settings.IncidentRes.content.result[0].state}",
-                        "sysId": "${settings.IncidentRes.content.result[0].sys_id}",
+                        "shortDescription": "${conversation.flowPath.IncidentRes.content.result[0].short_description}",
+                        "ticketState": "${conversation.flowPath.IncidentRes.content.result[0].state}",
+                        "sysId": "${conversation.flowPath.IncidentRes.content.result[0].sys_id}",
                         "openedAt": "${dialog.Oldopened_at}",
                         "updatedAt": "${dialog.Oldsys_updated_on}",
-                        "escalationCount": "${settings.IncidentRes.content.result[0].u_count_escalation}",
-                        "callerId": "${settings.IncidentRes.content.result[0].caller_id.display_value}",
-                        "priority": "${settings.IncidentRes.content.result[0].priority}",
-                        "assignmentGroup": "${settings.IncidentRes.content.result[0].assignment_group.display_value}",
-                        "assignedTo": "${settings.IncidentRes.content.result[0].assigned_to.display_value}",
+                        "escalationCount": "${conversation.flowPath.IncidentRes.content.result[0].u_count_escalation}",
+                        "callerId": "${conversation.flowPath.IncidentRes.content.result[0].caller_id.display_value}",
+                        "priority": "${conversation.flowPath.IncidentRes.content.result[0].priority}",
+                        "assignmentGroup": "${conversation.flowPath.IncidentRes.content.result[0].assignment_group.display_value}",
+                        "assignedTo": "${conversation.flowPath.IncidentRes.content.result[0].assigned_to.display_value}",
                         "commentCount": "0",
                         "oneDate": "",
                         "oneName": "",
@@ -303,18 +303,18 @@
                               },
                               "property": "dialog.incidentDetails",
                               "value": {
-                                "incidentId": "${settings.IncidentRes.content.result[0].number}",
+                                "incidentId": "${conversation.flowPath.IncidentRes.content.result[0].number}",
                                 "incidentUrl": "${dialog.ticketUrl}",
-                                "shortDescription": "${settings.IncidentRes.content.result[0].short_description}",
-                                "ticketState": "${settings.IncidentRes.content.result[0].state}",
-                                "sysId": "${settings.IncidentRes.content.result[0].sys_id}",
+                                "shortDescription": "${conversation.flowPath.IncidentRes.content.result[0].short_description}",
+                                "ticketState": "${conversation.flowPath.IncidentRes.content.result[0].state}",
+                                "sysId": "${conversation.flowPath.IncidentRes.content.result[0].sys_id}",
                                 "openedAt": "${dialog.Oldopened_at}",
                                 "updatedAt": "${dialog.Oldsys_updated_on}",
-                                "escalationCount": "${settings.IncidentRes.content.result[0].u_count_escalation}",
-                                "callerId": "${settings.IncidentRes.content.result[0].caller_id.display_value}",
-                                "priority": "${settings.IncidentRes.content.result[0].priority}",
-                                "assignmentGroup": "${settings.IncidentRes.content.result[0].assignment_group.display_value}",
-                                "assignedTo": "${settings.IncidentRes.content.result[0].assigned_to.display_value}",
+                                "escalationCount": "${conversation.flowPath.IncidentRes.content.result[0].u_count_escalation}",
+                                "callerId": "${conversation.flowPath.IncidentRes.content.result[0].caller_id.display_value}",
+                                "priority": "${conversation.flowPath.IncidentRes.content.result[0].priority}",
+                                "assignmentGroup": "${conversation.flowPath.IncidentRes.content.result[0].assignment_group.display_value}",
+                                "assignedTo": "${conversation.flowPath.IncidentRes.content.result[0].assigned_to.display_value}",
                                 "commentCount": "1",
                                 "oneDate": "${dialog.oneDate}",
                                 "oneName": "${dialog.oneName}",
@@ -397,18 +397,18 @@
                               },
                               "property": "dialog.incidentDetails",
                               "value": {
-                                "incidentId": "${settings.IncidentRes.content.result[0].number}",
+                                "incidentId": "${conversation.flowPath.IncidentRes.content.result[0].number}",
                                 "incidentUrl": "${dialog.ticketUrl}",
-                                "shortDescription": "${settings.IncidentRes.content.result[0].short_description}",
-                                "ticketState": "${settings.IncidentRes.content.result[0].state}",
-                                "sysId": "${settings.IncidentRes.content.result[0].sys_id}",
+                                "shortDescription": "${conversation.flowPath.IncidentRes.content.result[0].short_description}",
+                                "ticketState": "${conversation.flowPath.IncidentRes.content.result[0].state}",
+                                "sysId": "${conversation.flowPath.IncidentRes.content.result[0].sys_id}",
                                 "openedAt": "${dialog.Oldopened_at}",
                                 "updatedAt": "${dialog.Oldsys_updated_on}",
-                                "escalationCount": "${settings.IncidentRes.content.result[0].u_count_escalation}",
-                                "callerId": "${settings.IncidentRes.content.result[0].caller_id.display_value}",
-                                "priority": "${settings.IncidentRes.content.result[0].priority}",
-                                "assignmentGroup": "${settings.IncidentRes.content.result[0].assignment_group.display_value}",
-                                "assignedTo": "${settings.IncidentRes.content.result[0].assigned_to.display_value}",
+                                "escalationCount": "${conversation.flowPath.IncidentRes.content.result[0].u_count_escalation}",
+                                "callerId": "${conversation.flowPath.IncidentRes.content.result[0].caller_id.display_value}",
+                                "priority": "${conversation.flowPath.IncidentRes.content.result[0].priority}",
+                                "assignmentGroup": "${conversation.flowPath.IncidentRes.content.result[0].assignment_group.display_value}",
+                                "assignedTo": "${conversation.flowPath.IncidentRes.content.result[0].assigned_to.display_value}",
                                 "commentCount": "2",
                                 "oneDate": "${dialog.oneDate}",
                                 "oneName": "${dialog.oneName}",
@@ -519,18 +519,18 @@
                           },
                           "property": "dialog.incidentDetails",
                           "value": {
-                            "incidentId": "${settings.IncidentRes.content.result[0].number}",
+                            "incidentId": "${conversation.flowPath.IncidentRes.content.result[0].number}",
                             "incidentUrl": "${dialog.ticketUrl}",
-                            "shortDescription": "${settings.IncidentRes.content.result[0].short_description}",
-                            "ticketState": "${settings.IncidentRes.content.result[0].state}",
-                            "sysId": "${settings.IncidentRes.content.result[0].sys_id}",
+                            "shortDescription": "${conversation.flowPath.IncidentRes.content.result[0].short_description}",
+                            "ticketState": "${conversation.flowPath.IncidentRes.content.result[0].state}",
+                            "sysId": "${conversation.flowPath.IncidentRes.content.result[0].sys_id}",
                             "openedAt": "${dialog.Oldopened_at}",
                             "updatedAt": "${dialog.Oldsys_updated_on}",
-                            "escalationCount": "${settings.IncidentRes.content.result[0].u_count_escalation}",
-                            "callerId": "${settings.IncidentRes.content.result[0].caller_id.display_value}",
-                            "priority": "${settings.IncidentRes.content.result[0].priority}",
-                            "assignmentGroup": "${settings.IncidentRes.content.result[0].assignment_group.display_value}",
-                            "assignedTo": "${settings.IncidentRes.content.result[0].assigned_to.display_value}",
+                            "escalationCount": "${conversation.flowPath.IncidentRes.content.result[0].u_count_escalation}",
+                            "callerId": "${conversation.flowPath.IncidentRes.content.result[0].caller_id.display_value}",
+                            "priority": "${conversation.flowPath.IncidentRes.content.result[0].priority}",
+                            "assignmentGroup": "${conversation.flowPath.IncidentRes.content.result[0].assignment_group.display_value}",
+                            "assignedTo": "${conversation.flowPath.IncidentRes.content.result[0].assigned_to.display_value}",
                             "commentCount": "3",
                             "oneDate": "${dialog.oneDate}",
                             "oneName": "${dialog.oneName}",

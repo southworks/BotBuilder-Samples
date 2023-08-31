@@ -89,7 +89,7 @@
                   "$designer": {
                     "id": "yHVEBf"
                   },
-                  "resultProperty": "settings.incidentClosedResult",
+                  "resultProperty": "conversation.flowPath.incidentClosedResult",
                   "method": "POST",
                   "url": "${settings.servicenow.URL}",
                   "headers": {
@@ -103,7 +103,7 @@
                   "$designer": {
                     "id": "Zn5lPJ"
                   },
-                  "condition": "= settings.incidentClosedResult.statusCode == 201 && settings.incidentClosedResult.content.result[0].status == \"updated\"",
+                  "condition": "= conversation.flowPath.incidentClosedResult.statusCode == 201 && conversation.flowPath.incidentClosedResult.content.result[0].status == \"updated\"",
                   "actions": [
                     {
                       "$kind": "Microsoft.SetProperty",

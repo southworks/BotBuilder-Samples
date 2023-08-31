@@ -98,7 +98,7 @@
             "id": "1Rnwiw",
             "comment": "Search will happen based on intent and product now"
           },
-          "resultProperty": "settings.kbres",
+          "resultProperty": "conversation.flowPath.kbres",
           "method": "GET",
           "headers": {
             "api-key": "=`${settings.kbSearch.azureSearchKey}`"
@@ -114,11 +114,11 @@
           "assignments": [
             {
               "property": "dialog.statusCode",
-              "value": "=settings.kbres.statusCode"
+              "value": "=conversation.flowPath.kbres.statusCode"
             },
             {
               "property": "dialog.results",
-              "value": "=settings.kbres.content.value"
+              "value": "=conversation.flowPath.kbres.content.value"
             },
             {
               "property": "dialog.resultCount",

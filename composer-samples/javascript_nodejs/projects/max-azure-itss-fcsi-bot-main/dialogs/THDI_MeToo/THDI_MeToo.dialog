@@ -176,7 +176,7 @@
           "$designer": {
             "id": "xWzFni"
           },
-          "resultProperty": "settings.res_openIncidents",
+          "resultProperty": "conversation.flowPath.res_openIncidents",
           "method": "GET",
           "headers": {
             "Authorization": "${settings.servicenow.Authorization}"
@@ -191,12 +191,12 @@
           },
           "assignments": [
             {
-              "value": "=settings.res_openIncidents.content.result",
+              "value": "=conversation.flowPath.res_openIncidents.content.result",
               "property": "dialog.openIncidentsResult"
             },
             {
               "property": "dialog.openIncidentsStatusCode",
-              "value": "=settings.res_openIncidents.statusCode"
+              "value": "=conversation.flowPath.res_openIncidents.statusCode"
             }
           ]
         },
@@ -491,15 +491,15 @@
                       "assignments": [
                         {
                           "property": "dialog.assignmentGroup",
-                          "value": "=settings.parent_response.content.result[0].assignment_group.display_value"
+                          "value": "=conversation.flowPath.parent_response.content.result[0].assignment_group.display_value"
                         },
                         {
                           "property": "dialog.shortDescription",
-                          "value": "=settings.parent_response.content.result[0].short_description"
+                          "value": "=conversation.flowPath.parent_response.content.result[0].short_description"
                         },
                         {
                           "property": "dialog.parentProduct",
-                          "value": "=settings.parent_response.content.result[0].u_tsc_product.display_value"
+                          "value": "=conversation.flowPath.parent_response.content.result[0].u_tsc_product.display_value"
                         }
                       ]
                     },
@@ -532,7 +532,7 @@
                       "$designer": {
                         "id": "ntcRwv"
                       },
-                      "condition": "= settings.child_res_inc.statusCode == 201",
+                      "condition": "= conversation.flowPath.child_res_inc.statusCode == 201",
                       "actions": [
                         {
                           "$kind": "Microsoft.SetProperties",
@@ -542,7 +542,7 @@
                           "assignments": [
                             {
                               "property": "dialog.childIncidentNumber",
-                              "value": "= settings.child_res_inc.content.result[0].display_value"
+                              "value": "= conversation.flowPath.child_res_inc.content.result[0].display_value"
                             }
                           ]
                         },
@@ -564,7 +564,7 @@
                           "$designer": {
                             "id": "hjpa3I"
                           },
-                          "condition": "= settings.child_response_incident.statusCode == 200",
+                          "condition": "= conversation.flowPath.child_response_incident.statusCode == 200",
                           "elseActions": [
                             {
                               "$kind": "Microsoft.SendActivity",
@@ -583,23 +583,23 @@
                               "assignments": [
                                 {
                                   "property": "dialog.childIncidentDescription",
-                                  "value": "=settings.child_response_incident.content.result[0].description"
+                                  "value": "=conversation.flowPath.child_response_incident.content.result[0].description"
                                 },
                                 {
                                   "property": "dialog.childIncidentState",
-                                  "value": "=settings.child_response_incident.content.result[0].state"
+                                  "value": "=conversation.flowPath.child_response_incident.content.result[0].state"
                                 },
                                 {
                                   "property": "dialog.childIncidentParent",
-                                  "value": "=settings.child_response_incident.content.result[0].parent_incident.display_value"
+                                  "value": "=conversation.flowPath.child_response_incident.content.result[0].parent_incident.display_value"
                                 },
                                 {
                                   "property": "dialog.childIncidentPriority",
-                                  "value": "=settings.child_response_incident.content.result[0].priority"
+                                  "value": "=conversation.flowPath.child_response_incident.content.result[0].priority"
                                 },
                                 {
                                   "property": "dialog.childIncidentSys_id",
-                                  "value": "=settings.child_response_incident.content.result[0].sys_id"
+                                  "value": "=conversation.flowPath.child_response_incident.content.result[0].sys_id"
                                 },
                                 {
                                   "property": "dialog.childIncidentURL",
@@ -607,7 +607,7 @@
                                 },
                                 {
                                   "property": "dialog.childIncidentShortDescription",
-                                  "value": "=settings.child_response_incident.content.result[0].short_description"
+                                  "value": "=conversation.flowPath.child_response_incident.content.result[0].short_description"
                                 }
                               ]
                             },
