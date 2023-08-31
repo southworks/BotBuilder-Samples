@@ -121,7 +121,8 @@
           "resultProperty": "conversation.flowPath.apiResponse",
           "method": "GET",
           "responseType": "json",
-          "url": "=`${settings.chat.genesysMenuOptions}`"
+          "url": "=`${settings.chat.genesysMenuOptions}`",
+          "disabled": true
         },
         {
           "$kind": "Microsoft.IfCondition",
