@@ -19,6 +19,9 @@ import {
   DialogTurnResult,
 } from "botbuilder-dialogs";
 
+let appInsights = require('applicationinsights');
+appInsights.setup().start();
+
 export class SendEventTelemetry extends Dialog {
   public static $kind = "SendEventTelemetry";
 
@@ -37,13 +40,14 @@ export class SendEventTelemetry extends Dialog {
   }
 
   public beginDialog(dc: DialogContext): Promise<DialogTurnResult> {
+    let client = new appInsights.TelemetryClient();
     const input = [
       this.name.getValue(dc.state),
       this.properties.getValue(dc.state),
     ];
 
-
     console.log(JSON.stringify(input, null, 2))
+    client.trackEvent({name: input[0], properties: input[1]});
     // dc.context.sendActivities([
     //   { type: ActivityTypes.Event, text: `${input}` },
     // ]);
