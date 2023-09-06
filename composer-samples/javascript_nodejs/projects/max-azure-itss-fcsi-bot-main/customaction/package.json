@@ -35,5 +35,8 @@
     "botbuilder-dialogs-declarative": "4.17.0-preview",
     "nodemon": "^2.0.19",
     "typescript": "^4.8.3"
+  },
+  "dependencies": {
+    "applicationinsights": "^1.8.10"
   }
 }
