@@ -11,6 +11,9 @@
       "$ref": "#/definitions/CAIPRatingDialog"
     },
     {
+      "$ref": "#/definitions/ConversationIdDialog"
+    },
+    {
       "$ref": "#/definitions/ConvertCSTtoUTC"
     },
     {
@@ -27,6 +30,15 @@
     },
     {
       "$ref": "#/definitions/GetTranscriptDialog"
+    },
+    {
+      "$ref": "#/definitions/LiveAgentTypingIndicator"
+    },
+    {
+      "$ref": "#/definitions/LivePersonContext"
+    },
+    {
+      "$ref": "#/definitions/LivePersonStructureElements"
     },
     {
       "$ref": "#/definitions/Microsoft.ActivityTemplate"
@@ -559,6 +571,41 @@
         }
       ]
     },
+    "ConversationIdDialog": {
+      "$role": "implements(Microsoft.IDialog)",
+      "title": "Clear Conversation",
+      "description": "This Custom Action deletes the userKey-Conv Maping in Storage.",
+      "type": "object",
+      "required": [
+        "$kind"
+      ],
+      "additionalProperties": false,
+      "patternProperties": {
+        "^\\$": {
+          "title": "Tooling property",
+          "description": "Open ended property for tooling."
+        }
+      },
+      "properties": {
+        "resultProperty": {
+          "$ref": "#/definitions/stringExpression",
+          "title": "Result",
+          "description": "Value to store the result"
+        },
+        "$kind": {
+          "title": "Kind of dialog object",
+          "description": "Defines the valid properties for the component you are configuring (from a dialog .schema file)",
+          "type": "string",
+          "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$",
+          "const": "ConversationIdDialog"
+        },
+        "$designer": {
+          "title": "Designer information",
+          "type": "object",
+          "description": "Extra information for the Bot Framework Composer."
+        }
+      }
+    },
     "ConvertCSTtoUTC": {
       "$role": "implements(Microsoft.IDialog)",
       "title": "ConvertCSTtoUTC",
@@ -850,6 +897,135 @@
           ]
         }
       ]
+    },
+    "LiveAgentTypingIndicator": {
+      "$role": "implements(Microsoft.IDialog)",
+      "title": "Live Agent Typing Indicator",
+      "description": "This will start sending 'typing' event to root bot every 5 seconds on receiving 'start' typing event from skill. It will stop sending 'typing' event on receiving 'stop' typing event from skill",
+      "type": "object",
+      "required": [
+        "$kind"
+      ],
+      "additionalProperties": false,
+      "patternProperties": {
+        "^\\$": {
+          "title": "Tooling property",
+          "description": "Open ended property for tooling."
+        }
+      },
+      "properties": {
+        "typingEvent": {
+          "$ref": "#/definitions/stringExpression",
+          "title": "typingEvent",
+          "description": "typing event - 'start' or 'stop'"
+        },
+        "$kind": {
+          "title": "Kind of dialog object",
+          "description": "Defines the valid properties for the component you are configuring (from a dialog .schema file)",
+          "type": "string",
+          "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$",
+          "const": "LiveAgentTypingIndicator"
+        },
+        "$designer": {
+          "title": "Designer information",
+          "type": "object",
+          "description": "Extra information for the Bot Framework Composer."
+        }
+      }
+    },
+    "LivePersonContext": {
+      "$role": "implements(Microsoft.IDialog)",
+      "title": "LivePerson Context",
+      "description": "This custom action authenticates with LivePerson and gets context and a token for the bot to use",
+      "type": "object",
+      "required": [
+        "$kind"
+      ],
+      "additionalProperties": false,
+      "patternProperties": {
+        "^\\$": {
+          "title": "Tooling property",
+          "description": "Open ended property for tooling."
+        }
+      },
+      "properties": {
+        "resultContext": {
+          "$ref": "#/definitions/stringExpression",
+          "title": "Result Context",
+          "description": "property to store the result. response format: {statusCode: xxx, content: 'xxx'}",
+          "examples": [
+            "conversation.livePersonContext"
+          ]
+        },
+        "resultToken": {
+          "$ref": "#/definitions/stringExpression",
+          "title": "Result Token",
+          "description": "property to store the result. response format: {statusCode: xxx, content: 'xxx'}",
+          "examples": [
+            "conversation.livePersonToken"
+          ]
+        },
+        "resultSDEs": {
+          "$ref": "#/definitions/stringExpression",
+          "title": "Result SDEs",
+          "description": "property to store the result. response format: {statusCode: xxx, content: 'xxx'}",
+          "examples": [
+            "conversation.livePersonSDEs"
+          ]
+        },
+        "$kind": {
+          "title": "Kind of dialog object",
+          "description": "Defines the valid properties for the component you are configuring (from a dialog .schema file)",
+          "type": "string",
+          "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$",
+          "const": "LivePersonContext"
+        },
+        "$designer": {
+          "title": "Designer information",
+          "type": "object",
+          "description": "Extra information for the Bot Framework Composer."
+        }
+      }
+    },
+    "LivePersonStructureElements": {
+      "$role": "implements(Microsoft.IDialog)",
+      "title": "LivePersonStructureElements",
+      "description": "This custom action take in an array of elements and format JSON response for LivePerson",
+      "type": "object",
+      "required": [
+        "$kind"
+      ],
+      "additionalProperties": false,
+      "patternProperties": {
+        "^\\$": {
+          "title": "Tooling property",
+          "description": "Open ended property for tooling."
+        }
+      },
+      "properties": {
+        "dataToStructure": {
+          "$ref": "#/definitions/objectExpression",
+          "title": "Array of JSON to be structured as elements",
+          "description": "Pass JSON list"
+        },
+        "result": {
+          "$ref": "#/definitions/stringExpression",
+          "title": "Result",
+          "description": "Value where structure data will be stored"
+        },
+        "$kind": {
+          "title": "Kind of dialog object",
+          "description": "Defines the valid properties for the component you are configuring (from a dialog .schema file)",
+          "type": "string",
+          "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$",
+          "const": "LivePersonStructureElements"
+        },
+        "$designer": {
+          "title": "Designer information",
+          "type": "object",
+          "description": "Extra information for the Bot Framework Composer."
+        }
+      }
     },
     "Microsoft.ActivityTemplate": {
       "$role": "implements(Microsoft.IActivityTemplate)",
@@ -4302,11 +4478,7 @@
         {
           "type": "string"
         }
-      ],
-      "$package": {
-        "name": "botbuilder-dialogs-declarative",
-        "version": "4.17.0-preview"
-      }
+      ]
     },
     "Microsoft.IDialog": {
       "title": "Microsoft dialogs",
@@ -4318,6 +4490,9 @@
         },
         {
           "$ref": "#/definitions/CAIPRatingDialog"
+        },
+        {
+          "$ref": "#/definitions/ConversationIdDialog"
         },
         {
           "$ref": "#/definitions/ConvertCSTtoUTC"
@@ -4336,6 +4511,15 @@
         },
         {
           "$ref": "#/definitions/GetTranscriptDialog"
+        },
+        {
+          "$ref": "#/definitions/LiveAgentTypingIndicator"
+        },
+        {
+          "$ref": "#/definitions/LivePersonContext"
+        },
+        {
+          "$ref": "#/definitions/LivePersonStructureElements"
         },
         {
           "$ref": "#/definitions/Microsoft.AdaptiveDialog"
@@ -4518,11 +4702,7 @@
           "type": "string",
           "pattern": "^(?!(=)).*"
         }
-      ],
-      "$package": {
-        "name": "botbuilder-dialogs-declarative",
-        "version": "4.17.0-preview"
-      }
+      ]
     },
     "Microsoft.IEntityRecognizer": {
       "$role": "interface",
@@ -4948,11 +5128,7 @@
         {
           "type": "string"
         }
-      ],
-      "$package": {
-        "name": "botbuilder-dialogs-declarative",
-        "version": "4.17.0-preview"
-      }
+      ]
     },
     "Microsoft.ITextTemplate": {
       "title": "Microsoft TextTemplate",
@@ -4965,11 +5141,7 @@
         {
           "type": "string"
         }
-      ],
-      "$package": {
-        "name": "botbuilder-dialogs-declarative",
-        "version": "4.17.0-preview"
-      }
+      ]
     },
     "Microsoft.ITrigger": {
       "$role": "interface",

@@ -1,0 +1,15 @@
+{
+    "$schema": "https://raw.githubusercontent.com/microsoft/botframework-sdk/master/schemas/component/component.schema",
+    "$role": "implements(Microsoft.IDialog)",
+    "title": "Live Agent Typing Indicator",
+    "description": "This will start sending 'typing' event to root bot every 5 seconds on receiving 'start' typing event from skill. It will stop sending 'typing' event on receiving 'stop' typing event from skill",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "typingEvent": {
+            "$ref": "schema:#/definitions/stringExpression",
+            "title": "typingEvent",
+            "description": "typing event - 'start' or 'stop'"
+        }
+    }
+}

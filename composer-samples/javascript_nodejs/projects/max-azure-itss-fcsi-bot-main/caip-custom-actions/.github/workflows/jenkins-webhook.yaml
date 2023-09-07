@@ -1,0 +1,20 @@
+# Send Webhook events to Jenkins
+name: jenkins-webhook
+env:
+  JENKINS_HOST: https://caip-ghec-jenkins.optum.com/
+on: # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#available-events
+  - push
+  - pull_request
+jobs:
+  build:
+    name: send-github-event-payload
+    runs-on: [uhg-runner]
+    steps:
+      - name: invoke-webhook
+        uses: uhg-actions/workflow-webhook@v3
+        env:
+          verify_ssl: false
+          verbose: true
+          # Read https://hevodata.com/learn/jenkins-github-webhook/#step2 to understand how the Jenkins GitHub Webhook works.
+          # The final URL will look like in this format http(s)://address:port/github-webhook/
+          webhook_url: ${{env.JENKINS_HOST}}/github-webhook/

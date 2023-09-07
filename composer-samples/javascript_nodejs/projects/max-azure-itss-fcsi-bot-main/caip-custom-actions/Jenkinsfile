@@ -1,0 +1,104 @@
+#!/usr/bin/groovy
+@Library(['com.optum.jenkins.pipeline.library@master']) _
+
+pipeline {
+    agent {
+        label 'docker-maven-slave'
+    }
+
+    environment {
+        GIT_URL = "github.com/optum-eeps/caip-custom-actions"
+        TAG_VAL = "T_${BUILD_NUMBER}"
+        NPM_AUTH_KEY = credentials('npm-auth-key')
+        NPM_EMAIL = 'optumrx_user@optum.com'
+        GITHUB_CREDENTIALS_ID = "GHEC_TextToken"
+    }
+
+    options {
+        buildDiscarder logRotator(
+            artifactDaysToKeepStr: '',
+            artifactNumToKeepStr: '',
+            daysToKeepStr: '30',
+            numToKeepStr: '5')
+        disableConcurrentBuilds()
+        authorizationMatrix inheritanceStrategy: inheriting(), permissions: ['hudson.model.Item.Discover: caip_botbenders_github', 'hudson.model.Item.Build: caip_botbenders_github', 'hudson.model.Item.Cancel: caip_botbenders_github', 'hudson.model.Item.Read: caip_botbenders_github', 'hudson.model.Item.Workspace: caip_botbenders_github', 'hudson.model.Item.Configure: caip_botbenders_github']
+    }
+
+    stages {
+        stage('Install Dependencies') {
+            steps {
+                checkout scm
+                
+                sh '''
+                    . /etc/profile.d/jenkins.sh
+                    echo > ~/.npmrc
+                    npm config set registry https://repo1.uhc.com/artifactory/api/npm/npm-virtual/
+                    npm install
+                '''
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh '''
+                    npm test
+                '''
+            }
+        }
+
+        stage('Sonar Scan') {
+            steps {
+                sh '''
+                    npm run coverage
+                '''
+                glSonarNpmScan([
+                    gitUserCredentialsId: "${GITHUB_CREDENTIALS_ID}",
+                    mainBranchName: "main",
+                    sonarScanner: "/tools/sonar/sonar-scanner-4.7.0.2747-linux/bin/sonar-scanner",
+                    additionalProps: [
+                        'sonar.sources': 'src',
+                        'sonar.javascript.lcov.reportPath': 'coverage/lcov.info'
+                    ]
+                ])
+            }
+        }
+
+        stage('Update Version') {
+            when { branch 'main' }
+            steps {
+                sh '''
+                git checkout $BRANCH_NAME
+                npm version patch -m "version updated to %s  [skip actions]" --force
+                '''
+                withCredentials([
+                    usernamePassword(
+                    credentialsId: "GHEC_UserToken",
+                    passwordVariable: 'GIT_PASSWORD',
+                    usernameVariable: 'GIT_USERNAME')
+                    ]) {
+                    sh '''
+                    git config --global push.default matching
+                    git config user.email $GIT_USERNAME@optum.com
+                    git config user.name $GIT_USERNAME
+                    git push https://${GIT_USERNAME}:${GIT_PASSWORD}@$GIT_URL
+                    '''
+                }
+            }
+        }
+
+        stage('Build and Publish') {
+            when { branch 'main' }
+            steps {
+                withCredentials([usernameColonPassword(credentialsId: 'ARTIFACTORY_CREDS', variable: 'USERPASS')]) {
+                    sh ''' 
+                    curl -u $USERPASS https://repo1.uhc.com/artifactory/api/npm/auth >> .npmrc
+                    npm run build && mkdir dist && mv src lib exported dist
+                    jq '{name,version,description,main,types,files,license,publishConfig,peerDependencies}' package.json > dist/package.json
+                    cd dist
+                    npm publish
+                    '''
+                }
+            }
+        }
+    }
+}

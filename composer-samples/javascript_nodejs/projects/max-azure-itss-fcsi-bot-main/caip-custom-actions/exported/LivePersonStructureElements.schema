@@ -1,0 +1,20 @@
+{
+    "$schema": "https://raw.githubusercontent.com/microsoft/botframework-sdk/master/schemas/component/component.schema",
+    "$role": "implements(Microsoft.IDialog)",
+    "title": "LivePersonStructureElements",
+    "description": "This custom action take in an array of elements and format JSON response for LivePerson",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "dataToStructure": {
+            "$ref": "schema:#/definitions/objectExpression",
+            "title": "Array of JSON to be structured as elements",
+            "description": "Pass JSON list"
+        },
+        "result": {
+            "$ref": "schema:#/definitions/stringExpression",
+            "title": "Result",
+            "description": "Value where structure data will be stored"
+        }
+    }
+}

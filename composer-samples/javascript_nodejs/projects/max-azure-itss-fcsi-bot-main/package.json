@@ -7,6 +7,8 @@
     "dev": "cross-env NODE_ENV=dev node index.js",
     "start": "node index.js",
     "build:customaction": "cd customaction && npm run build",
+    "build:caipcustomaction": "cd caip-custom-actions && npm run build",
+    "build:caipbotcore": "cd caip-bot-core && npm run build",
     "build:schema": "cd schemas && pwsh ./update-schema.ps1",
     "test": "node_modules/mocha/bin/mocha -r ts-node/register --extension ts --extension js --recursive __tests__",
     "coverage": "nyc --reporter=lcov --reporter=text npm run test",
@@ -19,12 +21,15 @@
     "expandScriptingMemoryToConvos": false
   },
   "dependencies": {
+    "@advanceddevelopment/caip-bot-core": "file:caip-bot-core",
+    "@advanceddevelopment/caip-custom-actions": "file:caip-custom-actions",
     "botbuilder-ai-luis": "4.17.0-preview",
     "botbuilder-ai-qna": "4.17.0-preview",
     "botbuilder-dialogs-adaptive-runtime": "4.17.0-preview",
     "botbuilder-dialogs-adaptive-runtime-integration-express": "4.17.0-preview",
     "cross-env": "latest",
-    "custom-actions": "file:customaction"
+    "custom-actions": "file:customaction",
+    "rmrf": "^2.0.4"
   },
   "devDependencies": {
     "@types/chai": "^4.2.18",

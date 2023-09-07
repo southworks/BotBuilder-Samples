@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "declaration": true,
+    "target": "es6",
+    "module": "commonjs",
+    "outDir": "lib",
+    "rootDir": "src",
+    "strict": true
+  },
+  "exclude": [
+    "tests/**/*",
+    "lib/**/*"
+  ]
+}
