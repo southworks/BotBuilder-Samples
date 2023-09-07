@@ -21,15 +21,14 @@
     "expandScriptingMemoryToConvos": false
   },
   "dependencies": {
-    "@advanceddevelopment/caip-bot-core": "file:caip-bot-core",
-    "@advanceddevelopment/caip-custom-actions": "file:caip-custom-actions",
     "botbuilder-ai-luis": "4.17.0-preview",
     "botbuilder-ai-qna": "4.17.0-preview",
     "botbuilder-dialogs-adaptive-runtime": "4.17.0-preview",
     "botbuilder-dialogs-adaptive-runtime-integration-express": "4.17.0-preview",
     "cross-env": "latest",
     "custom-actions": "file:customaction",
-    "rmrf": "^2.0.4"
+    "@advanceddevelopment/caip-bot-core": "file:caip-bot-core",
+    "@advanceddevelopment/caip-custom-actions": "file:caip-custom-actions"
   },
   "devDependencies": {
     "@types/chai": "^4.2.18",
