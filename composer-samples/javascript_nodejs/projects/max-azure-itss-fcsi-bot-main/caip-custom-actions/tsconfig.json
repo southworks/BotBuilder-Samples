@@ -7,7 +7,7 @@
     "module": "commonjs",
     "outDir": "lib",
     "rootDir": "src",
-    "strict": true
+    "strict": false
   },
   "exclude": [
     "tests/**/*",
