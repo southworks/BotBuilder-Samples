@@ -2,7 +2,6 @@
   "name": "azure-itss-fcsi-bot",
   "private": true,
   "scripts": {
-    "postinstall": "pwsh --Command \"Copy-Item -Path templates/appsettings.json.template -Destination settings/appsettings.json\"",
     "setup": "./scripts/setup.sh dev itss-fcsi-bot",
     "dev": "cross-env NODE_ENV=dev node index.js",
     "start": "node index.js",
