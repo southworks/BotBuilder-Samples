@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 const path = require('path');
+// const fs = require('fs');
 
 const dotenv = require('dotenv');
 // Import required bot configuration.
@@ -10,12 +11,18 @@ dotenv.config({ path: ENV_FILE });
 
 const restify = require('restify');
 
+const { ConfidentialClientApplication } = require('@azure/msal-node');
+
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
 const {
     CloudAdapter,
     ConfigurationBotFrameworkAuthentication
 } = require('botbuilder');
+
+const {
+    MsalServiceClientCredentialsFactory
+} = require('botframework-connector');
 
 // This bot's main dialog.
 const { EchoBot } = require('./bot');
@@ -30,7 +37,27 @@ server.listen(process.env.port || process.env.PORT || 3978, () => {
     console.log('\nTo talk to your bot, open the emulator select "Open Bot"');
 });
 
-const botFrameworkAuthentication = new ConfigurationBotFrameworkAuthentication(process.env);
+// const appCredentials = new MsalAppCredentials(process.env.MicrosoftAppId, process.env.MicrosoftAppPassword);
+
+// const key = fs.readFileSync('C:/Certificates/ceci-test-key-vault-test-certificate-20230929.pem', 'utf8');
+
+const credentialsFactory = new MsalServiceClientCredentialsFactory(
+    process.env.MicrosoftAppId,
+    new ConfidentialClientApplication({
+        auth: {
+            clientId: process.env.MicrosoftAppId,
+            clientSecret: process.env.MicrosoftAppPassword,
+            authority: 'https://login.microsoftonline.com/botframework.com'
+            // clientCertificate: {
+            //     thumbprint: '376C44A8EFF1930682A1FEF0EDF1B60543783715',
+            //     privateKey: key
+            // }
+        }
+    })
+);
+
+// const botFrameworkAuthentication = new ConfigurationBotFrameworkAuthentication(process.env);
+const botFrameworkAuthentication = new ConfigurationBotFrameworkAuthentication(process.env, credentialsFactory);
 
 // Create adapter.
 // See https://aka.ms/about-bot-adapter to learn more about how bots work.
