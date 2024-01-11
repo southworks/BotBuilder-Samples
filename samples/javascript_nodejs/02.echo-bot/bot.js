@@ -11,19 +11,35 @@ class EchoBot extends ActivityHandler {
     constructor() {
         super();
 
-        function getResponse(context) {
+        async function getResponse(context) {
             switch (context.activity.name) {
                 case "preChat":
-                    return {
-                        hoursOfOperationStatus: "open",
-                        longestWaitTime: 300, // ms
-                        chatsInQueue: 0,
-                    };
+                    await context.sendActivity({
+                        type: ActivityTypes.EndOfConversation,
+                        code: "completedSuccessfully",
+                        value: {
+                            hoursOfOperationStatus: "open",
+                            longestWaitTime: 300, // ms
+                            chatsInQueue: 0,
+                        },
+                    });
+                    break;
                 case "preChatAsync":
-                    return {
-                        asyncChatStatus: "existing",
-                    };
+                    await context.sendActivity({
+                        type: ActivityTypes.EndOfConversation,
+                        code: "completedSuccessfully",
+                        value: {
+                            asyncChatStatus: "existing",
+                        },
+                    });
+                    break;
                 case "connectToLiveAgent":
+                    await context.sendActivity({
+                        type: ActivityTypes.Message,
+                        code: "completedSuccessfully",
+                        text: context.activity.text
+                    });
+                    break;
                 case "endChat":
                 default:
                     return {};
@@ -32,10 +48,7 @@ class EchoBot extends ActivityHandler {
 
         // See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
         this.onMessage(async (context, next) => {
-            await context.sendActivity({
-                type: ActivityTypes.Message,
-                ...getResponse(context),
-            });
+            await getResponse(context);
             // By calling next() you ensure that the next BotHandler is run.
             await next();
         });

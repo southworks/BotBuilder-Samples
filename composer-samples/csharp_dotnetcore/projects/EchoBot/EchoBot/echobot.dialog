@@ -52,6 +52,23 @@
                     "name": "Send a response"
                   },
                   "activity": "${SendActivity_Welcome()}"
+                },
+                {
+                  "$kind": "MultiplyDialog",
+                  "$designer": {
+                    "id": "859267",
+                    "name": "Send a response"
+                  },
+                  "operation": "1",
+                  "containerIdName": "testing"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "859268",
+                    "name": "Send a response"
+                  },
+                  "activity": "${SendActivity_Welcome()}"
                 }
               ]
             }

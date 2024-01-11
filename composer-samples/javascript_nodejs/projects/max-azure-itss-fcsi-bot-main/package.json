@@ -20,10 +20,10 @@
     "expandScriptingMemoryToConvos": false
   },
   "dependencies": {
-    "botbuilder-ai-luis": "4.21.0-dev.preview.20230809.5b58d10",
-    "botbuilder-ai-qna": "4.21.0-dev.preview.20230809.5b58d10",
-    "botbuilder-dialogs-adaptive-runtime": "4.21.0-dev.preview.20230809.5b58d10",
-    "botbuilder-dialogs-adaptive-runtime-integration-express": "4.21.0-dev.preview.20230809.5b58d10",
+    "botbuilder-ai-luis": "4.17.0-preview",
+    "botbuilder-ai-qna": "4.17.0-preview",
+    "botbuilder-dialogs-adaptive-runtime": "4.17.0-preview",
+    "botbuilder-dialogs-adaptive-runtime-integration-express": "4.17.0-preview",
     "cross-env": "latest",
     "custom-actions": "file:customaction",
     "@advanceddevelopment/caip-bot-core": "file:caip-bot-core",

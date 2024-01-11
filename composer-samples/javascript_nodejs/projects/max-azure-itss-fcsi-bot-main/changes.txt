@@ -1,0 +1,9 @@
+/site/wwwroot/node_modules/botbuilder-dialogs/lib
+    skillDialog.js
+/site/wwwroot/node_modules/botbuilder/lib
+   channelServiceRoutes.js
+/site/wwwroot/node_modules/botbuilder/lib/skills
+    skillHandlerImpl.js
+/site/wwwroot/node_modules/botbuilder-core/lib
+    turnContext.js
+    cloudAdapterBase.js

@@ -1,4 +1,7 @@
 {
   "$kind": "Microsoft.CrossTrainedRecognizerSet",
-  "recognizers": []
+  "recognizers": [
+    "itss-fcsi-bot.lu",
+    "itss-fcsi-bot.qna"
+  ]
 }

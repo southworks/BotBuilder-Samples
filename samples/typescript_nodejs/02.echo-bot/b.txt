@@ -1,0 +1,11 @@
+ [onTurnError] unhandled error: ClientAuthError: endpoints_resolution_error: Error: could not resolve endpoints. Please check network and try again. Detail: ClientConfigurationError: untrusted_authority: The provided authority is not a trusted authority. Please include this authority in the knownAuthorities config parameter.
+
+ClientAuthError: endpoints_resolution_error: Error: could not resolve endpoints. Please check network and try again. Detail: ClientConfigurationError: untrusted_authority: The provided authority is not a trusted authority. Please include this authority in the knownAuthorities config parameter.
+    at ClientAuthError.AuthError [as constructor] (C:\repos\BotBuilder-Samples\samples\typescript_nodejs\02.echo-bot\node_modules\@azure\msal-common\dist\index.cjs.js:477:24)
+    at new ClientAuthError (C:\repos\BotBuilder-Samples\samples\typescript_nodejs\02.echo-bot\node_modules\@azure\msal-common\dist\index.cjs.js:729:28)
+    at Function.ClientAuthError.createEndpointDiscoveryIncompleteError (C:\repos\BotBuilder-Samples\samples\typescript_nodejs\02.echo-bot\node_modules\@azure\msal-common\dist\index.cjs.js:766:16)
+    at Function.<anonymous> (C:\repos\BotBuilder-Samples\samples\typescript_nodejs\02.echo-bot\node_modules\@azure\msal-common\dist\index.cjs.js:6744:47)
+    at step (C:\repos\BotBuilder-Samples\samples\typescript_nodejs\02.echo-bot\node_modules\@azure\msal-common\dist\index.cjs.js:79:23)
+    at Object.throw (C:\repos\BotBuilder-Samples\samples\typescript_nodejs\02.echo-bot\node_modules\@azure\msal-common\dist\index.cjs.js:60:53)
+    at rejected (C:\repos\BotBuilder-Samples\samples\typescript_nodejs\02.echo-bot\node_modules\@azure\msal-common\dist\index.cjs.js:51:65)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)

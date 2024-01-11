@@ -1,5 +1,8 @@
 {
   "$kind": "Microsoft.MultiLanguageRecognizer",
   "id": "LUIS_itss-fcsi-bot",
-  "recognizers": {}
+  "recognizers": {
+    "en-us": "itss-fcsi-bot.en-us.lu",
+    "": "itss-fcsi-bot.en-us.lu"
+  }
 }

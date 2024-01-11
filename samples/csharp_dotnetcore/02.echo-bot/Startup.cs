@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 using Microsoft.BotBuilderSamples.Bots;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Bot.Connector;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -30,6 +31,9 @@ namespace Microsoft.BotBuilderSamples
             {
                 options.SerializerSettings.MaxDepth = HttpHelper.BotMessageSerializerSettings.MaxDepth;
             });
+
+            // Create the Bot Framework Authentication to be used with the Bot Adapter.
+            services.AddSingleton((e) => new ConnectorClientOptions { UserAgent = "CustomUserAgent/1234" });
 
             // Create the Bot Framework Authentication to be used with the Bot Adapter.
             services.AddSingleton<BotFrameworkAuthentication, ConfigurationBotFrameworkAuthentication>();

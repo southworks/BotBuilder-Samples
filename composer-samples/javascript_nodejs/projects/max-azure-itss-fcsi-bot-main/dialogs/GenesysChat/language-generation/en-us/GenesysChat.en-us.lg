@@ -94,13 +94,7 @@
 [Activity
   type = message
   name = preChat
-  Value = ${{preChatDynamicInfo:{ENT_SubFunction: `${dialog.selectedIssueCategory}`, ENT_SubFunctionDetail: `${dialog.selectedProductCategory}`}}}
-]
-# BeginSkill_Activity_xtIMOX()
-[Activity
-  type = message
-  name = preChatAsync
-  Value = ${{asyncPreChatdynamicInfo:{ENT_SubFunction: `${dialog.selectedIssueCategory}`, _ENT_ContactConstituentID: `${conversation.urluserid}`, _ENT_ContactFirstNm: `${conversation.fname}`,_ENT_ContactLastNm: `${conversation.lname}`, _email: `${conversation.email}`}, microsoftAppId: `${conversation.msAppIdEnv}`}}
+  Value = ${{preChatDynamicInfo:{ENT_SubFunction: `Password`, ENT_SubFunctionDetail: `MSPassword`}}}
 ]
 # SendActivity_dxwULL_text()
 - ```Live Chat is not available at this time.
@@ -198,7 +192,7 @@ Please fill the details below to submit a ticket.```
 [Activity
   type = message
   name = connectToLiveAgent
-  Value = ${{asyncPreChatdynamicInfo:{ENT_SubFunction: `${dialog.selectedIssueCategory}`, _ENT_ContactConstituentID: `${conversation.urluserid}`,_ENT_ContactFirstNm: `${conversation.fname}`, _ENT_ContactLastNm: `${conversation.lname}`, _email: `${conversation.email}`}, newChatDynamicInfo: {nickname: `${conversation.urlusername}`, ENT_ContactFirstNm: `${conversation.fname}`,ENT_SubFunction: `${dialog.selectedIssueCategory}`, ENT_FromAddress: `${conversation.email}`,ENT_ContactLastNm: `${conversation.lname}`,ENT_DeviceIssueDesc: `${conversation.firstIssue}`, ENT_SubFunctionDetail: `${dialog.selectedProductCategory}`,  CHAT_PortalPage:'helpdesk', ENT_ContactConstituentID: `${conversation.urluserid}`, ENT_ContactPhoneNbr: '', ENT_UHGLocationId: `${conversation.urllocation}` }, microsoftAppId: `${conversation.msAppIdEnv}`}}
+  Value = ${{asyncPreChatdynamicInfo:{ENT_SubFunction: `Password`, _ENT_ContactConstituentID: `${conversation.urluserid}`,_ENT_ContactFirstNm: `${conversation.fname}`, _ENT_ContactLastNm: `${conversation.lname}`, _email: `${conversation.email}`}, newChatDynamicInfo: {nickname: `${conversation.urlusername}`, ENT_ContactFirstNm: `${conversation.fname}`,ENT_SubFunction: `Password`, ENT_FromAddress: `${conversation.email}`,ENT_ContactLastNm: `${conversation.lname}`,ENT_DeviceIssueDesc: `${conversation.firstIssue}`, ENT_SubFunctionDetail: `MSPassword`,  CHAT_PortalPage:'helpdesk', ENT_ContactConstituentID: `${conversation.urluserid}`, ENT_ContactPhoneNbr: '', ENT_UHGLocationId: `${conversation.urllocation}` }, microsoftAppId: `${conversation.msAppIdEnv}`}}
 ]
 # SendActivity_03viGC_text()
 - ```Live Chat is not available at this time.

@@ -253,3 +253,6 @@
 [Activity
     Text = Hi, ${conversation.firstName}, I'm Max, your IT Help Desk Virtual Assistant. 
 ]
+
+# SendActivity_lJIS0k()
+-

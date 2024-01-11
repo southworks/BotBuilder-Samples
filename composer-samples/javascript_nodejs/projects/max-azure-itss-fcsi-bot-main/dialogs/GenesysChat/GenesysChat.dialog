@@ -52,7 +52,8 @@
           "invalidPrompt": "",
           "property": "dialog.selectedIssueCategory",
           "prompt": "${TextInput_Prompt_jqQvs9()}",
-          "value": "=turn.activity.value.issueCategory"
+          "value": "=turn.activity.value.issueCategory",
+          "disabled": true
         },
         {
           "$kind": "Microsoft.IfCondition",
@@ -222,22 +223,6 @@
           "activity": "${SendActivity_SK730E()}"
         },
         {
-          "$kind": "Microsoft.BeginSkill",
-          "$designer": {
-            "id": "zdkGQC",
-            "name": "Connect to a skill-preChat"
-          },
-          "activityProcessed": true,
-          "botId": "=settings.MicrosoftAppId",
-          "skillHostEndpoint": "=settings.skillHostEndpoint",
-          "connectionName": "=settings.connectionName",
-          "allowInterruptions": false,
-          "activity": "${BeginSkill_Activity_zdkGQC()}",
-          "resultProperty": "dialog.preChat",
-          "skillEndpoint": "=settings.skill['liveAgentSkillBot'].endpointUrl",
-          "skillAppId": "=settings.skill['liveAgentSkillBot'].msAppId"
-        },
-        {
           "$kind": "Microsoft.DeleteProperty",
           "$designer": {
             "id": "mg6ZeU"
@@ -252,7 +237,7 @@
           "activityProcessed": true,
           "dialog": "GenesysError",
           "options": {
-            "codeValue": "=turn.activity.code"
+            "codeValue": "=settings.preChat.code"
           }
         },
         {
@@ -263,7 +248,7 @@
           "assignments": [
             {
               "property": "dialog.preChatJson",
-              "value": "=json(dialog.preChat)"
+              "value": "=settings.preChat.value"
             }
           ]
         },
@@ -320,6 +305,7 @@
               ]
             },
             {
+              "disabled": true,
               "$kind": "Microsoft.TextInput",
               "$designer": {
                 "id": "pdn7q7"
@@ -333,6 +319,7 @@
               "prompt": "${TextInput_Prompt_pdn7q7()}"
             },
             {
+              "disabled": true,
               "$kind": "Microsoft.IfCondition",
               "$designer": {
                 "id": "GJq7U0"
@@ -357,22 +344,6 @@
               "condition": "=turn.activity.value.flow == 'ConnectwithaLiveAgent'"
             },
             {
-              "$kind": "Microsoft.BeginSkill",
-              "$designer": {
-                "id": "xtIMOX",
-                "name": "Connect to a skill-preChatAsync"
-              },
-              "activityProcessed": true,
-              "botId": "=settings.MicrosoftAppId",
-              "skillHostEndpoint": "=settings.skillHostEndpoint",
-              "connectionName": "=settings.connectionName",
-              "allowInterruptions": false,
-              "activity": "${BeginSkill_Activity_xtIMOX()}",
-              "resultProperty": "dialog.preChatAsync",
-              "skillEndpoint": "=settings.skill['liveAgentSkillBot'].endpointUrl",
-              "skillAppId": "=settings.skill['liveAgentSkillBot'].msAppId"
-            },
-            {
               "$kind": "Microsoft.BeginDialog",
               "$designer": {
                 "id": "80RrXP"
@@ -380,7 +351,7 @@
               "activityProcessed": true,
               "dialog": "GenesysError",
               "options": {
-                "codeValue": "=turn.activity.code"
+                "codeValue": "=settings.preChatAsync.code"
               }
             },
             {
@@ -391,7 +362,7 @@
               "assignments": [
                 {
                   "property": "dialog.preChatAsyncJson",
-                  "value": "=json(dialog.preChatAsync)"
+                  "value": "=settings.preChatAsync.value"
                 }
               ]
             },

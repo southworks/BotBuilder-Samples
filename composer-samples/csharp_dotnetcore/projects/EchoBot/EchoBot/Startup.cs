@@ -1,6 +1,8 @@
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Runtime.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,6 +23,21 @@ namespace EchoBot
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers().AddNewtonsoftJson();
+
+            var cosmosDbStorageOptions = new CosmosDbPartitionedStorageOptions()
+            {
+                CosmosDbEndpoint = "https://localhost:8081",
+                AuthKey = "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==",
+                DatabaseId = "testing",
+                ContainerId = "testing",
+                CompatibilityMode = false
+            };
+            var storage = new CosmosDbPartitionedStorage(cosmosDbStorageOptions);
+
+            //services.AddSingleton(new UserState(storage));
+            //services.AddSingleton(new ConversationState(storage));
+            services.AddSingleton<IStorage>(storage);
+
             services.AddBotRuntime(Configuration);
         }
 

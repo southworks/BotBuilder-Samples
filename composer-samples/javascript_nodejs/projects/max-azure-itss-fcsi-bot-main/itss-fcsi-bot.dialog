@@ -404,7 +404,7 @@
             },
             {
               "property": "conversation.msAppIdEnv",
-              "value": "=settings.thdi.msAppIdEnv"
+              "value": "=turn.activity.value.microsoftAppId"
             }
           ]
         },

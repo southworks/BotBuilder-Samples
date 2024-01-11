@@ -1,6 +1,6 @@
 # zip -rq code.zip ../ -x code.zip
 
-az webapp deployment source config-zip --resource-group node-composer-bot-RG --name node-composer-bot-3 --src ../code.zip
+az webapp deployment source config-zip --resource-group node-composer-bot-RG --name node-composer-bot-4 --src ./code.zip
 # az webapp deployment source config-zip --resource-group error-handler-bot --name error-handler-bot --src C:/Users/JoelMut/Downloads/EmptyBotErrorHandler/code.zip
 
 # az webapp deployment slot swap --slot prerelease --name node-composer-bot --resource-group node-composer-bot-RG

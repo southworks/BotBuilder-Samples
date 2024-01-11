@@ -1,5 +1,8 @@
 {
   "$kind": "Microsoft.MultiLanguageRecognizer",
   "id": "QnA_itss-fcsi-bot",
-  "recognizers": {}
+  "recognizers": {
+    "en-us": "itss-fcsi-bot.en-us.qna",
+    "": "itss-fcsi-bot.en-us.qna"
+  }
 }

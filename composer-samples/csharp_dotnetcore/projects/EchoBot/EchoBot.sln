@@ -1,9 +1,10 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30503.244
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EchoBot", "EchoBot\EchoBot.csproj", "{83FA6300-5CDD-4BAC-AE93-BB5BF4DFEAB8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Components.Samples.MultiplyDialog", "MultiplyDialog\Microsoft.Bot.Components.Samples.MultiplyDialog.csproj", "{1E2A8345-026A-40DF-828A-51D87F2E87A3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +16,10 @@ Global
 		{83FA6300-5CDD-4BAC-AE93-BB5BF4DFEAB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{83FA6300-5CDD-4BAC-AE93-BB5BF4DFEAB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{83FA6300-5CDD-4BAC-AE93-BB5BF4DFEAB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E2A8345-026A-40DF-828A-51D87F2E87A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E2A8345-026A-40DF-828A-51D87F2E87A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E2A8345-026A-40DF-828A-51D87F2E87A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E2A8345-026A-40DF-828A-51D87F2E87A3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

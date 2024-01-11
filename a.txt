@@ -1,0 +1,5 @@
+[Activity
+  type = message
+  name = connectToLiveAgent
+  Value = ${{asyncPreChatdynamicInfo:{ENT_SubFunction: `${dialog.selectedIssueCategory}`, _ENT_ContactConstituentID: `${conversation.urluserid}`,_ENT_ContactFirstNm: `${conversation.fname}`, _ENT_ContactLastNm: `${conversation.lname}`, _email: `${conversation.email}`}, newChatDynamicInfo: {nickname: `${conversation.urlusername}`, ENT_ContactFirstNm: `${conversation.fname}`,ENT_SubFunction: `${dialog.selectedIssueCategory}`,ENT_ServiceNowIncidentNumber: `${conversation.incidentIdSel}`, ENT_FromAddress: `${conversation.email}`,ENT_ContactLastNm: `${conversation.lname}`,ENT_DeviceIssueDesc: `${conversation.firstIssue}`, ENT_SubFunctionDetail: `${dialog.selectedProductCategory}`,  CHAT_PortalPage:'helpdesk', ENT_ContactConstituentID: `${conversation.urluserid}`, ENT_ContactPhoneNbr: '', ENT_UHGLocationId: `${conversation.urllocation}` }, microsoftAppId: `${conversation.msAppIdEnv}`}}
+]

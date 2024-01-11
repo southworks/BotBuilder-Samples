@@ -9,16 +9,28 @@ const ENV_FILE = path.join(__dirname, '.env');
 dotenv.config({ path: ENV_FILE });
 
 const restify = require('restify');
+const {
+    allowedCallersClaimsValidator,
+    AuthenticationConfiguration,
+    AuthenticationConstants
+} = require('botframework-connector');
 
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
 const {
     CloudAdapter,
+    ConfigurationServiceClientCredentialFactory,
     ConfigurationBotFrameworkAuthentication
 } = require('botbuilder');
 
 // This bot's main dialog.
 const { EchoBot } = require('./bot');
+
+
+const claimsValidators = allowedCallersClaimsValidator(['*']);
+
+// Define our authentication configuration.
+const authConfig = new AuthenticationConfiguration([], claimsValidators);
 
 // Create HTTP server
 const server = restify.createServer();
@@ -30,7 +42,14 @@ server.listen(process.env.port || process.env.PORT || 3978, () => {
     console.log('\nTo talk to your bot, open the emulator select "Open Bot"');
 });
 
-const botFrameworkAuthentication = new ConfigurationBotFrameworkAuthentication(process.env);
+const credentialsFactory = new ConfigurationServiceClientCredentialFactory({
+    MicrosoftAppId: process.env.MicrosoftAppId,
+    MicrosoftAppPassword: process.env.MicrosoftAppPassword,
+    MicrosoftAppType: process.env.MicrosoftAppType,
+    MicrosoftAppTenantId: process.env.MicrosoftAppTenantId
+});
+
+const botFrameworkAuthentication = new ConfigurationBotFrameworkAuthentication(process.env, credentialsFactory, authConfig);
 
 // Create adapter.
 // See https://aka.ms/about-bot-adapter to learn more about how bots work.

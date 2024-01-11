@@ -1,0 +1,37 @@
+line 224
+        {
+          "$kind": "Microsoft.BeginSkill",
+          "$designer": {
+            "id": "zdkGQC",
+            "name": "Connect to a skill-preChat"
+          },
+          "activityProcessed": true,
+          "botId": "=settings.MicrosoftAppId",
+          "skillHostEndpoint": "=settings.skillHostEndpoint",
+          "connectionName": "=settings.connectionName",
+          "allowInterruptions": false,
+          "activity": "${BeginSkill_Activity_zdkGQC()}",
+          "resultProperty": "dialog.preChat",
+          "skillEndpoint": "=settings.skill['liveAgentSkillBot'].endpointUrl",
+          "skillAppId": "=settings.skill['liveAgentSkillBot'].msAppId"
+        },
+
+line 349
+
+
+            {
+              "$kind": "Microsoft.BeginSkill",
+              "$designer": {
+                "id": "xtIMOX",
+                "name": "Connect to a skill-preChatAsync"
+              },
+              "activityProcessed": true,
+              "botId": "=settings.MicrosoftAppId",
+              "skillHostEndpoint": "=settings.skillHostEndpoint",
+              "connectionName": "=settings.connectionName",
+              "allowInterruptions": false,
+              "activity": "${BeginSkill_Activity_xtIMOX()}",
+              "resultProperty": "dialog.preChatAsync",
+              "skillEndpoint": "=settings.skill['liveAgentSkillBot'].endpointUrl",
+              "skillAppId": "=settings.skill['liveAgentSkillBot'].msAppId"
+            },

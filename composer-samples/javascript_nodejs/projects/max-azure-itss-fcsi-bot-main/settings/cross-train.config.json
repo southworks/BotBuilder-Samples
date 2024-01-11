@@ -6,7 +6,8 @@
         "flowDecider.en-us",
         "LiveAgent.en-us",
         "MainDialog.en-us",
-        "SkillFlowDecider.en-us"
+        "SkillFlowDecider.en-us",
+        "AfterGreeting.en-us"
       ]
     }
   }

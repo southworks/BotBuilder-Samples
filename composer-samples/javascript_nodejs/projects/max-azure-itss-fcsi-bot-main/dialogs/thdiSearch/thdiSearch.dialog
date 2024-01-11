@@ -93,18 +93,6 @@
           "disabled": true
         },
         {
-          "$kind": "StargateProvider",
-          "$designer": {
-            "id": "nSDK3s",
-            "name": "Stargate API HTTP Request -THDI"
-          },
-          "resultProperty": "dialog.api_thdi",
-          "contentType": "application/json",
-          "httpMethod": "GET",
-          "url": "${settings.thdi.getThdi}",
-          "authType": "oauth2"
-        },
-        {
           "$kind": "Microsoft.SendActivity",
           "$designer": {
             "id": "OiUtVg"
@@ -124,7 +112,7 @@
                 "id": "VJOHOD"
               },
               "property": "dialog.thdi",
-              "value": "=dialog.api_thdi.content.message"
+              "value": "=settings.api_thdi.content.message"
             },
             {
               "$kind": "Microsoft.Foreach",
@@ -654,7 +642,7 @@
               "disabled": true
             }
           ],
-          "condition": "=dialog.api_thdi.statusCode == 200"
+          "condition": "=settings.api_thdi.statusCode == 200"
         },
         {
           "$kind": "Microsoft.SetProperty",

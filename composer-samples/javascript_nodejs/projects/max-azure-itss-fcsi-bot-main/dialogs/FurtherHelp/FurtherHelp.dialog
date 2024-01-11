@@ -81,7 +81,7 @@
                 "id": "k2AuEZ"
               },
               "defaultLocale": "en-us",
-              "disabled": false,
+              "disabled": true,
               "maxTurnCount": 1,
               "alwaysPrompt": false,
               "allowInterruptions": false,

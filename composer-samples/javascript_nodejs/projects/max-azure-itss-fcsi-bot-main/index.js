@@ -5,6 +5,7 @@ if (typeof globalThis === "undefined") {
     global.globalThis = global;
 }
 
+const { SkillConversationIdFactoryBase } = require("botbuilder-dialogs-adaptive");
 const { getRuntimeServices } = require("botbuilder-dialogs-adaptive-runtime");
 const {
     makeApp,
@@ -39,11 +40,19 @@ const { writeHeapSnapshot } = require("v8");
             "settings"
         );
 
+        // services.makeInstances();
+
+        // services.addFactory<SkillConversationIdFactoryBase>(
+        //     'skillConversationIdFactory',
+        //     ({ storage }) => new SkillConversationIdFactory(storage)
+        // );
+
         const [app, listen] = await makeApp(
             services,
             configuration,
             applicationRoot
         );
+
 
         app.use(express.static("public"));
         app.get("/snapshot", async (req, res) => {
