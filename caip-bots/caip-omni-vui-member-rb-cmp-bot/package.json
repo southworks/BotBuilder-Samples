@@ -2,9 +2,9 @@
   "name": "azure-omni-vui-member-rb-cmp",
   "private": true,
   "scripts": {    
-	"postinstall": "cp -n templates/appsettings.json.template settings/appsettings.json || true",
+	"postinstall2": "cp -n templates/appsettings.json.template settings/appsettings.json || true",
     "setup": "./scripts/setup.sh dev",
-    "dev": "cross-env NODE_ENV=dev node index.js",
+    "dev": "cross-env PORT=3980 NODE_ENV=dev node index.js",
     "start": "node index.js",
     "build:schema": "cd schemas && sh ./update-schema.sh",
     "test": "node_modules/mocha/bin/mocha -r ts-node/register --extension ts --extension js --recursive __tests__",
@@ -18,7 +18,7 @@
     "expandScriptingMemoryToConvos": false
   },
   "dependencies": {
-    "@advanceddevelopment/omni-vui-custom-actions": "2.0.44",
+    "@advanceddevelopment/omni-vui-custom-actions": "../omni-vui-custom-actions",
     "@azure/data-tables": "^13.2.2",
     "agentkeepalive": "4.3.0",
     "ansi-regex": ">=5.0.1",

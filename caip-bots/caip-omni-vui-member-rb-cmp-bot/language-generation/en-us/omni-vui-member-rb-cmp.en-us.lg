@@ -163,3 +163,18 @@
  -${conversation.product}
 -ELSE :
 - ${getProperty(conversation.KVPS, 'ENT_Product')}
+
+# SendActivity_axR2CM()
+[Activity
+    Text = ${SendActivity_axR2CM_text()}
+]
+
+# SendActivity_axR2CM_text()
+- Hi from Root!
+# SendActivity_zBbr1W()
+[Activity
+    Text = ${SendActivity_zBbr1W_text()}
+]
+
+# SendActivity_zBbr1W_text()
+- Error1: 

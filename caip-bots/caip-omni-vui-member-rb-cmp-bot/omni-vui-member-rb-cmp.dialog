@@ -227,12 +227,29 @@
           ],
           "default": [
             {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "axR2CM"
+              },
+              "activity": "${SendActivity_axR2CM()}",
+              "disabled": true
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "5pvfH7"
+              },
+              "activityProcessed": true,
+              "dialog": "CallerIntent"
+            },
+            {
               "$kind": "Microsoft.BeginDialog",
               "$designer": {
                 "id": "p0h00D"
               },
               "activityProcessed": true,
-              "dialog": "Main"
+              "dialog": "Main",
+              "disabled": true
             }
           ]
         }
@@ -265,6 +282,13 @@
       },
       "actions": [
         {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "zBbr1W"
+          },
+          "activity": "${SendActivity_zBbr1W()}"
+        },
+        {
           "$kind": "Microsoft.BeginDialog",
           "$designer": {
             "id": "NhAprn"
@@ -277,7 +301,7 @@
         }
       ],
       "runOnce": false,
-      "condition": "=!conversation.error"
+      "condition": "false"
     },
     {
       "$kind": "Microsoft.OnError",
@@ -285,7 +309,7 @@
         "id": "VcPAHb",
         "name": "Error occurred (Error event)"
       },
-      "condition": "=conversation.error",
+      "condition": "false",
       "actions": [
         {
           "$kind": "Microsoft.BeginDialog",

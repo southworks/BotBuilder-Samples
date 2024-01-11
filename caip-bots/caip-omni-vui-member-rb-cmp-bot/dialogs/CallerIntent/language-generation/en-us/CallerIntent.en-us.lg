@@ -41,3 +41,64 @@ value = ${
         }
     }
 ]
+
+# BeginSkill_Activity_j6AiPA()
+[Activity
+Type = event
+Name = default
+value = ${
+{
+  appName: conversation.botName,
+  businessUnit: concat("Member",conversation.tfnLOB),
+  callId: conversation.KVPs.ENT_CallUUID,
+  callGUID: conversation.KVPs.ENT_CallUUID,
+  conversationId: conversation.conversationId,
+  ENT_ToAddress: conversation.KVPs.ENT_ToAddress,
+  parameters: { 
+  skillConnectionStartDate: formatDateTime(utcNow()),
+  tfnConfig: conversation.tfnConfig,
+  tfnLob: conversation.tfnLOB,
+  tfnAppName :getProperty(conversation.KVPs, "ENT_IVRAppNm"),
+  silentTransfer: conversation.silentTransfer
+  }
+}
+}
+]
+
+# BeginSkill_Activity_j6AiPA_text()
+- ```[Activity
+Type = event
+Name = startSkill
+value = ${
+{
+  appName: conversation.botName,
+  businessUnit: concat("Member",conversation.tfnLOB),
+  callId: conversation.KVPs.ENT_CallUUID,
+  callGUID: conversation.KVPs.ENT_CallUUID,
+  conversationId: conversation.conversationId,
+  ENT_ToAddress: conversation.KVPs.ENT_ToAddress,
+  parameters: { 
+  skillConnectionStartDate: formatDateTime(utcNow()),
+  tfnConfig: conversation.tfnConfig,
+  tfnLob: conversation.tfnLOB,
+  tfnAppName :getProperty(conversation.KVPs, "ENT_IVRAppNm"),
+  silentTransfer: conversation.silentTransfer
+  }
+}
+}
+]
+```
+# SendActivity_T1fo6N()
+[Activity
+    Text = ${SendActivity_T1fo6N_text()}
+]
+
+# SendActivity_T1fo6N_text()
+- Calling skill
+# SendActivity_cRvs3S()
+[Activity
+    Text = ${SendActivity_cRvs3S_text()}
+]
+
+# SendActivity_cRvs3S_text()
+- Back from skill

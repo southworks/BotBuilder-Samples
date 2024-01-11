@@ -55,7 +55,7 @@
     "@azure/storage-blob": "^12.9.0",
     "agentkeepalive": "^4.3.0",
     "axios": "^0.21.4",
-    "axios-retry": "^3.3.1",
+    "axios-retry": "3.3.1",
     "azure-storage": "^2.10.7",
     "nock": "^13.2.9",
     "request-promise": "^4.2.6"

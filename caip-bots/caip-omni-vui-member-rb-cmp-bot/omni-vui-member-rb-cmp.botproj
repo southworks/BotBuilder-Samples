@@ -46,10 +46,6 @@
       "remote": true,
       "endpointName": "provider-location-search"
     },
-    "memberIntent1": {
-      "workspace": "../MemberIntent1",
-      "remote": false
-    },
     "policySelectionSkillBot": {
       "workspace": "../PolicySelectionSkillBot",
       "remote": false
@@ -60,6 +56,10 @@
     },
     "findProvider": {
       "workspace": "../FindProvider",
+      "remote": false
+    },
+    "caipOmniVuiMemberintentSbCmpBotMain": {
+      "workspace": "../caip-omni-vui-memberintent-sb-cmp-bot-main",
       "remote": false
     }
   }

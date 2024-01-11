@@ -210,3 +210,17 @@
 - ELSE:
     - ''
    
+# SendActivity_CvEac3()
+[Activity
+    Text = ${SendActivity_CvEac3_text()}
+]
+
+# SendActivity_CvEac3_text()
+- DialogParams: ${conversation.endDialogParams}
+# SendActivity_2mTZ9t()
+[Activity
+    Text = ${SendActivity_2mTZ9t_text()}
+]
+
+# SendActivity_2mTZ9t_text()
+- Default Option

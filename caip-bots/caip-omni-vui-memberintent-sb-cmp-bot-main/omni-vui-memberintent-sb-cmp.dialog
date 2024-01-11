@@ -1353,6 +1353,13 @@
       },
       "actions": [
         {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "y6uBi2"
+          },
+          "activity": "Hi from skill!"
+        },
+        {
           "$kind": "Microsoft.SetProperty",
           "$designer": {
             "id": "XKVDJz"
@@ -1443,10 +1450,39 @@
                 }
               ]
             }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "2mTZ9t"
+              },
+              "activity": "${SendActivity_2mTZ9t()}"
+            }
           ]
         },
         {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "CvEac3"
+          },
+          "activity": "${SendActivity_CvEac3()}"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "7kZAc6"
+          }
+        },
+        {
+          "$kind": "Microsoft.EndTurn",
+          "$designer": {
+            "id": "laPUnj"
+          }
+        },
+        {
           "$kind": "Microsoft.IfCondition",
+          "disabled": true,
           "$designer": {
             "id": "g7JtIn"
           },
@@ -1462,7 +1498,7 @@
           ]
         }
       ],
-      "condition": "=or(turn.activity.name == 'startSkill', turn.activity.name == 'EOC', conversation.endDialogParams == 'NA')"
+      "condition": "=turn.activity.name == 'default'"
     },
     {
       "$kind": "Microsoft.OnIntent",

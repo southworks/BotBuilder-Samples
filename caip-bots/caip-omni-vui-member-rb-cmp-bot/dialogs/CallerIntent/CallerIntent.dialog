@@ -17,6 +17,34 @@
       },
       "actions": [
         {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "T1fo6N"
+          },
+          "activity": "${SendActivity_T1fo6N()}"
+        },
+        {
+          "$kind": "Microsoft.BeginSkill",
+          "$designer": {
+            "id": "j6AiPA"
+          },
+          "activityProcessed": true,
+          "botId": "=settings.MicrosoftAppId",
+          "skillHostEndpoint": "=settings.skillHostEndpoint",
+          "connectionName": "=settings.connectionName",
+          "allowInterruptions": false,
+          "skillEndpoint": "=settings.skill['caipOmniVuiMemberintentSbCmpBot'].endpointUrl",
+          "skillAppId": "=settings.skill['caipOmniVuiMemberintentSbCmpBot'].msAppId",
+          "activity": "${BeginSkill_Activity_j6AiPA()}"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "cRvs3S"
+          },
+          "activity": "${SendActivity_cRvs3S()}"
+        },
+        {
           "$kind": "Microsoft.IfCondition",
           "$designer": {
             "id": "XzjBED"
