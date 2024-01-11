@@ -1,0 +1,485 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "sCJQ0C",
+    "name": "NoUserInput",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "8xWyE4"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "YkjGXH"
+          },
+          "value": "=add(conversation.noInputFlag,conversation.noMatchFlag)",
+          "property": "conversation.retryFlag"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "3Gu7Hd"
+          },
+          "condition": "=conversation.retryFlag<=3",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "Oi6CKw"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "=MainDialog.PegVal(conversation.inputVal)",
+                "pegType": "General",
+                "request": "No User Input Event",
+                "response": "=turn",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "=MainDialog.PegName(conversation.inputVal,\"MaxNI\")"
+              }
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "bNeYKW"
+              },
+              "activityProcessed": true,
+              "dialog": "GlobalContainer",
+              "options": {
+                "globalParam": "maxnoinput"
+              }
+            }
+          ],
+          "actions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "0wSfMv"
+              },
+              "condition": "=conversation.noInputFlag==1",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "5sm9qK"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal(conversation.inputVal)",
+                    "pegType": "General",
+                    "request": "No User Input Event",
+                    "response": "=turn",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=MainDialog.PegName(conversation.inputVal,concat(\"NI\",conversation.noInputFlag))"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "XKVUtt"
+                  },
+                  "property": "conversation.noInputFlag",
+                  "value": "=add(conversation.noInputFlag,1)"
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "DcYGjK"
+                  },
+                  "condition": "=conversation.inputval",
+                  "cases": [
+                    {
+                      "value": "askDOS",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "Q1uwhL"
+                          },
+                          "activity": "${SendActivity_noInputAskDOS()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "ui8i1Q"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "=MainDialog.PegVal(conversation.inputVal)",
+                            "pegType": "Input Ask",
+                            "request": "=NoUserInput.SendActivity_noInputAskDOS()",
+                            "response": "",
+                            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "=MainDialog.PegName(conversation.inputVal,concat(\"NI\",conversation.noInputFlag-1,\"_InputAsk\"))"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "value": "askDateRange",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "PmGlDe"
+                          },
+                          "activity": "${SendActivity_noInputAskDateRange()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "JdgUnR"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "=MainDialog.PegVal(conversation.inputVal)",
+                            "pegType": "Input Ask",
+                            "request": "=NoUserInput.SendActivity_noInputAskDateRange()",
+                            "response": "",
+                            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "=MainDialog.PegName(conversation.inputVal,concat(\"NI\",conversation.noInputFlag-1,\"_InputAsk\"))"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "value": "askSupMed",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "kDhk1V"
+                          },
+                          "activity": "${SendActivity_noInputAskSupMed()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "YUULtd"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "=MainDialog.PegVal(conversation.inputVal)",
+                            "pegType": "Input Ask",
+                            "request": "=NoUserInput.SendActivity_noInputAskSupMed()",
+                            "response": "",
+                            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "=MainDialog.PegName(conversation.inputVal,concat(\"NI\",conversation.noInputFlag-1,\"_InputAsk\"))"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "value": "askSupMedRx",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "0SyWXu"
+                          },
+                          "activity": "${SendActivity_noInputAskSupMedRx()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "30erWs"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "=MainDialog.PegVal(conversation.inputVal)",
+                            "pegType": "Input Ask",
+                            "request": "=NoUserInput.SendActivity_noInputAskSupMedRx()",
+                            "response": "",
+                            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "=MainDialog.PegName(conversation.inputVal,concat(\"NI\",conversation.noInputFlag-1,\"_InputAsk\"))"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "value": "askDualPolicyDynamicQuestion",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "mo5Ru9"
+                          },
+                          "activity": "${SendActivity_noInputAskDualPolicyDynamicQuestion()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "XtYT0w"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "=MainDialog.PegVal(conversation.inputVal)",
+                            "pegType": "Input Ask",
+                            "request": "=NoUserInput.SendActivity_noInputAskDualPolicyDynamicQuestion()",
+                            "response": "",
+                            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "=MainDialog.PegName(conversation.inputVal,concat(\"NI\",conversation.noInputFlag-1,\"_InputAsk\"))"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "WZss6z"
+                  },
+                  "condition": "=conversation.noInputFlag==2",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "m79Y66"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "=MainDialog.PegVal(conversation.inputVal)",
+                        "pegType": "General",
+                        "request": "No User Input Event",
+                        "response": "=turn",
+                        "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "=MainDialog.PegName(conversation.inputVal,concat(\"NI\",conversation.noInputFlag))"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "04orwI"
+                      },
+                      "value": "=add(conversation.noInputFlag,1)",
+                      "property": "conversation.noInputFlag"
+                    },
+                    {
+                      "$kind": "Microsoft.SwitchCondition",
+                      "$designer": {
+                        "id": "axwDlM"
+                      },
+                      "condition": "=conversation.inputVal",
+                      "cases": [
+                        {
+                          "value": "askDOS",
+                          "actions": [
+                            {
+                              "$kind": "Microsoft.SetProperties",
+                              "$designer": {
+                                "id": "IfbHlg"
+                              },
+                              "assignments": [
+                                {
+                                  "property": "conversation.policy_DOS",
+                                  "value": "=\"\""
+                                },
+                                {
+                                  "property": "conversation.mw_policy_DOS",
+                                  "value": "=\"\""
+                                }
+                              ]
+                            },
+                            {
+                              "$kind": "Microsoft.BeginDialog",
+                              "$designer": {
+                                "id": "LWBJkF"
+                              },
+                              "activityProcessed": true,
+                              "dialog": "AskDateRangeToggle"
+                            }
+                          ]
+                        },
+                        {
+                          "value": "askDateRange",
+                          "actions": [
+                            {
+                              "$kind": "Microsoft.SetProperty",
+                              "$designer": {
+                                "id": "0Snhr7"
+                              },
+                              "property": "conversation.policy_DateRange",
+                              "value": "=if(exists(conversation.tfnConfig.Policy_DateRange), conversation.tfnConfig.Policy_DateRange, \"CURRENT,PAST,FUTURE\")"
+                            },
+                            {
+                              "$kind": "Microsoft.BeginDialog",
+                              "$designer": {
+                                "id": "aPYiA7"
+                              },
+                              "activityProcessed": true,
+                              "dialog": "CoverageLookup"
+                            }
+                          ]
+                        },
+                        {
+                          "value": "askSupMed",
+                          "actions": [
+                            {
+                              "$kind": "Microsoft.SetProperties",
+                              "$designer": {
+                                "id": "YwZ9Mr"
+                              },
+                              "assignments": [
+                                {
+                                  "property": "conversation.medSup",
+                                  "value": "N"
+                                }
+                              ]
+                            },
+                            {
+                              "$kind": "Microsoft.BeginDialog",
+                              "$designer": {
+                                "id": "mjAgj4"
+                              },
+                              "activityProcessed": true,
+                              "dialog": "DualCoverageLookup"
+                            }
+                          ]
+                        },
+                        {
+                          "value": "askSupMedRx",
+                          "actions": [
+                            {
+                              "$kind": "Microsoft.SetProperties",
+                              "$designer": {
+                                "id": "YRj80d"
+                              },
+                              "assignments": [
+                                {
+                                  "property": "conversation.medSup",
+                                  "value": "N"
+                                }
+                              ]
+                            },
+                            {
+                              "$kind": "Microsoft.BeginDialog",
+                              "$designer": {
+                                "id": "O28qAa"
+                              },
+                              "activityProcessed": true,
+                              "dialog": "DualCoverageLookup"
+                            }
+                          ]
+                        },
+                        {
+                          "value": "askDualPolicyDynamicQuestion",
+                          "actions": [
+                            {
+                              "$kind": "Microsoft.BeginDialog",
+                              "$designer": {
+                                "id": "CqrMCy"
+                              },
+                              "activityProcessed": true,
+                              "dialog": "TelemetryDialog",
+                              "options": {
+                                "peg": "00379",
+                                "pegType": "General",
+                                "request": "",
+                                "response": "",
+                                "startDTM": "=conversation.startDate",
+                                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                                "eventName": "PolicySelectionSkill_askDualPolicyDynamicQuestion_NI2_Peg"
+                              }
+                            },
+                            {
+                              "$kind": "Microsoft.SetProperties",
+                              "$designer": {
+                                "id": "dxz9gB"
+                              },
+                              "assignments": [
+                                {
+                                  "property": "conversation.groupNumber",
+                                  "value": "=conversation.multiplePolicyArray[0].groupNumber[0]"
+                                },
+                                {
+                                  "property": "conversation.policyCategory",
+                                  "value": "=conversation.multiplePolicyArray[0].policyCategory"
+                                },
+                                {
+                                  "property": "conversation.notvalidpolicyresolved",
+                                  "value": true
+                                }
+                              ]
+                            },
+                            {
+                              "$kind": "Microsoft.BeginDialog",
+                              "$designer": {
+                                "id": "8lcI2o"
+                              },
+                              "activityProcessed": true,
+                              "dialog": "MembershipSearchDialog"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "3IkDSW"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "=MainDialog.PegVal(conversation.inputVal)",
+                        "pegType": "General",
+                        "request": "No User Input Event",
+                        "response": "=turn",
+                        "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "=MainDialog.PegName(conversation.inputVal,\"MaxNI\")"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "dvpwaq"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "GlobalContainer",
+                      "options": {
+                        "globalParam": "maxnoinput"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "NoUserInput.lg",
+  "recognizer": "NoUserInput.lu.qna",
+  "id": "NoUserInput"
+}

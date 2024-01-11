@@ -1,0 +1,52 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "whK23T",
+    "name": "CheckMIDAuthToggle",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "Uu7eo9"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "MlSewZ"
+          },
+          "condition": "=conversation.tfnConfig.MID_Authentication_Toggle == \"OFF\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "StdfBv"
+              },
+              "activityProcessed": true,
+              "dialog": "AuthInCompleteDialog"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "MbDxhM"
+              },
+              "activityProcessed": true,
+              "dialog": "MemberIDInputDialog"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "CheckMIDAuthToggle.lg",
+  "recognizer": "CheckMIDAuthToggle.lu.qna",
+  "id": "CheckMIDAuthToggle"
+}

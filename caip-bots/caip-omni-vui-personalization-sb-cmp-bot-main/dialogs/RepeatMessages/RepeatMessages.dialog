@@ -1,0 +1,173 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "55pnM5",
+    "name": "RepeatMessages",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "yR8O2A"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "7zTL9s"
+          },
+          "property": "conversation.startDate",
+          "value": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "33ci7K"
+          },
+          "actions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "CPl9mS"
+              },
+              "condition": "=string(conversation.repeatQuery)==\"true\"",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "KZQLRX"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.repeatFlag",
+                      "value": "=add(conversation.repeatFlag,1)"
+                    },
+                    {
+                      "property": "conversation.retryFlag",
+                      "value": "=add(conversation.retryFlag,1)"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SwitchCondition",
+              "$designer": {
+                "id": "0sCv3b"
+              },
+              "condition": "=conversation.inputVal",
+              "cases": [
+                {
+                  "value": "cmReturnedMenu",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "ZKVC5m"
+                      },
+                      "condition": "=string(conversation.repeatFlag)==\"3\"",
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "WPdJ03"
+                          },
+                          "activity": "${RepeatConversationManagerReturnedMenuMsg()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "Ba1FOe"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "00809",
+                            "pegType": "InputAsk",
+                            "startDTM": "=conversation.startDate",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "ConversationManagerSkill_MenuType_125_TTS_InputAsk_Repeat_Peg",
+                            "request": "Repeat Conversation Manager Returned Menu Prompt",
+                            "response": "=RepeatMsgs.RepeatConversationManagerReturnedMenuMsg()"
+                          }
+                        }
+                      ],
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "D8lXIF"
+                          },
+                          "assignments": [
+                            {
+                              "property": "conversation.RepeatTransferType",
+                              "value": "MAXREPEAT"
+                            },
+                            {
+                              "property": "conversation.tfnConfig.CMSkill_AI_Global_Repeat_Toggle",
+                              "value": "OFF"
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "NkgnRb"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "GlobalContainer",
+                          "options": {
+                            "globalParam": "repeat"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "default": []
+            }
+          ],
+          "condition": "=and(conversation.repeatFlag<=2, conversation.retryFlag<=2, string(conversation.inputVal)!=string(\"\"))",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "XAbi9x"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.RepeatTransferType",
+                  "value": "MAXREPEAT"
+                },
+                {
+                  "property": "conversation.tfnConfig.CMSkill_AI_Global_Repeat_Toggle",
+                  "value": "OFF"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "6C29JW"
+              },
+              "activityProcessed": true,
+              "dialog": "GlobalContainer",
+              "options": {
+                "globalParam": "repeat"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "RepeatMessages.lg",
+  "recognizer": "RepeatMessages.lu.qna",
+  "id": "RepeatMessages"
+}

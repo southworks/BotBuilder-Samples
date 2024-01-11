@@ -1,0 +1,165 @@
+> !# @Namespace=RootDialog
+> !# @Exports=SendActivity_ConfigAfterSkill,getNLSubGroup,skillEvents,getENTProduct,getContactConstituentType,isCoverageInfoAvailable,isMemberInfoAvailable,isFieldEmpty,getBenfitPlanID,getICMActiveCovCode,getContactSourceSystemTypeCode,getPlanVariationCD,getPlanType,getVipFlag,isARADataPopulated,getPolicyNbr,getCDBXferID,getCDBPartionNbr
+[import](common.lg)
+
+# SendActivity_sm5rqu()
+[Activity
+    Text = ${BotTest_text()}
+]
+
+# SendActivity_ConfigAfterSkill()
+[Activity
+    Type = event
+    Name = config
+    channelData = ${
+        {
+            activityParams:{
+                bargeIn: false,
+                bargeInOnDTMF: false,
+                enableSpeechInput: false
+            }
+        }
+    }
+]
+# skillEvents()
+[Activity
+    Type = event
+    Name = ${turn.activity.name}
+    channelData = ${turn.activity.channelData}
+]
+
+#isCoverageInfoAvailable()
+-IF : ${and(isObject(conversation.member) , isArray(conversation.member.coverageInfo), count(conversation.member.coverageInfo)>0,conversation.member.coverageInfo !="")}
+  - ${bool(true)}
+-ELSE :
+  - ${bool(false)}
+
+#isMemberInfoAvailable()
+-IF : ${and(isObject(conversation.member) , isObject(conversation.member.memberInfo), conversation.member.memberInfo !="" )}
+  - ${bool(true)}
+-ELSE :
+  - ${bool(false)}
+
+#isFieldEmpty(value)
+- IF :${length(string(trim(value))) == 0 }
+  - ${bool(true)}
+-ELSE :
+   - ${bool(false)}
+
+#getBenfitPlanID()
+- IF: ${and(isSourceSystemMatchWithGiven('AP'),getProperty(conversation.member.coverageInfo[0],'planIndicator'))}
+   -${getProperty(conversation.member.coverageInfo[0],'planIndicator')}
+-ELSE:
+  - 
+#isSourceSystemMatchWithGiven(value)
+-IF : ${and(isCoverageInfoAvailable(),equals(conversation.member.coverageInfo[0].sourceSysCode,value))}
+  - ${bool(true)}
+ -ELSE :
+ - ${bool(false)}
+
+#getPolicyNbr()
+-IF :${and(
+            isSourceSystemMatchWithGiven('AL'),
+            getProperty(conversation.member.coverageInfo[0],'policyNumber'),
+            contains(conversation.tfnConfig.Root_Subscriber_Individual_ID_List,substring(getProperty(conversation.member.coverageInfo[0],'policyNumber'),0,4))
+            )}
+    -  ${substring(getProperty(conversation.member.coverageInfo[0],'policyNumber'),0,4)}
+ -ELSE:
+    -
+#getContactSourceSystemTypeCode()
+-IF:${and(isCoverageInfoAvailable(),
+          getProperty(conversation.contactSourceSystemMapJSON, conversation.member.coverageInfo[0].eligibilitySystemTypeCode))}
+ - ${getProperty(conversation.contactSourceSystemMapJSON, conversation.member.coverageInfo[0].eligibilitySystemTypeCode)}
+-ELSE :
+-     ?
+
+#isSourceSystemCO_PA_OG()
+-IF : ${and(isCoverageInfoAvailable(),
+          or(equals(conversation.member.coverageInfo[0].sourceSysCode,'CO'),
+             equals(conversation.member.coverageInfo[0].sourceSysCode,'PA'),
+             equals(conversation.member.coverageInfo[0].sourceSysCode,'OG')))}
+  - ${bool(true)}
+ -ELSE :
+ - ${bool(false)}
+
+#getPlanVariationCD()
+-IF :${and(isSourceSystemCO_PA_OG(), conversation.member.coverageInfo[0].ovations, conversation.member.coverageInfo[0].ovations.planBenefitPackage)}
+    - ${concat(substring('0000', 0, 4 - length(conversation.member.coverageInfo[0].ovations.planBenefitPackage)), conversation.member.coverageInfo[0].ovations.planBenefitPackage)}
+-ELSEIF :${and(isCoverageInfoAvailable(), conversation.member.coverageInfo[0].planVariationCode)}
+    - ${concat(substring('0000', 0, 4 - length(conversation.member.coverageInfo[0].planVariationCode)), conversation.member.coverageInfo[0].planVariationCode)}
+-ELSE:
+    - 
+
+#getContactConstituentType()
+	- IF: ${equals(conversation.callerType,'MM')}
+		- Member
+	-ELSEIF:${equals(conversation.callerType,'PV')}
+		- Provider
+	-ELSE :
+	  -
+
+#getPlanType()
+-IF :${and(isSourceSystemCO_PA_OG(), conversation.member.coverageInfo[0].ovations, conversation.member.coverageInfo[0].ovations.planType)}
+    - ${conversation.member.coverageInfo[0].ovations.planType}
+-ELSEIF :${and(isCoverageInfoAvailable(), conversation.member.coverageInfo[0].planType)}
+    - ${conversation.member.coverageInfo[0].planType}
+-ELSE:
+    - 
+	
+
+#isARADataPopulated()
+ -IF :${conversation.cmANIContactConstituentID !=''}
+     -${bool(true)}
+ -ELSE :
+    -${bool(false)}
+
+#getCDBXferID()
+-IF : ${first(where(conversation.member.memberInfo.otherIdentifiers, i, or(i.sourceSysCode == 'CRO',i.sourceSysCode == 'CDBXID')))}
+   -${first(where(conversation.member.memberInfo.otherIdentifiers, i, or(i.sourceSysCode == 'CRO',i.sourceSysCode == 'CDBXID')))}
+-ELSE:
+-
+
+#getCDBPartionNbr()
+-IF : ${first(where(conversation.member.memberInfo.otherIdentifiers, i, i.sourceSysCode == 'RPN'))}
+    -${first(where(conversation.member.memberInfo.otherIdentifiers, i, i.sourceSysCode == 'RPN'))}
+-ELSE:
+-
+
+#getVipFlag()
+-IF : ${and(isCoverageInfoAvailable(),
+            getProperty(conversation.member.coverageInfo[0],'privacyIndicator'),
+            equals(conversation.member.coverageInfo[0].privacyIndicator,'true'))}
+    -  Y
+-ELSEIF : ${and(isCoverageInfoAvailable(),
+            getProperty(conversation.member.coverageInfo[0],'privacyIndicator'),
+            equals(conversation.member.coverageInfo[0].privacyIndicator,'false'))}
+    - N
+-ELSE :
+    - ?
+
+#getICMActiveCovCode()
+-IF :${and(isCoverageInfoAvailable(),
+             getProperty(conversation.member.coverageInfo[0],'coverageType'),
+             length(conversation.member.coverageInfo[0].coverageType)<2)}
+    - ${concat(getProperty(conversation.member.coverageInfo[0],'coverageType')," ")}
+-ELSEIF :${and(isCoverageInfoAvailable(),
+             getProperty(conversation.member.coverageInfo[0],'coverageType'))}
+    - ${getProperty(conversation.member.coverageInfo[0],'coverageType')}
+-ELSE:
+  -
+
+#getNLSubGroup()
+-IF:${and(equals(conversation.tfnLOB,'MR'),or(equals(getProperty(conversation.KVPs, "ENT_IVRAppNm"),'MAP'),equals(getProperty(conversation.KVPs, "ENT_IVRAppNm"),'PromptOmatic')))}
+  -MAP
+-ELSEIF:${and(equals(conversation.tfnLOB,'MR'),equals(getProperty(conversation.KVPs, "ENT_IVRAppNm"),'OVA'))}
+  -OVA
+-ELSEIF :${equals(conversation.tfnLOB,'CS')}
+    -MECC
+-ELSE:
+    -MEEC
+
+#getENTProduct()
+- IF:${equals(conversation.tfnLOB,'EI')}
+ -${conversation.product}
+-ELSE :
+- ${getProperty(conversation.KVPS, 'ENT_Product')}

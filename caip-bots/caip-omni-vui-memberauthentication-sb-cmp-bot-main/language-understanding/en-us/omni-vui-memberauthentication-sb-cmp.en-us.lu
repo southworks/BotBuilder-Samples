@@ -1,0 +1,756 @@
+
+> LUIS application information
+> !# @app.name = omni-vui-memberauthentication-sb-cmp-v2
+> !# @app.versionId = 3.02
+> !# @app.culture = en-us
+> !# @app.luis_schema_version = 7.0.0
+> !# @app.settings.NormalizePunctuation = True
+> !# @app.settings.NormalizeWordForm = False
+> !# @app.settings.UseAllTrainingData = True
+> !# @app.tokenizerVersion = 1.0.0
+
+
+> # Intent definitions
+
+# agent
+- a live {@agentML=customer service representative} please
+- a live {@agentML=rep} please
+- a real {@agentML=advisor} please
+- a real {@agentML=agent} please
+- {@agentML=advocate}
+- {@agentML=agent}
+- {@agentML=agent} help
+- an {@agentML=agent}
+- call {@agentML=agent} please
+- call the {@agentML=manager}
+- can i connect to an {@agentML=agent}
+- can i go straight to a {@agentML=real person}
+- can i speak to a real {@agentML=manager} please?
+- can i speak to an {@agentML=advisor}
+- can i talk to a real {@agentML=representative}?
+- can you connect me to {@agentML=customer service}
+- can you transfer my call?
+- connect me to a {@agentML=representative}
+- connect me to {@agentML=customer service}
+- {@agentML=consultant}
+- could you just transfer me to real {@agentML=person}
+- {@agentML=csr}
+- {@agentML=customer service} please
+- {@agentML=customer service} rep
+- {@agentML=customer service} representative
+- {@agentML=customer support}
+- don't want to talk to a fake {@agentML=agent}
+- get me a real {@agentML=agent} please
+- get me out of here, you {@agentML={@negativeSentimentML=stupid}} robot
+- give me a {@agentML=representative}
+- {@agentML=human}
+- {@agentML=human being}
+- i am not talking to a robot
+- i don't want to talk to a robot
+- i don't want to talk to you
+- i want a {@agentML=human} to help me
+- i want a live {@agentML=manager}
+- i want a live {@agentML=representative}
+- i want an {@agentML=agent} to help me
+- i want to be transferred to {@agentML=customer service}
+- i want to speak to a {@agentML=rep}
+- i want to speak to an {@agentML=agent}
+- i want to talk to a live {@agentML=agent}
+- i want to talk to an {@agentML=agent}
+- i want to talk to the {@agentML=operator}
+- i would like to {@agentML=speak to someone}
+- is a live {@agentML=agent} available
+- let me speak to a {@agentML=representative}
+- let me talk to a {@agentML=rep}
+- let me talk to the {@agentML=operator}
+- live {@agentML=person}
+- {@agentML=live rep}
+- {@agentML=manager}
+- {@agentML=manager} please
+- may i speak to a {@agentML=real person}?
+- {@agentML=operator}
+- {@agentML=person}
+- {@agentML=pharmacist}
+- please connect me to a {@agentML=human}
+- please connect me to a {@agentML=real contact}
+- please connect me to an {@agentML=agent}
+- {@agentML=rep}
+- {@agentML=representative}
+- {@agentML=representatives}
+- {@agentML=representatives}.
+- {@agentML=respresentative}
+- {@agentML=speak 2} a person
+- {@agentML=speak to}
+- speak to a {@agentML=representative}
+- {@agentML=speak to manager}
+- {@agentML=speak to someone}
+- {@agentML=speak with}
+- {@agentML=speak with somebody}
+- {@agentML=speak with someone}
+- {@agentML=talk to}
+- talk to an {@agentML=agent}
+- {@agentML=talk to somebody}
+- {@agentML=talk to someone}
+- {@agentML=talk with somebody}
+- {@agentML=talk with someone}
+- transfer me to a {@agentML=representative}
+- transfer me to an {@agentML=agent}
+- want {@agentML=talk to a rep}
+- {@agentML={@negativeSentimentML=you piece of s***t}}
+- {@agentML}
+
+
+@ intent agent usesFeature agentML
+
+# dontKnowResponse
+- card was lost
+- card was robbed
+- {@classifierDontKnowML=don't}
+- {@classifierDontKnowML=don't have it}
+- {@classifierDontKnowML=don't know}
+- {@classifierDontKnowML=dont know}
+- hmm, i {@classifierDontKnowML=don't have} the member's id
+- hmm, member id, {@classifierDontKnowML=not sure} what that is
+- how do i find it
+- i am not giving you my social security number
+- i am {@classifierDontKnowML=not sure} what is the zip code
+- i am trying to enroll for health care
+- i {@dontKnowML=can't read it}
+- i can't tell you my ssn
+- {@dontKnowML=i do not have 1}
+- i {@dontKnowML=do not have} my member id
+- i don't give my social
+- i {@dontKnowML=don't have 1}
+- i {@dontKnowML=don't have 1} i'm trying 2 join
+- i don't have insurance yet
+- i {@classifierDontKnowML=don't have it} on me
+- i {@dontKnowML={@classifierDontKnowML=don't have it}}. i hadn't got the cards
+- i {@dontKnowML=don't have} the card yet
+- i {@classifierDontKnowML=don't know}
+- i {@classifierDontKnowML=don't know} my member id
+- i {@classifierDontKnowML=don't remember}
+- {@classifierDontKnowML=i don’t know} what you are asking
+- i {@classifierDontKnowML=don’t remember} the zipcode
+- i {@classifierDontKnowML=dont know}
+- i {@classifierDontKnowML=dont know} my member id
+- i {@classifierDontKnowML=dont know} the date of birth
+- i {@classifierDontKnowML=dont remember}
+- i just enrolled i {@dontKnowML=don't have} a member id i have a group number
+- it's what i'm calling about my member id
+- new member
+- not a member
+- sorry {@dontKnowML=it is not with me} right now
+- yeah no id yet
+
+
+@ intent dontKnowResponse usesFeature dontKnowML
+
+# getFirstName
+- {@firstNameML=benila}
+- {@firstNameML=collin} bryan
+- {@firstNameML=dakota}
+- first name is {@firstNameML=shanessa}
+- {@firstNameML=heidy}
+- i am {@firstNameML=dakota}
+- i am {@firstNameML=gabriel}
+- it is april
+- it is heidy
+- it is {@firstNameML=paris}
+- it is {@firstNameML=rachel}
+- it's {@firstNameML=june}
+- {@firstNameML=johnson}
+- {@firstNameML=joudie}
+- {@firstNameML=junie}
+- {@firstNameML=kumar}
+- {@firstNameML=mahesh}
+- {@firstNameML=mark harmon}
+- my first name is dakota
+- my first name is {@firstNameML=javier}
+- my first name is {@firstNameML=may}
+- my name is {@firstNameML=april}
+- my name is {@firstNameML=august}
+- my name is bob
+- my name is {@firstNameML=joey}
+- my name is {@firstNameML=june}
+- my name is {@firstNameML=junie}
+- my name is {@firstNameML=may}
+- my name is terrence
+- {@firstNameML=ramesh}
+- {@firstNameML=siva}
+- {@firstNameML=sowmya}
+- {@firstNameML=teresa}
+- {@firstNameML=theresa}
+- they call me {@firstNameML=terry}
+- try {@firstNameML=rodney}
+- uh, {@firstNameML=jim dennis}.
+
+
+@ intent getFirstName usesFeatures personName,firstNameML
+
+# getMemberBirthday
+- {@dateML=01 01 two thousand eighteen}
+- {@dateML=01-11-2014}
+- {@dateML=0101 2014}
+- {@dateML=0224 1998}
+- {@dateML=03 221987}
+- {@dateML=040974}
+- {@dateML=050808}
+- {@dateML=08 05 2008}
+- {@dateML=0805 20 08}
+- {@dateML=0805 2008}
+- {@dateML=09 2374}
+- {@dateML=10 12 1989}
+- {@dateML=10061955}
+- {@dateML=11 1 1945}
+- {@dateML=11 11 1980}
+- {@dateML=11 11 22}
+- {@dateML=11 142000}
+- {@dateML=11 6 1974}
+- {@dateML=112014}
+- {@dateML=1127 1968}
+- {@dateML=12 10 76}
+- {@dateML=12th august 1954}
+- {@dateML=15th aug 1947}
+- {@dateML=15th aug 2002}
+- {@dateML=19-02-1976}
+- {@dateML=1970-19-07}
+- {@dateML=1984 january 1}
+- {@dateML=1984 october 01}
+- {@dateML=2 9 68}
+- 2005 may 31st
+- {@dateML=2022 jan 18}
+- {@dateML=221} {@dateML=nineteen} {@dateML=47}
+- {@dateML=221 nineteen 62}
+- {@dateML=2365}
+- {@dateML=31793}
+- {@dateML=49174}
+- {@dateML=5 808}
+- {@dateML=5062014}
+- {@dateML=511 2008}
+- {@dateML=514 nineteen 75}
+- {@dateML=622 1972}
+- {@dateML=7 121968}
+- {@dateML=8 22 63}
+- {@dateML=8 5 66} is my birthday
+- {@dateML=86 july 10th}
+- {@dateML=8th of november 98}
+- {@dateML=9 192004}
+- {@dateML=9 november 19 48}
+- {@dateML=97 december 5th}
+- {@dateML=april 1 1925}
+- {@dateML=aug 8 2008}
+- birthdate is {@dateML=1989 04 01}
+- birthdate is {@dateML=4578}
+- birthday {@dateML=december 25 2009}
+- birthday is {@dateML=12 23 77}
+- birthday is {@dateML=1984 01 1}
+- birthday is {@dateML=5 6 77}
+- birthday is {@dateML=69 3 02}
+- birthday is {@dateML=february 11 1963}
+- birthday is on {@dateML=1964 7 07}
+- birthday is on {@dateML=august 21 1992}
+- birthday is {@dateML=seventeenth of october 77}
+- born on {@dateML=41290}
+- date of birth is {@dateML=june 5 1956}
+- eleven {@dateML=2882}
+- i was born on {@dateML=1984 1 1}
+- i was born on the {@dateML=fourth of july}
+- it is {@dateML=3 5 68}
+- it is on the {@dateML=fourteenth of december 56}
+- {@dateML=jan 18 2022}
+- {@dateML=june 6 1959}
+- my birthday is {@dateML=10 may 2001}
+- my birthday is {@dateML=112008}
+- my birthday is {@dateML=4 16 82}
+- my birthday is {@dateML=may 2 1956}
+- my birthday is on {@dateML=69 2 3}
+- my d o b is {@dateML=june 6 1967}
+- my date of birth is {@dateML=july 6 1980}
+- no {@dateML=january 5th twenty ten}
+- {@dateML=november 30 1999}
+- {@dateML=september 17 1972} is my birthday
+- {@dateML=september 22 1998}
+- {@dateML=sixth of january 21}
+- ten {@dateML=1156}
+- {@dateML=tenth of october 55}
+- the birthday is {@dateML=december 1 1980}
+- the birthday is {@dateML=november 1 1980}
+- the d o b is {@dateML=march 6 1931}
+- the date is {@dateML=october 6 1955}
+- the date of birth is {@dateML=may 5 70}
+- {@dateML=twenty fifth of may 48}
+- {@dateML=twenty-one may 90}
+- {@dateML=twentyfirst of december 69}
+- {@dateML=twentyfirst of february 06}
+- yeah, it’s {@dateML=september 1, 1970}
+
+
+@ intent getMemberBirthday usesFeatures datetimeV2,dateML
+
+# getMemberID
+- {@alphaNumericML=000l6rcft} is my id
+- {@alphaNumericML=0869467 54}
+- 1160 is the last 4 of my ssn
+- {@alphaNumericML=12 45698 14}
+- 123-34-5678 is my ssn
+- 123-45-9874
+- 123-78-4569 is my ssn
+- {@alphaNumericML=1231231}
+- 1234
+- {@alphaNumericML=1234 3342 34} is my id
+- {@alphaNumericML=123449567}
+- {@alphaNumericML=12345678}
+- {@alphaNumericML=123g5678}
+- {@alphaNumericML=133 843249}
+- {@alphaNumericML=141 26 40 70}
+- 1980
+- {@alphaNumericML=1a 14q3112}
+- 2005
+- 2210 is the last 4 ssn
+- 231543454 is the number
+- {@alphaNumericML=241 27 1706}
+- {@alphaNumericML=249 39 0560}
+- {@alphaNumericML=3 20 1 40 2 8060 8}
+- {@alphaNumericML=303 23 1440}
+- 3425
+- {@alphaNumericML=345677}
+- {@alphaNumericML=43216785 9}
+- {@alphaNumericML=432a45632}
+- {@alphaNumericML=54 838616}
+- {@alphaNumericML=5432876a}
+- 5626
+- 5654
+- {@alphaNumericML=56g54678}
+- 654-76-9873
+- {@alphaNumericML=654325711} is my member id
+- {@alphaNumericML=704335}
+- {@alphaNumericML=765h678904}
+- {@alphaNumericML=76854h654}
+- {@alphaNumericML=787654 789}
+- {@alphaNumericML=789 45 1 111}
+- {@alphaNumericML=820640}
+- 828-21-4698
+- 8432
+- {@alphaNumericML=8765k98}
+- {@alphaNumericML=8767543678}
+- {@alphaNumericML=87694w54}
+- {@alphaNumericML=876a8432}
+- {@alphaNumericML=878654536789}
+- {@alphaNumericML=916194}
+- {@alphaNumericML=932674}
+- 9552
+- {@alphaNumericML=9621 95555}
+- {@alphaNumericML=97 17 64043}
+- {@alphaNumericML=98 4 38 7205}
+- 984-56-7415 please use this
+- 9845
+- {@alphaNumericML=9874444124}
+- {@alphaNumericML=9876547689432}
+- {@alphaNumericML=9876rte t}
+- {@alphaNumericML=a456 765 54}
+- {@alphaNumericML=a45654367}
+- alright {@alphaNumericML=456987001}
+- {@alphaNumericML=b 78324356}
+- {@alphaNumericML=c 12345678}
+- {@alphaNumericML=f4537689}
+- got it {@alphaNumericML=5px4je4k}
+- here is my id {@alphaNumericML=654325711}
+- here it is {@alphaNumericML=558336654}
+- {@alphaNumericML=hp 598386}
+- {@alphaNumericML=hp532524}
+- {@alphaNumericML=hp586760}
+- {@alphaNumericML=i 43543679}
+- i can tell u my id {@alphaNumericML=12345678}
+- i think it is {@alphaNumericML=987444124}
+- id is {@alphaNumericML=k6071039}
+- id number {@alphaNumericML=1234 56789}
+- is {@alphaNumericML=225 660902}
+- it is {@alphaNumericML=42252 20 507}
+- it is {@alphaNumericML=567278452}
+- it is 6547
+- it is {@alphaNumericML=oho408m9}
+- it's {@alphaNumericML=123748990}
+- {@alphaNumericML=k 1234 456}
+- {@alphaNumericML=k 12c45d78}
+- {@alphaNumericML=k 76548790}
+- last 4 social is 1212
+- last 4 ssn is 9854
+- last four digit ssn is 5401
+- member id is {@alphaNumericML=0011 910271}
+- member is {@alphaNumericML=ncf933a5}
+- member number {@alphaNumericML=a12345678}
+- member number is {@alphaNumericML=123123456}
+- my id is {@alphaNumericML=4543 5y678}
+- my ssn is 788-76-3409
+- {@alphaNumericML=n 12c45d78}
+- {@alphaNumericML=o 83452348}
+- ok {@alphaNumericML=567 7654 6f5}
+- ok it is {@alphaNumericML=345789812}
+- ok member number is {@alphaNumericML=98 78 61 777 800}
+- ok the ssn is 476-68-1867
+- please note {@alphaNumericML=77400r01}
+- please use 789-45-1234
+- {@alphaNumericML=q2asdfrtu}
+- {@alphaNumericML=r 12c45d78}
+- {@alphaNumericML=r 87659870}
+- {@alphaNumericML=r5678976}
+- social security number is 406-13-3745
+- the number is {@alphaNumericML=963852713}
+- this is it {@alphaNumericML=7pe4uf3u}
+- try {@alphaNumericML=trdfyui9m}
+- {@alphaNumericML=tty65438} is my id
+- {@alphaNumericML=u9336789}
+- uh {@alphaNumericML=5425 64254 1790 4}
+- uh it is {@alphaNumericML=53984440601}
+- umm my member id is umm is {@alphaNumericML=1230 366 22}
+- {@alphaNumericML=w215547 a}
+- {@alphaNumericML=w232566764}
+- well {@alphaNumericML=096 50 40 1 80 1}
+- {@alphaNumericML=y 12c45d78}
+- yeah {@alphaNumericML=180329181}
+- yes umm it's {@alphaNumericML=5305000 90 4}
+
+
+@ intent getMemberID usesFeatures alphaNumericMIDRegEx,SSN9DigitsRegEx,SSNLastFourRegEx,alphaNumericML
+
+# getPhoneNumber
+- 112-895-4894 you can contact me anytime
+- 123-354-3423
+- 123-456-8790
+- 295-167-7880
+- 456-789-0123 is my phone number
+- 517-480-1431
+- 529-092-8430
+- 531-073-3204 this is my number
+- 555-234-9876
+- 740-506-2400
+- 791-111-5547
+- hmm my number is 763-512-6123
+- my cell number is 403-408-7342
+- yeah it is 123-354-3423
+- yeah it is 456-456-1234
+- yes my contact info is 609-278-7690
+
+
+@ intent getPhoneNumber usesFeature phoneNumberRegEx
+
+# getZipcode
+- 01002
+- {@dateML=05808}
+- 123 45 is my zipcode
+- 20503
+- 234 56 is the correct zip
+- 34582
+- 45432
+- 56876
+- 60440
+- 76587
+- 85634
+- 85745
+- 86314
+- can you check for this code 42995
+- can you search for postal code 78531
+- check for 12345
+- it is 02019
+- it is 34589.
+- it's 45862
+- kindly check for 96615
+- my zip code is 86314
+- please use 78945 for my zip
+- search for 32353
+- the {@yesML=correct} zip is 34 45 6
+
+
+@ intent getZipcode usesFeature zipCodeRegEx
+
+# goodbye
+- {@goodbyeML=all my questions answered}
+- {@goodbyeML=au revoir}
+- {@goodbyeML=bye}
+- {@goodbyeML=bye bye}
+- {@goodbyeML=disconnect call}
+- {@goodbyeML=end the call}
+- {@goodbyeML=for now, that's all}
+- {@goodbyeML=good night}
+- {@goodbyeML=goodbye}
+- {@goodbyeML=hasta la vista}
+- have a nice day
+- i {@goodbyeML=don't need anything else}
+- {@goodbyeML=i'm done}
+- {@goodbyeML=i'm good maybe later}
+- {@goodbyeML=it's all for now}
+- {@goodbyeML=maybe another time}
+- {@goodbyeML=next time}
+- no, {@goodbyeML=bye}
+- {@goodbyeML=no, thank you}.
+- {@goodbyeML=not now}{@goodbyeML=, thank you}
+- {@goodbyeML=see you later}
+- {@goodbyeML=so long}
+- {@goodbyeML=thank you}
+- {@goodbyeML=thank you so much}
+- {@goodbyeML=thanks}
+- {@goodbyeML=thanks, maybe another time}
+- thanks, {@goodbyeML=that's all}
+- {@goodbyeML=that'll do it}
+- {@goodbyeML=that's all}
+- {@goodbyeML=that's all for now}
+- {@goodbyeML=that's it for now}
+- you were a great help, see you
+
+
+@ intent goodbye usesFeature goodbyeML
+
+# None
+- head north
+- how tall are you
+- sun rises in the east
+- watermelon
+- what color is the sky
+
+
+# noResponse
+- {@noML=absolutely not}
+- address is {@noML=not correct}
+- address is {@noML=not right}
+- {@noML=definitely not}
+- i already told you {@noML=no}
+- {@noML=i said no}
+- looks like {@noML=something went wrong}
+- {@noML=nah}
+- {@noML=negative}
+- {@noML=never}
+- {@noML=never mind}
+- {@noML=nevermind}
+- {@noML=no}
+- {@noML=no} i am calling as subscriber
+- {@noML=no} i am fine
+- {@noML=no} my address is wrong
+- {@noML=no} other help i need
+- {@noML=no} thanks
+- {@noML=nope}
+- {@noML=not} provider
+- {@noML=not right now}
+- {@noML=not this time}
+- {@noML=not today}
+- {@noML=nothing}
+- {@noML=skip}
+- that is wrong
+- that's a {@noML=no from me}
+- the answer is {@noML=no}
+- {@noML=wrong one}
+- you have the {@noML=wrong address}
+
+
+@ intent noResponse usesFeature noML
+
+# pause
+- {@pauseML=1 minute}
+- alright, {@pauseML=hold on}
+- can you {@pauseML=wait for a while}
+- {@goodbyeML=few more minutes} please
+- {@pauseML=freeze}
+- {@pauseML=give me a few minutes}
+- {@pauseML=give me a second} please
+- {@pauseML=give me sometime}
+- {@pauseML=hang on}
+- {@pauseML=hang on 1 second}
+- {@pauseML=hang on}, i gotta get that
+- {@pauseML=hold on}
+- {@pauseML=hold on a minute}
+- {@pauseML=hold} please
+- i am {@pauseML=not ready}
+- i am {@pauseML=still looking} for a pen
+- i can't find a paper to write on
+- i don't have a pencil
+- i dont have a pen
+- i have to check, {@pauseML=one moment} please
+- i {@pauseML=need more time}
+- {@pauseML=just a moment}
+- {@pauseML=just a second}
+- {@pauseML=let me find it}
+- {@pauseML=more time}
+- {@pauseML=need some time}
+- no {@pauseML=wait for a minute}
+- no, {@pauseML=wait}.
+- {@pauseML=not ready} yet
+- {@pauseML=not yet}.
+- now, {@pauseML=let me find} a pen
+- {@pauseML=one sec}
+- one second
+- {@pauseML=pause}
+- {@pauseML=please hold}
+- searching, {@pauseML=give me moment} please
+- uh {@pauseML=just a minute}
+- umm {@pauseML=1 minute}
+- {@pauseML=wait}
+- {@pauseML=wait a moment}
+- yeah {@pauseML=just a sec}
+- yeah, yeah. {@pauseML=wait a minute}.
+- {@yesML=yes} {@pauseML=one sec}
+
+
+@ intent pause usesFeature pauseML
+
+# repeat
+- {@repeatML=again}
+- can you please repeat
+- can you please {@repeatML=say that again}
+- can you {@repeatML=repeat} that
+- come again?
+- could you {@repeatML=repeat} that please
+- didn't get that
+- {@repeatML=excuse me}
+- i did not hear your question
+- i didn't hear you, {@repeatML=say again}?
+- i don't understand, please {@repeatML=repeat}
+- i want to {@repeatML=listen to it once more}
+- {@repeatML=i'm sorry i didn't hear}
+- please {@repeatML=repeat} that
+- {@repeatML=repeat}
+- {@repeatML=repeat it}
+- {@repeatML=say again} please
+- {@repeatML=say that again}
+- sorry couldn't catch that
+- {@repeatML=tell me that number again}
+- what are you talking about?
+- what did you say?
+- what do you mean
+- what number?
+- {@repeatML=what was that}
+- what?
+
+
+@ intent repeat usesFeature repeatML
+
+# YesResponse
+- {@yesML=absolutely}
+- {@yesML=affirmative}
+- {@yesML=alright}
+- {@yesML=cool}
+- {@yesML=correct}
+- {@yesML=definitely}
+- {@yesML={@readyML=i found it}}
+- i got the member id
+- {@yesML={@readyML=i'm ready}}
+- {@yesML=ok}
+- {@yesML=okay}
+- {@yesML=perfect}
+- {@yesML={@readyML=ready, go ahead}}
+- {@yesML=right that is it}
+- {@yesML=sure}
+- {@yesML=sure go ahead}
+- {@yesML=that is correct}
+- {@yesML=that is correct} sir
+- {@yesML=that's it}
+- {@yesML=that's right}
+- {@yesML=undoubtedly}
+- {@yesML=why not}
+- {@yesML=ya}
+- {@yesML=yah}
+- {@yesML=yea}
+- {@yesML=yeah}
+- {@yesML=yeah}, provider
+- {@yesML=yep}
+- {@yesML=yep, yep}
+- {@yesML=yes}
+- {@yesML=yes and i need more help}
+- {@yesML=yes} go ahead
+- {@yesML=yes please} send it across
+- {@yesML=yes} thank you
+- {@yesML=yes} this is my number
+- {@yesML=yes}, provider
+- {@yesML=yes}, uhm so.
+- {@yesML=yup}
+- {@yesML=yup}, of course
+
+
+@ intent YesResponse usesFeature yesML
+
+> # Entity definitions
+
+@ ml agentML usesFeature agentFeature
+    - @ ml negativeSentimentML usesFeature negativeSentimentFeature
+
+
+@ ml alphaNumericML usesFeature alphaNumericMIDRegEx
+
+@ ml classifierDontKnowML usesFeatures dontKnowFeature,dontKnowMIDFeature
+
+@ ml dateML usesFeature datetimeV2
+
+@ ml dontKnowML usesFeature classifierDontKnowML*
+
+@ ml firstNameML usesFeature personName
+
+@ ml goodbyeML usesFeature goodbyeFeature
+
+@ ml noML usesFeature noFeature
+
+@ ml pauseML usesFeature pauseFeature
+
+@ ml repeatML usesFeature repeatFeature
+
+@ ml yesML usesFeature yesFeature
+    - @ ml readyML usesFeature readyFeature
+
+
+
+> # PREBUILT Entity definitions
+
+@ prebuilt datetimeV2 hasRole birthday
+
+@ prebuilt personName
+
+
+> # Phrase list definitions
+
+@ phraselist monthDigitsFeature disabledForAllModels = 
+	- 1,2,3,4,5,6,7,8,9,01,02,03,04,05,06,07,08,09,10,11,12,0 1,0 2,0 3,0 4,0 5,0 6,0 7,0 8,0 9,1 0,1 1,1 2,one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve
+
+@ phraselist yearWordDigitComboFeature disabledForAllModels = 
+	- nineteen 20,nineteen 21,nineteen 22,nineteen 23,nineteen 01,nineteen 02,nineteen 03,nineteen 04,nineteen 47,nineteen 91,nineteen 62,nineteen 85,nineteen 59,nineteen 05,nineteen 99,nineteen 98,nineteen 97,nineteen 96,nineteen 95,nineteen 94,nineteen 93,nineteen 92,nineteen 90,nineteen 89,two thousand 1,two thousand 2,two thousand 3,two thousand 4,two thousand 5,two thousand 6,two thousand 7,two thousand 8,two thousand 9,two thousand 10,two thousand 20,two thousand 21,two thousand 22,two thousand 23,two thousand 24,two thousand 11,two thousand 12,two thousand 13,two thousand 14,two thousand 15,two thousand 16,two thousand 17,two thousand 18,two thousand 19
+
+@ phraselist dayDigitsFeature disabledForAllModels = 
+	- 1,2,3,4,5,6,7,8,9,01,02,03,04,05,06,07,08,09,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve,thirteen,fourteen,fifteen,sixteen,seventeen,eighteen,nineteen,twenty,twenty one,twenty two,twenty three,twenty four,twenty five,twenty six,twenty seven,twenty eight,twenty nine,thirty,thirty one
+
+@ phraselist goodbyeFeature(interchangeable) disabledForAllModels = 
+	- goodbye,good bye,bye,hasta la vista,au revoir,so long,all done,done,thanks,thank you,that's it,good night,see ya
+
+@ phraselist agentFeature(interchangeable) disabledForAllModels = 
+	- agent,pharmacist,talk to someone,speak with someone,talk to somebody,speak with somebody,customer service representative,customer service,live rep,advisor,advocate,rep,manager,person,representative,human,csr,operator,representatives,real contact,speak to someone,consultant,human being,associate,specialist,supervisor,actual person,live person,associates,agents,give me a rep,customer relations,assistant,somebody,no robot,speak 2
+
+@ phraselist yesFeature(interchangeable) disabledForAllModels = 
+	- yes,correct,yeah,yup,ya,why not,thats right,you got it,what s up,right,yep,yea
+
+@ phraselist noFeature(interchangeable) disabledForAllModels = 
+	- no,nothing,incorrect,nope,never mind,no way,noway,that's all,cancel,not,wrong,skip
+
+@ phraselist repeatFeature(interchangeable) disabledForAllModels = 
+	- repeat,say that again,one more time,once again,once more,say what,go over it again,didn't hear you,can't hear you,couldn't catch that,did not catch that,what do you mean,please say again,listen once more,didn't get that,tell me again,repeat it,repeat again
+
+@ phraselist pauseFeature(interchangeable) disabledForAllModels = 
+	- pause,freeze,hold on,wait,one minute,give me some time,just a moment,hang on,more time,please give me a moment,one second,one moment,just a minute,i need some time,i need more time,can i have some time,i want some time,can i have more time
+
+@ phraselist dontKnowFeature(interchangeable) disabledForAllModels = 
+	- dont know,don't know,dont remember,don't remember,cant remember,can't remember,don't have it,dont have it,don't really know,i do not know,do not remember,do not have it,cant get it,can't get it,cannot remember,i don't know,can't find it,don't have one,can't recall,cant recall,cannot recall,do not know,done have 1,not received,not received 1
+
+@ phraselist readyFeature(interchangeable) disabledForAllModels = 
+	- ready,found it,got it
+
+@ phraselist dontKnowMIDFeature(interchangeable) disabledForAllModels = 
+	- lost card,stolen card,card is lost,card is stolen,card was robbed,lost my wallet,card is missing,misplaced id card,id card is lost,id card is torn,card is not legible,unable to read card,new member,no card,no id
+
+@ phraselist negativeSentimentFeature(interchangeable) disabledForAllModels = 
+	- **,***,****,*****,******,*******,*********,********,stupid,shit,hell,damn it,bloody hell,you piece of,fuck,fuck you,asshole,ass,oh god,oh man,o man
+
+
+> # List entities
+
+> # RegEx entities
+
+@ regex alphaNumericMIDRegEx = /(?=.*[0-9].*)([0-9a-zA-Z]( *)){5,12}[0-9a-zA-Z](?<=.*[0-9].*)/
+@ regex phoneNumberRegEx = /\d{3} *- *\d{3} *- *\d{4}/
+@ regex SSN9DigitsRegEx = /\d{3} *- *\d{2} *- *\d{4}/
+@ regex SSNLastFourRegEx = /(?<!\d+ *-? *)\d{4}(?! *-? *\d+)/
+@ regex zipCodeRegEx = /(?<![0-9]+ )([0-9]){5}(?! [0-9]+ )/
+

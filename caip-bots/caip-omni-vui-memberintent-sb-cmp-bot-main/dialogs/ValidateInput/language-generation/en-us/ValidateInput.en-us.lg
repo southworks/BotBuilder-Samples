@@ -1,0 +1,32 @@
+[import](common.lg)
+
+# SendActivity_e8r6Qi()
+[Activity
+    Text = ${SendActivity_e8r6Qi_text()}
+]
+
+# SendActivity_e8r6Qi_text()
+- validationResult: ${string(dialog.validationResult)}
+# SendActivity_YdYYhL()
+[Activity
+    Text = ${SendActivity_YdYYhL_text()}
+]
+
+# SendActivity_YdYYhL_text()
+- accountUpdateML
+# SendActivity_6zi1wP()
+[Activity
+    Text = ${SendActivity_6zi1wP_text()}
+]
+
+# SendActivity_6zi1wP_text()
+- inputValidated: ${dialog.inputValidated}
+# SendActivity_SYBgyy()
+[Activity
+    Text = ${SendActivity_SYBgyy_text()}
+]
+
+# SendActivity_SYBgyy_text()
+- ```ValidateInput
+nextPrompt: ${conversation.flowState.flowNextPrompt}
+previousPrompt: ${conversation.flowState.flowPreviousPrompt}```

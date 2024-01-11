@@ -1,0 +1,116 @@
+> !# @Namespace=NoUserInput
+> !# @Exports = SendActivity_noInputAskDOS,SendActivity_noInputAskDateRange,SendActivity_noInputAskSupMed,SendActivity_noInputAskSupMedRx,SendActivity_noInputAskDualPolicyDynamicQuestion
+[import](common.lg)
+
+# SendActivity_noInputAskDOS()
+[Activity
+    Text = ${noInputAskDOSTemplate()}
+    Speak = ${noInputAskDOSTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: true,
+            sttProvider: settings.dobSTTProvider,
+            dtmfCollectMaxDigits: 8,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfTimeoutMSForDOB
+        }
+    }
+}
+]
+
+# noInputAskDOSTemplate()
+- I'm still listening What's the date of service?
+
+# SendActivity_noInputAskDateRange()
+[Activity
+    Text = ${noInputAskDateRangeTemplate()}
+    Speak = ${noInputAskDateRangeTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            dtmfCollectMaxDigits: 1,
+            sttSpeechContexts: [{"phrases":["current"]},{"phrases":["past"]},{"phrases":["future"]}]
+        }
+    }
+}
+]
+
+# noInputAskDateRangeTemplate()
+- I'm still listening. Are you inquiring about your current, recent past or future coverage?
+
+# SendActivity_noInputAskSupMed()
+[Activity
+    Text = ${noInputAskSupMedTemplate()}
+    Speak = ${noInputAskSupMedTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            dtmfCollectMaxDigits: 1
+        }
+    }
+}
+]
+
+# noInputAskSupMedTemplate()
+- IF: ${conversation.callerType == "provider"}
+    - I'm still listening. Are you calling about this member's AARP supplement plan?
+- ELSE:
+    - I'm still listening. Are you calling about your AARP supplement plan?
+
+# SendActivity_noInputAskSupMedRx()
+[Activity
+    Text = ${noInputAskSupMedRxTemplate()}
+    Speak = ${noInputAskSupMedRxTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            dtmfCollectMaxDigits: 1
+        }
+    }
+}
+]
+
+# noInputAskSupMedRxTemplate()
+- I'm still listening. Which plan are you inquiring about: AARP Supplement, Prescription Drug or Something Else?
+
+# SendActivity_noInputAskDualPolicyDynamicQuestion()
+[Activity
+    Text = ${noInputAskDualPolicyDynamicQuestionTemplate()}
+    Speak = ${noInputAskDualPolicyDynamicQuestionTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            dtmfCollectMaxDigits: 1
+        }
+    }
+}
+]
+
+# noInputAskDualPolicyDynamicQuestionTemplate()
+- I'm still listening. Which of the following are you inquiring about ${conversation.multiplePolicyReadOut}?
+

@@ -1,0 +1,52 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "Mq7Zky",
+    "name": "CheckZIPAuthToggle",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "2cStOk"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "1JvT67"
+          },
+          "condition": "=conversation.tfnConfig.ZIPAuthenticationToggle == \"ON\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "AohpV7"
+              },
+              "activityProcessed": true,
+              "dialog": "ZIPInputDialog"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "D4Dh2e"
+              },
+              "activityProcessed": true,
+              "dialog": "CallerLookupDialog"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "CheckZIPAuthToggle.lg",
+  "recognizer": "CheckZIPAuthToggle.lu.qna",
+  "id": "CheckZIPAuthToggle"
+}

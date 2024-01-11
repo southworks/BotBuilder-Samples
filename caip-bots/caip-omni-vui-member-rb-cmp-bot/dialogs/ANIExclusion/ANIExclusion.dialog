@@ -1,0 +1,71 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "BjvVeD",
+    "name": "ANIExclusion",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "QCzFmm"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "va5PII"
+          },
+          "condition": "=equals(conversation.tfnConfig.Root_ANI_Exclusion_Toggle,\"OFF\")",
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "eARUYK"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "memberRoot_ANIExclusion_OFFToggle",
+                "pegType": "General",
+                "request": "",
+                "response": "",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MemberRootBot_ANIExclusion_OFFToggle_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "uf7BcS"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.IDType",
+                  "value": "='ANI'"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "YqL99m"
+          },
+          "property": "conversation.currentTrigger",
+          "value": "='araConversationManager'"
+        }
+      ]
+    }
+  ],
+  "generator": "ANIExclusion.lg",
+  "recognizer": "ANIExclusion.lu.qna",
+  "id": "ANIExclusion"
+}

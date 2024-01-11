@@ -1,0 +1,615 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "FZpfhn",
+    "name": "DTMFDialog",
+    "comment": "DTMFDialog"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "bBjPtw"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "BQSfnW"
+          },
+          "condition": "=dialog.value",
+          "cases": [
+            {
+              "value": "0",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "G55DZS"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "AgentDialog"
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.SwitchCondition",
+              "$designer": {
+                "id": "Y96AWa"
+              },
+              "condition": "=conversation.inputVal",
+              "cases": [
+                {
+                  "value": "askDOS",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "7KUP21"
+                      },
+                      "condition": "=and(length(string(dialog.value))==8,isMatch(dialog.value, \"^(((0[13-9]|1[012])[-\\/]?(0[1-9]|[12][0-9]|30)|(0[13578]|1[02])[-\\/]?31|02[-\\/]?(0[1-9]|1[0-9]|2[0-8]))[-\\/]?[0-9]{4}|02[-\\/]?29[-\\/]?([0-9]{2}(([2468][048]|[02468][48])|[13579][26])|([13579][26]|[02468][048]|0[0-9]|1[0-6])00))$\"))",
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "8Ayx9o"
+                          },
+                          "activityProcessed": true,
+                          "options": {
+                            "input": "dtmf",
+                            "fromDialogName": "DTMF"
+                          },
+                          "dialog": "NoMatchInput"
+                        }
+                      ],
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "wnWyLs"
+                          },
+                          "property": "conversation.dos",
+                          "value": "=concat(substring(dialog.value, 4, 4),\"-\",substring(dialog.value,0,2),\"-\",substring(dialog.value,2,2))"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "seC4HZ"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "ValidateDOS",
+                          "options": {
+                            "fromDialogName": "DTMF"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "value": "askDateRange",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "smxwQ1"
+                      },
+                      "condition": "=length(string(dialog.value))==1",
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "ZMs5Hz"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "NoMatchInput",
+                          "options": {
+                            "fromDialogName": "DTMF"
+                          }
+                        }
+                      ],
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SwitchCondition",
+                          "$designer": {
+                            "id": "FzU69p"
+                          },
+                          "condition": "dialog.value",
+                          "cases": [
+                            {
+                              "value": "1",
+                              "actions": [
+                                {
+                                  "$kind": "Microsoft.SetProperty",
+                                  "$designer": {
+                                    "id": "0W0ZUf"
+                                  },
+                                  "property": "conversation.policy_DateRange",
+                                  "value": "CURRENT,PAST,FUTURE"
+                                }
+                              ]
+                            },
+                            {
+                              "value": "2",
+                              "actions": [
+                                {
+                                  "$kind": "Microsoft.SetProperty",
+                                  "$designer": {
+                                    "id": "F4L16n"
+                                  },
+                                  "property": "conversation.policy_DateRange",
+                                  "value": "PAST,CURRENT,FUTURE"
+                                }
+                              ]
+                            },
+                            {
+                              "value": "3",
+                              "actions": [
+                                {
+                                  "$kind": "Microsoft.SetProperty",
+                                  "$designer": {
+                                    "id": "n6KEgd"
+                                  },
+                                  "property": "conversation.policy_DateRange",
+                                  "value": "FUTURE,CURRENT,PAST"
+                                }
+                              ]
+                            }
+                          ],
+                          "default": [
+                            {
+                              "$kind": "Microsoft.BeginDialog",
+                              "$designer": {
+                                "id": "4gkKcb"
+                              },
+                              "activityProcessed": true,
+                              "dialog": "NoMatchInput",
+                              "options": {
+                                "fromDialogName": "DTMF"
+                              }
+                            },
+                            {
+                              "$kind": "Microsoft.EndDialog",
+                              "$designer": {
+                                "id": "T7q9w8"
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "iiX5Os"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "=MainDialog.PegVal(conversation.inputVal)",
+                            "pegType": "UserInput",
+                            "request": "User Input",
+                            "response": "=turn",
+                            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "=MainDialog.PegName(conversation.inputVal,\"DTMFInput\")"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "mLMd6B"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "CoverageLookup"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "value": "askSupMed",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "GMfe3y"
+                      },
+                      "condition": "=length(string(dialog.value))==1",
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "83WLwi"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "NoMatchInput",
+                          "options": {
+                            "fromDialogName": "DTMF"
+                          }
+                        }
+                      ],
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SwitchCondition",
+                          "$designer": {
+                            "id": "SGuirs"
+                          },
+                          "condition": "dialog.value",
+                          "cases": [
+                            {
+                              "value": "1",
+                              "actions": [
+                                {
+                                  "$kind": "Microsoft.BeginDialog",
+                                  "$designer": {
+                                    "id": "T2ax3O"
+                                  },
+                                  "activityProcessed": true,
+                                  "dialog": "TelemetryDialog",
+                                  "options": {
+                                    "peg": "=MainDialog.PegVal(conversation.inputVal)",
+                                    "pegType": "UserInput",
+                                    "request": "User Input",
+                                    "response": "=turn",
+                                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                                    "eventName": "=MainDialog.PegName(conversation.inputVal,\"DTMFInput\")"
+                                  }
+                                },
+                                {
+                                  "$kind": "Microsoft.SetProperties",
+                                  "$designer": {
+                                    "id": "x2iLwA"
+                                  },
+                                  "assignments": [
+                                    {
+                                      "property": "conversation.medSup",
+                                      "value": "Y"
+                                    },
+                                    {
+                                      "property": "conversation.notvalidpolicyresolved",
+                                      "value": true
+                                    },
+                                    {
+                                      "property": "conversation.onlyAARP",
+                                      "value": true
+                                    },
+                                    {
+                                      "property": "conversation.onlyRx",
+                                      "value": false
+                                    },
+                                    {
+                                      "property": "conversation.mw_policy_DOS",
+                                      "value": "=\"\""
+                                    }
+                                  ]
+                                },
+                                {
+                                  "$kind": "Microsoft.BeginDialog",
+                                  "$designer": {
+                                    "id": "QoZhJr"
+                                  },
+                                  "activityProcessed": true,
+                                  "dialog": "MembershipSearchDialog"
+                                }
+                              ]
+                            },
+                            {
+                              "value": "2",
+                              "actions": [
+                                {
+                                  "$kind": "Microsoft.BeginDialog",
+                                  "$designer": {
+                                    "id": "CKmE7G"
+                                  },
+                                  "activityProcessed": true,
+                                  "dialog": "TelemetryDialog",
+                                  "options": {
+                                    "peg": "=MainDialog.PegVal(conversation.inputVal)",
+                                    "pegType": "UserInput",
+                                    "request": "User Input",
+                                    "response": "=turn",
+                                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                                    "eventName": "=MainDialog.PegName(conversation.inputVal,\"DTMFInput\")"
+                                  }
+                                },
+                                {
+                                  "$kind": "Microsoft.SetProperty",
+                                  "$designer": {
+                                    "id": "jR7bap"
+                                  },
+                                  "property": "conversation.medSup",
+                                  "value": "N"
+                                },
+                                {
+                                  "$kind": "Microsoft.BeginDialog",
+                                  "$designer": {
+                                    "id": "70KunA"
+                                  },
+                                  "activityProcessed": true,
+                                  "dialog": "DualCoverageLookup"
+                                }
+                              ]
+                            }
+                          ],
+                          "default": [
+                            {
+                              "$kind": "Microsoft.BeginDialog",
+                              "$designer": {
+                                "id": "w9vbEd"
+                              },
+                              "activityProcessed": true,
+                              "dialog": "NoMatchInput",
+                              "options": {
+                                "fromDialogName": "DTMF"
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "value": "askSupMedRx",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "uLitbk"
+                      },
+                      "condition": "=length(string(dialog.value))==1",
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "OSFQO8"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "NoMatchInput",
+                          "options": {
+                            "fromDialogName": "DTMF"
+                          }
+                        }
+                      ],
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SwitchCondition",
+                          "$designer": {
+                            "id": "rIqW9M"
+                          },
+                          "condition": "dialog.value",
+                          "cases": [
+                            {
+                              "value": "1",
+                              "actions": [
+                                {
+                                  "$kind": "Microsoft.SetProperties",
+                                  "$designer": {
+                                    "id": "ID4vqo"
+                                  },
+                                  "assignments": [
+                                    {
+                                      "property": "conversation.medSup",
+                                      "value": "Y"
+                                    },
+                                    {
+                                      "property": "conversation.notvalidpolicyresolved",
+                                      "value": true
+                                    },
+                                    {
+                                      "property": "conversation.onlyAARP",
+                                      "value": true
+                                    },
+                                    {
+                                      "property": "conversation.onlyRx",
+                                      "value": false
+                                    },
+                                    {
+                                      "property": "conversation.mw_policy_DOS",
+                                      "value": "=\"\""
+                                    }
+                                  ]
+                                },
+                                {
+                                  "$kind": "Microsoft.BeginDialog",
+                                  "$designer": {
+                                    "id": "gwNFRP"
+                                  },
+                                  "activityProcessed": true,
+                                  "dialog": "MembershipSearchDialog"
+                                }
+                              ]
+                            },
+                            {
+                              "value": "2",
+                              "actions": [
+                                {
+                                  "$kind": "Microsoft.SetProperties",
+                                  "$designer": {
+                                    "id": "HUqzPW"
+                                  },
+                                  "assignments": [
+                                    {
+                                      "property": "conversation.medSup",
+                                      "value": "Y"
+                                    },
+                                    {
+                                      "property": "conversation.notvalidpolicyresolved",
+                                      "value": true
+                                    },
+                                    {
+                                      "property": "conversation.onlyAARP",
+                                      "value": false
+                                    },
+                                    {
+                                      "property": "conversation.onlyRx",
+                                      "value": true
+                                    },
+                                    {
+                                      "property": "conversation.mw_policy_DOS",
+                                      "value": "=\"\""
+                                    }
+                                  ]
+                                },
+                                {
+                                  "$kind": "Microsoft.BeginDialog",
+                                  "$designer": {
+                                    "id": "dGU6t1"
+                                  },
+                                  "activityProcessed": true,
+                                  "dialog": "MembershipSearchDialog"
+                                }
+                              ]
+                            },
+                            {
+                              "value": "3",
+                              "actions": [
+                                {
+                                  "$kind": "Microsoft.SetProperty",
+                                  "$designer": {
+                                    "id": "oVevlD"
+                                  },
+                                  "property": "conversation.medSup",
+                                  "value": "N"
+                                },
+                                {
+                                  "$kind": "Microsoft.BeginDialog",
+                                  "$designer": {
+                                    "id": "JKlVDO"
+                                  },
+                                  "activityProcessed": true,
+                                  "dialog": "DualCoverageLookup"
+                                }
+                              ]
+                            }
+                          ],
+                          "default": [
+                            {
+                              "$kind": "Microsoft.BeginDialog",
+                              "$designer": {
+                                "id": "3CkJ0m"
+                              },
+                              "activityProcessed": true,
+                              "dialog": "NoMatchInput",
+                              "options": {
+                                "fromDialogName": "DTMF"
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "value": "askDualPolicyDynamicQuestion",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "iItQeq"
+                      },
+                      "condition": "=length(string(dialog.value))==1",
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "Pb3bWY"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "NoMatchInput",
+                          "options": {
+                            "fromDialogName": "DTMF"
+                          }
+                        }
+                      ],
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "sRBaPF"
+                          },
+                          "value": "=where(conversation.multiplePolicyArray, x, string(x.DTMFNo)==dialog.value)",
+                          "property": "conversation.multiplepolicies"
+                        },
+                        {
+                          "$kind": "Microsoft.IfCondition",
+                          "$designer": {
+                            "id": "ruJ0n2"
+                          },
+                          "condition": "=count(conversation.multiplepolicies)>0",
+                          "elseActions": [
+                            {
+                              "$kind": "Microsoft.BeginDialog",
+                              "$designer": {
+                                "id": "8QbjCF"
+                              },
+                              "activityProcessed": true,
+                              "dialog": "NoMatchInput",
+                              "options": {
+                                "fromDialogName": "DTMF"
+                              }
+                            }
+                          ],
+                          "actions": [
+                            {
+                              "$kind": "Microsoft.SetProperties",
+                              "$designer": {
+                                "id": "icuQcK"
+                              },
+                              "assignments": [
+                                {
+                                  "property": "conversation.policyCategory",
+                                  "value": "=conversation.multiplepolicies[0].policyCategory"
+                                },
+                                {
+                                  "property": "conversation.groupNumber",
+                                  "value": "=conversation.multiplepolicies[0].groupNumber[0]"
+                                }
+                              ]
+                            },
+                            {
+                              "$kind": "Microsoft.BeginDialog",
+                              "$designer": {
+                                "id": "7pzbkB"
+                              },
+                              "activityProcessed": true,
+                              "dialog": "MembershipSearchDialog"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "default": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "7taTxE"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "NoMatchInput",
+                  "options": {
+                    "fromDialogName": "DTMF"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "DTMFDialog.lg",
+  "recognizer": "DTMFDialog.lu.qna",
+  "id": "DTMFDialog"
+}

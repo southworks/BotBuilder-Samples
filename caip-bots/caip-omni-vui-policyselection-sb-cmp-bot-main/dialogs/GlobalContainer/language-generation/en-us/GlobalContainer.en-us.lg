@@ -1,0 +1,85 @@
+> !# @Namespace=GlobalContainer
+> !# @Exports = SendActivity_PolicyMaxNoMatchMsg,SendActivity_PolicyMaxNoInputDisconnectMsg,SendActivity_PolicyMaxNoInputTransferMsg,SendActivity_PolicyAgentXferMsg
+[import](common.lg)
+
+
+# SendActivity_PolicyMaxNoMatchMsg()
+[Activity
+    Text = ${PolicyMaxNoMatchTemplate()}
+    Speak = ${PolicyMaxNoMatchTemplate()}
+    InputHint = ignoringInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: false,
+            bargeIn: false,
+            bargeInOnDTMF: false,
+            dtmfCollect: false,
+            enableSpeechInput: false
+        }
+      } 
+    }
+]
+
+# PolicyMaxNoMatchTemplate()
+- Since, we're having some trouble, let's connect with someone who can help.
+# SendActivity_PolicyMaxNoInputDisconnectMsg()
+[Activity
+    Text = ${PolicyMaxNoInputDisconnectTemplate()}
+    Speak = ${PolicyMaxNoInputDisconnectTemplate()}
+    InputHint = ignoringInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: false,
+            bargeIn: false,
+            bargeInOnDTMF: false,
+            dtmfCollect: false,
+            enableSpeechInput: false
+        }
+      } 
+    }
+]
+
+# PolicyMaxNoInputDisconnectTemplate()
+- I apologize, but I did not hear a response and have to end this call. Thank you for calling United Health Care. Goodbye. 
+# SendActivity_PolicyMaxNoInputTransferMsg()
+[Activity
+    Text = ${PolicyMaxNoInputTransferTemplate()}
+    Speak = ${PolicyMaxNoInputTransferTemplate()}
+    InputHint = ignoringInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: false,
+            bargeIn: false,
+            bargeInOnDTMF: false,
+            dtmfCollect: false,
+            enableSpeechInput: false
+        }
+      } 
+    }
+]
+
+# PolicyMaxNoInputTransferTemplate()
+- I'm not able to hear you. Why don't we connect with someone who can help.
+# SendActivity_PolicyAgentXferMsg()
+[Activity
+    Text = ${PolicyAgentXferTemplate()}
+    Speak = ${PolicyAgentXferTemplate()}
+    InputHint = ignoringInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: false,
+            bargeIn: false,
+            bargeInOnDTMF: false,
+            dtmfCollect: false,
+            enableSpeechInput: false
+        }
+      } 
+    }
+]
+
+# PolicyAgentXferTemplate()
+- Let's get someone to help.

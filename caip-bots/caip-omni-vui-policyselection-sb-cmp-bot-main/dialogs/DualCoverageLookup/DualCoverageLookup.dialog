@@ -1,0 +1,187 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "butJ6G",
+    "name": "DualCoverageLookup",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "E7ET6M"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "fchZhv"
+          },
+          "assignments": [
+            {
+              "property": "conversation.startDate",
+              "value": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")"
+            },
+            {
+              "property": "conversation.inputVal",
+              "value": "DualCoverage"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "ImMK5f"
+          },
+          "condition": "=conversation.tfnConfig.confirmMultiplePolicyToggle==\"OFF\"",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "bRbtk1"
+              },
+              "condition": "=conversation.resolveCoverageIndicator == \"M\"",
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "tRhyph"
+                  },
+                  "condition": "=conversation.tfnConfig.nicePolicySelection_Toggle==\"OFF\"",
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "R2K6N5"
+                      },
+                      "condition": "=any(conversation.memberindividualsmemberships,x,x.sourceSysCode == \"PA\")",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "yOLCqv"
+                          },
+                          "assignments": [
+                            {
+                              "value": "=where(conversation.memberindividualsmemberships,x,x.sourceSysCode == \"PA\")",
+                              "property": "conversation.multiplepolicies"
+                            },
+                            {
+                              "property": "conversation.groupNumber",
+                              "value": "=conversation.multiplepolicies[0].policyNumber"
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "fJGWxS"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "00377",
+                            "pegType": "General",
+                            "request": "",
+                            "response": "",
+                            "startDTM": "=conversation.startDate",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "PolicySelectionSkill_sourceSysCode_PA__Peg"
+                          }
+                        }
+                      ],
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "puUuKH"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "CheckMultiplePolicies"
+                        },
+                        {
+                          "$kind": "Microsoft.EndDialog",
+                          "$designer": {
+                            "id": "xRCUD0"
+                          }
+                        }
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "YWsadP"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "CheckMultiplePolicies"
+                    },
+                    {
+                      "$kind": "Microsoft.EndDialog",
+                      "$designer": {
+                        "id": "1EbTOi"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "zDVtPf"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "00381",
+                    "pegType": "General",
+                    "request": "",
+                    "response": "",
+                    "startDTM": "=conversation.startDate",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "PolicySelectionSkill_NoMultiplePolicy_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "mXLxpP"
+                  },
+                  "value": "=conversation.memberindividualsmemberships[0].policyNumber",
+                  "property": "conversation.groupNumber"
+                }
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "r6oY6I"
+              },
+              "value": "=conversation.memberindividualsmemberships[0].policyNumber",
+              "property": "conversation.groupNumber"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "boTkhC"
+          },
+          "activityProcessed": true,
+          "dialog": "MembershipSearchDialog"
+        }
+      ]
+    }
+  ],
+  "generator": "DualCoverageLookup.lg",
+  "recognizer": "DualCoverageLookup.lu.qna",
+  "id": "DualCoverageLookup"
+}

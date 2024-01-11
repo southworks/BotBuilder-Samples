@@ -1,0 +1,379 @@
+#!/usr/bin/groovy
+@Library(['com.optum.jenkins.pipeline.library@master']) _
+
+// azure login using service principal
+def azureLogin() {
+    if ("${ARM_CREDENTIAL}" != "NA") {
+        withCredentials([[
+            $class: 'UsernamePasswordMultiBinding', 
+            credentialsId: "${ARM_CREDENTIAL}", 
+            usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+                sh """
+                az login --service-principal -u $USERNAME -p $PASSWORD --tenant $ARM_TENANT_ID
+                az account set --subscription $ARM_SUBSCRIPTION
+                """
+        }
+    }
+}
+
+
+pipeline {
+    agent {
+        label 'docker-node18-slave'
+    }
+
+    environment {
+        APPLICATION_NAME = 'omni-vui-policyslct-sb' // Use the New Bot Name to deploy
+        //Default values only, overwritten in Parameters stage
+        ENVIRONMENT = 'NA'
+        ARM_CREDENTIAL = 'NA'
+        ARM_SUBSCRIPTION = 'NA'
+        TAG_VAL = 'NA'
+        PROMOTE_TAG = 'NA'
+        BOT_RESOURCES_IDS = 'NA'
+        RESOURCE_JSON = 'NA'
+        KEY_VAULT_NAME = 'NA'
+        LUIS_COGNITIVE_ACCOUNT_NAME = 'NA'
+        LUIS_APP_NAME_BASE = 'NA'
+
+        REPO_NAME = "caip-$APPLICATION_NAME"
+        NPM_AUTH_KEY = credentials('npm-auth-key')
+        NPM_EMAIL = 'optumrx_user@optum.com'
+        ARM_TENANT_ID = "db05faca-c82a-4b9d-b9c5-0f64b6755421"
+        APPROVERS = "va_omni_vui_prod"
+        ARTIFACTORY_STATUS_CODE = '201'
+        AZURECLI_VERSION = "2.42.0"
+    }
+
+    options {
+        buildDiscarder logRotator(
+            artifactDaysToKeepStr: '',
+            artifactNumToKeepStr: '',
+            daysToKeepStr: '30',
+            numToKeepStr: '5')
+        disableConcurrentBuilds()
+    }
+
+    stages {
+        stage('Parameters') {
+            steps {
+                script {
+                    if(env.BRANCH_NAME ==~ /feature\/US\d{7}_?.*/ || (env.BRANCH_NAME == 'main' && BUILD_NUMBER == "1")) {
+                        ENVIRONMENT = 'dev'
+                    } else if (env.BRANCH_NAME == 'main') {
+                        ENVIRONMENT =  'qa'
+                    } else if( env.BRANCH_NAME ==~ /release\/\d{1,2}\.\d{1,2}/ ) {
+                        properties([
+                            parameters([
+                                string(name: 'VERSION', defaultValue: '0', description: 'Build version (Build Number) to deploy'),
+                                choice(name: 'ENVIRONMENT', choices: 'stage\nprod\npilot', description: 'Target environment to deploy version')                            
+                            ])
+                        ])
+
+                        //The first run will run automatically without user provided params, so a default needs to be set.
+                        if (!params.ENVIRONMENT) {
+                            ENVIRONMENT = 'stage'
+                        }
+                        else {
+                            ENVIRONMENT = params.ENVIRONMENT
+                        }
+
+                        VERSION_FROM_BRANCH = env.BRANCH_NAME.split(/\//)[1]
+                        RELEASE_NUMBER = VERSION_FROM_BRANCH.replaceAll(/\./, '-')
+                    }
+
+                    IS_PROD_OR_PILOT = ENVIRONMENT ==~ /(prod|pilot)/
+                    IS_DEV_OR_QA_OR_STAGE = ENVIRONMENT ==~ /(dev|qa|stage)/
+                    IS_UNKNOWN_ENVIRONMENT = ENVIRONMENT == 'NA'
+
+                    IS_PROD_SUBSCRIPTION = ENVIRONMENT ==~ /(prod|pilot|stage)/
+                    IS_NON_PROD_SUBSCRIPTION = ENVIRONMENT ==~ /(dev|qa)/
+
+                    if(IS_PROD_SUBSCRIPTION) {
+                        ARM_CREDENTIAL = 'Azure_Prod_UserToken'
+                        ARM_SUBSCRIPTION = 'f963e1df-e288-4594-b8a4-0a8a3b04267d'
+
+                        TAG_VAL = "release-${RELEASE_NUMBER}-${env.BUILD_NUMBER}"
+                        PROMOTE_TAG = "release-${RELEASE_NUMBER}-${params.VERSION}"
+                    }
+                    else if(IS_NON_PROD_SUBSCRIPTION) {
+                        ARM_CREDENTIAL = 'Azure_NonProd_UserToken'
+                        ARM_SUBSCRIPTION = 'cde58a60-b083-4190-8122-66243d80da50'
+                    }
+                }
+
+                echo "Logging in to azure..."
+                azureLogin()
+
+                echo "Retrieving resource names from table storage..."
+                script {
+                    if (IS_PROD_SUBSCRIPTION || IS_NON_PROD_SUBSCRIPTION) {
+
+                        BOT_RESOURCES_IDS = sh(returnStdout: true, 
+                            script: "az storage entity query --table-name botactive --account-name sttfstateva${ENVIRONMENT} --filter \"RowKey eq '${APPLICATION_NAME}'\" --query 'items[].bot_resources_id' | jq -rc '.[]'" 
+                        ).trim()
+
+                        RESOURCE_JSON = sh(returnStdout: true, 
+                            script: """
+                                resourceJsons='[]'
+                                while read -r id; do
+                                    resource=\$(az storage entity query --table-name botresources --account-name sttfstateva${ENVIRONMENT} --filter \"PartitionKey eq '${APPLICATION_NAME}' and RowKey eq '\${id}'\" --query 'items[0]')
+                                    resourceJsons=\$(jq -r --argjson resource \"\$resource\" '. += [\$resource]' <<< \$resourceJsons)
+                                done <<< '${BOT_RESOURCES_IDS}'
+                                echo \$resourceJsons | jq -c '.' 
+                            """
+                        )
+
+                        KEY_VAULT_NAME = sh(returnStdout: true, 
+                            script: "echo '${RESOURCE_JSON}' | jq '.[] | select(.bot_region == \"centralus\") | .key_vault_name' -r"
+                        ).trim()
+                        LUIS_COGNITIVE_ACCOUNT_NAME = sh(returnStdout: true, 
+                            script: "echo '${RESOURCE_JSON}' | jq '.[] | select(.bot_region == \"centralus\") | .luis_cognitive_account_name' -r"
+                        ).trim()
+                        LUIS_APP_NAME_BASE = sh(returnStdout: true, 
+                            script: "echo '${RESOURCE_JSON}' | jq '.[] | select(.bot_region == \"centralus\") | .luis_app_name_base' -r"
+                        ).trim()
+                    }
+                }
+
+                echo "------------------------------------------------------------"
+                echo "                 Execution Parameters                       "
+                echo "------------------------------------------------------------"
+                echo "         Jenkins Build No. ${env.BUILD_NUMBER}              "
+                echo "------------------------------------------------------------"
+                echo "Application Name   : ${APPLICATION_NAME}"
+                echo "Environment        : ${ENVIRONMENT}"
+                echo "ARM Credential     : ${ARM_CREDENTIAL}"
+                echo "ARM Subscription   : ${ARM_SUBSCRIPTION}"
+                echo "Build Tag          : ${TAG_VAL}"
+                echo "------------------------------------------------------------"
+                echo "                 Additional Parameters                      "
+                echo "------------------------------------------------------------"
+                echo "Target Version              : ${params.VERSION}"
+                echo "Promote Tag                 : ${PROMOTE_TAG}"
+                echo "Bot Resources ID            : ${BOT_RESOURCES_IDS}"
+                echo "Resource JSON               : ${RESOURCE_JSON}"
+                echo "Key Vault Name              : ${KEY_VAULT_NAME}"
+                echo "Luis Cognitive Account Name : ${LUIS_COGNITIVE_ACCOUNT_NAME}"
+                echo "Luis Appe Name Base         : ${LUIS_APP_NAME_BASE}"
+                echo "------------------------------------------------------------"
+            }
+        }
+
+        // dependencies are installed for all build branches to use botframework cli
+        stage('Install Dependencies') {
+            steps {
+                checkout scm
+
+                sh '''
+                    . /etc/profile.d/jenkins.sh
+                    echo > ~/.npmrc
+                    npm config set registry https://repo1.uhc.com/artifactory/api/npm/npm-virtual/
+                    npm install
+                    npm install @microsoft/botframework-cli@4.15.0-dev.20210805.6321dcc
+                    npm install sonarqube-scanner@^2.8.0
+                '''
+            }
+        }
+
+        stage('Unit Testing') {
+            when {
+                expression {
+                    return IS_DEV_OR_QA_OR_STAGE || IS_UNKNOWN_ENVIRONMENT
+                }
+            }
+            steps {
+                sh '''
+                    npm test
+                '''
+            }
+        }
+
+        stage('Sonar Scan') {
+            when {
+                expression {
+                    return IS_DEV_OR_QA_OR_STAGE || IS_UNKNOWN_ENVIRONMENT
+                }
+            }
+            steps {
+                sh '''
+                    npm run coverage
+                '''
+                glSonarNpmScan([
+                    gitUserCredentialsId: "GHEC_TextToken",
+                    mainBranchName: "main",
+                    sonarScanner: "/tools/sonar/sonar-scanner-4.7.0.2747-linux/bin/sonar-scanner",
+                    sonarExclusions: "**/*.test.*,index.js",
+                    additionalProps: [
+                    'sonar.sources': '.',
+                    'sonar.javascript.lcov.reportPaths': 'coverage/lcov.info'
+                    ]
+                ])
+            }
+        }
+
+        stage('Build Runtime Configuration') {
+            when {
+                expression {
+                    return (IS_DEV_OR_QA_OR_STAGE || IS_PROD_OR_PILOT)
+                }
+            }
+            steps {
+                script {
+                    // zipped runtime is pulled from artifactory to be promoted to prod and pilot
+                    if (IS_PROD_OR_PILOT) {
+                        // manual confirmation of build and target is needed to proceed
+                        // MSIDs or windows global groups of people permitted to respond to the input, separated by ','
+                        glApproval([
+                            time: 10,
+                            unit: "MINUTES",
+                            message: "You are deploying ${PROMOTE_TAG} to ${ENVIRONMENT}",
+                            submitter: "${APPROVERS}" // Modify based on team
+                        ])
+
+                        // runtime is unzipped in a separate directory to ensure separation from release branch
+                        // necessary scripts are copied into the separate directory
+                        withCredentials([usernameColonPassword(credentialsId: 'ARTIFACTORY_CREDS', variable: 'USERPASS')]) {
+                            sh """
+                                mkdir promotedir
+                                cp scripts/promote_build.sh promotedir/build.sh
+                                cp scripts/publish_luis.sh promotedir/publish_luis.sh
+                                cp scripts/publish.sh promotedir/publish.sh
+                                cd promotedir
+
+                                curl -u $USERPASS "https://repo1.uhc.com/artifactory/UHG-Releases/com/optum/va/${REPO_NAME}/${PROMOTE_TAG}.zip" -o ./${PROMOTE_TAG}.zip
+                                unzip ${PROMOTE_TAG}.zip
+                                keyVaultName=${KEY_VAULT_NAME} luisAppNameBase=${LUIS_APP_NAME_BASE} ./build.sh  
+                            """
+                        }
+                    } else {
+                        sh """
+                            keyVaultName=${KEY_VAULT_NAME} luisAppNameBase=${LUIS_APP_NAME_BASE} ./scripts/build.sh
+                        """
+                    }
+                }
+            }
+        }
+
+        // runtime from release branch is saved to artifactory
+        stage('Save to Artifactory') {
+            when {
+                expression {
+                    return ENVIRONMENT == 'stage'
+                }
+            }
+            steps {
+                withEnv(["TAG_VAL=${TAG_VAL}"]) {
+                    withCredentials([usernameColonPassword(credentialsId: 'ARTIFACTORY_CREDS', variable: 'USERPASS')]) {
+                        sh '''
+                        zip -rq code.zip . -x code.zip
+                        ARTIFACTORY_STATUS_CODE=$(curl -w "%{http_code}\\n" -u "$USERPASS" -X PUT "https://repo1.uhc.com/artifactory/UHG-Releases/com/optum/va/${REPO_NAME}/${TAG_VAL}.zip" -T ./code.zip -s -o /dev/null)
+                        '''
+                    }
+                }
+                script {
+                    if(env.ARTIFACTORY_STATUS_CODE != '201'){
+                        currentBuild.result = 'FAILURE'
+                    }
+                }
+            }
+        }
+
+        // initial deployment to prerelease slot
+        stage('Deploy to Prerelease Slot') {
+            when {
+                expression {
+                    return (IS_DEV_OR_QA_OR_STAGE || IS_PROD_OR_PILOT)
+                }
+            }
+            steps {
+                script {
+                    // prod and pilot promotion require running script from a separate directory
+                    // target environment specific variables are also created
+                    if (IS_PROD_OR_PILOT) {
+                        sh """                        
+                            cd promotedir
+                            keyVaultName=${KEY_VAULT_NAME} resourceJson='${RESOURCE_JSON}' ./publish_luis.sh
+                            keyVaultName=${KEY_VAULT_NAME} resourceJson='${RESOURCE_JSON}' isProd=true ./publish.sh
+                        """
+                    } else {
+                        sh """
+                            keyVaultName=${KEY_VAULT_NAME} resourceJson='${RESOURCE_JSON}' ./scripts/publish_luis.sh
+                            keyVaultName=${KEY_VAULT_NAME} resourceJson='${RESOURCE_JSON}' ./scripts/publish.sh
+                        """
+                    }
+
+                    // Pause the pipeline so container can warm up
+                    sleep(time:3,unit:"MINUTES")
+                }
+            }
+        }
+
+        //Integration (and Smoke) tests are ran against prerelease slots first
+        stage('Validate Prerelease Slot') {
+            when {
+                expression {
+                    return ENVIRONMENT ==~ /(stage)/
+                }
+            }
+            steps {
+                script {
+                    if (IS_PROD_OR_PILOT) {
+                        sh """
+                            cd promotedir
+                            npm run test:dialog-smoke
+                        """
+                    } else {
+                        sh """
+                            npm run test:dialog
+                        """
+                    }
+                }
+            }
+        }
+
+        // When the validation tests pass then the slots are swapped
+        // Production is where 100% of default traffic is routed 
+        stage('Swap Prerelease and Production Slots') {
+            when {
+                expression {
+                    return (IS_DEV_OR_QA_OR_STAGE || IS_PROD_OR_PILOT)
+                }
+            }
+            steps {
+                script {
+                    sh """
+                        resourceJson='${RESOURCE_JSON}' ./scripts/swap.sh
+                    """
+                }
+            }
+        }
+    }
+
+    post {
+      changed {
+          office365ConnectorSend webhookUrl: env.TEAMS_ALERT_WEBHOOK
+      }
+      always {	
+            script {
+                publishHTML (target: [
+                    allowMissing: true,
+                    alwaysLinkToLastBuild: false,
+                    keepAll: true,
+                    reportDir: 'coverage/lcov-report',
+                    reportFiles: 'index.html',
+                    reportName: "Coverage Report"
+                ])	
+
+                publishHTML (target: [
+                    allowMissing: true,
+                    alwaysLinkToLastBuild: false,
+                    keepAll: true,
+                    reportDir: 'botium-report',
+                    reportFiles: 'botium-report.html',
+                    reportName: "Botium Report"
+                ])
+            }	
+        }
+    }
+}

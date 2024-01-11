@@ -1,0 +1,45 @@
+{
+  "omni-vui-personalization-sb-cmp.en-us": {
+    "rootDialog": true,
+    "triggers": {
+      "": [
+        "TelemetryDialog.en-us",
+        "NoMatchInput.en-us",
+        "PersonalizationDialog.en-us",
+        "NoUserInput.en-us",
+        "DTMFDialog.en-us",
+        "GlobalContainer.en-us"
+      ],
+      "YesResponse": [
+        "TelemetryDialog.en-us",
+        "YesDialog.en-us"
+      ],
+      "noResponse": [
+        "TelemetryDialog.en-us",
+        "NoDialog.en-us"
+      ],
+      "agent": [
+        "TelemetryDialog.en-us",
+        "GlobalContainer.en-us",
+        "TelemetryDialog.en-us",
+        "GlobalContainer.en-us"
+      ],
+      "pause": [
+        "TelemetryDialog.en-us",
+        "TelemetryDialog.en-us",
+        "RepeatMessages.en-us",
+        "NoMatchInput.en-us"
+      ],
+      "goodbye": [
+        "TelemetryDialog.en-us",
+        "GlobalContainer.en-us",
+        "TelemetryDialog.en-us",
+        "GlobalContainer.en-us"
+      ],
+      "repeat": [
+        "TelemetryDialog.en-us",
+        "GlobalContainer.en-us"
+      ]
+    }
+  }
+}

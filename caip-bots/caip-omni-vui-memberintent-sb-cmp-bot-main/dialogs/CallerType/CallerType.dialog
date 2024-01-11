@@ -1,0 +1,142 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "BCF0CW",
+    "name": "CallerType",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "am2pco"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "HKsez1"
+          },
+          "assignments": [
+            {
+              "property": "conversation.flowState.flowNextPrompt",
+              "value": "=conversation.flowState.flowPreviousPrompt"
+            },
+            {
+              "property": "conversation.flowState.flowPreviousPrompt",
+              "value": "='callerTypeGeneral'"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "w5ODzr"
+          },
+          "assignments": [
+            {
+              "property": "conversation.flowState.noMatchCount",
+              "value": 0
+            },
+            {
+              "property": "conversation.flowState.noUserInputCount",
+              "value": 0
+            },
+            {
+              "property": "conversation.flowState.failedCount",
+              "value": 0
+            }
+          ]
+        },
+        {
+            "$kind": "Microsoft.IfCondition",
+            "$designer": {
+                "id": "qlQm2k"
+            },
+            "condition": "=conversation.tfnConfig.CallerIntent_CallerType_Toggle=='ON'",
+            "actions": [
+                {
+                    "$kind": "Microsoft.IfCondition",
+                    "$designer": {
+                        "id": "FrE3wr"
+                    },
+                    "condition": "=conversation.callerType.entityFound==\"Yes\"",
+                    "elseActions": [
+                        {
+                            "$kind": "Microsoft.SendActivity",
+                            "$designer": {
+                                "id": "dSTTgM"
+                            },
+                            "activity": "${UHCMember_CallerTypeMsg()}"
+                        },
+                        {
+                            "$kind": "Microsoft.BeginDialog",
+                            "$designer": {
+                                "id": "qAZzAU"
+                            },
+                            "activityProcessed": true,
+                            "dialog": "TelemetryDialog",
+                            "options": {
+                                "peg": "=MainDialog.PegVal('')",
+                                "pegType": "InputAsk",
+                                "request": "=CallerTypeDialog.UHCMember_CallerTypeMsg()",
+                                "response": "",
+                                "startDTM": "=conversation.startDate",
+                                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                                "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt,'_Prmt')"
+                            }
+                        }
+                    ],
+                    "actions": [
+                        {
+                            "$kind": "Microsoft.BeginDialog",
+                            "$designer": {
+                                "id": "r8hXRJ"
+                            },
+                            "activityProcessed": true,
+                            "dialog": "Transfer",
+                            "options": {
+                                "behavior": "EndSkill"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "elseActions": [
+                {
+                    "$kind": "Microsoft.SetProperties",
+                    "$designer": {
+                        "id": "dIO9OC"
+                    },
+                    "assignments": [
+                        {
+                            "property": "conversation.callerIntentconfig.CT_NLTagCallerType",
+                            "value": "='PV'"
+                        }
+                    ],
+                    "disabled": true
+                },
+                {
+                    "$kind": "Microsoft.BeginDialog",
+                    "$designer": {
+                        "id": "yCglYD"
+                    },
+                    "activityProcessed": true,
+                    "dialog": "Transfer",
+                    "options": {
+                        "behavior": "EndSkill"
+                    }
+                }
+            ]
+        }
+      ]
+    }
+  ],
+  "generator": "CallerType.lg",
+  "recognizer": "CallerType.lu.qna",
+  "id": "CallerType"
+}

@@ -1,0 +1,159 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "GQXMhM",
+    "name": "TelemetryDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "ybX0Tm"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "nKy0cI"
+          },
+          "assignments": [
+            {
+              "property": "conversation.pegCount",
+              "value": "=length(string(dialog.eventName))>0 ? add(conversation.pegCount,1) : conversation.pegCount"
+            },
+            {
+              "property": "conversation.pegAttribute",
+              "value": "=concat(\"Peg\",conversation.pegCount)"
+            },
+            {
+              "property": "conversation.customMetrics",
+              "value": {}
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "Zvt5jp"
+          },
+          "condition": "=length(string(dialog.eventName))>0",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "HSZutC"
+              },
+              "property": "conversation.allPegNames",
+              "value": "=addProperty(conversation.allPegNames,conversation.pegAttribute,dialog.eventName)"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "piFYkP"
+          },
+          "assignments": [
+            {
+              "value": "=addProperty(conversation.customMetrics,\"AppName\", conversation.appName?conversation.appName:\"\")",
+              "property": "conversation.customMetrics"
+            },
+            {
+              "property": "conversation.customMetrics",
+              "value": "=addProperty(conversation.customMetrics,\"Peg\",dialog.peg)"
+            },
+            {
+              "property": "conversation.customMetrics",
+              "value": "=addProperty(conversation.customMetrics,\"PegType\",dialog.pegType)"
+            },
+            {
+              "property": "conversation.customMetrics",
+              "value": "=addProperty(conversation.customMetrics,\"Request\",dialog.request)"
+            },
+            {
+              "property": "conversation.customMetrics",
+              "value": "=addProperty(conversation.customMetrics,\"Response\",dialog.response)"
+            },
+            {
+              "property": "conversation.customMetrics",
+              "value": "=addProperty(conversation.customMetrics,\"StartDTM\",dialog.startDTM)"
+            },
+            {
+              "property": "conversation.customMetrics",
+              "value": "=addProperty(conversation.customMetrics,\"EndDTM\",dialog.endDTM)"
+            },
+            {
+              "property": "conversation.customMetrics",
+              "value": "=addProperty(conversation.customMetrics,\"ConversationId\",conversation.conversationId ? conversation.conversationId : \"\")"
+            },
+            {
+              "property": "conversation.customMetrics",
+              "value": "=addProperty(conversation.customMetrics,\"CallId\",conversation.callId ? conversation.callId : \"\")"
+            },
+            {
+              "property": "conversation.customMetrics",
+              "value": "=addProperty(conversation.customMetrics,\"CallGUID\",conversation.callGUID ? conversation.callGUID : \"\")"
+            },
+            {
+              "property": "conversation.customMetrics",
+              "value": "=addProperty(conversation.customMetrics,\"TFN\",conversation.tfn ? conversation.tfn : \"\")"
+            },
+            {
+              "property": "conversation.customMetrics",
+              "value": "=addProperty(conversation.customMetrics,\"PegName\", dialog.eventName?dialog.eventName:\"\")"
+            },
+            {
+              "property": "conversation.customMetricsArr",
+              "value": "=[]"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EditArray",
+          "$designer": {
+            "id": "8T1014"
+          },
+          "changeType": "push",
+          "itemsProperty": "conversation.customMetricsArr",
+          "resultProperty": "conversation.newCustomMetricsArr",
+          "value": "=conversation.customMetrics"
+        },
+        {
+          "$kind": "Microsoft.TelemetryTrackEventAction",
+          "$designer": {
+            "id": "Ip1okv"
+          },
+          "eventName": "=dialog.eventName",
+          "properties": {
+            "peg": "=dialog.peg",
+            "pegType": "=dialog.pegType",
+            "request": "=dialog.request",
+            "response": "=dialog.response",
+            "startDTM": "=dialog.startDTM",
+            "endDTM": "=dialog.endDTM",
+            "appName": "ConversationManagerSkill",
+            "conversationId": "=conversation.conversationId ? conversation.conversationId : \"\"",
+            "callId": "=conversation.callId ? conversation.callId : \"\"",
+            "customMetrics": "=conversation.customMetricsArr"
+          }
+        },
+        {
+          "$kind": "LoggerDialog",
+          "$designer": {
+            "id": "fjQrGH"
+          },
+          "logType": "plaintext",
+          "message": "=concat(\"CustomMetrics : \",conversation.customMetricsArr)"
+        }
+      ]
+    }
+  ],
+  "generator": "TelemetryDialog.lg",
+  "recognizer": "TelemetryDialog.lu.qna",
+  "id": "TelemetryDialog"
+}

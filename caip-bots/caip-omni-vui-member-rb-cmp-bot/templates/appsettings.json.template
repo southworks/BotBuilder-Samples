@@ -1,0 +1,177 @@
+{
+  "customFunctions": [],
+  "defaultLanguage": "en-us",
+  "defaultLocale": "en-us",
+  "importedLibraries": [],
+  "languages": ["en-us"],
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft": "Warning",
+      "Microsoft.Hosting.Lifetime": "Information"
+    }
+  },
+  "luFeatures": {
+    "enableCompositeEntities": true,
+    "enableListEntities": true,
+    "enableMLEntities": true,
+    "enablePattern": true,
+    "enablePhraseLists": true,
+    "enablePrebuiltEntities": true,
+    "enableRegexEntities": true
+  },
+  "luis": {
+    "authoringKey": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/luis-authoring-key",
+    "authoringEndpoint": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/luis-authoring-endpoint",
+    "endpointKey": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/luis-endpoint-key",
+    "endpoint": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/luis-endpoint",
+    "authoringRegion": "westus",
+    "defaultLanguage": "en-us",
+    "environment": "composer",
+    "name": "[LUIS_APP_NAME_BASE]"
+  },
+  "publishTargets": [],
+  "qna": {
+    "subscriptionKey": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/qna-subscription-key",
+    "knowledgebaseid": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/qna-knowledgebase-id",
+    "endpointKey": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/qna-endpoint-key",
+    "hostname": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/qna-hostname",
+    "qnaRegion": "westus",
+    "scoreThreshold": "0.3"
+  },
+  "BlobsStorage": {
+    "connectionString": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/storage-connection-string",
+    "containerName": "statelogs"
+  },
+  "runtime": {
+    "command": "npm run dev --",
+    "customRuntime": true,
+    "key": "adaptive-runtime-js-webapp",
+    "path": "../"
+  },
+  "runtimeSettings": {
+    "adapters": [],
+    "features": {
+      "removeRecipientMentions": false,
+      "showTyping": false,
+      "traceTranscript": true,
+      "blobTranscript": {
+        "connectionString": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/storage-connection-string",
+        "containerName": "transcriptlogs"
+      },
+      "useInspection": false,
+      "setSpeak": {
+        "voiceFontName": "en-US-AriaNeural",
+        "fallbackToTextForSpeechIfEmpty": true
+      }
+    },
+    "components": [
+      {
+        "name": "@advanceddevelopment/omni-vui-custom-actions",
+        "settingsPrefix": "@advanceddevelopment/omni-vui-custom-actions"
+      }
+    ],
+    "skills": {
+      "allowedCallers": ["*"]
+    },
+    "storage": "BlobsStorage",
+    "telemetry": {
+      "logActivities": true,
+      "logPersonalInformation": true,
+      "options": {
+        "instrumentationKey": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/appinsights-instrument-key"
+      }
+    }
+  },
+  "downsampling": {
+    "maxImbalanceRatio": -1
+  },
+  "skillConfiguration": {},
+  "skillHostEndpoint": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/skill-host-endpoint",
+  "accessTokenEndPoint": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/access-token-endpoint",
+  "accessTokenClientId": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/access-token-clientid",
+  "accessTokenClientSecret": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/access-token-clientsecret",
+  "gmsEndPoint": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/gms-endpoint",
+  "cdsEndpoint": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/cds-endpoint",
+  "memberInfoSearchEndPoint": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/member-info-search-endpoint",
+  "memberCoverageSearchEndPoint": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/member-coverage-search-endpoint",
+  "searchMemPhoneEndpoint": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/search-member-phone-endpoint",
+  "retryCount": https://[KEY_VAULT_NAME].vault.azure.net/secrets/retry-count,
+  "retryInterval": https://[KEY_VAULT_NAME].vault.azure.net/secrets/retry-interval,
+  "botVersion": https://[KEY_VAULT_NAME].vault.azure.net/secrets/bot-version,
+  "botName": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/bot-name",
+  "botEnvironment": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/bot-environment",
+  "containerName": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/blob-token-cache-container-name",
+  "connectionString": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/storage-connection-string",
+  "mwTimeOutInMS": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/mw-timeoutinms",
+  "promptTimeInMS": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/prompt-timeinms",
+  "gmsResponseTimeoutInMS": https://[KEY_VAULT_NAME].vault.azure.net/secrets/gms-response-timeoutinms,
+  "accessTokenTimeout": https://[KEY_VAULT_NAME].vault.azure.net/secrets/accesstoken-timeoutinms,
+  "defaultTelTransfer": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/default-tel-transfer-number",
+  "defaultTelEITransfer": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/default-tel-ei-transfer-number",
+  "defaultTelCSTransfer": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/default-tel-cs-transfer-number",
+  "defaultTelMRTransfer": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/default-tel-mr-transfer-number",
+  "eiBotDN": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/ei-bot-dn",
+  "csBotDN": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/cs-bot-dn",
+  "mrBotDN": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/mr-bot-dn",
+  "ENVIRONMENT": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/environment",
+  "ENCRYPTION_KEY": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/encryption-key",
+  "memberIntentSkillManifestPath":"https://[KEY_VAULT_NAME].vault.azure.net/secrets/memberintent-skill-manifest-path",
+  "skillManifestPath":"https://[KEY_VAULT_NAME].vault.azure.net/secrets/skill-manifest-path",
+  "conversationManagerskillManifestPath":"https://[KEY_VAULT_NAME].vault.azure.net/secrets/conversationmanager-skill-manifest-path",
+  "memberAuthenticationSkillManifestPath":"https://[KEY_VAULT_NAME].vault.azure.net/secrets/memberauthentication-skill-manifest-path",
+  "memberBnESkillManifestPath":"https://[KEY_VAULT_NAME].vault.azure.net/secrets/memberbne-skill-manifest-path",
+  "policySelectionSkillManifestPath":"https://[KEY_VAULT_NAME].vault.azure.net/secrets/policyselection-skill-manifest-path",
+  "providerLocationSearchSkillManifest": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/provider-location-search-skill-manifest-path",
+  "configUIExperience": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/configUIExperience",
+  "configUIContainer": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/configUIContainer",
+  "commonStoreConnectionString":"https://[KEY_VAULT_NAME].vault.azure.net/secrets/commonStoreConnectionString",
+  "spanishTTSProvider":"https://[KEY_VAULT_NAME].vault.azure.net/secrets/spanishTTSProvider",
+  "providerAniSearchEndpoint": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/provider-AniSearch-endpoint",
+  "rmEnviroment": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/rm-environment",
+  "rapidMessageContainer": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/rm-container-name",
+  "rapidMessageMWURL": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/dm-mw-endpoint",
+  "rapidMessageMWTimeout": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/dm-mw-Timeout",
+  "stargateTokenURL": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/access-token-endpoint",
+  "stargateClientId": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/access-token-clientid",
+  "stargateClientSecret": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/access-token-clientsecret",
+  "tokenConnectionString": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/storage-connection-string",
+  "tokenContainerName": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/blob-token-cache-container-name",
+  "storageAccountName": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/storageAccountName",
+  "storageAccountKey": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/storageAccountKey",
+  "providerInterceptTableName" :"https://[KEY_VAULT_NAME].vault.azure.net/secrets/providerInterceptTableName",
+  "smsExclusionTableName": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/smsExclusionTableName",
+  "smsEndPoint": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/smsEndPoint",
+  "smsConsumerApp": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/smsConsumerApp",
+  "smsBusinessUnit": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/smsBusinessUnit",
+  "skill": {
+    "caipOmniVuiProvidersearchSbCmpBot": {
+      "endpointUrl": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/skill-endpoint-url",
+      "msAppId": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/skill-ms-appid"
+    },
+    "caipOmniVuiMemberintentSbCmpBot": {
+      "endpointUrl": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/memberintent-skill-endpoint-url",
+      "msAppId": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/memberintent-skill-ms-appid"
+    },
+	"caipOmniVuiPersonalizationSbCmpBot":{
+      "endpointUrl": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/cm-skill-endpoint-url",
+      "msAppId": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/cm-skill-ms-appid"
+    },
+	"caipOmniVuiMemberauthenticationSbCmpBot":{
+      "endpointUrl": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/memberauthentication-skill-endpoint-url",
+      "msAppId": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/memberauthentication-skill-ms-appid"
+    },
+    "caipOmniVuiPolicyselectionSbCmpBot": {
+      "endpointUrl": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/policyselection-skill-endpoint-url",
+      "msAppId": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/policyselection-skill-ms-appid"
+    },
+	"caipOmniVuiMemberbneSbCmpBot": {
+     "endpointUrl": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/memberbne-skill-endpoint-url",
+      "msAppId": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/memberbne-skill-ms-appid"
+    },
+	"provider-location-search-skill": {
+	  "endpointUrl": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/provider-location-search-skill-endpoint-url",
+      "msAppId": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/provider-location-search-skill-ms-app-id"
+    }
+  }
+}

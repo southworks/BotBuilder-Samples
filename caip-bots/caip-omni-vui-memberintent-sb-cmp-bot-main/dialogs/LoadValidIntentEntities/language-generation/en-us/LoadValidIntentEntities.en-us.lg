@@ -1,0 +1,16 @@
+[import](common.lg)
+
+# SendActivity_ZoWDBt()
+[Activity
+    Text = ${SendActivity_ZoWDBt_text()}
+]
+
+# SendActivity_ZoWDBt_text()
+- results: ${dialog.results.data}
+# SendActivity_iJIaxd_text()
+- ```ValidIntentsEntities: ${conversation.validIntentsEntities}
+entitiesToStartList: ${conversation.entitiesToStartList}```
+# SendActivity_iJIaxd()
+[Activity
+    Text = ${SendActivity_iJIaxd_text()}
+]

@@ -1,0 +1,112 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "2Upbjb",
+    "name": "FSMDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "C8pTOJ",
+        "comment": "Get the first transition if currentState is equal to transition.from and currentTrigger is contained in transition.trigger, sets the currentState, currentEvent and emit the event\n"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "YVGB2E"
+          },
+          "assignments": [
+            {
+              "value": "=first(where(conversation.transition, x, and(x.from == conversation.currentState,contains(foreach(split(x.trigger, \",\"), t, trim(t)), conversation.currentTrigger))))",
+              "property": "conversation.nextState"
+            },
+            {
+              "property": "conversation.currentEvent",
+              "value": "=conversation.nextState.event"
+            },
+            {
+              "property": "conversation.currentState",
+              "value": "=conversation.nextState.to"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "NOvs4w"
+          },
+          "actions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "IruIn3"
+              },
+              "activity": "${SendActivity_IruIn3()}"
+            },
+            {
+              "$kind": "Microsoft.EndTurn",
+              "$designer": {
+                "id": "zNwatq"
+              }
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.EmitEvent",
+              "$designer": {
+                "id": "on14O5"
+              },
+              "handledProperty": "turn.eventHandled",
+              "eventValue": "=conversation.currentState",
+              "eventName": "=conversation.currentEvent",
+              "bubbleEvent": true
+            },
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "r4Q2bg"
+              }
+            }
+          ],
+          "condition": "=or(string(conversation.currentState)=='araConversationManager', string(conversation.currentState)=='scrConversationManager', string(conversation.currentState)=='policySelection',string(conversation.currentState) == 'findProvider')"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnEventActivity",
+      "$designer": {
+        "id": "uJaRrb",
+        "name": "Event received (Event activity)"
+      },
+      "condition": "=turn.activity.name=='paramChanged'",
+      "actions": [
+        {
+          "$kind": "Microsoft.EmitEvent",
+          "$designer": {
+            "id": "ZuLFiK"
+          },
+          "handledProperty": "turn.eventHandled",
+          "eventValue": "=conversation.currentState",
+          "eventName": "=conversation.currentEvent",
+          "bubbleEvent": true
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "UQNAOk"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "FSMDialog.lg",
+  "recognizer": "FSMDialog.lu.qna",
+  "id": "FSMDialog"
+}

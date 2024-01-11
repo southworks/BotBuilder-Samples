@@ -1,0 +1,43 @@
+> !# @Namespace=NoDialog
+> !# @Exports = SendActivity_AuthNoConfirmationMsg,SendActivity_AuthZIPNoConfirmationMsg
+[import](common.lg)
+
+# SendActivity_AuthNoConfirmationMsg()
+[Activity
+    Text = ${AuthNoConfirmationTemplate()}
+    Speak = ${AuthNoConfirmationTemplate()}
+    InputHint = ignoringInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: false,
+            bargeIn: false,
+            bargeInOnDTMF: false,
+            dtmfCollect: false
+        }
+      } 
+    }
+]
+
+# AuthNoConfirmationTemplate()
+- I have misunderstood you.
+
+# SendActivity_AuthZIPNoConfirmationMsg()
+[Activity
+    Text = ${AuthZIPConfirmationNoTemplate()}
+    Speak = ${AuthZIPConfirmationNoTemplate()}
+    InputHint = ignoringInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: false,
+            bargeIn: false,
+            bargeInOnDTMF: false,
+            dtmfCollect: false
+        }
+      } 
+    }
+]
+# AuthZIPConfirmationNoTemplate()
+- I've misunderstood.
+

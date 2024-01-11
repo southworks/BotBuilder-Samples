@@ -1,0 +1,37 @@
+> To learn more about the LG file format, read the documentation at
+> https://aka.ms/lg-file-format
+> !# @Namespace=Common
+> !# @Exports = 
+
+# AuthMaxNMTemplate()
+-Since we're having some trouble, let's connect with someone who can help. 
+# AuthMaxNITransferTemplate()
+-I'm not able to hear you. Why don't we connect with someone who can help. 
+# AuthMaxNIDisconnectTemplate()
+-I apologize, but I did not hear a response and have to end this call. Thank you for calling United Health Care.  Goodbye.
+# AuthAgentRequestTemplate()
+-I need this information first so I can quickly connect you with the right agent.
+# AuthAgentXferTemplate()
+-Let's get someone to help.
+# GlobalRepeatXferTemplate()
+-Since we're having trouble, let’s get someone to help you.
+# MoreTimeRequestTemplate()
+-That's Ok. Get what you need and let me know when you have your information available. 
+# AuthSystemErrorTemplate()
+-I'm sorry, but something isn't working right on my end. Let's connect with someone who can help.
+# ConversationManagerPromptTemplate()
+-Just a moment while I connect you with someone who can help.
+# ConversationManagerReturnedMenuTemplate()
+-We see that you’ve recently contacted us.  Are you inquiring about the same topic?
+# ConversationManagerReturnedMenu_NM1_Template()
+-We see that you’ve recently contacted us.  Are you inquiring about the same topic?
+# ConversationManagerReturnedMenu_NI1_Template()
+-We see that you’ve recently contacted us.  Are you inquiring about the same topic?
+# TestEventTemplate()
+-Bot is connected and working.
+# IDKTemplate()
+-That's ok. Let's try one more time.
+# GoodByeTemplate()
+- Alright, I will be ending this call. We are here when you need us, so be sure to call again with any other questions.
+# TimeOutXferTemplate()
+-Since we're having trouble, let's get someone to help you.

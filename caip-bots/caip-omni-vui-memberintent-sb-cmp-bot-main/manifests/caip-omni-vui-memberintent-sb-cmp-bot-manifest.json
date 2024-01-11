@@ -1,0 +1,26 @@
+{
+  "$schema": "https://schemas.botframework.com/schemas/skills/v2.2/skill-manifest.json",
+  "$id": "caip-omni-vui-memberintent-sb-cmp-bot",
+  "name": "caip-omni-vui-memberintent-sb-cmp-bot",
+  "version": "1.0",
+  "publisherName": "Optum",
+  "description": "Member intent skill bot",
+  "endpoints": [
+    {
+      "protocol": "BotFrameworkV3",
+      "name": "caip-omni-vui-memberintent-sb-cmp-bot",
+      "endpointUrl": "=settings.skillEndpointUrl",
+      "description": "<description>",
+      "msAppId": "=settings.skillmsAppId"
+    }
+  ],
+  "activities": {
+    "caip-omni-vui-memberintent-sb-cmp": {
+      "type": "event",
+      "name": "caip-omni-vui-memberintent-sb-cmp"
+    },
+    "message": {
+      "type": "message"
+    }
+  }
+}

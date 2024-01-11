@@ -1,0 +1,70 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "UPiCFq",
+    "name": "SetSkillResponseParams",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "bHK4dD"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "7qufUu"
+          },
+          "assignments": [
+            {
+              "property": "conversation.skillResponseParams",
+              "value": "=setProperty(conversation.skillResponseParams,\"policySelectedFlag\",conversation.policySelectedFlag)"
+            },
+            {
+              "property": "conversation.skillResponseParams",
+              "value": "=setProperty(conversation.skillResponseParams,\"medSup\",conversation.medSup)"
+            },
+            {
+              "property": "conversation.skillResponse",
+              "value": "=setProperty(conversation.skillResponse,\"transferReasonCode\",conversation.transferReasonCode)"
+            },
+            {
+              "property": "conversation.skillResponse",
+              "value": "=addProperty(conversation.skillResponse,\"transferPeg\",MainDialog.PegVal(conversation.inputVal))"
+            },
+            {
+              "property": "conversation.skillResponse",
+              "value": "=addProperty(conversation.skillResponse,\"transferReason\",conversation.transferReason)"
+            },
+            {
+              "property": "conversation.skillResponse",
+              "value": "=addProperty(conversation.skillResponse,\"parameters\",conversation.skillResponseParams)"
+            },
+            {
+              "property": "conversation.skillResponse",
+              "value": "=addProperty(conversation.skillResponse,\"silentTransfer\",conversation.silentTransfer)"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.CancelAllDialogs",
+          "$designer": {
+            "id": "KaGjfk"
+          },
+          "activityProcessed": true,
+          "eventName": "endSkill",
+          "eventValue": "=conversation.skillResponse"
+        }
+      ]
+    }
+  ],
+  "generator": "SetSkillResponseParams.lg",
+  "recognizer": "SetSkillResponseParams.lu.qna",
+  "id": "SetSkillResponseParams"
+}

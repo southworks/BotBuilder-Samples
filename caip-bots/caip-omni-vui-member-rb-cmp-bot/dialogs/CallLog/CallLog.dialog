@@ -1,0 +1,147 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "LWIQ9D",
+    "name": "CallLog",
+    "comment": "CallLog"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "bxcpCN"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "Afh7ce"
+          },
+          "property": "conversation.callEndDate",
+          "value": "=formatDateTime(utcNow())"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "1g2y1x"
+          },
+          "property": "conversation.callLogCustomMetrics",
+          "value": {
+            "AppName": "MemberRootBot"
+          }
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "rDvNVN"
+          },
+          "assignments": [
+            {
+              "property": "conversation.callLogCustomMetrics",
+              "value": "=addProperty(conversation.callLogCustomMetrics,\"CallGUID\",getProperty(conversation.KVPs, \"CiscoGUcid\") ? getProperty(conversation.KVPs, \"CiscoGUcid\") : \"\")"
+            },
+            {
+              "property": "conversation.callLogCustomMetrics",
+              "value": "=addProperty(conversation.callLogCustomMetrics,\"CallUUID\",getProperty(conversation.KVPs, \"ENT_CallUUID\") ? getProperty(conversation.KVPs, \"ENT_CallUUID\") : \"\")"
+            },
+            {
+              "property": "conversation.callLogCustomMetrics",
+              "value": "=addProperty(conversation.callLogCustomMetrics,\"ConversationId\",conversation.conversationId ? conversation.conversationId : \"\")"
+            },
+            {
+              "property": "conversation.callLogCustomMetrics",
+              "value": "=addProperty(conversation.callLogCustomMetrics,\"ANI\",getProperty(conversation.KVPs, \"ENT_FromAddress\") ? getProperty(conversation.KVPs, \"ENT_FromAddress\") : \"\")"
+            },
+            {
+              "property": "conversation.callLogCustomMetrics",
+              "value": "=addProperty(conversation.callLogCustomMetrics,\"StartDTM\",conversation.callStartDate ? conversation.callStartDate : \"\")"
+            },
+            {
+              "property": "conversation.callLogCustomMetrics",
+              "value": "=addProperty(conversation.callLogCustomMetrics,\"EndDTM\",formatDateTime(utcNow()))"
+            },
+            {
+              "value": "=addProperty(conversation.callLogCustomMetrics,\"TFN\",getProperty(conversation.KVPs, \"ENT_ToAddress\") ? getProperty(conversation.KVPs, \"ENT_ToAddress\") : \"\")",
+              "property": "conversation.callLogCustomMetrics"
+            },
+            {
+              "value": "=addProperty(conversation.callLogCustomMetrics,\"XferReasonCode\",conversation.ENT_IVRAppTransferReason)",
+              "property": "conversation.callLogCustomMetrics"
+            },
+            {
+              "value": "=addProperty(conversation.callLogCustomMetrics,\"CallDuration\",conversation.callStartDate?dateTimeDiff(formatDateTime(utcNow()),conversation.callStartDate):\"\")",
+              "property": "conversation.callLogCustomMetrics"
+            },
+            {
+              "property": "conversation.callLogCustomMetrics",
+              "value": "=addProperty(conversation.callLogCustomMetrics,\"PegName\", \"MemberRootBot_CallLog_Peg\")"
+            },
+            {
+              "property": "conversation.callLogCustomMetrics",
+              "value": "=addProperty(conversation.callLogCustomMetrics,\"AllPegNames\",conversation.allPegNames)"
+            },
+            {
+              "property": "conversation.callLogCustomMetrics",
+              "value": "=addProperty(conversation.callLogCustomMetrics,\"XferPeg\",conversation.transferPegVal)"
+            },
+            {
+              "property": "conversation.callLogCustomMetrics",
+              "value": "=addProperty(conversation.callLogCustomMetrics,\"XferReason\",conversation.transferReason)"
+            },
+            {
+              "property": "conversation.callLogCustomMetrics",
+              "value": "=addProperty(conversation.callLogCustomMetrics,\"KVPs\",conversation.KVPs)"
+            },
+            {
+              "property": "conversation.callLogCustomMetrics",
+              "value": "=addProperty(conversation.callLogCustomMetrics,\"botId\",settings.botName)"
+            },
+            {
+              "property": "conversation.callLogCustomMetrics",
+              "value": "=addProperty(conversation.callLogCustomMetrics,\"botEnvironment\",settings.botEnvironment)"
+            },
+            {
+              "property": "conversation.customMetricsArr",
+              "value": "=[]"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EditArray",
+          "$designer": {
+            "id": "EVcPPE"
+          },
+          "changeType": "push",
+          "resultProperty": "conversation.newCustomMetricsArr",
+          "itemsProperty": "conversation.customMetricsArr",
+          "value": "=conversation.callLogCustomMetrics"
+        },
+        {
+          "$kind": "Microsoft.TelemetryTrackEventAction",
+          "$designer": {
+            "id": "BCvKRK"
+          },
+          "eventName": "MemberRootBot_CallLog_Peg",
+          "properties": {
+            "customMetrics": "=conversation.customMetricsArr"
+          }
+        },
+        {
+          "$kind": "LoggerDialog",
+          "$designer": {
+            "id": "v20B2q"
+          },
+          "message": "=concat(\"CustomMetrics : \",conversation.customMetricsArr)",
+          "logType": "plaintext"
+        }
+      ]
+    }
+  ],
+  "generator": "CallLog.lg",
+  "recognizer": "CallLog.lu.qna",
+  "id": "CallLog"
+}

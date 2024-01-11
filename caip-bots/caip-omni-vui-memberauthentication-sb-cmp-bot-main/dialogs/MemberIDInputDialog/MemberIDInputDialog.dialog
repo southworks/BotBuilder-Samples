@@ -1,0 +1,236 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "25gxJn",
+    "name": "MemberIDInputDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "zilgqc"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "z4CNHY"
+          },
+          "assignments": [
+            {
+              "property": "conversation.noMatchFlag",
+              "value": 1
+            },
+            {
+              "property": "conversation.noInputFlag",
+              "value": 1
+            },
+            {
+              "property": "conversation.repeatFlag",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "BbiMSF"
+          },
+          "condition": "=conversation.tfnConfig.ID_Auth_ID_Menu_Type",
+          "cases": [
+            {
+              "value": "SSN",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "VYS26U"
+                  },
+                  "property": "conversation.inputVal",
+                  "value": "promptSSN"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "ReBcWz"
+                  },
+                  "activity": "${SendActivity_PromptSSN()}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "TDBu5g"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal(conversation.inputVal)",
+                    "pegType": "Input Ask",
+                    "request": "=Common.SendActivity_PromptSSN()",
+                    "response": "",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=MainDialog.PegName(conversation.inputVal,\"InputAsk\")"
+                  }
+                }
+              ]
+            },
+            {
+              "value": "MID-SSN",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "GZaco5"
+                  },
+                  "property": "conversation.inputVal",
+                  "value": "promptMIDSSN"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "TuJhb3"
+                  },
+                  "activity": "${SendActivity_PromptSSNMID()}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "2MwX9x"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal(conversation.inputVal)",
+                    "pegType": "Input Ask",
+                    "request": "=Common.SendActivity_PromptSSNMID()",
+                    "response": "",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=MainDialog.PegName(conversation.inputVal,\"InputAsk\")"
+                  }
+                }
+              ]
+            },
+            {
+              "value": "MEMID",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "H2zpSo"
+                  },
+                  "property": "conversation.inputVal",
+                  "value": "promptMEMID"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "hMBCrF"
+                  },
+                  "activity": "${SendActivity_PromptMEMID()}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "o6CzwL"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal(conversation.inputVal)",
+                    "pegType": "Input Ask",
+                    "request": "=Common.SendActivity_PromptMEMID()",
+                    "response": "",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=MainDialog.PegName(conversation.inputVal,\"InputAsk\")"
+                  }
+                }
+              ]
+            },
+            {
+              "value": "MID-AARP",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "BFidw6"
+                  },
+                  "property": "conversation.inputVal",
+                  "value": "promptMIDAARP"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "epM1C3"
+                  },
+                  "activity": "${SendActivity_PromptMIDAARP()}"             
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "gxaeO8"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal(conversation.inputVal)",
+                    "pegType": "Input Ask",
+                    "request": "=Common.SendActivity_PromptMIDAARP()",
+                    "response": "",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=MainDialog.PegName(conversation.inputVal,\"InputAsk\")"
+                  }
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "VX9ZNV"
+              },
+              "property": "conversation.inputVal",
+              "value": "promptMEMID"
+            },
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "uqnzgs"
+              },
+              "activity": "${SendActivity_PromptMEMID()}"
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "RRS3hm"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "=MainDialog.PegVal(conversation.inputVal)",
+                "pegType": "Input Ask",
+                "request": "=Common.SendActivity_PromptMEMID()",
+                "response": "",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "=MainDialog.PegName(conversation.inputVal,\"InputAsk\")"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "MemberIDInputDialog.lg",
+  "recognizer": "MemberIDInputDialog.lu.qna",
+  "id": "MemberIDInputDialog"
+}

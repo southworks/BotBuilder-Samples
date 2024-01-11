@@ -1,0 +1,176 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "rkt7ha",
+    "name": "OpenEnrollmentUpfront",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "bxdrX8"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "3541xb",
+            "name": "Toggle OpenEnrollment?"
+          },
+          "condition": "=conversation.tfnConfig.CallerIntent_OpenEnrollmentDisambig_Toggle == 'ON'",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "OmPfbU"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.flowState.flowPreviousPrompt",
+                  "value": "openEnrollmentUpfront"
+                },
+                {
+                  "value": "=conversation.flowState.flowPreviousPrompt",
+                  "property": "conversation.flowState.flowNextPrompt"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "fLASig"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.flowState.noMatchCount",
+                  "value": 0
+                },
+                {
+                  "property": "conversation.flowState.noUserInputCount",
+                  "value": 0
+                },
+                {
+                  "property": "conversation.flowState.failedCount",
+                  "value": 0
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "AzfH5N"
+              },
+              "condition": "=conversation.solutranGreetingMessage",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "irNZsC"
+                  },
+                  "activity": "${UHCMember_OpenEnrollmentUpfront_Msg1()}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "7naFnC"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal('')",
+                    "pegType": "InputAsk",
+                    "request": "=OpenEnrollmentUpfront.UHCMember_OpenEnrollmentUpfront_Msg1()",
+                    "response": "",
+                    "startDTM": "=conversation.startDate",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt,'_Prmt')"
+                  }
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "McQg36"
+                  },
+                  "activity": "${UHCMember_OpenEnrollmentUpfront_Msg2()}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "xw0Xk1"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal('')",
+                    "pegType": "InputAsk",
+                    "request": "=OpenEnrollmentUpfront.UHCMember_OpenEnrollmentUpfront_Msg2()",
+                    "response": "",
+                    "startDTM": "=conversation.startDate",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt,'_Prmt')"
+                  }
+                }
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "2s0uJU"
+              },
+              "condition": "=equals(conversation.solutranGreetingMessage,false)",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "LlTf1r"
+                  },
+                  "property": "conversation.flowState.flowNextPrompt",
+                  "value": "IntentCapture"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "8KuTiV",
+                    "name": "Go to intent capture"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "Flow-Start"
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "vPJKBc"
+                  },
+                  "property": "conversation.flowState.flowNextPrompt",
+                  "value": "Enrollment_CaptureMnu"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "A2wyqf"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "Flow-Start"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "OpenEnrollmentUpfront.lg",
+  "recognizer": "OpenEnrollmentUpfront.lu.qna",
+  "id": "OpenEnrollmentUpfront"
+}

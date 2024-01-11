@@ -1,0 +1,11 @@
+> !# @Namespace=CallerTypeDialog
+> !# @Exports = UHCMember_CallerTypeMsg
+[import](common.lg)
+
+# UHCMember_CallerTypeMsg()
+[Activity
+    Text = ${UHCMember_CallerType_text()}
+    Speak = ${UHCMember_CallerType_text()}
+    InputHint = expectingInput
+    ChannelData = ${ExpectingPrompts_ActivityParams(1000)}
+]

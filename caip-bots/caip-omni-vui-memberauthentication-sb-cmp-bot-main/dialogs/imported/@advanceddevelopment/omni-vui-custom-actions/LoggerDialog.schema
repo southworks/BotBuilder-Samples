@@ -1,0 +1,31 @@
+{
+    "$schema": "https://raw.githubusercontent.com/microsoft/botframework-sdk/master/schemas/component/component.schema",
+    "$role": "implements(Microsoft.IDialog)",
+    "title": "Omni-Logger",
+    "description": "Encrypt the logs in PROD. Appsettings should have the 32 Char Encryption Key and Environment details",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "message": {
+            "$ref": "schema:#/definitions/stringExpression",
+            "title": "Message",
+            "description": "Message to be logged in the console"
+        },
+       
+        "logType": {
+             "title": "Log Option",
+            "description": "Select an option",
+            "oneOf":[
+                {
+            "type": "string",
+            "title": "Select type",
+            "description": "Select an option",
+            "enum":[
+                "plaintext",
+                "encrypted"
+            ]
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,112 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "yQNfnE",
+    "name": "ValidateDOS",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "mR5UeN"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "HtC6wK"
+          },
+          "condition": "=length(conversation.dos) == 10",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "eppCKt"
+              },
+              "activityProcessed": true,
+              "dialog": "NoMatchInput"
+            }
+          ],
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "nIBjhM"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "=MainDialog.PegVal(conversation.inputVal)",
+                "pegType": "UserInput",
+                "request": "User Input",
+                "response": "=if(dialog.fromDialogName==\"DTMF\",turn.activity,turn.recognized)",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "=if(dialog.fromDialogName==\"DTMF\",MainDialog.PegName(conversation.inputVal,\"DTMFInput\"),MainDialog.PegName(conversation.inputVal,\"LuisResult\"))"   
+              }
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "AdCqot"
+              },
+              "value": "=concat(conversation.dos,'T00:00:00.000Z')",
+              "property": "conversation.policy_DOS"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "12N0kD"
+              },
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "OS6i0K"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.policy_DOS",
+                      "value": "=\"\""
+                    },
+                    {
+                      "property": "conversation.mw_policy_DOS",
+                      "value": "=\"\""
+                    }
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "fp4Lff"
+                  },
+                  "property": "conversation.mw_policy_DOS",
+                  "value": "=replace(conversation.dos,'-','')"
+                }
+              ],
+              "condition": "=dateTimeDiff(utcNow(),conversation.policy_DOS)>=0 && dateTimeDiff(utcNow(),conversation.policy_DOS)< 998640000000000"
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "tiAm46"
+              },
+              "activityProcessed": true,
+              "dialog": "AskDateRangeToggle"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "ValidateDOS.lg",
+  "recognizer": "ValidateDOS.lu.qna",
+  "id": "ValidateDOS"
+}

@@ -1,0 +1,220 @@
+
+> LUIS application information
+> !# @app.name = caip-omni-vui-personalization-sb-cmp-bot
+> !# @app.desc = Conversational Manager LUIS
+> !# @app.versionId = 0.4
+> !# @app.culture = en-us
+> !# @app.luis_schema_version = 7.0.0
+> !# @app.settings.NormalizePunctuation = True
+> !# @app.settings.UseAllTrainingData = True
+> !# @app.tokenizerVersion = 1.0.0
+
+
+> # Intent definitions
+
+# agent
+- {@agentML=advocate}
+- {@agentML=agent}
+- {@agentML=agent please}
+- {@agentML=associate}
+- {@agentML=customer service}
+- {@agentML=customer service please}
+- {@agentML=customer service representative}
+- let's speak with the {@agentML=supervisor}
+- {@agentML=like to customer service}
+- like to {@agentML=speak to a representative}
+- like to {@agentML=speak to someone}
+- like to {@agentML=talk to someone please}
+- looking for a {@agentML=human}?
+- need to {@agentML=speak to customer service}
+- need to {@agentML=speak with a supervisor}
+- need to {@agentML=talk to an advisor}
+- no {@agentML=customer service}.
+- {@agentML=operator please}
+- {@agentML=rep representative}
+- {@agentML=representative please}
+- {@agentML=service representative}
+- {@agentML=speak to a customer service representative}
+- {@agentML=speak to a representative}
+- {@agentML=speak to an agent}
+- {@agentML=speak to associate}
+- {@agentML=speak to representative}
+- {@agentML=speak to representative please}
+- {@agentML=speak to somebody}
+- {@agentML=speak to someone}
+- {@agentML=speak to someone customer service}
+- {@agentML=speak to the representative}
+- speak with a {@agentML=rep}
+- speak with {@agentML=customer service}
+- {@agentML=speak with representative}
+- {@agentML=talk to a person please}
+- {@agentML=talk to a representative}
+- the to a {@agentML=representative}
+- the with {@agentML=representative}
+- to a {@agentML=representative}
+- to an advice
+- to {@agentML=an agent}
+- to {@agentML=representative please}
+- to {@agentML=speak to customer service}
+- to {@agentML=talk to a representative}
+- to {@agentML=talk to someone about}
+- {@agentML=transfer to a person}
+- {@agentML=transfer to live agent}
+- would like to {@agentML=speak to a customer representative}
+- would like to {@agentML=speak to customer service rep}
+- would like to {@agentML=speak to someone}
+
+
+@ intent agent usesFeature agentML
+
+# goodbye
+- {@goodbyeML=bye}
+- {@goodbyeML=bye bye}
+- {@goodbyeML=done}
+- {@goodbyeML=good bye}
+- {@goodbyeML=goodbye}
+- {@goodbyeML=it's all for now}
+- {@goodbyeML=next time}
+- no {@goodbyeML=thank you}
+- no {@goodbyeML=thanks}
+- no. {@goodbyeML=goodbye}.
+- {@goodbyeML=thank you so much}
+- {@goodbyeML=thanks, maybe another time}
+- {@goodbyeML=thankyou}
+- {@goodbyeML=that will be all}
+- {@goodbyeML=that's it, thank you}
+
+
+@ intent goodbye usesFeature goodbyeML
+
+# None
+- fungibility
+- head north
+- my excel
+- plane
+- writer exploration
+
+
+# noResponse
+- absolutely {@noML=not}
+- definitely {@noML=not}
+- i already told you {@noML=no}
+- i said {@noML=no}
+- {@noML=nah}
+- {@noML=negative}
+- {@noML=never}
+- {@noML=nevermind}
+- {@noML=no no}
+- {@noML=no no} i have different one
+- {@noML=no} that is solved
+- {@noML=no, no, no.}
+- {@noML=nope}
+- {@noML=not} this time
+- {@noML=not} today
+- {@noML=nothing}
+- {@noML=skip}
+- {@noML=wrong} one
+
+
+@ intent noResponse usesFeature noML
+
+# pause
+- {@pauseML=freeze}
+- {@pauseML=hang on} a minute
+- i just {@pauseML=need more time}
+- i {@pauseML=need more time}
+- no, {@pauseML=wait}
+- {@pauseML=some more time}
+- {@pauseML=wait}
+- {@pauseML=wait right there}
+
+
+@ intent pause usesFeature pauseML
+
+# repeat
+- can you {@repeatML=repeat} that
+- {@repeatML=come again}
+- {@repeatML=come again please}
+- {@repeatML=i didn't hear that}
+- please {@repeatML=repeat}.
+- {@repeatML=sorry didn't understand that}
+- {@repeatML=sorry missed that}
+- tell me {@repeatML=again}
+- {@repeatML=what was that}
+- {@repeatML=what?}
+
+
+@ intent repeat usesFeature repeatML
+
+# YesResponse
+- {@yesML=absolutely}
+- {@yesML=affirmative}
+- {@yesML=correct}
+- {@yesML=definitely}
+- {@yesML=go ahead}
+- {@yesML=good}
+- {@yesML=i'm ready}
+- {@yesML=ok}
+- {@yesML=okay}
+- {@yesML=right thats it}
+- {@yesML=sure}
+- {@yesML=that's correct}
+- {@yesML=that's right}
+- {@yesML=undoubtedly}
+- {@yesML=why not}
+- {@yesML=yah}
+- {@yesML=yea}
+- {@yesML=yeah}
+- {@yesML=yeah} please help me with that
+- {@yesML=yes}, go ahead
+- {@yesML=yes}, thank you
+- {@yesML=yes, um so}
+- {@yesML=yup}
+
+
+@ intent YesResponse usesFeature yesML
+
+> # Entity definitions
+
+@ ml agentML usesFeature agentFeature
+
+@ ml goodbyeML usesFeature goodbyeFeature
+
+@ ml noML usesFeature noFeature
+
+@ ml pauseML usesFeature pauseFeature
+
+@ ml repeatML usesFeature repeatFeature
+
+@ ml yesML usesFeature yesFeature
+
+
+> # PREBUILT Entity definitions
+
+
+> # Phrase list definitions
+
+@ phraselist agentFeature(interchangeable) disabledForAllModels = 
+	- Advisor,Agent,Representative,Advocate,Specialist,representative,customer service,agent,operator,speak to a representative,speak to representative,speak with representative,speak with a representative,speak to an agent,representative please,customer service representative,customer service please,speak to someone,to speak to customer service,to a representative,talk to a representative,speak with customer service,service,rep,would like to speak to someone,would like to speak to customer service rep,would like to speak to a customer representative,to talk to talk to someone about,to talk to someone,to talk to a representative,to representative please,to an agent,to an advice,the with representative,the to a representative,talk to someone,talk to a person please,speak to the representative,speak to someone customer service,speat to somebody,speak to representative please,speak to associate,speak to a customer service representative,speak representative,speak customer speak to customer service,service representative,rep representative,operator please,need to speak with a supervisor,need to speak to customer service,need to speak to a representative,need to speak to a rep,need to speak to a customer representative,need speak to customer service,like to talk to someone please,like to speak to someone,like to speak to a representative,agent please,like to customer service,im calling to speak to an agent,i want customer service,i need to talk to somebody a bout,i need to talk to a representative,i need to speak to someone,i need to speak to an agent,i need to speak to a customer service,i need talk with someone,i need speak somebody,customer service rep please,customer service help,customer representative,agent representative,customer care representative,Associate,Agents,human,somebody,person,supervisor,human being.,representatives,talk
+
+@ phraselist pauseFeature(interchangeable) disabledForAllModels = 
+	- pause,freeze,wait,hang on,one minute,just give me a minute,one more minute,just a second,can i have sometime,can i some more time,hold on,please hold on,wait for a second,give me some time,please wait,just a moment,give me a moment,one second,one moment please,just a minute,some time?,some time,Wait a minute,1 minute,1 moment,1 second
+
+@ phraselist repeatFeature(interchangeable) disabledForAllModels = 
+	- what was that,can you repeat once again,one more time,come again,sorry what was that,didnt get you,Repeat again,What?,Say that again,Repeat it,what was that?,repeat the last message?,say that again?,Repeat please,Repeat,again repeat the plan?,please repeat?,repeat it again,repeat,Repeat that again,what you said,repeat what you just said?
+
+@ phraselist yesFeature(interchangeable) disabledForAllModels = 
+	- yes,correct,that's right,that is right,that's correct,you got it,yep,yea,yup,ya,right,yeah
+
+@ phraselist noFeature(interchangeable) disabledForAllModels = 
+	- no,nothing,dont know,incorrect,never mind,no way,thats all,cancel,not,wrong,skip,no no,nope,nop
+
+@ phraselist goodbyeFeature(interchangeable) disabledForAllModels = 
+	- goodbye,good bye,bye,all done,done,thanks,thank you,that's all,that's it,bye bye,end call,disconnect,thank,next time,good for now
+
+
+> # List entities
+
+> # RegEx entities
+
+

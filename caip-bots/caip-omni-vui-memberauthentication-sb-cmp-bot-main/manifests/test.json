@@ -1,0 +1,26 @@
+{
+  "$schema": "https://schemas.botframework.com/schemas/skills/v2.2/skill-manifest.json",
+  "$id": "caip-omni-vui-memberauthentication-sb-cmp-bot",
+  "endpoints": [
+    {
+      "protocol": "BotFrameworkV3",
+      "name": "omni-vui-memberauthentication-sb-cmp",
+      "endpointUrl": "https://nonprod.ava.optum.com/omni-vui-memberauthentication-sb-cmp-app-dev-v1/messages",
+      "description": "<description>",
+      "msAppId": "3ff6dd06-82a4-4f6d-a5c4-e9b79e8eddcd"
+    }
+  ],
+  "name": "caip-omni-vui-memberauthentication-sb-cmp-bot",
+  "version": "1.0",
+  "publisherName": "OmniCoreEngineeringTeam",
+  "description": "member authentication skill",
+  "activities": {
+    "omni-vui-memberauthentication-sb-cmp": {
+      "type": "event",
+      "name": "omni-vui-memberauthentication-sb-cmp"
+    },
+    "message": {
+      "type": "message"
+    }
+  }
+}

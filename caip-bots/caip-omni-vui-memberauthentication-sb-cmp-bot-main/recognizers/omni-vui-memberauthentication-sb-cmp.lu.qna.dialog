@@ -1,0 +1,6 @@
+{
+  "$kind": "Microsoft.CrossTrainedRecognizerSet",
+  "recognizers": [
+    "omni-vui-memberauthentication-sb-cmp.lu"
+  ]
+}

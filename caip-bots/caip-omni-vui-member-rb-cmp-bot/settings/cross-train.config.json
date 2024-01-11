@@ -1,0 +1,48 @@
+{
+  "Language.en-us": {
+    "rootDialog": false,
+    "triggers": {
+      "": [
+        "TelemetryDialog.en-us",
+        "EndLanguageDialog.en-us"
+      ],
+      "spanish": [
+        "TelemetryDialog.en-us",
+        "TelemetryDialog.en-us",
+        "EndLanguageDialog.en-us"
+      ]
+    }
+  },
+  "SMS.en-us": {
+    "rootDialog": false,
+    "triggers": {
+      "": [
+        "TelemetryDialog.en-us"
+      ],
+      "yes": [
+        "TelemetryDialog.en-us",
+        "API-SMS.en-us"
+      ],
+      "no": [
+        "TelemetryDialog.en-us"
+      ]
+    }
+  },
+  "TransferCalltoAgent.en-us": {
+    "rootDialog": false,
+    "triggers": {
+      "": [
+        "TelemetryDialog.en-us",
+        "TransferContinuation.en-us"
+      ],
+      "planType": [
+        "TelemetryDialog.en-us",
+        "TransferContinuation.en-us"
+      ],
+      "somethingElse": [
+        "TelemetryDialog.en-us",
+        "TransferContinuation.en-us"
+      ]
+    }
+  }
+}

@@ -1,0 +1,19 @@
+const crypto = require("crypto");
+const algorithm = "aes-256-cbc";
+
+const ENCRYPTION_KEY = 'vOVH6sdmpNWjRRIqCc7rdxs01lwHzfr3';
+const IV_LENGTH = 16;
+
+// place the encrypted text here
+let text = "7013b16fbdeda908a3cdd002147d63ad:0c0a6ebe97997e0f63d01c03ae571290962e65f6a284bbb49034189cb31899edccf145c1b400eb3353696d1ef577ad44c5484b2ec2d1d9da7eb9e5c7491c6e3cc6fc4060079492566ff2c7929391a5f02a09885bd42271bdb63a3db10fba244eae38fa27155db5d3c9d03860cad101546a650f857da5eed0aba732831547f0dba64d7ceab560d1881c6d521d21ad6d78";
+let textparts = text.split(':');
+let iv = Buffer.from(textparts.shift(), 'hex');
+//console.log(iv);
+let encrpyptedtext = Buffer.from(textparts.join(':'), 'hex');
+let decipher = crypto.createDecipheriv('aes-256-cbc', Buffer.from(ENCRYPTION_KEY), iv);
+let decrypted = decipher.update(encrpyptedtext);
+decrypted = Buffer.concat([decrypted, decipher.final()]);
+
+let result = decrypted.toString();
+
+console.log(result);

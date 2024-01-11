@@ -1,0 +1,106 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "dcFMqz",
+    "name": "ValidateIntent",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "qYrjQt"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "R3A0aX"
+          },
+          "condition": "=and(conversation.callerIntentconfig.CT_NLTagCallerType !='PV', conversation.flowState.flowPreviousPrompt != 'confirm_intent_options')",
+          "elseActions": [],
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "s0H7nB"
+              },
+              "activityProcessed": true,
+              "dialog": "LoadEntityConfig",
+              "options": {
+                "luisEntity": "=MainDialog.GetEntityFromAnyIntent(conversation.flowState.lastIntent, conversation.turnRecognized)",
+                "luisIntent": "=conversation.flowState.lastIntent",
+                "context": "=''"
+              }
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "LFlx2g"
+              },
+              "condition": "=and(count(conversation.results) == 0, conversation.flowState.failedCount < 3)",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "1jaRKH"
+                  },
+                  "property": "conversation.flowState.flowNextPrompt",
+                  "value": "=conversation.flowState.flowPreviousPrompt"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "5FaMp5"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "NoMatchInput"
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "OydVXz"
+                  }
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "kTdEqT"
+                  },
+                  "condition": "=and(equals(conversation.lastNMorNI, 'NM3'), equals (conversation.flowState.lastIntent, 'accountUpdate'))",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "q5712w"
+                      },
+                      "property": "conversation.callerIntentconfig.extraMessage",
+                      "value": "callerType"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "A2zctA"
+          },
+          "activityProcessed": true,
+          "dialog": "ExtraMessagingDialog"
+        }
+      ]
+    }
+  ],
+  "generator": "ValidateIntent.lg",
+  "recognizer": "ValidateIntent.lu.qna",
+  "id": "ValidateIntent"
+}

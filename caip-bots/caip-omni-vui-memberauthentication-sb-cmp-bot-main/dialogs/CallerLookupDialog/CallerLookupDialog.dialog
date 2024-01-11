@@ -1,0 +1,97 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "eiTu9T",
+    "name": "CallerLookupDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "D0PfPp"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "IoopyP"
+          },
+          "activity": "${SendActivity_spkCallerInformLookup()}"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "AKpvpf"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+                        "peg": "00060",
+                        "pegType": "General",
+                        "request": "=CallerLookupDialog.SendActivity_spkCallerInformLookup()",
+                        "response": "",
+                        "startDTM": "=conversation.startDate",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "MembAuthSkill_CallerInformLookup_Peg"
+                      }
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "oCVFkd"
+          },
+          "condition": "=conversation.IDType",
+          "cases": [
+            {
+              "value": "ANI",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "wlcpsP"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "MemberPhoneSearchDialog"
+                }
+              ]
+            },
+            {
+              "value": "Phone",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "sN9Iks"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "MemberPhoneSearchDialog"
+                }
+              ]
+            },
+            {
+              "value": "MEMID",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "oVDz1J"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "MemberIndividualsSearchDialog"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "CallerLookupDialog.lg",
+  "recognizer": "CallerLookupDialog.lu.qna",
+  "id": "CallerLookupDialog"
+}

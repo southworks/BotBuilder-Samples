@@ -1,0 +1,12 @@
+> !# @Namespace=AccountUpdateDialog
+> !# @Exports = UHCMember_AcctUpdate_EnIMsg
+
+[import](common.lg)
+
+# UHCMember_AcctUpdate_EnIMsg()
+[Activity
+    Text = ${UHCMember_AcctUpdate_EnI_text()}
+    Speak = ${UHCMember_AcctUpdate_EnI_text()}
+    InputHint = ignoringInput
+    ChannelData = ${IgnoringPrompt_ActivityParams()}
+]

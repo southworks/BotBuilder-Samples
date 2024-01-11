@@ -1,0 +1,73 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "kmEkD9",
+    "name": "DOBInputDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "1L98Qu"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "FUcVM7"
+          },
+          "assignments": [
+            {
+              "property": "conversation.inputVal",
+              "value": "=\"promptDOB\""
+            },
+            {
+              "property": "conversation.noMatchFlag",
+              "value": 1
+            },
+            {
+              "property": "conversation.noInputFlag",
+              "value": 1
+            },
+            {
+              "property": "conversation.repeatFlag",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "Zaef2w"
+          },
+          "activity": "${SendActivity_PromptDOB()}"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "gINKmF"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "=MainDialog.PegVal(conversation.inputVal)",
+            "pegType": "Input Ask",
+            "request": "=Common.SendActivity_PromptDOB()",
+            "response": "",
+            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "=MainDialog.PegName(conversation.inputVal,\"InputAsk\")"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "DOBInputDialog.lg",
+  "recognizer": "DOBInputDialog.lu.qna",
+  "id": "DOBInputDialog"
+}

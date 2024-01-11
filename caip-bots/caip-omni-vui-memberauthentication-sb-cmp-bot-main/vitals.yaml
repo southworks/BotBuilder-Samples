@@ -1,0 +1,8 @@
+apiVersion: v1
+metadata:
+  askId: AIDE_0077688 # currently linked to caip, update as needed
+  caAgileId: 350189444960d # currently linked to caip, update as needed
+  projectKey: com.optum.advanceddevelopment.bne:omni-vui-memberauthentication-sb-cmp
+  projectFriendlyName: omni-vui-memberauthentication-sb-cmp
+  componentType: code
+  targetQG: GATE_09

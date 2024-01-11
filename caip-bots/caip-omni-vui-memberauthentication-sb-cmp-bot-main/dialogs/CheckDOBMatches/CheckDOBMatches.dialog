@@ -1,0 +1,631 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "ugWy0J",
+    "name": "CheckDOBMatches",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "o7EsmQ"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "SgxyQ5"
+          },
+          "value": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+          "property": "conversation.startDate"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "ZfZhEp"
+          },
+          "condition": "=contains(conversation.identificationResponse.dobList,replace(conversation.tempDOB,'-',''))",
+          "actions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "u7d9mi"
+              },
+              "condition": "=count(conversation.matchedIndicies)>0",
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "rNT9Dv"
+                  },
+                  "value": "=where(indicesAndValues(conversation.identificationResponse.dobList), dob, dob.value ==replace(conversation.tempDOB,\"-\",\"\"))",
+                  "property": "conversation.matchedDOB"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "TpGG3T"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "GetMatchedIndicies",
+                  "options": {
+                    "matchedArray": "=conversation.matchedDOB"
+                  }
+                }
+              ],
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "cML2G7"
+                  },
+                  "value": "=createArray()",
+                  "property": "conversation.newElements"
+                },
+                {
+                  "$kind": "Microsoft.Foreach",
+                  "$designer": {
+                    "id": "CUDd8Z"
+                  },
+                  "index": "dialog.foreach.index",
+                  "value": "dialog.foreach.value",
+                  "itemsProperty": "conversation.matchedIndicies",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "WHPaWI"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.newElementList",
+                          "value": {}
+                        },
+                        {
+                          "property": "conversation.newElementList",
+                          "value": "=addProperty(conversation.newElementList,\"index\", dialog.foreach.value)"
+                        },
+                        {
+                          "property": "conversation.newElementList",
+                          "value": "=addProperty(conversation.newElementList,\"value\",conversation.identificationResponse.dobList[dialog.foreach.value])"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.EditArray",
+                      "$designer": {
+                        "id": "6mn92x"
+                      },
+                      "changeType": "push",
+                      "itemsProperty": "conversation.newElements",
+                      "value": "=conversation.newElementList"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "l5Qo4V"
+                  },
+                  "property": "conversation.matchedDOB",
+                  "value": "=where(conversation.newElements, dob, dob.value ==replace(conversation.tempDOB,\"-\",\"\"))"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "TXjVwd"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "GetMatchedIndicies",
+                  "options": {
+                    "matchedArray": "=conversation.matchedDOB"
+                  }
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "1gfQNy"
+              },
+              "condition": "=count(conversation.matchedDOB)>1",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "7FKyuc"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "ReadMatchingFirstNames",
+                  "options": {
+                    "matchedArray": "=conversation.matchedDOB"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "JDJE5E"
+                  },
+                  "condition": "=conversation.isAllFirstNamesMatching",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "qxqUsd"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "00041",
+                        "pegType": "General",
+                        "request": "",
+                        "response": "",
+                        "startDTM": "=conversation.startDate",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "MembAuthSkill_DOBMatch_FirstNamesMatch_Peg"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "29iDmL"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.authType",
+                          "value": "=\"DOB\""
+                        },
+                        {
+                          "property": "conversation.member.auth.dob",
+                          "value": "=conversation.matchedDOB[0].value"
+                        },
+                        {
+                          "property": "conversation.member.auth.firstName",
+                          "value": "=conversation.matchedFirstName"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "foNfgZ"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "CheckZIPAuthToggle"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "lvifiQ"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "00042",
+                        "pegType": "General",
+                        "request": "",
+                        "response": "",
+                        "startDTM": "=conversation.startDate",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "MembAuthSkill_DOBMatch_FirstNamesNoMatch_Peg"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "o8XtbM"
+                      },
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "1JzULR"
+                          },
+                          "assignments": [
+                            {
+                              "property": "conversation.inputVal",
+                              "value": "promptFirstName"
+                            },
+                            {
+                              "property": "conversation.noMatchFlag",
+                              "value": 1
+                            },
+                            {
+                              "property": "conversation.noInputFlag",
+                              "value": 1
+                            },
+                            {
+                              "property": "conversation.firstNameUniqueList",
+                              "value": "=unique(conversation.identificationResponse.firstNameList)"
+                            },
+                            {
+                              "property": "conversation.firstNamePhraseList",
+                              "value": "=createArray()"
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.Foreach",
+                          "$designer": {
+                            "id": "UTUlk2"
+                          },
+                          "index": "dialog.foreach.index",
+                          "value": "dialog.foreach.value",
+                          "itemsProperty": "conversation.firstNameUniqueList",
+                          "actions": [
+                            {
+                              "$kind": "Microsoft.SetProperty",
+                              "$designer": {
+                                "id": "fZtTUX"
+                              },
+                              "property": "conversation.phraseObjectJson",
+                              "value": {
+                                "phrases": [
+                                  "${dialog.foreach.value}"
+                                ]
+                              }
+                            },
+                            {
+                              "$kind": "Microsoft.EditArray",
+                              "$designer": {
+                                "id": "U7Kgq7"
+                              },
+                              "changeType": "push",
+                              "itemsProperty": "conversation.firstNamePhraseList",
+                              "value": "=conversation.phraseObjectJson"
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "jnKX1n"
+                          },
+                          "activity": "${SendActivity_PromptFirstName()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "1DvOQz"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "=MainDialog.PegVal(conversation.inputVal)",
+                            "pegType": "Input Ask",
+                            "request": "=Common.SendActivity_PromptFirstName()",
+                            "response": "",
+                            "startDTM": "=conversation.startDate",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "=MainDialog.PegName(conversation.inputVal,\"InputAsk\")"
+                          }
+                        }
+                      ],
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "GuWNFX"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "CheckIDType"
+                        }
+                      ],
+                      "condition": "or(!conversation.tfnConfig.TwinAuthenticationToggle ,conversation.tfnConfig.TwinAuthenticationToggle == \"ON\")"
+                    }
+                  ]
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "s2gg6j"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "00040",
+                    "pegType": "General",
+                    "request": "",
+                    "response": "",
+                    "startDTM": "=conversation.startDate",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "MembAuthSkill_SingleDOBMatch_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "r8ersD"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.authType",
+                      "value": "=\"DOB\""
+                    },
+                    {
+                      "property": "conversation.member.auth.dob",
+                      "value": "=conversation.matchedDOB[0].value"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "IPTlPf"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "CheckZIPAuthToggle"
+                }
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "titS9E"
+              },
+              "condition": "=and(int(substring(conversation.tempDOB,2,4))<=int(substring(replace(string(year(utcNow())),\",\",\"\"), 2)),substring(conversation.tempDOB,0,2)!=\"19\")",
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "vvK8lU"
+                  },
+                  "condition": "=!conversation.checkedDOBtwice",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "1UpnGz"
+                      },
+                      "assignments": [
+                        {
+                          "property": "dialog.tempstarting2year",
+                          "value": "=substring(conversation.tempDOB, 0, 2)"
+                        },
+                        {
+                          "property": "dialog.tempyear",
+                          "value": "=dialog.tempstarting2year == \"19\" ? \"20\":\"19\""
+                        },
+                        {
+                          "property": "conversation.tempDOB",
+                          "value": "=replace(conversation.tempDOB, substring(conversation.tempDOB, 0,2), dialog.tempyear)"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "LqKbiX"
+                      },
+                      "property": "conversation.checkedDOBtwice",
+                      "value": true
+                    },
+                    {
+                      "$kind": "Microsoft.RepeatDialog",
+                      "$designer": {
+                        "id": "I8y5YQ"
+                      },
+                      "activityProcessed": true
+                    }
+                  ]
+                }
+              ],
+              "elseActions": []
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "5zbGrM"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "00034",
+                "pegType": "General",
+                "request": "",
+                "response": "",
+                "startDTM": "=conversation.startDate",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MembAuthSkill_NoDOBMatch_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "tP6alf"
+              },
+              "condition": "=conversation.maxIdentityRecords == \"Y\"",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "Qb7Gl9"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "00035",
+                    "pegType": "General",
+                    "request": "",
+                    "response": "",
+                    "startDTM": "=conversation.startDate",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "MembAuthSkill_NoDOBMatch_MaxRecords_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "GLgsfj"
+                  },
+                  "property": "conversation.member.auth.dob",
+                  "value": "=replace(conversation.tempDOB,\"-\",\"\")"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "JFO49O"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "CallerLookupDialog"
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "5B5xM1"
+                  },
+                  "condition": "=conversation.dobConfirmed",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "PxMasB"
+                      },
+                      "condition": "=equals(conversation.IDType,\"MEMID\")",
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "nvtpBJ"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "00048",
+                            "pegType": "General",
+                            "request": "",
+                            "response": "",
+                            "startDTM": "=conversation.startDate",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "MembAuthSkill_DOBConfirmed_MIDNeeded_Peg"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "33U3AJ"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "MemberIDInputDialog"
+                        }
+                      ],
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "mzAWRe"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "00036",
+                            "pegType": "General",
+                            "request": "",
+                            "response": "",
+                            "startDTM": "=conversation.startDate",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "MembAuthSkill_DOBConfirmed_Peg"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "qkn90X"
+                          },
+                          "assignments": [
+                            {
+                              "property": "conversation.authFlag",
+                              "value": false
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "CVCjrp"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "AuthInCompleteDialog"
+                        }
+                      ]
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "zN8ZoT"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.dobConfirmed",
+                          "value": true
+                        },
+                        {
+                          "property": "conversation.inputVal",
+                          "value": "=\"confirmDOB\""
+                        },
+                        {
+                          "property": "conversation.noMatchFlag",
+                          "value": 1
+                        },
+                        {
+                          "property": "conversation.noInputFlag",
+                          "value": 1
+                        },
+                        {
+                          "property": "conversation.repeatFlag",
+                          "value": 1
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "0pUucY"
+                      },
+                      "activity": "${SendActivity_ConfirmDOB()}"
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "Z0jhcT"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "=MainDialog.PegVal(conversation.inputVal)",
+                        "pegType": "Input Ask",
+                        "request": "=Common.SendActivity_ConfirmDOB()",
+                        "response": "",
+                        "startDTM": "=conversation.startDate",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "=MainDialog.PegName(conversation.inputVal,\"InputAsk\")"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "CheckDOBMatches.lg",
+  "recognizer": "CheckDOBMatches.lu.qna",
+  "id": "CheckDOBMatches"
+}

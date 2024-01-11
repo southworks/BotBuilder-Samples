@@ -1,0 +1,249 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "K1Z2AQ",
+    "name": "GetPromptTelemetryProps",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "5Ql9kP"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "c4IN7i"
+          },
+          "assignments": [
+            {
+              "property": "conversation.fptelemetryProps",
+              "value": "={}"
+            },
+            {
+              "property": "conversation.fptelemetryProps",
+              "value": "=addProperty(conversation.fptelemetryProps,\"AppName\",conversation.appName)"
+            },
+            {
+              "property": "conversation.fptelemetryProps",
+              "value": "=addProperty(conversation.fptelemetryProps,\"Peg\",\"01121\")"
+            },
+            {
+              "property": "conversation.fptelemetryProps",
+              "value": "=addProperty(conversation.fptelemetryProps,\"PegType\",\"General\")"
+            },
+            {
+              "property": "conversation.fptelemetryProps",
+              "value": "=addProperty(conversation.fptelemetryProps,\"PegName\",\"MembAuthSkill_GlobalTimeoutFirst_Peg\")"
+            },
+            {
+              "property": "conversation.fptelemetryProps",
+              "value": "=addProperty(conversation.fptelemetryProps,\"CallGUID\",conversation.callGUID ? conversation.callGUID : \"\")"
+            },
+            {
+              "property": "conversation.fptelemetryProps",
+              "value": "=addProperty(conversation.fptelemetryProps,\"CallId\",conversation.callId ? conversation.callId : \"\")"
+            },
+            {
+              "property": "conversation.fptelemetryProps",
+              "value": "=addProperty(conversation.fptelemetryProps,\"ConversationId\", conversation.conversationId ? conversation.conversationId : \"\")"
+            },
+            {
+              "property": "conversation.fptelemetryProps",
+              "value": "=addProperty(conversation.fptelemetryProps,\"TFN\", conversation.tfn ? conversation.tfn : \"\")"
+            },
+            {
+              "property": "conversation.fptelemetryProps",
+              "value": "=addProperty(conversation.fptelemetryProps,\"Request\",Common.SendActivity_GlobalTimeOutFirstMsg())"
+            },
+            {
+              "property": "conversation.fptelemetryProps",
+              "value": "=addProperty(conversation.fptelemetryProps,\"Response\",\"\")"
+            },
+            {
+              "property": "conversation.fptelemetryProps",
+              "value": "=addProperty(conversation.fptelemetryProps,\"StartDTM\",conversation.startDate ? conversation.startDate : formatDateTime(utcNow()))"
+            },
+            {
+              "property": "conversation.fptelemetryProps",
+              "value": "=addProperty(conversation.fptelemetryProps,\"EndDTM\",formatDateTime(utcNow()))"
+            },
+            {
+              "property": "conversation.fpcustomMetricsArr",
+              "value": "=[]"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EditArray",
+          "$designer": {
+            "id": "UKle2J"
+          },
+          "changeType": "push",
+          "itemsProperty": "conversation.fpcustomMetricsArr",
+          "value": "=conversation.fptelemetryProps",
+          "resultProperty": "conversation.newfpCustomMetricsArr"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "uZtyKE"
+          },
+          "assignments": [
+            {
+              "property": "conversation.firstPromptTelemetryProps",
+              "value": "={}"
+            },
+            {
+              "property": "conversation.firstPromptProperties",
+              "value": {
+                "appName": "=conversation.appName",
+                "peg": "01121",
+                "pegType": "General",
+                "pegName": "MembAuthSkill_GlobalTimeoutFirst_Peg",
+                "callGUId": "=conversation.callGUID? conversation.callGUID : \"\"",
+                "callId": "=conversation.callid ? conversation.callid : \"\"",
+                "conversationId": "=conversation.conversationId ? conversation.conversationId : \"\"",
+                "request": "=Common.SendActivity_GlobalTimeOutFirstMsg()",
+                "response": "",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "tfn": "=conversation.tfn ? conversation.tfn : \"\"",
+                "customMetrics": "=conversation.fpcustomMetricsArr ? conversation.fpcustomMetricsArr : \"\""
+              }
+            },
+            {
+              "value": "=addProperty(conversation.firstPromptTelemetryProps,\"properties\", conversation.firstPromptProperties)",
+              "property": "conversation.firstPromptTelemetryProps"
+            },
+            {
+              "property": "conversation.firstPromptTelemetryProps",
+              "value": "=addProperty(conversation.firstPromptTelemetryProps,\"name\", \"MembAuthSkill_GlobalTimeoutFirst_Peg\")"
+            }          
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "eY6E25"
+          },
+          "assignments": [
+            {
+              "property": "conversation.rptelemetryProps",
+              "value": "={}"
+            },
+            {
+              "property": "conversation.rptelemetryProps",
+              "value": "=addProperty(conversation.rptelemetryProps,\"AppName\",conversation.appName)"
+            },
+            {
+              "property": "conversation.rptelemetryProps",
+              "value": "=addProperty(conversation.rptelemetryProps,\"Peg\",\"01122\")"
+            },
+            {
+              "property": "conversation.rptelemetryProps",
+              "value": "=addProperty(conversation.rptelemetryProps,\"PegType\",\"General\")"
+            },
+            {
+              "property": "conversation.rptelemetryProps",
+              "value": "=addProperty(conversation.rptelemetryProps,\"PegName\",\"MembAuthSkill_GlobalTimeoutSecond_Peg\")"
+            },
+            {
+              "property": "conversation.rptelemetryProps",
+              "value": "=addProperty(conversation.rptelemetryProps,\"CallGUID\",conversation.callGUID ? conversation.callGUID : \"\")"
+            },
+            {
+              "property": "conversation.rptelemetryProps",
+              "value": "=addProperty(conversation.rptelemetryProps,\"CallId\",conversation.callId ? conversation.callId : \"\")"
+            },
+            {
+              "property": "conversation.rptelemetryProps",
+              "value": "=addProperty(conversation.rptelemetryProps,\"ConversationId\", conversation.conversationId ? conversation.conversationId : \"\")"
+            },
+            {
+              "property": "conversation.rptelemetryProps",
+              "value": "=addProperty(conversation.rptelemetryProps,\"TFN\", conversation.tfn ? conversation.tfn : \"\")"
+            },
+            {
+              "property": "conversation.rptelemetryProps",
+              "value": "=addProperty(conversation.rptelemetryProps,\"Request\",Common.SendActivity_GlobalTimeOutSecondMsg())"
+            },
+            {
+              "property": "conversation.rptelemetryProps",
+              "value": "=addProperty(conversation.rptelemetryProps,\"Response\",\"\")"
+            },
+            {
+              "property": "conversation.rptelemetryProps",
+              "value": "=addProperty(conversation.rptelemetryProps,\"StartDTM\",conversation.startDate ? conversation.startDate : formatDateTime(utcNow()))"
+            },
+            {
+              "property": "conversation.rptelemetryProps",
+              "value": "=addProperty(conversation.rptelemetryProps,\"EndDTM\",formatDateTime(utcNow()))"
+            },
+            {
+              "property": "conversation.rpcustomMetricsArr",
+              "value": "=[]"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EditArray",
+          "$designer": {
+            "id": "ipyP5T"
+          },
+          "changeType": "push",
+          "itemsProperty": "conversation.rpcustomMetricsArr",
+          "value": "=conversation.rptelemetryProps",
+          "resultProperty": "conversation.newrpCustomMetricsArr"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "ZCHn2q"
+          },
+          "assignments": [
+            {
+              "property": "conversation.repeatPromptTelemetryProps",
+              "value": "={}"
+            },
+            {
+              "property": "conversation.repeatPromptProperties",
+              "value": {
+                "appName": "=conversation.appName",
+                "peg": "01122",
+                "pegType": "General",
+                "pegName": "MembAuthSkill_GlobalTimeoutSecond_Peg",
+                "callGUId": "=conversation.callGUID? conversation.callGUID : \"\"",
+                "callId": "=conversation.callid ? conversation.callid : \"\"",
+                "conversationId": "=conversation.conversationId ? conversation.conversationId : \"\"",
+                "request": "=Common.SendActivity_GlobalTimeOutSecondMsg()",
+                "response": "",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "tfn": "=conversation.tfn ? conversation.tfn : \"\"",
+                "customMetrics": "=conversation.rpcustomMetricsArr ? conversation.rpcustomMetricsArr : \"\""
+              }
+            },
+            {
+              "value": "=addProperty(conversation.repeatPromptTelemetryProps,\"properties\", conversation.repeatPromptProperties)",
+              "property": "conversation.repeatPromptTelemetryProps"
+            },
+            {
+              "property": "conversation.repeatPromptTelemetryProps",
+              "value": "=addProperty(conversation.repeatPromptTelemetryProps,\"name\", \"MembAuthSkill_GlobalTimeoutSecond_Peg\")"
+            }          
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "GetPromptTelemetryProps.lg",
+  "recognizer": "GetPromptTelemetryProps.lu.qna",
+  "id": "GetPromptTelemetryProps"
+}

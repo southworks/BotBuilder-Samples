@@ -1,0 +1,11 @@
+{
+  "$kind": "Microsoft.LuisRecognizer",
+  "id": "LUIS_omni_vui_memberintent_sb_cmp",
+  "applicationId": "=settings.luis.omni_vui_memberintent_sb_cmp_en_us_lu.appId",
+  "version": "=settings.luis.omni_vui_memberintent_sb_cmp_en_us_lu.version",
+  "endpoint": "=settings.luis.endpoint",
+  "endpointKey": "=settings.luis.endpointKey",
+  "predictionOptions":{
+    "includeAPIResults": true
+   }
+}

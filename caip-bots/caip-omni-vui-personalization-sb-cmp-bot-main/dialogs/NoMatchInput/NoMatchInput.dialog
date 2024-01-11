@@ -1,0 +1,175 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "1olP4m",
+    "name": "NoMatchInput",
+    "comment": "No match input"
+  },
+  "autoEndDialog": true,
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "x50cRk"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "fv1Fxl"
+          },
+          "property": "conversation.startDate",
+          "value": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "5zGQe9"
+          },
+          "condition": "=and(conversation.matchFlag==1,string(conversation.inputVal)!=string(\"\"),conversation.retryFlag<2)",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "KRsKq1"
+              },
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "FZoedf"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "GlobalContainer",
+                  "options": {
+                    "globalParam": "maxnomatch"
+                  }
+                }
+              ],
+              "condition": "=and(conversation.matchFlag==2,string(conversation.inputVal)!=string(\"\"),conversation.retryFlag<=2)",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "Kjeqoz"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.matchFlag",
+                      "value": "=add(conversation.matchFlag,1)"
+                    },
+                    {
+                      "property": "conversation.retryFlag",
+                      "value": "=add(conversation.retryFlag,1)"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "ae3qjt"
+                  },
+                  "property": "conversation.startDate",
+                  "value": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")"
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "zo0LTY"
+                  },
+                  "condition": "=conversation.inputVal",
+                  "cases": [
+                    {
+                      "value": "cmReturnedMenu",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "Cn9Iwx"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "GlobalContainer",
+                          "options": {
+                            "globalParam": "maxnomatch"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "YcJdQt"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.matchFlag",
+                  "value": "=add(conversation.matchFlag,1)"
+                },
+                {
+                  "property": "conversation.retryFlag",
+                  "value": "=add(conversation.retryFlag,1)"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SwitchCondition",
+              "$designer": {
+                "id": "uz6cFq"
+              },
+              "condition": "=conversation.inputVal",
+              "cases": [
+                {
+                  "value": "cmReturnedMenu",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "WyVkrl"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "00809",
+                        "pegType": "General",
+                        "startDTM": "=conversation.startDate",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "ConversationManagerSkill_TTS_NM1_Peg",
+                        "request": "=NoMatch.ConversationManagerReturnedMenu_NM1_Msg()",
+                        "response": "=turn"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "xq3nXU"
+                      },
+                      "activity": "${ConversationManagerReturnedMenu_NM1_Msg()}"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "2xqlFs"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "NoMatchInput.lg",
+  "recognizer": "NoMatchInput.lu.qna",
+  "id": "NoMatchInput",
+  "defaultResultProperty": "dialog.result"
+}

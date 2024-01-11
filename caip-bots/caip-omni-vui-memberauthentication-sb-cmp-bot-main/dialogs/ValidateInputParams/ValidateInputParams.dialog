@@ -1,0 +1,158 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "OrO5BZ",
+    "name": "ValidateInputParams",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "V8XTRy"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "pNPYgq"
+          },
+          "condition": "=exists(turn.activity.value.appName)",
+          "actions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "5iztsw"
+              },
+              "condition": "=exists(turn.activity.value.callGUID)",
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "78RNZo"
+                  },
+                  "condition": "=exists(turn.activity.value.businessUnit)",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "11lo8Q"
+                      },
+                      "condition": "=exists(turn.activity.value.parameters.ani)",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.IfCondition",
+                          "$designer": {
+                            "id": "BTvUHB"
+                          },
+                          "condition": "=exists(turn.activity.value.parameters.tfnConfig)",
+                          "actions": [
+                            {
+                              "$kind": "Microsoft.IfCondition",
+                              "$designer": {
+                                "id": "n8Mmtr"
+                              },
+                              "condition": "=exists(turn.activity.value.consumerAppName)",
+                              "elseActions": [
+                                {
+                                  "$kind": "Microsoft.SetProperty",
+                                  "$designer": {
+                                    "id": "ywHDSl"
+                                  },
+                                  "value": "No consumerAppName input from the root bot",
+                                  "property": "conversation.errorMessage"
+                                }
+                              ],
+                              "actions": [
+                                {
+                                  "$kind": "Microsoft.EndDialog",
+                                  "$designer": {
+                                    "id": "eEdNt6"
+                                  }
+                                }
+                              ]
+                            }
+                          ],
+                          "elseActions": [
+                            {
+                              "$kind": "Microsoft.SetProperty",
+                              "$designer": {
+                                "id": "sI71iZ"
+                              },
+                              "property": "conversation.errorMessage",
+                              "value": "No tfnConfig input from the root bot"
+                            }
+                          ]
+                        }
+                      ],
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "dzho9K"
+                          },
+                          "value": "No ANI Input from Root Bot",
+                          "property": "conversation.errorMessage"
+                        }
+                      ]
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "IhHCau"
+                      },
+                      "value": "No Business Unit Input from Root Bot",
+                      "property": "conversation.errorMessage"
+                    }
+                  ]
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "jLdNX0"
+                  },
+                  "value": "No call GUID Input from Root Bot",
+                  "property": "conversation.errorMessage"
+                }
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "ByqjWg"
+              },
+              "property": "conversation.errorMessage",
+              "value": "No App Name Input from Root Bot"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "gy7P75"
+          },
+          "activityProcessed": true,
+          "dialog": "GlobalContainer",
+          "options": {
+            "globalParam": "systemerror",
+            "errorCode": "000",
+            "errorMessage": "=conversation.errorMessage"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "ValidateInputParams.lg",
+  "recognizer": "ValidateInputParams.lu.qna",
+  "id": "ValidateInputParams"
+}

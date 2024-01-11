@@ -1,0 +1,143 @@
+
+> LUIS application information
+> !# @app.name = caip-omni-vui-member-rb-cmp-bot
+> !# @app.versionId = V1.1
+> !# @app.culture = en-us
+> !# @app.luis_schema_version = 7.0.0
+> !# @app.settings.NormalizePunctuation = True
+> !# @app.settings.UseAllTrainingData = True
+> !# @app.tokenizerVersion = 1.0.0
+
+
+> # Intent definitions
+
+# agentGeneral
+- {@agentGeneralML=advisor}
+- {@agentGeneralML=advocate}
+- {@agentGeneralML=agent}
+- {@agentGeneralML=agents}
+- {@agentGeneralML=assistance}
+- {@agentGeneralML=associate}
+- claims {@agentGeneralML=agent}
+- {@agentGeneralML=customer assistance}
+- {@agentGeneralML=customer care}
+- {@agentGeneralML=customer service}
+- {@agentGeneralML=customer services}
+- {@agentGeneralML=customer support}
+- {@agentGeneralML={@agentEmergencyChild=emergency}}
+- {@agentGeneralML=help}
+- {@agentGeneralML=human}
+- {@agentGeneralML=manager}
+- {@agentGeneralML=member service}
+- {@agentGeneralML=person}
+- {@agentGeneralML=phone number}
+- {@agentGeneralML=rapid resolution}
+- {@agentGeneralML=rep}
+- {@agentGeneralML=representative}
+- {@agentGeneralML=representative} medical
+- {@agentGeneralML=representatives}
+- {@agentGeneralML=resolution}
+- {@agentGeneralML=speak someone}
+- {@agentGeneralML=speak to}
+- {@agentGeneralML=speak to someone}
+- {@agentGeneralML=speak with}
+- {@agentGeneralML=speak with somebody}
+- {@agentGeneralML=speak with someone}
+- {@agentGeneralML=supervisor}
+- {@agentGeneralML=talk to}
+- {@agentGeneralML=talk to somebody}
+- {@agentGeneralML=talk to someone}
+- {@agentGeneralML=talk with}
+- {@agentGeneralML=transfer me}
+- {@agentClassifierList}
+- {@agentGeneralML}
+
+
+@ intent agentGeneral usesFeatures agentGeneralML,agentClassifierList
+
+# None
+- none
+- none of those
+
+
+# spanish
+- ¡hola! sí, hablo español con fluidez
+- 1. hola, ¿cómo estás
+- claro que sí, soy hispanohablante
+- entiendo y hablo español con fluidez
+- espanol
+- espanol por favor
+- espanola
+- espanyol please
+- estoy hablando en español
+- hablas español?
+- hablo español como segunda lengua
+- hispano
+- i {@translatorML=need someone who speaks spanish}
+- mi idioma nativo es el español
+- no comprendo
+- prefiero hablar en español
+- sí, hablo español
+- soy hispanohablante
+- soy un hablante nativo de español.
+- spanish
+- spanyol
+
+
+@ intent spanish usesFeature spanishList
+
+# translator
+- could you get me a {@translatorML=translator}
+- i {@translatorML=do not speak english}
+- i {@translatorML=don't know english}
+- i {@translatorML=don't speak english}
+- {@translatorML=i} {@translatorML=don't talk english}
+- i {@translatorML=don’t speak english}
+- i need a {@translatorML=translator}
+- i wanna {@translatorML=translator}
+- i want a {@translatorML=translator}
+- i want {@translatorML=translator}
+- {@translatorML=translator}
+
+
+@ intent translator usesFeature translatorML
+
+> # Entity definitions
+
+@ ml agentGeneralML usesFeatures agentGeneralFeature,agentClassifierList
+    - @ ml agentEmergencyChild
+
+
+@ ml translatorML usesFeature translatorFeature
+
+
+> # PREBUILT Entity definitions
+
+
+> # Phrase list definitions
+
+@ phraselist agentGeneralFeature(interchangeable) disabledForAllModels = 
+	- agent,talk to someone,talk with someone,talk to somebody,speak with someone,talk to,speak with,customer service,representative,rep,advisor,advocate,manager,person,human,operator,real contact,speak to someone,speak to,talk with,rapid,resolution,customer support,associate,customer care,supervisor,representatives,member service,customer assistance,assistance,help
+
+@ phraselist translatorFeature(interchangeable) disabledForAllModels = 
+	- don't understand english,translator,need translator,dont speak english,do not speak english
+
+
+> # List entities
+
+@ list agentClassifierList = 
+	- agent :
+
+
+@ list spanishList = 
+	- spanish :
+		- espanol
+		- espanyol
+	- Spanyol :
+	- Espanola :
+	- Hispano :
+
+
+> # RegEx entities
+
+

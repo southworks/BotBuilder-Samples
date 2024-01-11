@@ -1,0 +1,188 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "IFMcKn",
+    "name": "FindProvider",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "SWHel7"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "YaVcUw"
+          },
+          "condition": "=equals(conversation.tfnConfig.Root_uhcMember_FindProvider_Toggle,\"ON\")",
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "ieXlV3",
+                "name": "Telemetry for FindProvider Skill Input Params"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "memberRoot_FindProvider_SetInputs",
+                "pegType": "General",
+                "request": "=FindProvider.FindProviderSkill_Activity_Params()",
+                "response": "",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MemberRootBot_FindProvider_SetInputs_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.BeginSkill",
+              "$designer": {
+                "id": "wLaDbb"
+              },
+              "activityProcessed": true,
+              "botId": "=settings.MicrosoftAppId",
+              "skillHostEndpoint": "=settings.skillHostEndpoint",
+              "connectionName": "=settings.connectionName",
+              "allowInterruptions": false,
+              "activity": "${FindProviderSkill_Activity_Params()}",
+              "resultProperty": "dialog.providerSearchResponse",
+              "skillEndpoint": "=settings.skill['provider-location-search-skill'].endpointUrl",
+              "skillAppId": "=settings.skill['provider-location-search-skill'].msAppId"
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "EWtdGt",
+                "name": "Telemetry for FindProvider Response"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "memberRoot_FindProvider_SetOutputs",
+                "pegType": "General",
+                "request": "=FindProvider.FindProviderSkill_Activity_Params()",
+                "response": "=turn.activity.value",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MemberRootBot_FindProvider_SetOutputs_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "W2PA3Z"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.prvsResponse_transferReasonCode",
+                  "value": "=turn.activity.value.transferReasonCode"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "87oF5A"
+              },
+              "condition": "=equals(conversation.prvsResponse_transferReasonCode,\"3\")",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "HWm3PW"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.ENT_BotAction",
+                      "value": "ROUTE2AGENT"
+                    }
+                  ]
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "6Xy5uv"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.ENT_IVRAppTransferReason",
+                      "value": "0"
+                    },
+                    {
+                      "property": "conversation.ENT_BotAction",
+                      "value": "ROUTE2BOT"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "fQ74jD"
+              },
+              "assignments": [
+                {
+                  "property": " conversation.currentTrigger",
+                  "value": "defaultTransfer"
+                },
+                {
+                  "property": "conversation.silentTransfer",
+                  "value": true
+                }
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "KfA6La",
+                "name": "Telemetry Find Provider Toggle OFF"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "memberRoot_FindProvider_OFFToggle",
+                "pegType": "General",
+                "request": "=conversation.tfnConfig.Root_FindProvider_Toggle",
+                "response": "",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MemberRootBot_FindProvider_OFFToggle_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "BwznAG"
+              },
+              "assignments": [
+                {
+                  "property": " conversation.currentTrigger",
+                  "value": "defaultTransfer"
+                },
+                {
+                  "property": "conversation.ENT_BotAction",
+                  "value": "ROUTE2AGENT"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "FindProvider.lg",
+  "recognizer": "FindProvider.lu.qna",
+  "id": "FindProvider"
+}

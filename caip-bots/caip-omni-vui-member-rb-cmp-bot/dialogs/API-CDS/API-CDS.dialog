@@ -1,0 +1,229 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "2gm9Zz",
+    "name": "API-CDS",
+    "comment": "Context data Source backend"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "xUxFXP"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "NlNgVK"
+          },
+          "activityProcessed": true,
+          "dialog": "GetTelemetryProps"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "KMvvlB"
+          },
+          "assignments": [
+            {
+              "property": "conversation.cdsUrl",
+              "value": "=concat(settings.cdsEndpoint, \"?ver=\", settings.botVersion,\"&botname=\", settings.botName,\"&env=\", settings.botEnvironment)"
+            },
+            {
+              "property": "conversation.tokenUrl",
+              "value": "=concat(settings.accessTokenEndPoint, \"?ver=\", settings.botVersion, \"&botname=\", settings.botName, \"&env=\", settings.botEnvironment)"
+            },
+            {
+              "property": "conversation.cdsRequestData",
+              "value": {
+                "ENT_ContactConstituentType": "${RootDialog.getContactConstituentType()}",
+                "ENT_ICMCallerType": "${conversation.callerType ? conversation.callerType : 'NA'}",
+                "ENT_ContactConstituentID": "${and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].subscriberId) ? conversation.member.coverageInfo[0].subscriberId : ''}",
+                "ENT_ContactDOB": "${and(RootDialog.isMemberInfoAvailable(),conversation.member.memberInfo.dob) ? conversation.member.memberInfo.dob:''}",
+                "ENT_ContactFirstNm": "${and(RootDialog.isMemberInfoAvailable(),conversation.member.memberInfo.name.firstName) ? conversation.member.memberInfo.name.firstName:''}",
+                "ENT_ContactLastNm": "${and(RootDialog.isMemberInfoAvailable(),conversation.member.memberInfo.name.lastName) ? conversation.member.memberInfo.name.lastName:''}",
+                "ENT_ICMStateCode": "${and(RootDialog.isMemberInfoAvailable(),conversation.member.memberInfo.address[0].stateCode) ? conversation.member.memberInfo.address[0].stateCode:''}",
+                "ENT_ContactZip": "${and(RootDialog.isMemberInfoAvailable(),conversation.member.memberInfo.address[0].first5PostalCode) ? conversation.member.memberInfo.address[0].first5PostalCode:''}",
+                "ENT_ContactGroupID": "${and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].policyNumber) ? conversation.member.coverageInfo[0].policyNumber : ''}",
+                "ENT_PlanType": "${RootDialog.getPlanType()}",
+                "ENT_ContactSourceSystem": "${RootDialog.getContactSourceSystemTypeCode()}",
+                "ENT_CDBSourceSystem": "${and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].sourceSysCode)? conversation.member.coverageInfo[0].sourceSysCode:''}",
+                "ENT_PlanIndicator": "${and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].planIndicator) ? conversation.member.coverageInfo[0].planIndicator : ''}",
+                "ENT_PlanVariationCD": "${RootDialog.getPlanVariationCD()}",
+                "ENT_PlanVariationReportingCd": "${and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].reportingCode) ? conversation.member.coverageInfo[0].reportingCode:''}",
+                "ENT_ObligorID": "${and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].obligorID)? conversation.member.coverageInfo[0].obligorID: ''}",
+                "ENT_ICMSharedArrangement": "${and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].sharedArrangement) ? conversation.member.coverageInfo[0].sharedArrangement : ''}",
+                "ENT_SpecialHandling": "${RootDialog.getVipFlag()}",
+                "ENT_ICMSystemDivision": "${and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].divCode) ? conversation.member.coverageInfo[0].divCode : ''}",
+                "ENT_ContactRelationshipType": "${and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].topsRelationshipCode) ? conversation.member.coverageInfo[0].topsRelationshipCode: ''}",
+                "ENT_ICMGovernmentIndicator ": "${and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].governmentProgramCode) ? conversation.member.coverageInfo[0].governmentProgramCode: ''}",
+                "ENT_ICMActiveCovCode": "${RootDialog.getICMActiveCovCode()}",
+                "ENT_ICMEligSysValue": "${and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].eligibilitySystemTypeCode) ? conversation.member.coverageInfo[0].eligibilitySystemTypeCode:''}",
+                "ENT_ICMTopsProdCd": "${and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].coverageLevelCode) ? conversation.member.coverageInfo[0].coverageLevelCode : ''}",
+                "ENT_ICMContractNumber": "${and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].ovations, conversation.member.coverageInfo[0].ovations.contractNumber)? concat(substring('0000000000', 0, 10 - length(conversation.member.coverageInfo[0].ovations.contractNumber)), conversation.member.coverageInfo[0].ovations.contractNumber):''}",
+                "ENT_ProdTypeSkillRoutingCD": "${and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].productIndicator)?conversation.member.coverageInfo[0].productIndicator:''}",
+                "ENT_MDMID": "${and(RootDialog.isMemberInfoAvailable(),conversation.member.memberInfo.individualIdentifier)?conversation.member.memberInfo.individualIdentifier :''}",
+                "ENT_AuthFlag": "${equals(conversation.authFlag,true)?'YES':'NO'}",
+                "ENT_AlternateID": "${and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].alternateId)? conversation.member.coverageInfo[0].alternateId: ''}",
+                "ENT_BenefitPlanID": "${RootDialog.getBenfitPlanID()}",
+                "ENT_MBID": "${and(RootDialog.isMemberInfoAvailable(),conversation.member.memberInfo.medicareBeneficiaryId) ?conversation.member.memberInfo.medicareBeneficiaryId :''}",
+                "ENT_TFNType": "${getProperty(conversation.KVPs,'ENT_TFNType') ?getProperty(conversation.KVPs,'ENT_TFNType'):''}"
+              }
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "cCNqap"
+          },
+          "property": "conversation.cdsRequestBody",
+          "value": {
+            "sessionId": "${conversation.storageKey}",
+            "contextId": "${conversation.storageKey}",
+            "businessSegment": "${conversation.businessSegment}",
+            "tfn": "${conversation.tfn}",
+            "data": "${conversation.cdsRequestData}"
+          }
+        },
+        {
+          "$kind": "Optum.HttpRequestDialog",
+          "$designer": {
+            "id": "TNGQlx",
+            "name": "Omni-Http Request Create record inCDS"
+          },
+          "clientid": "=settings.accessTokenClientId",
+          "clientsecret": "=settings.accessTokenClientSecret",
+          "tokencontentType": "application/json",
+          "method": "POST",
+          "contentType": "application/json",
+          "timeout": "=settings.mwTimeOutInMS",
+          "resultProperty": "dialog.cdsResult",
+          "verbiageToggleVal": true,
+          "retryCount": 0,
+          "retryInterval": 0,
+          "connectionString": "=settings.connectionString",
+          "containerName": "=settings.containerName",
+          "tokenurl": "=conversation.tokenUrl",
+          "url": "=conversation.cdsUrl",
+          "body": "=conversation.cdsRequestBody",
+          "firstPrompt": "=GlobalBehavior.GlobalTimeoutFirstMsg()",
+          "repeatPrompt": "=GlobalBehavior.GlobalTimeoutRepeatMsg()",
+          "fstpmtteleval": "=conversation.fpTelemetryProps",
+          "rptpmtteleval": "=conversation.rpTelemetryProps",
+          "promptTime": "=if(conversation.tfnConfig.Root_GlobalTimeout_InterPromptTimeout, int(conversation.tfnConfig.Root_GlobalTimeout_InterPromptTimeout), settings.promptTimeInMS)",
+          "tokenTimeout": "=settings.accessTokenTimeout"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "Dn0b4J",
+            "name": "Telemetry for CDS"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "memberRoot_MW_ContextDataStore_Create",
+            "pegType": "DataInterface",
+            "request": "{\"URL\":\"${conversation.cdsUrl}\",\"RequestBody\":${conversation.cdsRequestBody}}",
+            "response": "=dialog.cdsResult",
+            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "AppName": "=settings.botName",
+            "conversationId": "=conversation.conversationId",
+            "eventName": "MemberRootBot_MW_ContextDataStore_Create_Peg"
+          }
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "zDdIK9"
+          },
+          "condition": "=dialog.cdsResult.status_code",
+          "cases": [
+            {
+              "value": "204",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "HFDCqA",
+                    "name": "Telemetry CDS Creation Success"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "memberRoot_MW_ContextDataStore_Create_Success",
+                    "pegType": "General",
+                    "request": "",
+                    "response": "=dialog.cdsResult",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "AppName": "=settings.botName",
+                    "conversationId": "=conversation.conversationId",
+                    "eventName": "MemberRootBot_MW_ContextDataStore_Create_Success_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "LP1TAr",
+                    "comment": ""
+                  },
+                  "property": "conversation.currentTrigger",
+                  "value": "sms"
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "nJGn2A",
+                "name": "Telemetry CDS create Nodata/Error/Exception"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "memberRoot_MW_ContextDataStore_Create_Error",
+                "pegType": "General",
+                "request": "",
+                "response": "=dialog.cdsResult",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "AppName": "=settings.botName",
+                "conversationId": "=conversation.conversationId",
+                "eventName": "MemberRootBot_MW_ContextDataStore_Create_Error_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "EnHonZ"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.currentTrigger",
+                  "value": "defaultTransfer"
+                },
+                {
+                  "property": "conversation.ENT_BotAction",
+                  "value": "ROUTE2AGENT"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "API-CDS.lg",
+  "recognizer": "API-CDS.lu.qna",
+  "id": "API-CDS"
+}

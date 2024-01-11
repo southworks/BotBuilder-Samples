@@ -1,0 +1,951 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "name": "omni-vui-personalization-sb-cmp",
+    "description": "",
+    "id": "A79tBe"
+  },
+  "autoEndDialog": false,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnConversationUpdateActivity",
+      "$designer": {
+        "id": "376720"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.Foreach",
+          "$designer": {
+            "id": "518944",
+            "name": "Loop: for each item"
+          },
+          "itemsProperty": "turn.Activity.membersAdded",
+          "actions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "641773",
+                "name": "Branch: if/else"
+              },
+              "condition": "string(dialog.foreach.value.id) != string(turn.Activity.Recipient.id)",
+              "actions": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnUnknownIntent",
+      "$designer": {
+        "id": "mb2n1u"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "0W50C2"
+          },
+          "property": "conversation.recognizedTurn",
+          "value": "=turn.recognized"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "SQesOQ"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "=MainDialog.PegVal(conversation.inputVal)",
+            "pegType": "UserInput",
+            "request": "User Input",
+            "response": "=conversation.recognizedTurn",
+            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "=MainDialog.PegName(conversation.inputVal,\"UnknownIntent\")"
+          }
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "15zX6X"
+          },
+          "activityProcessed": true,
+          "dialog": "NoMatchInput"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnEventActivity",
+      "$designer": {
+        "id": "ijDPSl",
+        "name": "Event received (Event activity)"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "UXAHMK"
+          },
+          "condition": "=turn.activity.name",
+          "cases": [
+            {
+              "value": "triggerSkill",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "zIm54m"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.appName",
+                      "value": "=turn.activity.value.appName"
+                    },
+                    {
+                      "property": "conversation.conversationId",
+                      "value": "=turn.activity.value.conversationId"
+                    },
+                    {
+                      "property": "conversation.businessUnit",
+                      "value": "=turn.activity.value.businessUnit"
+                    },
+                    {
+                      "property": "conversation.tfnConfig",
+                      "value": "=turn.activity.value.parameters.tfnConfig"
+                    },
+                    {
+                      "property": "conversation.ani",
+                      "value": "=turn.activity.value.parameters.ani"
+                    },
+                    {
+                      "property": "conversation.skillResponse",
+                      "value": {
+                        "continueTheFlow": true,
+                        "skillName": "ConversationManagerSkill",
+                        "transferReasonCode": "?"
+                      }
+                    },
+                    {
+                      "property": "conversation.skillResponseParams",
+                      "value": {}
+                    },
+                    {
+                      "property": "conversation.inputVal",
+                      "value": "=\"\""
+                    },
+                    {
+                      "property": "conversation.pegCount",
+                      "value": 0
+                    },
+                    {
+                      "property": "conversation.skillStartDate",
+                      "value": "=formatDateTime(utcNow())"
+                    },
+                    {
+                      "property": "conversation.allPegNames",
+                      "value": {
+                        "Peg": "AllPegNames"
+                      }
+                    },
+                    {
+                      "property": "conversation.callId",
+                      "value": "=turn.activity.value.callId"
+                    },
+                    {
+                      "property": "conversation.agentFlag",
+                      "value": 1
+                    },
+                    {
+                      "property": "conversation.request",
+                      "value": "=turn.activity.value.parameters.request"
+                    },
+                    {
+                      "property": "conversation.callGUID",
+                      "value": "=turn.activity.value.callGUID"
+                    },
+                    {
+                      "property": "conversation.RepeatTransferType",
+                      "value": "=\"\""
+                    },
+                    {
+                      "property": "conversation.tfn",
+                      "value": "=turn.activity.value.parameters.tfn"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "AEUJMZ"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "CMStartPeg",
+                    "pegType": "General",
+                    "request": "=MainDialog.DisableSpeechEvent()",
+                    "response": "Skill Start Peg",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "ConversationManager_Start_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "JEiZ5v"
+                  },
+                  "activity": "${DisableSpeechEvent()}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "8t0o8n"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "DisableSpeechInput",
+                    "pegType": "General",
+                    "request": "=MainDialog.DisableSpeechEvent()",
+                    "response": "speech input ignored",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "ConversationManager_DisableSpeechInput_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "9yrzCT"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "PersonalizationDialog",
+                  "resultProperty": "conversation.apiResponse"
+                }
+              ]
+            },
+            {
+              "value": "noUserInput",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "F3Ln2i"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "NoUserInput"
+                }
+              ]
+            },
+            {
+              "value": "testEvent",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "JgLESh"
+                  },
+                  "activity": "${TestEventMsg()}"
+                }
+              ]
+            },
+            {
+              "value": "DTMF",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "g17SLN"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "DTMFDialog",
+                  "options": {
+                    "dtmfVal": "=turn.activity.value"
+                  }
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "CMqh3w"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "UnhandledEvent",
+                "pegType": "General",
+                "request": "Unhandled Event Received",
+                "response": "=turn.activity.name",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "ConversationManagerSkill_UnhandledEvent_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "Qd822l"
+              },
+              "activityProcessed": true,
+              "dialog": "NoMatchInput"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "vJ935G",
+        "name": "YesResponse"
+      },
+      "intent": "YesResponse",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "A68873"
+          },
+          "property": "conversation.recognizedTurn",
+          "value": "=turn.recognized"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "FGAARD"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "=MainDialog.PegVal(conversation.inputVal)",
+            "pegType": "UserInput",
+            "request": "User Input",
+            "response": "=conversation.recognizedTurn",
+            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "=MainDialog.PegName(conversation.inputVal,\"UserInput\")"
+          }
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "uCkadK"
+          },
+          "activityProcessed": true,
+          "dialog": "YesDialog"
+        }
+      ],
+      "condition": "=#YesResponse.score>0.7"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "5UQvOZ",
+        "name": "noResponse"
+      },
+      "intent": "noResponse",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "0alziD"
+          },
+          "property": "conversation.recognizedTurn",
+          "value": "=turn.recognized"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "QGmyvI"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "=MainDialog.PegVal(conversation.inputVal)",
+            "pegType": "UserInput",
+            "request": "User Input",
+            "response": "=conversation.recognizedTurn",
+            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "=MainDialog.PegName(conversation.inputVal,\"UserInput\")"
+          }
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "Mk0htN"
+          },
+          "activityProcessed": true,
+          "dialog": "NoDialog"
+        }
+      ],
+      "condition": "=#noResponse.score>0.7"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "dYLrqM",
+        "name": "agent"
+      },
+      "intent": "agent",
+      "condition": "=#agent.score>0.7",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "55Irzz"
+          },
+          "property": "conversation.recognizedTurn",
+          "value": "=turn.recognized"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "43Pzg2"
+          },
+          "condition": "=length(conversation.inputVal)>0",
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "2kmTGg"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "=MainDialog.PegVal(conversation.inputVal)",
+                "pegType": "User Input",
+                "request": "User Input",
+                "response": "=conversation.recognizedTurn",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "ConversationManagerSkill_AuthAgent_UserInput_LuisResult_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "ck8wx8"
+              },
+              "activityProcessed": true,
+              "dialog": "GlobalContainer",
+              "options": {
+                "globalParam": "agent"
+              }
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "96uD8J"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "=MainDialog.PegVal(conversation.inputVal)",
+                "pegType": "User Input",
+                "request": "User Input",
+                "response": "=conversation.recognizedTurn",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "ConversationManagerSkill_AuthAgent_Unknown_UserInput_LuisResult_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "L8HMna"
+              },
+              "activityProcessed": true,
+              "dialog": "GlobalContainer",
+              "options": {
+                "globalParam": "agent"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnError",
+      "$designer": {
+        "id": "kAQ8EE",
+        "name": "Error occurred (Error event)"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "s7eg4I"
+          },
+          "assignments": [
+            {
+              "property": "conversation.inSkillBot",
+              "value": false
+            },
+            {
+              "property": "conversation.error",
+              "value": true
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "HVFymx"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "Error1",
+            "pegType": "General",
+            "request": "Error_Trace",
+            "response": "=turn.dialogEvent.value",
+            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "ConversationManagerSkill_Error1_Peg"
+          }
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "1solHQ"
+          },
+          "activityProcessed": true,
+          "dialog": "GlobalContainer",
+          "options": {
+            "globalParam": "systemerror"
+          }
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "cn9aw1"
+          }
+        }
+      ],
+      "runOnce": false,
+      "condition": "=!conversation.error"
+    },
+    {
+      "$kind": "Microsoft.OnError",
+      "$designer": {
+        "id": "S0iaYk",
+        "name": "Error occurred (Error event)"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.TelemetryTrackEventAction",
+          "$designer": {
+            "id": "n9UPPe"
+          },
+          "eventName": "Error_Trace",
+          "properties": {
+            "Error_Trace": "=turn.dialogEvent.Value"
+          }
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "h5iODL"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "Error2",
+            "pegType": "General",
+            "request": "Error_Trace",
+            "response": "=turn.dialogEvent.Value",
+            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "ConversationManagerSkill_Error2_Peg"
+          }
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "sXfu6U"
+          },
+          "value": {
+            "skillName": "ConversationManagerSkill",
+            "continueTheFlow": true,
+            "transferReasonCode": "4",
+            "parameters": {
+              "setEvent": "transfer"
+            }
+          }
+        }
+      ],
+      "runOnce": true,
+      "condition": "=conversation.error"
+    },
+    {
+      "$kind": "Microsoft.OnDialogEvent",
+      "$designer": {
+        "id": "QNRilO",
+        "name": "endSkill"
+      },
+      "event": "endSkill",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "htEFQR"
+          },
+          "assignments": [
+            {
+              "property": "conversation.skillLogCustomMetrics",
+              "value": {
+                "AppName": "ConversationManagerSkill"
+              }
+            },
+            {
+              "property": "conversation.skillLogCustomMetrics",
+              "value": "=addProperty(conversation.skillLogCustomMetrics,\"CallGUID\",conversation.callGUID ? conversation.callGUID : \"\")"
+            },
+            {
+              "property": "conversation.skillLogCustomMetrics",
+              "value": "=addProperty(conversation.skillLogCustomMetrics,\"CallId\",conversation.callId ? conversation.callId : \"\")"
+            },
+            {
+              "property": "conversation.skillLogCustomMetrics",
+              "value": "=addProperty(conversation.skillLogCustomMetrics,\"ConversationId\", conversation.conversationId ? conversation.conversationId : \"\")"
+            },
+            {
+              "property": "conversation.skillLogCustomMetrics",
+              "value": "=addProperty(conversation.skillLogCustomMetrics,\"StartDTM\",conversation.skillStartDate ? conversation.skillStartDate : \"\")"
+            },
+            {
+              "property": "conversation.skillLogCustomMetrics",
+              "value": "=addProperty(conversation.skillLogCustomMetrics,\"EndDTM\",formatDateTime(utcNow()))"
+            },
+            {
+              "value": "=addProperty(conversation.skillLogCustomMetrics,\"SkillDuration\",conversation.skillStartDate?dateTimeDiff(formatDateTime(utcNow()),conversation.skillStartDate):\"\")",
+              "property": "conversation.skillLogCustomMetrics"
+            },
+            {
+              "property": "conversation.skillLogCustomMetrics",
+              "value": "=addProperty(conversation.skillLogCustomMetrics,\"PegName\", \"ConversationManagerSkill_SkillLog_Peg\")"
+            },
+            {
+              "property": "conversation.skillLogCustomMetrics",
+              "value": "=addProperty(conversation.skillLogCustomMetrics,\"AllPegNames\",conversation.allPegNames)"
+            },
+            {
+              "property": "conversation.customMetricsArr",
+              "value": "=[]"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EditArray",
+          "$designer": {
+            "id": "z3DNMa"
+          },
+          "changeType": "push",
+          "itemsProperty": "conversation.customMetricsArr",
+          "value": "=conversation.skillLogCustomMetrics",
+          "resultProperty": "conversation.newCustomMetricsArr"
+        },
+        {
+          "$kind": "Microsoft.TelemetryTrackEventAction",
+          "$designer": {
+            "id": "oRJcVV"
+          },
+          "eventName": "ConversationManagerSkill_SkillLog_Peg",
+          "properties": {
+            "customMetrics": "=conversation.customMetricsArr"
+          }
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "gQPzvP"
+          },
+          "value": "=turn.dialogEvent.value"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "P5kXc5",
+        "name": "pause"
+      },
+      "intent": "pause",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "Dc2uUu"
+          },
+          "property": "conversation.recognizedTurn",
+          "value": "=turn.recognized"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "l8kkI7"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "=MainDialog.PegVal(conversation.inputVal)",
+            "pegType": "UserInput",
+            "request": "User Input",
+            "response": "=turn.recognized",
+            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "=MainDialog.PegName(conversation.inputVal,\"UserInput\")"
+          }
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "X5HLb4"
+          },
+          "condition": "=length(conversation.inputVal)>0",
+          "actions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "tSSYKp"
+              },
+              "activity": "${MoreTimeRequestMsg()}"
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "mwFKM4"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.repeatFlag",
+                  "value": 1
+                },
+                {
+                  "property": "conversation.retryFlag",
+                  "value": 1
+                },
+                {
+                  "property": "conversation.matchFlag",
+                  "value": 1
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "TMarHW"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "01006",
+                "pegType": "General",
+                "request": "=MainDialog.MoreTimeRequestMsg()",
+                "response": "",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "ConversationManagerSkill_MoreTimeRequest_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "BwzK5S"
+              },
+              "activityProcessed": true,
+              "dialog": "RepeatMessages"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "J3BvlS"
+              },
+              "activityProcessed": true,
+              "dialog": "NoMatchInput"
+            }
+          ]
+        }
+      ],
+      "condition": "=#pause.score>0.7"
+    },
+    {
+      "$kind": "Microsoft.OnEndOfConversationActivity",
+      "$designer": {
+        "id": "1a6vbf",
+        "name": "Conversation ended (EndOfConversation activity)"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "BbAkcV"
+          },
+          "value": {
+            "skillName": "ConversationManagerSkill",
+            "continueTheFlow": true,
+            "transferReasonCode": "?",
+            "parameters": {
+              "setEvent": "transfer"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "kcSK8s",
+        "name": "goodbye"
+      },
+      "intent": "goodbye",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "1UfhID"
+          },
+          "property": "conversation.recognizedTurn",
+          "value": "=turn.recognized"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "bMFaFb"
+          },
+          "condition": "=length(conversation.inputVal)>0",
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "6TN09a"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "=MainDialog.PegVal(conversation.inputVal)",
+                "pegType": "User Input",
+                "request": "User Input",
+                "response": "=conversation.recognizedTurn",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "ConversationManagerSkill_Goodbye_UserInput_LuisResult_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "AVo5VO"
+              },
+              "activityProcessed": true,
+              "dialog": "GlobalContainer",
+              "options": {
+                "globalParam": "goodbye"
+              }
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "3wiFVV"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "=MainDialog.PegVal(conversation.inputVal)",
+                "pegType": "User Input",
+                "request": "User Input",
+                "response": "=conversation.recognizedTurn",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "ConversationManagerSkill_Goodbye_Unknown_UserInput_LuisResult_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "jUmL6A"
+              },
+              "activityProcessed": true,
+              "dialog": "GlobalContainer",
+              "options": {
+                "globalParam": "goodbye"
+              }
+            }
+          ]
+        }
+      ],
+      "condition": "=#goodbye.score >= 0.7"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "6McanA",
+        "name": "repeat"
+      },
+      "intent": "repeat",
+      "condition": "=#repeat.score>0.7",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "Kn0b2z"
+          },
+          "property": "conversation.recognizedTurn",
+          "value": "=turn.recognized"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "InXIF7"
+          },
+          "property": "conversation.repeatQuery ",
+          "value": "true"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "P0HOkn"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "=MainDialog.PegVal(conversation.inputVal)",
+            "pegType": "User Input",
+            "request": "User Input",
+            "response": "=conversation.recognizedTurn",
+            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "ConversationManagerSkill_Repeat_UserInput_LuisResult_Peg"
+          }
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "jLGhLi"
+          },
+          "activityProcessed": true,
+          "options": {
+            "globalParam": "repeat"
+          },
+          "dialog": "GlobalContainer"
+        }
+      ]
+    }
+  ],
+  "generator": "omni-vui-personalization-sb-cmp.lg",
+  "id": "omni-vui-personalization-sb-cmp",
+  "recognizer": "omni-vui-personalization-sb-cmp.lu.qna"
+}

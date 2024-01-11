@@ -1,0 +1,347 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "JSsNb9",
+    "name": "HandleContext",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "2f97vG",
+        "comment": "This dialog drives the conversation based on the current context set on state."
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "gNzeDT"
+          },
+          "condition": "conversation.flowState.flowPreviousPrompt",
+          "cases": [
+            {
+              "value": "disambigBenefits",
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "RdEIrm"
+                  },
+                  "condition": "=conversation.flowState.flowNextPrompt == 'to_end_skill'",
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "VZvPze"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "CallerType"
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "2G0uq3"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "ValidateIntent"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "claimsGeneral",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "KbfuMy"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "CallerType"
+                }
+              ]
+            },
+            {
+              "value": "disambigGeneral",
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "asuovd"
+                  },
+                  "condition": "=conversation.flowState.lastIntent == 'disambigGeneral'",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "9OqS1R"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "DisambigGeneral"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "FuJ24O"
+                      },
+                      "activityProcessed": true,
+                      "options": {},
+                      "dialog": "Flow-Start"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "pharmacyGeneral",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "40kJ3b"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "CallerType"
+                }
+              ]
+            },
+            {
+              "value": "accountUpdate",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "Ccn5LS"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "AccountUpdate"
+                }
+              ]
+            },
+            {
+              "value": "callerTypeGeneral",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "FKspUb"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "CallerType"
+                }
+              ]
+            },
+            {
+              "value": "mentalHealthGeneral",
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "faor5l"
+                  },
+                  "condition": "=conversation.flowState.flowNextPrompt == 'to_end_skill'",
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "gtkbbd"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "CallerType"
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "IBsrcX"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "ValidateIntent"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "preApprovalRx",
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "g8ovjW"
+                  },
+                  "condition": "=conversation.flowState.flowNextPrompt == 'to_end_skill'",
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "XiV8Ta"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "CallerType"
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "2JqTfd"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "ValidateIntent"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "financialAccountsGeneral",
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "3my2tw"
+                  },
+                  "condition": "=conversation.flowState.flowNextPrompt == 'to_end_skill'",
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "zv4GcG"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "CallerType"
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "uJmlUy"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "ValidateIntent"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "billingDisambig",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "dQislr"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "CallerType"
+                }
+              ]
+            },
+            {
+              "value": "balanceDisambig",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "a5lna6"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "CallerType"
+                }
+              ]
+            },
+            {
+              "value": "solutranDisambig",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "Z4FeI0"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "CallerType"
+                }
+              ]
+            },
+            {
+              "value": "openEnrollment",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "OPCNhs"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "CallerType"
+                }
+              ]
+            },
+            {
+              "value": "nurselineDisambig",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "WNsDF1"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "CallerType"
+                }
+              ]
+            },
+            {
+              "value": "openEnrollmentUpfront",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "QNCXrw"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "Flow-Start"
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "t8lnFc"
+              },
+              "condition": "=or(contains(conversation.startPromptLists, conversation.flowState.flowNextPrompt),conversation.flowState.flowNextPrompt==\"to_validate_intent\")",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "cV4Wsg"
+                  },
+                  "activityProcessed": true,
+                  "options": {},
+                  "dialog": "Flow-Start"
+                }
+              ],
+              "elseActions": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "HandleContext.lg",
+  "recognizer": "HandleContext.lu.qna",
+  "id": "HandleContext"
+}

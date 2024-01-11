@@ -1,0 +1,166 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "geP5oR",
+    "name": "MenuTypeOthers",
+    "comment": "For menu type 1,2,5"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "oP0F8a"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "eKM17e"
+          },
+          "property": "conversation.tts",
+          "value": "=if(conversation.cmResponse.GateResult.CM_Response.TTS,conversation.cmResponse.GateResult.CM_Response.TTS,\"\")"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "oS6Ebs"
+          },
+          "property": "conversation.startDate",
+          "value": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "9zJpna"
+          },
+          "condition": "=conversation.tts!=\"\"",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "ZTJGv5"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.transferReason",
+                  "value": "TTS_NotDefined"
+                },
+                {
+                  "property": "conversation.transferPeg",
+                  "value": "00804"
+                },
+                {
+                  "property": "conversation.skillResponseParams",
+                  "value": "=addProperty(conversation.skillResponseParams,\"transferReason\",conversation.transferReason)"
+                },
+                {
+                  "property": "conversation.skillResponseParams",
+                  "value": "=addProperty(conversation.skillResponseParams,\"transferPeg\",conversation.transferPeg)"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "QdybbY"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.skillResponse",
+                  "value": "=setProperty(conversation.skillResponse,\"menuType\",conversation.cmResponse.GateResult.CM_Response.MenuType)"
+                },
+                {
+                  "property": "conversation.skillResponse",
+                  "value": "=addProperty(conversation.skillResponse,\"parameters\",conversation.skillResponseParams)"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "ILFJoZ"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "00804",
+                "pegType": "General",
+                "startDTM": "=conversation.startDate",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "ConversationManagerSkill_TTSNotDefined_Peg",
+                "request": "TTS Not Defined",
+                "response": "=conversation.skillResponse"
+              }
+            },
+            {
+              "$kind": "Microsoft.CancelAllDialogs",
+              "$designer": {
+                "id": "4IYKr2"
+              },
+              "activityProcessed": true,
+              "eventName": "endSkill",
+              "eventValue": "=conversation.skillResponse"
+            }
+          ],
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "lIivkv"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "00809",
+                "pegType": "InputAsk",
+                "startDTM": "=conversation.startDate",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "ConversationManagerSkill_MenuType_125_TTS_InputAsk_Peg",
+                "request": "Conversation Manager Returned Menu Prompt",
+                "response": "=MenuTypeOthers.ConversationManagerReturnedMenuMsg()"
+              }
+            },
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "eTELKq"
+              },
+              "activity": "${ConversationManagerReturnedMenuMsg()}"
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "YPjbKN"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.inputVal",
+                  "value": "cmReturnedMenu"
+                },
+                {
+                  "property": "conversation.matchFlag",
+                  "value": 1
+                },
+                {
+                  "property": "conversation.repeatFlag",
+                  "value": 1
+                },
+                {
+                  "property": "conversation.retryFlag",
+                  "value": 1
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "MenuTypeOthers.lg",
+  "recognizer": "MenuTypeOthers.lu.qna",
+  "id": "MenuTypeOthers"
+}

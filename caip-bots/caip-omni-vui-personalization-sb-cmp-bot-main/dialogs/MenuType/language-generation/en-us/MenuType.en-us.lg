@@ -1,0 +1,26 @@
+> !# @Namespace=MenuType
+> !# @Exports = ConversationManagerPromptMsg
+[import](common.lg)
+
+# ConversationManagerPromptMsg()
+[Activity
+    Text = ${ConversationManagerPromptTemplate()}
+    Speak = ${ConversationManagerPromptTemplate()}
+    InputHint = ignoringInput
+    ChannelData = ${
+        {
+            sessionParams:{
+                voiceName: "UHGAshtonV1Neural",
+                continuousASR: true,
+                sendEventsToBot: ["noUserInput"],
+                sendDTMF: false,
+                bargeIn: false,
+                bargeInOnDTMF: false,
+                dtmfCollect: false,
+                dtmfCollectSubmitDigit: "#",
+                dtmfCollectMaxDigits: 0,
+                enableSpeechInput: false
+            }
+        }
+    }
+]

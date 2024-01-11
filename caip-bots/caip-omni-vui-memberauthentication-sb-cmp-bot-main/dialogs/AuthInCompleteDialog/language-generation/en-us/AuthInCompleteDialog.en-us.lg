@@ -1,0 +1,24 @@
+> !# @Namespace=AuthInCompleteDialog
+> !# @Exports = SendActivity_authIncompleteMsg
+[import](common.lg)
+
+# SendActivity_authIncompleteMsg()
+[Activity
+    Text = ${AuthIncompleteMsgTemplate()}
+    Speak = ${AuthIncompleteMsgTemplate()}
+    InputHint = ignoringInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: false,
+            bargeIn: false,
+            bargeInOnDTMF: false,
+            dtmfCollect: false,
+            enableSpeechInput: false
+        }
+    }
+}
+]
+
+# AuthIncompleteMsgTemplate()
+- Let's get someone to help.

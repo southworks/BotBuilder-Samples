@@ -1,0 +1,441 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "PfSx45",
+    "name": "GlobalRepeatMessages",
+    "comment": "Messages that should be repeated in case a user asked to 'repeat' or said 'i don't hear the question'"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "LlEaNe"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "rcqB9a"
+          },
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "vhGrgq"
+              },
+              "property": "conversation.repeatFlag",
+              "value": "=add(conversation.repeatFlag, 1)"
+            },
+            {
+              "$kind": "Microsoft.SwitchCondition",
+              "$designer": {
+                "id": "s2ZpYQ"
+              },
+              "condition": "conversation.inputVal",
+              "cases": [
+                {
+                  "value": "promptDOB",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "BfEM8u"
+                      },
+                      "activity": "${SendActivity_GRepeatPromptDOB()}"
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "xVXWlp"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "01011",
+                        "pegType": "Input Ask",
+                        "request": "=GlobalRepeatMessages.SendActivity_GRepeatPromptDOB()",
+                        "response": "",
+                        "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "=MainDialog.PegName(conversation.inputVal,\"CallerNotHearing_InputAsk\")"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "value": "promptSSN",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "iK9qQT"
+                      },
+                      "activity": "${SendActivity_GRepeatPromptSSN()}"
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "e7zJHf"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "01011",
+                        "pegType": "Input Ask",
+                        "request": "=GlobalRepeatMessages.SendActivity_GRepeatPromptSSN()",
+                        "response": "",
+                        "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "=MainDialog.PegName(conversation.inputVal,\"CallerNotHearing_InputAsk\")"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "value": "promptMIDSSN",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "QoRFGK"
+                      },
+                      "activity": "${SendActivity_GRepeatPromptSSNMID()}"
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "Xe5RPv"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "01011",
+                        "pegType": "Input Ask",
+                        "request": "=GlobalRepeatMessages.SendActivity_GRepeatPromptSSNMID()",
+                        "response": "",
+                        "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "=MainDialog.PegName(conversation.inputVal,\"CallerNotHearing_InputAsk\")"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "value": "promptMEMID",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "4ERlCB"
+                      },
+                      "activity": "${SendActivity_GRepeatPromptMEMID()}"
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "K95NRu"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "01011",
+                        "pegType": "Input Ask",
+                        "request": "=GlobalRepeatMessages.SendActivity_GRepeatPromptMEMID()",
+                        "response": "",
+                        "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "=MainDialog.PegName(conversation.inputVal,\"CallerNotHearing_InputAsk\")"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "value": "promptLast4SSN",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "pIhWI6"
+                      },
+                      "activity": "${SendActivity_GRepeatPromptLast4SSN()}"
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "p5Y2nT"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "01011",
+                        "pegType": "Input Ask",
+                        "request": "=GlobalRepeatMessages.SendActivity_GRepeatPromptLast4SSN()",
+                        "response": "",
+                        "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "=MainDialog.PegName(conversation.inputVal,\"CallerNotHearing_InputAsk\")"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "value": "promptFirstName",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "GPVe95"
+                      },
+                      "activity": "${SendActivity_GRepeatPromptFirstName()}"
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "kMv12v"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "01011",
+                        "pegType": "Input Ask",
+                        "request": "=GlobalRepeatMessages.SendActivity_GRepeatPromptFirstName()",
+                        "response": "",
+                        "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "=MainDialog.PegName(conversation.inputVal,\"CallerNotHearing_InputAsk\")"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "value": "promptPhoneNumber",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "DBgHYw"
+                      },
+                      "activity": "${SendActivity_GRepeatPromptPhoneNumber()}"
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "iYy3S8"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "01011",
+                        "pegType": "Input Ask",
+                        "request": "=GlobalRepeatMessages.SendActivity_GRepeatPromptPhoneNumber()",
+                        "response": "",
+                        "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "=MainDialog.PegName(conversation.inputVal,\"CallerNotHearing_InputAsk\")"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "value": "promptZIPCode",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "ZLHUk0"
+                      },
+                      "activity": "${SendActivity_GRepeatPromptZIPCode()}"
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "CzpEMN"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "01011",
+                        "pegType": "Input Ask",
+                        "request": "=GlobalRepeatMessages.SendActivity_GRepeatPromptZIPCode()",
+                        "response": "",
+                        "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "=MainDialog.PegName(conversation.inputVal,\"CallerNotHearing_InputAsk\")"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "value": "confirmDOB",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "kIQFF9"
+                      },
+                      "activity": "${SendActivity_GRepeatConfirmDOB()}"
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "vsQVqa"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "01011",
+                        "pegType": "Input Ask",
+                        "request": "=GlobalRepeatMessages.SendActivity_GRepeatConfirmDOB()",
+                        "response": "",
+                        "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "=MainDialog.PegName(conversation.inputVal,\"CallerNotHearing_InputAsk\")"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "value": "confirmLast4SSN",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "epxy9s"
+                      },
+                      "activity": "${SendActivity_GRepeatConfirmLast4SSN()}"
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "tVV9et"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "01011",
+                        "pegType": "Input Ask",
+                        "request": "=GlobalRepeatMessages.SendActivity_GRepeatConfirmLast4SSN()",
+                        "response": "",
+                        "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "=MainDialog.PegName(conversation.inputVal,\"CallerNotHearing_InputAsk\")"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "value": "confirmZIPCode",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "tdV9Uc"
+                      },
+                      "activity": "${SendActivity_GRepeatConfirmZIPCode()}"
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "ndV2iO"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "01011",
+                        "pegType": "Input Ask",
+                        "request": "=GlobalRepeatMessages.SendActivity_GRepeatConfirmZIPCode()",
+                        "response": "",
+                        "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "=MainDialog.PegName(conversation.inputVal,\"CallerNotHearing_InputAsk\")"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "value": "confirmMID",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "Y3V4uB"
+                      },
+                      "activity": "${SendActivity_GRepeatConfirmMID()}"
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "1vJTUz"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "01011",
+                        "pegType": "Input Ask",
+                        "request": "=GlobalRepeatMessages.SendActivity_GRepeatConfirmMID()",
+                        "response": "",
+                        "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "=MainDialog.PegName(conversation.inputVal,\"CallerNotHearing_InputAsk\")"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "value": "promptMIDAARP",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "EvQ0mG"
+                      },
+                      "activity": "${SendActivity_GRepeatPromptMIDAARP()}"                  
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "1B0mZZ"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "01011",
+                        "pegType": "Input Ask",
+                        "request": "=GlobalRepeatMessages.SendActivity_GRepeatPromptMIDAARP()",
+                        "response": "",
+                        "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "=MainDialog.PegName(conversation.inputVal,\"CallerNotHearing_InputAsk\")"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "9EeVZh"
+              },
+              "activityProcessed": true,
+              "dialog": "GlobalContainer",
+              "options": {
+                "globalParam": "repeat"
+              }
+            }
+          ],
+          "condition": "=conversation.repeatFlag==1"
+        }
+      ]
+    }
+  ],
+  "generator": "GlobalRepeatMessages.lg",
+  "recognizer": "GlobalRepeatMessages.lu.qna",
+  "id": "GlobalRepeatMessages"
+}

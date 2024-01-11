@@ -1,0 +1,12 @@
+> !# @Namespace = PreApprovalRx
+> !# @Exports = UHCMember_PreApproval_Rx_Msg
+
+[import](common.lg)
+
+# UHCMember_PreApproval_Rx_Msg()
+[Activity
+    Text = ${UHCMember_PreApproval_Rx_text()}
+    Speak = ${UHCMember_PreApproval_Rx_text()}
+    InputHint = expectingInput
+    ChannelData = ${ExpectingPrompts_ActivityParams(1500)}
+]

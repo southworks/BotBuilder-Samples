@@ -1,0 +1,318 @@
+> !# @Namespace=RepeatMessages
+> !# @Exports = SendActivity_RepeatPromptDOB,SendActivity_RepeatPromptZIPCode,SendActivity_RepeatPromptLast4SSN,SendActivity_RepeatPromptPhoneNumber,SendActivity_RepeatPromptFirstName,SendActivity_RepeatPromptSSN,SendActivity_RepeatPromptSSNMID,SendActivity_RepeatPromptMEMID,SendActivity_RepeatConfirmDOB,SendActivity_RepeatConfirmZIPCode,SendActivity_RepeatConfirmLast4SSN,SendActivity_RepeatConfirmMID,SendActivity_RepeatPromptMIDAARP
+[import](common.lg)
+# RepeatPromptDOBTemplate()
+- IF: ${conversation.callerType=="provider"}     
+    - ${conversation.tfnConfig.dob_IncludeDateExample_Toggle == 'OFF' ? "Please may I have the member's birthdate, including the four digit year?" : "Please may I have the member's birthdate (including the 4 digit year)." }
+- ELSE:    
+    - ${conversation.tfnConfig.dob_IncludeDateExample_Toggle == 'OFF' ? "Can you please tell me your birthday, including the four digit year?" : "Can you please tell me your birthday (including the four digit year)." }
+# SendActivity_RepeatPromptDOB()
+[Activity
+    Text = ${RepeatPromptDOBTemplate()}
+    Speak = ${RepeatPromptDOBTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: true,
+            sttProvider: settings.dobSTTProvider,
+            dtmfCollectMaxDigits: 8,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfInterDigitTimeoutThreeSec
+            }
+        }
+    }
+]
+# RepeatPromptZIPCodeTemplate()
+- IF: ${conversation.callerType=="provider"}     
+    - What's the ZIP code, please?
+- ELSE:    
+    - Please tell me your ZIP code.
+# SendActivity_RepeatPromptZIPCode()
+[Activity
+    Text = ${RepeatPromptZIPCodeTemplate()}
+    Speak = ${RepeatPromptZIPCodeTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: true,
+            dtmfCollectMaxDigits: 6,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfInterDigitTimeoutThreeSec
+            }
+        }
+    }
+]
+# RepeatPromptLast4SSNTemplate()
+- IF: ${conversation.callerType=="provider"}      
+    - Please give the last four digits of the member's social security number.
+- ELSE:     
+    - Can you please tell me the last four digits of your social security number?
+# SendActivity_RepeatPromptLast4SSN()
+[Activity
+    Text = ${RepeatPromptLast4SSNTemplate()}
+    Speak = ${RepeatPromptLast4SSNTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            dtmfCollectMaxDigits: 4,
+            sttDisablePunctuation: true,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfInterDigitTimeoutThreeSec
+            }
+        }
+    }
+]
+# RepeatPromptPhoneNumberTemplate()
+- What is your primary phone number in the account?
+# SendActivity_RepeatPromptPhoneNumber()
+[Activity
+    Text = ${RepeatPromptPhoneNumberTemplate()}
+    Speak = ${RepeatPromptPhoneNumberTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: true,
+            sttProvider: settings.phoneSTTProvider,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfInterDigitTimeoutThreeSec,
+            dtmfCollectMaxDigits: 10
+            }
+        }
+    }
+]
+# RepeatPromptFirstNameTemplate()
+- IF: ${conversation.callerType=="provider"}      
+    - I'll need the member's first name, please.
+- ELSE:
+    - And can you tell me your first name?
+# SendActivity_RepeatPromptFirstName()
+[Activity
+    Text = ${RepeatPromptFirstNameTemplate()}
+    Speak = ${RepeatPromptFirstNameTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: false,
+            bargeIn: true,
+            bargeInOnDTMF: false,
+            dtmfCollect: false,
+            sttDisablePunctuation: true,
+            sttSpeechContexts:conversation.firstNamePhraseList
+            }
+        }
+    }
+]
+# RepeatPromptSSNTemplate()
+- IF: ${conversation.callerType=="provider"}       
+    - What's the Social Security Number?
+- ELSE:      
+    - Please tell me your Social Security Number?
+# SendActivity_RepeatPromptSSN()
+[Activity
+    Text = ${RepeatPromptSSNTemplate()}
+    Speak = ${RepeatPromptSSNTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: true,
+            sttProvider: settings.ssnSTTProvider,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfInterDigitTimeoutThreeSec,
+            dtmfCollectMaxDigits: 13
+            }
+        }
+    }
+]
+# RepeatPromptSSNMIDTemplate()
+- IF: ${conversation.callerType=="provider"}       
+    - I'll need the member ID or Social Security Number?
+- ELSE:      
+    - Can you please tell me your member ID or Social Security Number?
+# SendActivity_RepeatPromptSSNMID()
+[Activity
+    Text = ${RepeatPromptSSNMIDTemplate()}
+    Speak = ${RepeatPromptSSNMIDTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: true,
+            sttProvider: settings.midSTTProvider,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfInterDigitTimeoutThreeSec,
+            dtmfCollectMaxDigits: 13
+            }
+        }
+    }
+]
+# RepeatPromptMEMIDTemplate()
+- IF: ${conversation.callerType=="provider"}        
+    - What's the ID number?
+- ELSE:       
+    - Please give me your member ID.
+# SendActivity_RepeatPromptMEMID()
+[Activity
+    Text = ${RepeatPromptMEMIDTemplate()}
+    Speak = ${RepeatPromptMEMIDTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: true,
+            sttProvider: settings.midSTTProvider,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfInterDigitTimeoutThreeSec,
+            dtmfCollectMaxDigits: 13,
+            userNoInputTimeoutMS: settings.MIDUserNoInputMS
+            }
+        }
+    }
+]
+# RepeatConfirmDOBTemplate()
+- IF: ${conversation.callerType=="provider"}         
+    - I heard you say that the member's date of birth is ${conversation.iDOB}, is that right? 
+- ELSE:        
+    - I heard you say your date of birth was ${conversation.iDOB}. Is that right?
+# SendActivity_RepeatConfirmDOB()
+[Activity
+    Text = ${RepeatConfirmDOBTemplate()}
+    Speak = ${RepeatConfirmDOBTemplate()}
+    InputHint = expectingInput
+        ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: false,
+            dtmfCollectMaxDigits: 1,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfCollectInterDigitTimeoutMS
+        }
+    }
+}
+]
+# RepeatConfirmZIPCodeTemplate()
+- IF: ${conversation.callerType=="provider"}          
+    - Member's ZIP code is <say-as interpret-as="number_digit">${conversation.iZIP}</say-as>, is that right?  
+- ELSE:         
+    - Did you say <say-as interpret-as="number_digit">${conversation.iZIP}</say-as>?
+# SendActivity_RepeatConfirmZIPCode()
+[Activity
+    Text = ${RepeatConfirmZIPCodeTemplate()}
+    Speak = ${RepeatConfirmZIPCodeTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: false,
+            dtmfCollectMaxDigits: 1,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfCollectInterDigitTimeoutMS
+        }
+    }
+}
+]
+# RepeatConfirmLast4SSNTemplate()
+- IF: ${conversation.callerType=="provider"}           
+    - That's last four digits of member SSN being <say-as interpret-as="number_digit">${conversation.i4SSN}</say-as>, correct?    
+- ELSE:         
+    - Did you say <say-as interpret-as="number_digit">${conversation.i4SSN}</say-as>. Is that right?
+# SendActivity_RepeatConfirmLast4SSN()
+[Activity
+    Text = ${RepeatConfirmLast4SSNTemplate()}
+    Speak = ${RepeatConfirmLast4SSNTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: false,
+            dtmfCollectMaxDigits: 1,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfCollectInterDigitTimeoutMS
+        }
+    }
+}
+]
+# RepeatConfirmMIDTemplate()
+- I heard you say <say-as interpret-as="number_digit">${conversation.iMemberID}</say-as>, is that right?
+# SendActivity_RepeatConfirmMID()
+[Activity
+    Text = ${RepeatConfirmMIDTemplate()}
+    Speak = ${RepeatConfirmMIDTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: false,
+            dtmfCollectMaxDigits: 1,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfCollectInterDigitTimeoutMS
+        }
+    }
+}
+]
+
+# RepeatPromptMIDAARPTemplate()
+- IF: ${conversation.callerType=="provider"}        
+    - What's the AARP member's ID number?
+- ELSE:       
+    - Please give me your AARP membership number.
+# SendActivity_RepeatPromptMIDAARP()
+[Activity
+    Text = ${RepeatPromptMIDAARPTemplate()}
+    Speak = ${RepeatPromptMIDAARPTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: true,
+            sttProvider: settings.midSTTProvider,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfInterDigitTimeoutThreeSec,
+            dtmfCollectMaxDigits: 13,
+            userNoInputTimeoutMS: settings.MIDUserNoInputMS
+            }
+        }
+    }
+]
+

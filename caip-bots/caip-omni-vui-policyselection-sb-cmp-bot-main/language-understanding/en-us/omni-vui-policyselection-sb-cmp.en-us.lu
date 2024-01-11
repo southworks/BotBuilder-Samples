@@ -1,0 +1,600 @@
+> LUIS application information
+> !# @app.name = omni-vui-policyselection-sb-cmp
+> !# @app.culture = en-us
+> !# @app.luis_schema_version = 7.0.0
+> !# @app.settings.NormalizePunctuation = True
+> !# @app.settings.NormalizeWordForm = False
+> !# @app.settings.UseAllTrainingData = True
+> !# @app.tokenizerVersion = 1.0.0
+
+> # Intent definitions
+
+# agent
+- a live {@agentML=customer service} {@agentML=representative} please
+- a {@agentML=live rep} please
+- a real {@agentML=advisor} please
+- a real {@agentML=agent} please
+- {@agentML=advocate}
+- {@agentML=agent}
+- {@agentML=agent} help
+- an {@agentML=agent}
+- {@agentML={@agentClassifierChild=call}} {@agentML=agent} please
+- {@agentML={@agentClassifierChild=call}} the {@agentML=manager}
+- can i {@agentML={@agentClassifierChild=connect to}} an {@agentML=agent}
+- can i go straight to a {@agentML=real person}
+- can i {@agentML={@agentClassifierChild=speak to}} a real {@agentML=manager} please?
+- can i {@agentML={@agentClassifierChild=speak to}} an {@agentML=advisor}
+- can i {@agentML={@agentClassifierChild=speak to} somebody}
+- can i {@agentML={@agentClassifierChild=talk to}} a real {@agentML=representative}?
+- can you {@agentML={@agentClassifierChild=connect me to}} {@agentML=customer service}
+- {@agentML={@agentClassifierChild=connect me to}} a {@agentML=representative}
+- {@agentML={@agentClassifierChild=connect me to}} {@agentML=customer service}
+- could you just {@agentML={@agentClassifierChild=transfer} me to real person}
+- {@agentML=csr}
+- {@agentML={@agentClassifierChild=customer service}}
+- {@agentML=customer service} please
+- {@agentML=customer service} rep
+- {@agentML={@agentClassifierChild=customer support}}
+- dental {@agentML={@agentClassifierChild=representatives}}
+- don't want to {@agentML={@agentClassifierChild=talk to}} a fake {@agentML=agent}
+- get me a real {@agentML=agent} please
+- get me to a {@agentML=human}
+- get me to {@agentML=real person}
+- i am not talking to a robot
+- i don't want to {@agentML={@agentClassifierChild=talk to}} a robot
+- i don't want to {@agentML={@agentClassifierChild=talk to}} you
+- i need to 2 {@agentML={@agentClassifierChild=talk 2}} an {@agentML={@agentClassifierChild=agent}}
+- i need to be {@agentML=transferred to medical}.
+- i want a {@agentML=human} to help me
+- i want a live {@agentML=manager}
+- i want a live {@agentML=representative}
+- i want an {@agentML=agent} to help me
+- i want an {@agentML=operator}
+- i want to be {@agentML={@agentClassifierChild=transferred to}} {@agentML=customer service}
+- i want to {@agentML={@agentClassifierChild=speak to}} a {@agentML=rep}
+- i want to {@agentML={@agentClassifierChild=speak to}} a {@agentML=representative}
+- i want to {@agentML={@agentClassifierChild=speak to}} an {@agentML=agent}
+- i want to {@agentML={@agentClassifierChild=talk to}} a {@agentML=live agent}
+- i want to {@agentML={@agentClassifierChild=talk to}} an {@agentML=agent}
+- i want to {@agentML={@agentClassifierChild=talk to}} {@agentML=someone}
+- i want to {@agentML={@agentClassifierChild=talk to}} the {@agentML=operator}
+- i'd like to {@agentML={@agentClassifierChild=talk to} customer service}.
+- is a {@agentML=live agent} available
+- just {@agentML={@agentClassifierChild=transfer} me to a rep}
+- let me {@agentML={@agentClassifierChild=speak to}} a {@agentML=representative}
+- let me {@agentML={@agentClassifierChild=talk to}} a {@agentML=rep}
+- let me {@agentML={@agentClassifierChild=talk to}} the {@agentML=operator}
+- {@agentML=live person}
+- {@agentML=manager} please
+- may i {@agentML={@agentClassifierChild=speak to}} a {@agentML=live person}
+- may i {@agentML={@agentClassifierChild=speak to}} a {@agentML=real person}?
+- {@agentML={@agentClassifierChild=mental breakdown}}
+- no, i want to {@agentML={@agentClassifierChild=talk to}} an {@agentML=agent}
+- {@agentML=operator}
+- please {@agentML={@agentClassifierChild=connect me to}} a {@agentML=human}
+- please {@agentML={@agentClassifierChild=connect me to}} a real contact {@agentML=person}
+- please {@agentML={@agentClassifierChild=connect me to}} an {@agentML=agent}
+- {@agentML=rep}
+- {@agentML=representative}
+- {@agentML={@agentClassifierChild=representative}} for dental
+- {@agentML=representatives}.
+- so can you can you {@agentML={@agentClassifierChild=transfer}} to the {@agentML=customer care executive}?
+- {@agentML=somebody}
+- {@agentML=someone}
+- {@agentML={@agentClassifierChild=speak to}} a {@agentML=representative}
+- {@agentML={@agentClassifierChild=speak to} advocate} claims
+- {@agentML={@agentClassifierChild=speak to} somebody}
+- {@agentML={@agentClassifierChild=speak to} someone}
+- {@agentML=speak with a representative}
+- {@agentML={@agentClassifierChild=speak with} an agent}
+- {@agentML={@agentClassifierChild=speak with} somebody}
+- {@agentML={@agentClassifierChild=speak with} someone}
+- {@agentML={@agentClassifierChild=talk to}}
+- {@agentML={@agentClassifierChild=talk to} an agent}
+- {@agentML={@agentClassifierChild=talk to} healthcare}
+- {@agentML={@agentClassifierChild=talk to}} sales
+- {@agentML={@agentClassifierChild=talk to somebody}}
+- {@agentML={@agentClassifierChild=talk to someone}}
+- {@agentML={@agentClassifierChild=talk with somebody}}
+- {@agentML={@agentClassifierChild=talk with someone}}
+- transfer me to a {@agentML=representative}
+- transfer me to an {@agentML=agent}
+- {@agentML=transferred to} medical
+- want {@agentML={@agentClassifierChild=talk to}} a {@agentML=rep}
+- {@agentML}
+
+
+@ intent agent usesFeatures agentFeature,agentML,agentClassifierList
+
+# dateOfService
+- april 4 2022
+- {@datetimeV2}
+
+
+@ intent dateOfService usesFeature datetimeV2
+
+# dateRange
+- {@dateRangeML={@dateRangeCurrentChild=active}}
+- {@dateRangeML={@dateRangePastChild=before}}
+- {@dateRangeML={@dateRangeCurrentChild=current}}
+- {@dateRangeML={@dateRangeCurrentChild=existing}}
+- {@dateRangeML={@dateRangeFutureChild=foreseeable future}}
+- {@dateRangeML={@dateRangePastChild=former}}
+- {@dateRangeML={@dateRangeFutureChild=forthcoming}}
+- {@dateRangeML={@dateRangeFutureChild=future}}
+- {@dateRangeML={@dateRangeFutureChild=in the coming months}}
+- {@dateRangeML={@dateRangeFutureChild=in the future}}
+- {@dateRangeML={@dateRangeFutureChild=near future}}
+- {@dateRangeML={@dateRangePastChild=past}}
+- {@dateRangeML={@dateRangePastChild=preceding}}
+- {@dateRangeML={@dateRangeCurrentChild=present}}
+- {@dateRangeML={@dateRangePastChild=previous}}
+- {@dateRangeML={@dateRangeCurrentChild=recent}}
+- {@dateRangeML={@dateRangeFutureChild=up coming}}
+- {@dateRangeML={@dateRangeFutureChild=upcoming}}
+- {@dateRangeML}
+
+
+@ intent dateRange usesFeature dateRangeML
+
+# dontKnowResponse
+- {@dontKnowClassifierML=can't recall}
+- {@dontKnowClassifierML=don't}
+- {@dontKnowClassifierML=don't have it}
+- {@dontKnowClassifierML=don't know}
+- {@dontKnowClassifierML=dont}
+- {@dontKnowClassifierML=dont know}
+- i {@dontKnowClassifierML=don't have it} on me
+- i {@dontKnowClassifierML=don't know}
+- i {@dontKnowClassifierML=don't know} my member id
+- i {@dontKnowClassifierML=don't remember}
+- i {@dontKnowClassifierML=dont know}
+- i {@dontKnowClassifierML=dont know} my member id
+- i {@dontKnowClassifierML=dont remember}
+- {@dontKnowClassifierML=not sure}
+- {@dontKnowList}
+- {@dontKnowClassifierML}
+
+
+@ intent dontKnowResponse usesFeatures dontKnowList,dontKnowClassifierML
+
+# goodbye
+- {@goodbyeML=all my questions answered}
+- {@goodbyeML=au revoir}
+- {@goodbyeML=bye}
+- {@goodbyeML=bye bye}
+- {@goodbyeML=disconnect call}
+- {@goodbyeML=end the call}
+- {@goodbyeML=for now, that's all}
+- {@goodbyeML=good bye}
+- {@goodbyeML=good night}
+- {@goodbyeML=goodbye}
+- {@goodbyeML=hasta la vista}
+- i {@goodbyeML=don't need anything else}
+- {@goodbyeML=i'm done}
+- {@goodbyeML=i'm good maybe later}
+- {@goodbyeML=it's all for now}
+- {@goodbyeML=maybe another time}
+- {@goodbyeML=next time}
+- {@goodbyeML=not now}{@goodbyeML=, thank you}
+- {@goodbyeML=so long}
+- {@goodbyeML=thank you}
+- {@goodbyeML=thank you so much}
+- {@goodbyeML=thanks}
+- {@goodbyeML=thanks, maybe another time}
+- thanks, {@goodbyeML=that's all}
+- {@goodbyeML=that'll do it}
+- {@goodbyeML=that's all}
+- {@goodbyeML=that's all for now}
+- {@goodbyeML=that's all}, be it thank you
+- {@goodbyeML=that's it}
+- {@goodbyeML=that's it for now}
+
+
+@ intent goodbye usesFeature goodbyeML
+
+# None
+- fungibility
+- head north
+- my excel
+- plane
+- purple
+- writer exploration
+
+
+# noResponse
+- {@noML=absolutely not}
+- address is {@noML=not correct}
+- address is {@noML=not right}
+- {@noML=definitely not}
+- i already told you {@noML=no}
+- {@noML=i said no}
+- {@noML=i'm not a} provider
+- looks like {@noML=something went wrong}
+- {@noML=nah}
+- {@noML=negative}
+- {@noML=never}
+- {@noML=never mind}
+- {@noML=nevermind}
+- {@noML=no}
+- {@noML=no} i am calling as subscriber
+- {@noML=no} i am fine
+- {@noML=no} my address is wrong
+- {@noML=no} other help i need
+- {@noML=no} thanks
+- {@noML=nope}
+- {@noML=nope not today}
+- {@noML=not} provider
+- {@noML=not right now}
+- {@noML=not this time}
+- {@noML=not today}
+- {@noML=nothing}
+- {@noML=shut up}
+- {@noML=skip}
+- that's a {@noML=no from me}
+- the answer is {@noML=no}
+- {@noML=wrong one}
+- you have the {@noML=wrong address}
+- {@noML}
+
+
+@ intent noResponse usesFeatures noFeature,noML
+
+# pause
+- {@pauseML=can i have more time}
+- {@pauseML=can i have some time}
+- {@pauseML=freeze}
+- {@pauseML=give me a moment}
+- {@pauseML=give me some time}
+- {@pauseML=hang on}
+- {@pauseML=hold on}
+- {@pauseML=i need more time}
+- {@pauseML=i need some time}
+- {@pauseML=i want some time}
+- {@pauseML=just a minute}
+- {@pauseML=just a moment}
+- {@pauseML=more time}
+- {@pauseML=one minute}
+- {@pauseML=one moment}
+- {@pauseML=one second}
+- {@pauseML=pause}
+- {@pauseML=wait}
+- {@pauseML}
+
+
+@ intent pause usesFeature pauseML
+
+# policySelection
+- any {@policyEntityML={@policyEXGN=exchange}} possible
+- {@policyEntityML={@policyCAID=caid}}
+- {@policyEntityML={@policyCARE=care}} is my {@policyEntityML=policy}
+- {@policyEntityML={@policyCARE=care}} it the {@policyEntityML=policy} i am calling about
+- checking about my dental {@policyEntityML=policy}
+- {@policyEntityML={@policyCOMM=commercial}}
+- enrolled in this {@policyEntityML={@policyCARE=medicare} dental rider}, but they haven't been taking premiums
+- {@policyEntityML={@policyEXGN=exchange}}
+- {@policyEntityML={@policyEXGN=exchange}} {@policyEntityML=policy}
+- i believe it is {@policyEntityML={@policyCARE=care}}
+- i have a {@policyEntityML={@policyCARE=care}} {@policyEntityML=policy}
+- i have a {@policyEntityML={@policyCAID=medicaid}} {@policyEntityML=policy}
+- i have a {@policyEntityML=policy question}
+- i have {@policyEntityML={@policyCAID=medicaid}}
+- i have {@policyEntityML={@policyCARE=medicare}}
+- {@policyEntityML=i was trying to see if i could add someone to my policy}.
+- it is a {@policyEntityML={@policyCAID=caid}} {@policyEntityML=policy}
+- it is on a {@policyEntityML={@policyCOMM=commercial}} {@policyEntityML=policy}
+- it's a {@policyEntityML={@policyCAID=medicaid}} {@policyEntityML=policy}
+- it's {@policyEntityML={@policyCAID=medicaid}}
+- {@policyEntityML={@policyCAID=medicaid}}
+- {@policyEntityML={@policyCAID=medicaid}} {@policyEntityML=policy}
+- {@policyEntityML={@policyCARE=medicare}}
+- {@policyEntityML={@policyCARE=medicare}} i believe
+- my {@policyEntityML=policy} is {@policyEntityML={@policyCARE=care}}
+- my {@policyEntityML=policy} is {@policyEntityML={@policyCARE=medicare}}
+- {@policyEntityML=policy}
+- {@policyEntityML=policy} is {@policyEntityML={@policyCARE=care}}
+- {@policyEntityML=policy} type is {@policyEntityML={@policyCAID=caid}}
+- the type of {@policyEntityML=policy} i have is called {@policyEntityML={@policyCARE=care}}
+- what is the {@policyEntityML=policy} on mental health
+- who takes {@policyEntityML=what dentist office take my {@policyCAID=medicaid} my insurance}
+- {@policyEntityML}
+
+
+@ intent policySelection usesFeature policyEntityML
+
+# prescriptionDrug
+- drug order
+- {@prescriptionDrugML=drugs}
+- {@prescriptionDrugML=medication}
+- {@prescriptionDrugML=medications}
+- {@prescriptionDrugML=medicine}
+- {@prescriptionDrugML=meds}
+- {@prescriptionDrugML=pharmacy}
+- {@prescriptionDrugML=prescription}
+- {@prescriptionDrugML=prescriptions}
+- {@prescriptionDrugML=rx}
+- {@prescriptionDrugML}
+
+
+@ intent prescriptionDrug usesFeature prescriptionDrugML
+
+# repeat
+- {@repeatML=again}
+- can you please repeat
+- can you please {@repeatML=say that again}
+- can you {@repeatML=repeat} that
+- come again?
+- could you {@repeatML=repeat} that please
+- didn't get that
+- {@repeatML=excuse me}
+- i did not hear your question
+- i didn't hear you, {@repeatML=say again}?
+- i don't understand, please {@repeatML=repeat}
+- i want to {@repeatML=listen to it once more}
+- {@repeatML=i'm sorry i didn't hear}
+- please {@repeatML=repeat} that
+- {@repeatML=repeat}
+- {@repeatML=repeat it}
+- {@repeatML=say again} please
+- {@repeatML=say that again}
+- sorry couldn't catch that
+- {@repeatML=tell me that number again}
+- what are you talking about?
+- what did you say?
+- what do you mean
+- what number?
+- {@repeatML=what was that}
+- what?
+
+
+@ intent repeat usesFeature repeatML
+
+# somethingElse
+- i'm looking for {@somethingElseML=something else}
+- {@somethingElseML=none}
+- {@somethingElseML=none of these}
+- {@somethingElseML=other}
+- {@somethingElseML=other} information
+- {@somethingElseML=something else}
+
+
+@ intent somethingElse usesFeatures somethingElseFeature,somethingElseML
+
+# supplementalPlan
+- {@supplementalML=aarp}
+- aarp {@supplementalML=supplement plan}
+- {@supplementalML=supplement}
+- {@supplementalML=supplement plan}
+- {@supplementalML=supplemental}
+- {@supplementalML=supplemental} plan
+- {@supplementalML=supplemental} plan details
+- {@supplementalML=supplemental} plans
+
+
+@ intent supplementalPlan usesFeature supplementalML
+
+# yesResponse
+- {@yesML=absolutely}
+- {@yesML=affirmative}
+- {@yesML=alright}
+- {@yesML=cool}
+- {@yesML=correct}
+- {@yesML=definitely}
+- {@yesML=good}
+- {@yesML=ok}
+- {@yesML=okay}
+- {@yesML=right}
+- {@yesML=right that is it}
+- {@yesML=sure}
+- {@yesML=that is correct}
+- {@yesML=that is correct} sir
+- {@yesML=that is fine}
+- {@yesML=that's correct}
+- {@yesML=that's fine}
+- {@yesML=that's right}
+- {@yesML=undoubtedly}
+- {@yesML=why not}
+- {@yesML=ya}
+- {@yesML=yah}
+- {@yesML=yea}
+- {@yesML=yeah}
+- {@yesML=yeah}, provider
+- {@yesML=yep}
+- {@yesML=yep, yep}
+- {@yesML=yes}
+- {@yesML=yes and i need more help}
+- {@yesML=yes} go ahead
+- {@yesML=yes please} send it across
+- {@yesML=yes} thank you
+- {@yesML=yes} this is my number
+- {@yesML=yes}, provider
+- {@yesML=yes}, uhm so.
+- {@yesML=yup}
+- {@yesML=yup}, of course
+
+
+@ intent yesResponse usesFeatures yesFeature,yesML
+
+> # Entity definitions
+
+@ ml agentML usesFeature agentFeature
+    - @ ml agentClassifierChild usesFeature agentClassifierList
+
+
+@ ml dateRangeML
+    - @ ml dateRangePastChild usesFeature dateRangePastFeature
+    - @ ml dateRangeCurrentChild usesFeature dateRangeCurrentFeature
+    - @ ml dateRangeFutureChild usesFeature dateRangeFutureFeature
+
+
+@ ml dontKnowClassifierML usesFeature dontKnowList
+
+@ ml goodbyeML usesFeature goodbyeFeature
+
+@ ml greetingsML usesFeature greetingFeature
+
+@ ml mainMenuML usesFeature mainMenuFeature
+
+@ ml noML usesFeature noFeature
+
+@ ml pauseML usesFeature pauseFeature
+
+@ ml policyEntityML usesFeature policyCategoryList
+    - @ ml policyCAID usesFeature policyCAIDFeature
+    - @ ml policyCARE usesFeature policyCAREFeature
+    - @ ml policyCOMM usesFeature policyCOMMFeature
+    - @ ml policyEXGN usesFeature policyEXGNFeature
+
+
+@ ml prescriptionDrugML usesFeature prescriptionFeature
+
+@ ml repeatML usesFeature repeatFeature
+
+@ ml somethingElseML usesFeature somethingElseFeature
+
+@ ml supplementalML usesFeature supplementFeature
+
+@ ml yesML usesFeature yesFeature
+
+
+> # PREBUILT Entity definitions
+
+@ prebuilt datetimeV2 hasRole birthday
+
+@ prebuilt number
+
+
+> # Phrase list definitions
+
+@ phraselist agentFeature(interchangeable) disabledForAllModels = 
+	- operator,rep,representative,advocate,customer service rep,agents,live person,person,someone,human,associate,real person,somebody,insurance agent,insurance guy,not a robot,different department,agent,speak with,talk,speak,transferred,speak with someone,speak with somebody,speak to someone,talk with someone,representatives,speak with a representative,speak to somebody,supervisor,talk to,talk to somebody,customer service,Customer support.,customer support,Mental breakdown
+
+@ phraselist goodbyeFeature(interchangeable) disabledForAllModels = 
+	- goodbye,good bye,bye,hasta la vista,au revoir,so long,all done,done,thanks,thank you
+
+@ phraselist greetingFeature(interchangeable) disabledForAllModels = 
+	- hello,good afternoon,good morning,good day,hey,hola
+
+@ phraselist mainMenuFeature(interchangeable) disabledForAllModels = 
+	- menu,main menu
+
+@ phraselist yesFeature(interchangeable) disabledForAllModels = 
+	- yes,correct,yeah,yup,ya,why not,thats right,you got it,what s up,that's fine,that is correct,that's correct,that is fine,right
+
+@ phraselist noFeature(interchangeable) disabledForAllModels = 
+	- no,nothing,incorrect,nope,never mind,no way,noway,that's all,cancel,not,wrong,shut up
+
+@ phraselist policyClassifierFeature(interchangeable) disabledForAllModels = 
+	- policy,policies
+
+@ phraselist coverageFeature(interchangeable) disabledForAllModels = 
+	- coverage,coverage for,covers,covered,cover,coverages
+
+@ phraselist policyCAIDFeature(interchangeable) disabledForAllModels = 
+	- medicaid,caid
+
+@ phraselist policyCAREFeature(interchangeable) disabledForAllModels = 
+	- medicare
+
+@ phraselist policyCOMMFeature(interchangeable) disabledForAllModels = 
+	- commercial
+
+@ phraselist policyEXGNFeature(interchangeable) disabledForAllModels = 
+	- exchange
+
+@ phraselist prescriptionFeature(interchangeable) disabledForAllModels = 
+	- prescription,rx,medication,medications,prescriptions,pharmacy,medicine,drugs
+
+@ phraselist supplementFeature(interchangeable) disabledForAllModels = 
+	- supplement,supplemental,supplement plan,aarp
+
+@ phraselist somethingElseFeature(interchangeable) disabledForAllModels = 
+	- something else,other,none of these,none,others,none of
+
+@ phraselist dateRangeCurrentFeature(interchangeable) disabledForAllModels = 
+	- current,present,existing,active,currently
+
+@ phraselist dateRangePastFeature(interchangeable) disabledForAllModels = 
+	- previous,past,before,preceding,prior,former,pre-existing,old
+
+@ phraselist dateRangeFutureFeature(interchangeable) disabledForAllModels = 
+	- future,in the coming months,near future,in the future,foreseeable future,up coming,upcoming,forthcoming
+
+@ phraselist pauseFeature(interchangeable) disabledForAllModels = 
+	- pause,freeze,hold on,wait,one minute,give me some time,just a moment,hang on,more time,give me a moment,one second,one moment,just a minute,i need some time,i need more time,can i have some time,iwant some time,can i have more time
+
+@ phraselist repeatFeature(interchangeable) disabledForAllModels = 
+	- repeat
+
+
+> # List entities
+
+@ list agentClassifierList = 
+	- speak to :
+	- speak with :
+	- talk with :
+	- talk to :
+	- transfer :
+	- connect to :
+	- call :
+
+
+@ list dontKnowList = 
+	- don't really know :
+	- can't remember :
+	- i do not know :
+	- don't have it :
+	- don't know :
+	- dont know :
+	- don't remember :
+	- dont remember :
+	- i have no clue :
+	- i have no idea :
+	- don't :
+	- dont :
+	- not sure :
+	- can't recall :
+
+
+@ list eligibilityActive = 
+	- active :
+		- started
+		- effective date
+
+
+@ list eligibilityEnd = 
+	- end :
+		- ends
+		- ended
+		- stopped
+		- stops
+		- cancelled
+		- expired
+		- expire
+		- nonactive
+
+
+@ list eligibilityStarts = 
+	- starts :
+		- start
+
+
+@ list policyCategoryList = 
+	- CARE :
+		- medicare
+	- CAID :
+		- medicaid
+		- caid
+	- EXGN :
+		- exchange
+	- COMM :
+		- commercial
+
+
+> # RegEx entities
+
+@ regex RGDay = /^(([1-9])|(0[1-9])|([12])(\d{1})|30|31)$/
+@ regex RGMonth = /^((0?[1-9]|11|10|12))$/
+@ regex RGYear = /^((19|20)\d{2}|\d{2})$/
+@ regex USFormatDateRG = /(((0?[1-9])|([1][0-2]))([ ]|)(([1-9])|(0[1-9])|(([12])([0-9]?))|(3[01]))([ ]|)(((19)([0-9])(\d{1}))|((20)([0-9])(\d{1}))))/
+

@@ -1,0 +1,73 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "IsNWh3",
+    "name": "ReadMatchingFirstNames",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "0uCX30"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "U82kp4"
+          },
+          "assignments": [
+            {
+              "property": "conversation.matchedFirstNames",
+              "value": "=createArray()"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.Foreach",
+          "$designer": {
+            "id": "DQSp1c"
+          },
+          "index": "dialog.foreach.index",
+          "value": "dialog.foreach.value",
+          "itemsProperty": "dialog.matchedArray",
+          "actions": [
+            {
+              "$kind": "Microsoft.EditArray",
+              "$designer": {
+                "id": "lu3NMF"
+              },
+              "changeType": "push",
+              "itemsProperty": "conversation.matchedFirstNames",
+              "value": "=conversation.identificationResponse.firstNameList[dialog.foreach.value.index]"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "a40Bxg"
+          },
+          "assignments": [
+            {
+              "property": "conversation.isAllFirstNamesMatching",
+              "value": "=all(conversation.matchedFirstNames,firstName,firstName == conversation.matchedFirstNames[0])"
+            },
+            {
+              "property": "conversation.matchedFirstName",
+              "value": "=conversation.isAllFirstNamesMatching? conversation.matchedFirstNames[0]:\"\""
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "ReadMatchingFirstNames.lg",
+  "recognizer": "ReadMatchingFirstNames.lu.qna",
+  "id": "ReadMatchingFirstNames"
+}

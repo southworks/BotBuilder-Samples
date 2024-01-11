@@ -1,0 +1,527 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "GgrsHI",
+    "name": "DateFormat",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "NwflZm"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "gBY1lR"
+          },
+          "assignments": [
+            {
+              "property": "dialog.dobVal",
+              "value": "=dialog.dobValue"
+            },
+            {
+              "property": "conversation.dob",
+              "value": "=\"\""
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "u28pUL"
+          },
+          "condition": "=string(dialog.dobVal.datetimeV2[0].type)==string(\"date\")",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "xzEut8"
+              },
+              "property": "conversation.dob",
+              "value": "=dialog.dobVal.datetimeV2[0].values[0].timex",
+              "disabled": true
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "kGDuij"
+              },
+              "condition": "=startsWith(dialog.dobVal.datetimeV2[0].values[0].timex, \"XXXX\")",
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "1SpHKr"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.currentYear",
+                      "value": "=year(utcNow())"
+                    },
+                    {
+                      "property": "dialog.TimexYear",
+                      "value": "=substring(dialog.dobVal.datetimeV2[0].values[0].resolution[0].value, 0, 4)"
+                    },
+                    {
+                      "property": "dialog.dobYear",
+                      "value": "=int(dialog.currentYear)>=int(dialog.TimexYear)?dialog.TimexYear:concat(int(substring(dialog.TimexYear,0,2))-1, substring(dialog.TimexYear,2))"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "Z2Y5ml"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.tempdob",
+                      "value": "=dialog.dobVal.datetimeV2[0].values[0].resolution[0].value"
+                    },
+                    {
+                      "property": "conversation.dob",
+                      "value": "=replace(conversation.tempdob, substring(conversation.tempdob,0,4), dialog.dobYear)"
+                    }
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "u35g57"
+                  },
+                  "condition": "=length(split(dialog.dobVal.dateML[0], \" \")[0])==4",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "5dGppv"
+                      },
+                      "assignments": [
+                        {
+                          "property": "dialog.tempDOBTimex",
+                          "value": "=dialog.dobVal.datetimeV2[0].values[0].timex"
+                        },
+                        {
+                          "property": "conversation.dob",
+                          "value": "=replace(dialog.tempDOBTimex, \"XXXX\", split(dialog.dobVal.dateML[0], \" \")[0])"
+                        }
+                      ]
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "aydEL8"
+                      },
+                      "assignments": [
+                        {
+                          "property": "dialog.currentYear",
+                          "value": "=year(utcNow())"
+                        },
+                        {
+                          "property": "dialog.YearDigit",
+                          "value": "=substring(replace(string(year(utcNow())),\",\",\"\"), 0, 2)"
+                        },
+                        {
+                          "property": "dialog.dobYear",
+                          "value": "=int(dialog.currentYear)>int(concat(dialog.YearDigit,split(dialog.dobVal.dateML[0],\" \")[0]))?concat(dialog.YearDigit,split(dialog.dobVal.dateML[0],\" \")[0]):concat(int(dialog.YearDigit)-1,split(dialog.dobVal.dateML[0],\" \")[0])"
+                        },
+                        {
+                          "property": "dialog.tempDOBTimex",
+                          "value": "=dialog.dobVal.datetimeV2[0].values[0].timex"
+                        },
+                        {
+                          "property": "conversation.dob",
+                          "value": "=replace(dialog.tempDOBTimex, \"XXXX\", dialog.dobYear)"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "JB4y37"
+              },
+              "condition": "=count(split(dialog.dobVal.dateML[0],\" \"))==3",
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "sZrhIG"
+                  },
+                  "condition": "=length(split(dialog.dobVal.dateML[0], \" \")[2])==4",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "GDSunu"
+                      },
+                      "property": "dialog.tempDOBYYYY",
+                      "value": "=split(dialog.dobVal.dateML[0], \" \")[2]"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "xRHSyE"
+                      },
+                      "assignments": [
+                        {
+                          "property": "dialog.currentYear",
+                          "value": "=year(utcNow())"
+                        },
+                        {
+                          "property": "dialog.YearDigit",
+                          "value": "=substring(replace(string(year(utcNow())),\",\",\"\"), 0, 2)"
+                        },
+                        {
+                          "property": "dialog.tempDOBYYYY",
+                          "value": "=int(dialog.currentYear)>int(concat(dialog.YearDigit,split(dialog.dobVal.dateML[0],\" \")[2]))?concat(dialog.YearDigit,split(dialog.dobVal.dateML[0],\" \")[2]):concat(int(dialog.YearDigit)-1,split(dialog.dobVal.dateML[0],\" \")[2])"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "Pcod1F"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.tempDOBMM",
+                      "value": "=length(split(dialog.dobVal.dateML[0], \" \")[0])==1?concat(\"0\",split(dialog.dobVal.dateML[0], \" \")[0]):split(dialog.dobVal.dateML[0], \" \")[0]"
+                    },
+                    {
+                      "property": "dialog.tempDOBDD",
+                      "value": "=length(split(dialog.dobVal.dateML[0], \" \")[1])==1?concat(\"0\",split(dialog.dobVal.dateML[0], \" \")[1]):split(dialog.dobVal.dateML[0], \" \")[1]"
+                    },
+                    {
+                      "property": "dialog.tempDOBVal",
+                      "value": "=concat(dialog.tempDOBMM,\"-\",dialog.tempDOBDD,\"-\",dialog.tempDOBYYYY)"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "dvINQX"
+                  },
+                  "condition": "=isMatch(dialog.tempDOBVal, \"^(((0[13-9]|1[012])[-\\/]?(0[1-9]|[12][0-9]|30)|(0[13578]|1[02])[-\\/]?31|02[-\\/]?(0[1-9]|1[0-9]|2[0-8]))[-\\/]?[0-9]{4}|02[-\\/]?29[-\\/]?([0-9]{2}(([2468][048]|[02468][48])|[13579][26])|([13579][26]|[02468][048]|0[0-9]|1[0-6])00))$\")",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "J2llgu"
+                      },
+                      "property": "conversation.dob",
+                      "value": "=concat(dialog.tempDOBYYYY,\"-\",dialog.tempDOBMM,\"-\",dialog.tempDOBDD)"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "0VrJ9j"
+                      },
+                      "condition": "=length(split(dialog.dobVal.dateML[0], \" \")[2])==4",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "thcVWe"
+                          },
+                          "property": "dialog.tempDOBYYYY",
+                          "value": "=split(dialog.dobVal.dateML[0], \" \")[2]"
+                        }
+                      ],
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "9fyGKv"
+                          },
+                          "assignments": [
+                            {
+                              "property": "dialog.currentYear",
+                              "value": "=year(utcNow())"
+                            },
+                            {
+                              "property": "dialog.YearDigit",
+                              "value": "=substring(replace(string(year(utcNow())),\",\",\"\"), 0, 2)"
+                            },
+                            {
+                              "property": "dialog.tempDOBYYYY",
+                              "value": "=int(dialog.currentYear)>int(concat(dialog.YearDigit,split(dialog.dobVal.dateML[0],\" \")[2]))?concat(dialog.YearDigit,split(dialog.dobVal.dateML[0],\" \")[2]):concat(int(dialog.YearDigit)-1,split(dialog.dobVal.dateML[0],\" \")[2])"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "N38KMi"
+                      },
+                      "assignments": [
+                        {
+                          "property": "dialog.tempDOBMM",
+                          "value": "=length(split(dialog.dobVal.dateML[0], \" \")[1])==1?concat(\"0\",split(dialog.dobVal.dateML[0], \" \")[1]):split(dialog.dobVal.dateML[0], \" \")[1]"
+                        },
+                        {
+                          "property": "dialog.tempDOBDD",
+                          "value": "=length(split(dialog.dobVal.dateML[0], \" \")[0])==1?concat(\"0\",split(dialog.dobVal.dateML[0], \" \")[0]):split(dialog.dobVal.dateML[0], \" \")[0]"
+                        },
+                        {
+                          "property": "dialog.tempDOBVal",
+                          "value": "=concat(dialog.tempDOBDD,\"-\",dialog.tempDOBMM,\"-\",dialog.tempDOBYYYY)"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "LhgRdN"
+                      },
+                      "condition": "=isMatch(dialog.tempDOBVal,\"^(((0[1-9]|[12][0-9]|30)[-\\/]?(0[13-9]|1[012])|31[-\\/]?(0[13578]|1[02])|(0[1-9]|1[0-9]|2[0-8])[-\\/]?02)[-\\/]?[0-9]{4}|29[-\\/]?02[-\\/]?([0-9]{2}(([2468][048]|[02468][48])|[13579][26])|([13579][26]|[02468][048]|0[0-9]|1[0-6])00))$\")",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "4ubhmQ"
+                          },
+                          "property": "conversation.dob",
+                          "value": "=concat(dialog.tempDOBYYYY,\"-\",dialog.tempDOBMM,\"-\",dialog.tempDOBDD)"
+                        }
+                      ],
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.IfCondition",
+                          "$designer": {
+                            "id": "poYT49"
+                          },
+                          "condition": "=length(split(dialog.dobVal.dateML[0], \" \")[0])==4",
+                          "actions": [
+                            {
+                              "$kind": "Microsoft.SetProperty",
+                              "$designer": {
+                                "id": "Gtp0rM"
+                              },
+                              "property": "dialog.tempDOBYYYY",
+                              "value": "=split(dialog.dobVal.dateML[0], \" \")[0]"
+                            }
+                          ],
+                          "elseActions": [
+                            {
+                              "$kind": "Microsoft.SetProperties",
+                              "$designer": {
+                                "id": "171yaq"
+                              },
+                              "assignments": [
+                                {
+                                  "property": "dialog.currentYear",
+                                  "value": "=year(utcNow())"
+                                },
+                                {
+                                  "property": "dialog.YearDigit",
+                                  "value": "=substring(replace(string(year(utcNow())),\",\",\"\"), 0, 2)"
+                                },
+                                {
+                                  "property": "dialog.tempDOBYYYY",
+                                  "value": "=int(dialog.currentYear)>int(concat(dialog.YearDigit,split(dialog.dobVal.dateML[0],\" \")[0]))?concat(dialog.YearDigit,split(dialog.dobVal.dateML[0],\" \")[0]):concat(int(dialog.YearDigit)-1,split(dialog.dobVal.dateML[0],\" \")[0])"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "IeS1Xu"
+                          },
+                          "assignments": [
+                            {
+                              "property": "dialog.tempDOBMM",
+                              "value": "=length(split(dialog.dobVal.dateML[0], \" \")[1])==1?concat(\"0\",split(dialog.dobVal.dateML[0], \" \")[1]):split(dialog.dobVal.dateML[0], \" \")[1]"
+                            },
+                            {
+                              "property": "dialog.tempDOBDD",
+                              "value": "=length(split(dialog.dobVal.dateML[0], \" \")[2])==1?concat(\"0\",split(dialog.dobVal.dateML[0], \" \")[2]):split(dialog.dobVal.dateML[0], \" \")[2]"
+                            },
+                            {
+                              "property": "dialog.tempDOBVal",
+                              "value": "=concat(dialog.tempDOBYYYY,\"-\",dialog.tempDOBMM,\"-\",dialog.tempDOBDD)"
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.IfCondition",
+                          "$designer": {
+                            "id": "VOq3j9"
+                          },
+                          "condition": "=isMatch(dialog.tempDOBVal, \"^([0-9]{4}[-\\/]?((0[13-9]|1[012])[-\\/]?(0[1-9]|[12][0-9]|30)|(0[13578]|1[02])[-\\/]?31|02[-\\/]?(0[1-9]|1[0-9]|2[0-8]))|([0-9]{2}(([2468][048]|[02468][48])|[13579][26])|([13579][26]|[02468][048]|0[0-9]|1[0-6])00)[-\\/]?02[-\\/]?29)$\")",
+                          "actions": [
+                            {
+                              "$kind": "Microsoft.SetProperty",
+                              "$designer": {
+                                "id": "1myTeX"
+                              },
+                              "property": "conversation.dob",
+                              "value": "=concat(dialog.tempDOBYYYY,\"-\",dialog.tempDOBMM,\"-\",dialog.tempDOBDD)"
+                            }
+                          ],
+                          "elseActions": [
+                            {
+                              "$kind": "Microsoft.IfCondition",
+                              "$designer": {
+                                "id": "ytBXwV"
+                              },
+                              "condition": "=length(split(dialog.dobVal.dateML[0], \" \")[0])==4",
+                              "actions": [
+                                {
+                                  "$kind": "Microsoft.SetProperty",
+                                  "$designer": {
+                                    "id": "ObvWTe"
+                                  },
+                                  "property": "dialog.tempDOBYYYY",
+                                  "value": "=split(dialog.dobVal.dateML[0], \" \")[0]"
+                                }
+                              ],
+                              "elseActions": [
+                                {
+                                  "$kind": "Microsoft.SetProperties",
+                                  "$designer": {
+                                    "id": "3ilR9x"
+                                  },
+                                  "assignments": [
+                                    {
+                                      "property": "dialog.currentYear",
+                                      "value": "=year(utcNow())"
+                                    },
+                                    {
+                                      "property": "dialog.YearDigit",
+                                      "value": "=substring(replace(string(year(utcNow())),\",\",\"\"), 0, 2)"
+                                    },
+                                    {
+                                      "property": "dialog.tempDOBYYYY",
+                                      "value": "=int(dialog.currentYear)>int(concat(dialog.YearDigit,split(dialog.dobVal.dateML[0],\" \")[0]))?concat(dialog.YearDigit,split(dialog.dobVal.dateML[0],\" \")[0]):concat(int(dialog.YearDigit)-1,split(dialog.dobVal.dateML[0],\" \")[0])"
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "$kind": "Microsoft.SetProperties",
+                              "$designer": {
+                                "id": "51ZXsR"
+                              },
+                              "assignments": [
+                                {
+                                  "property": "dialog.tempDOBMM",
+                                  "value": "=length(split(dialog.dobVal.dateML[0], \" \")[2])==1?concat(\"0\",split(dialog.dobVal.dateML[0], \" \")[2]):split(dialog.dobVal.dateML[0], \" \")[2]"
+                                },
+                                {
+                                  "property": "dialog.tempDOBDD",
+                                  "value": "=length(split(dialog.dobVal.dateML[0], \" \")[1])==1?concat(\"0\",split(dialog.dobVal.dateML[0], \" \")[1]):split(dialog.dobVal.dateML[0], \" \")[1]"
+                                },
+                                {
+                                  "property": "dialog.tempDOBVal",
+                                  "value": "=concat(dialog.tempDOBYYYY,\"-\",dialog.tempDOBDD,\"-\",dialog.tempDOBMM)"
+                                }
+                              ]
+                            },
+                            {
+                              "$kind": "Microsoft.IfCondition",
+                              "$designer": {
+                                "id": "UAABHv"
+                              },
+                              "condition": "=isMatch(dialog.tempDOBVal, \"^((2000|2400|2800|(19|2[0-9](0[48]|[2468][048]|[13579][26])))[-\\/ ]29[-\\/ ]02)|^(((19|2[0-9])[0-9]{2})[-\\/ ](0[1-9]|1[0-9]|2[0-8])[-\\/ ]02)|^(((19|2[0-9])[0-9]{2})[-\\/ ](0[1-9]|[12][0-9]|3[01])[-\\/ ](0[13578]|10|12))|^(((19|2[0-9])[0-9]{2})[-\\/ ](0[1-9]|[12][0-9]|30)[-\\/ ](0[469]|11))$\")",
+                              "actions": [
+                                {
+                                  "$kind": "Microsoft.SetProperty",
+                                  "$designer": {
+                                    "id": "XBtnmR"
+                                  },
+                                  "property": "conversation.dob",
+                                  "value": "=concat(dialog.tempDOBYYYY,\"-\",dialog.tempDOBMM,\"-\",dialog.tempDOBDD)"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "THPBMU"
+                  },
+                  "property": "dialog.tempDOBDateMLVal",
+                  "value": "=replace(string(dialog.dobVal.dateML[0]), \" \", \"\")"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "NOZNhF"
+                  },
+                  "condition": "=and(length(dialog.tempDOBDateMLVal)==8,isMatch(dialog.tempDOBDateMLVal, \"^(((0[13-9]|1[012])[-\\/]?(0[1-9]|[12][0-9]|30)|(0[13578]|1[02])[-\\/]?31|02[-\\/]?(0[1-9]|1[0-9]|2[0-8]))[-\\/]?[0-9]{4}|02[-\\/]?29[-\\/]?([0-9]{2}(([2468][048]|[02468][48])|[13579][26])|([13579][26]|[02468][048]|0[0-9]|1[0-6])00))$\"))",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "aKnleL"
+                      },
+                      "property": "conversation.dob",
+                      "value": "=concat(substring(dialog.tempDOBDateMLVal, 4, 4),\"-\",substring(dialog.tempDOBDateMLVal, 0, 2),\"-\",substring(dialog.tempDOBDateMLVal, 2, 2))"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "d3TWoa"
+          },
+          "condition": "=and(length(conversation.dob)==10,isMatch(conversation.dob, \"^([0-9]{4}-((0[13-9]|1[012])-(0[1-9]|[12][0-9]|30)|(0[13578]|1[02])-31|02-(0[1-9]|1[0-9]|2[0-8]))|([0-9]{2}(([2468][048]|[02468][48])|[13579][26])|([13579][26]|[02468][048]|0[0-9]|1[0-6])00)-02-29)$\"))",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "BvfQ9w"
+              },
+              "property": "conversation.dob",
+              "value": "=\"\""
+            }
+          ],
+          "actions": []
+        }
+      ]
+    }
+  ],
+  "generator": "DateFormat.lg",
+  "recognizer": "DateFormat.lu.qna",
+  "id": "DateFormat"
+}

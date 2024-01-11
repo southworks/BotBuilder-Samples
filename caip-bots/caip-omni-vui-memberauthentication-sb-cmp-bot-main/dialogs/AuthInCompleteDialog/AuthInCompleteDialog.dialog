@@ -1,0 +1,77 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "DA2Ebt",
+    "name": "AuthInCompleteDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "YHmQan"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "chr2NY"
+          },
+          "activity": "${SendActivity_authIncompleteMsg()}"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "PNV91M"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "01010",
+            "pegType": "General",
+            "request": "=AuthInCompleteDialog.SendActivity_authIncompleteMsg()",
+            "response": "",
+            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "MembAuthSkill_AuthIncomplete_Peg"
+          }
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "QD3Zlv"
+          },
+          "assignments": [
+            {
+              "property": "conversation.transferReasonCode",
+              "value": "X"
+            },
+            {
+              "property": "conversation.transferReason",
+              "value": "=concat(conversation.inputVal,\"_AuthInComplete\")"
+            },
+            {
+              "property": "conversation.silentTransfer",
+              "value": true
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "05u7gS"
+          },
+          "activityProcessed": true,
+          "dialog": "SetSkillResponseParams"
+        }
+      ]
+    }
+  ],
+  "generator": "AuthInCompleteDialog.lg",
+  "recognizer": "AuthInCompleteDialog.lu.qna",
+  "id": "AuthInCompleteDialog"
+}

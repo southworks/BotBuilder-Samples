@@ -1,0 +1,84 @@
+> !# @Namespace=MainDialog
+> !# @Exports = MoreTimeRequestMsg,TestEventMsg,PegVal,PegName,NoUserInputName,DisableSpeechEvent,DTMFName
+[import](common.lg)
+
+#DisableSpeechEvent()
+[Activity
+    Type = event
+    Name = config
+    channelData = ${
+        {
+            activityParams:{
+                enableSpeechInput: false
+            }
+        }
+    }
+]
+
+#MoreTimeRequestMsg()
+[Activity
+    Text = ${MoreTimeRequestTemplate()}
+    Speak = ${MoreTimeRequestTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+        {
+            activityParams:{
+                continuousASR: true,
+                continuousASRTimeoutInMS: 2000,
+                continuousASRDigits: "#",
+                sttDisablePunctuation: true,
+                sendDTMF: true,
+                bargeIn: false,
+                bargeInOnDTMF: false,
+                dtmfCollect: true,
+                dtmfCollectInterDigitTimeoutMS: settings.dtmfCollectInterDigitTimeoutMS,
+                dtmfCollectSubmitDigit: "#",
+                dtmfCollectMaxDigits: 0
+            }
+        }
+    }
+]
+# TestEventMsg()
+[Activity
+    Text = ${TestEventTemplate()}
+    Speak = ${TestEventTemplate()}
+    InputHint = ignoringInput
+    ChannelData = ${
+        {
+            activityParams:{
+                sendDTMF: false,
+                bargeIn: false,
+                bargeInOnDTMF: false,
+                dtmfCollect: false,
+                dtmfCollectInterDigitTimeoutMS: settings.dtmfCollectInterDigitTimeoutMS,
+                dtmfCollectSubmitDigit: "#",
+                dtmfCollectMaxDigits: 0,
+                enableSpeechInput: false
+            }
+        }
+    }
+]
+
+# PegName(param1,param2)
+- IF: ${toLower(param1) == "cmreturnedmenu"}
+    - ConversationManagerSkill_askConversationManagerReturnedMenu_${param2}_LuisResult_Peg
+- ELSE:
+    - ConversationManagerSkill_BargeIn_${param2}_LuisResult_Peg
+
+# DTMFName(param1,param2)
+- IF: ${toLower(param1) == "updateani"}
+    - ConversationManagerSkill_askConversationManagerReturnedMenu_${param2}_DTMF_Peg
+- ELSE:
+    - ConversationManagerSkill_BargeIn_${param2}_DTMF_Peg
+
+# NoUserInputName(param1,param2)
+- IF: ${toLower(param1) == "cmreturnedmenu"}
+    - ConversationManagerSkill_askConversationManagerReturnedMenu_${param2}_Peg
+- ELSE:
+    - ConversationManagerSkill_BargeIn_${param2}_Peg
+
+# PegVal(param1)
+- IF: ${toLower(param1) == "cmreturnedmenu"}
+    - 00809
+- ELSE:
+    - BargeIn

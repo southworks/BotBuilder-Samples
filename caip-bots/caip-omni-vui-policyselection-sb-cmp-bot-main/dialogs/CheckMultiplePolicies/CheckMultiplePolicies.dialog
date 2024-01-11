@@ -1,0 +1,276 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "jMZS2Y",
+    "name": "CheckMultiplePolicies",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "3h1o5A"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "qedAde"
+          },
+          "assignments": [
+            {
+              "property": "conversation.multiplePolicyArray",
+              "value": "=createArray()"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.Foreach",
+          "$designer": {
+            "id": "is73ii"
+          },
+          "index": "dialog.foreach.index",
+          "value": "dialog.foreach.value",
+          "itemsProperty": "conversation.memberindividualsmemberships",
+          "actions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "EAu9mz"
+              },
+              "condition": "=dialog.foreach.value.policyCategory == null",
+              "actions": [],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "zbLs5O"
+                  },
+                  "property": "conversation.tempgrouparray",
+                  "value": "=where(foreach(conversation.memberindividualsmemberships,x, if(dialog.foreach.value.policyCategory==x.policyCategory,x.policyNumber,\"\")), x, x != \"\")"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "BTGdlX"
+                  },
+                  "condition": "=contains(string(conversation.multiplePolicyArray), string(dialog.foreach.value.policyCategory))",
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.EditArray",
+                      "$designer": {
+                        "id": "gtkYf4"
+                      },
+                      "changeType": "push",
+                      "itemsProperty": "conversation.multiplePolicyArray",
+                      "value": "={   \"policyCategory\": dialog.foreach.value.policyCategory,   \"groupNumber\": conversation.tempgrouparray,  \"namedPolicyCategory\":  CheckMultiplePolicies.PolicyCategory(dialog.foreach.value.policyCategory),   \"DTMFNo\": dialog.foreach.index+1 }"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "5jooWL"
+          },
+          "condition": "=count(conversation.multiplePolicyArray)==0",
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "aSFGYO"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "00376",
+                "pegType": "General",
+                "request": "",
+                "response": "",
+                "startDTM": "=conversation.startDate",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "PolicySelectionSkill_MultiplePolicy0_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "Z8JhUK"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.notvalidpolicyresolved",
+                  "value": "yes"
+                },
+                {
+                  "property": "conversation.groupNumber",
+                  "value": "=conversation.memberindividualsmemberships[0].policyNumber"
+                }
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "YdWKPD"
+              },
+              "condition": "=count(conversation.multiplePolicyArray)>1",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "FdA5OC"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.inputVal",
+                      "value": "askDualPolicyDynamicQuestion"
+                    },
+                    {
+                      "property": "conversation.noMatchFlag",
+                      "value": 1
+                    },
+                    {
+                      "property": "conversation.noInputFlag",
+                      "value": 1
+                    },
+                    {
+                      "value": "=\"\"",
+                      "property": "conversation.multiplePolicyReadOut"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.Foreach",
+                  "$designer": {
+                    "id": "edRL3Q"
+                  },
+                  "index": "dialog.foreach.index",
+                  "value": "dialog.foreach.value",
+                  "itemsProperty": "conversation.multiplePolicyArray",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "pXXYfU"
+                      },
+                      "condition": "=count(conversation.multiplePolicyArray)!=(dialog.foreach.index+1)",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "Nec80v"
+                          },
+                          "property": "conversation.multiplePolicyReadOut",
+                          "value": "=concat(conversation.multiplePolicyReadOut, \"\",dialog.foreach.value.namedPolicyCategory)"
+                        }
+                      ],
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "tbMNzw"
+                          },
+                          "property": "conversation.multiplePolicyReadOut",
+                          "value": "=concat(conversation.multiplePolicyReadOut, ' or ', dialog.foreach.value.namedPolicyCategory)"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "xMFPYy"
+                  },
+                  "activity": "${SendActivity_askDualPolicyDynamicQuestion()}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "X2lT6t"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal(conversation.inputVal)",
+                    "pegType": "Input Ask",
+                    "request": "=Common.SendActivity_askDualPolicyDynamicQuestion()",
+                    "response": "",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=MainDialog.PegName(conversation.inputVal,\"InputAsk\")"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "KnWNZE"
+                  }
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "KSMVmQ"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "00375",
+                    "pegType": "General",
+                    "request": "",
+                    "response": "",
+                    "startDTM": "=conversation.startDate",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "PolicySelectionSkill_MultiplePolicy1_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "9g6XjH"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.groupNumber",
+                      "value": "=conversation.multiplePolicyArray[0].groupNumber[0]"
+                    },
+                    {
+                      "property": "conversation.policyCategory",
+                      "value": "=conversation.multiplePolicyArray[0].policyCategory"
+                    },
+                    {
+                      "property": "conversation.notvalidpolicyresolved",
+                      "value": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "EUkHmY"
+          },
+          "activityProcessed": true,
+          "dialog": "MembershipSearchDialog"
+        }
+      ]
+    }
+  ],
+  "generator": "CheckMultiplePolicies.lg",
+  "recognizer": "CheckMultiplePolicies.lu.qna",
+  "id": "CheckMultiplePolicies"
+}

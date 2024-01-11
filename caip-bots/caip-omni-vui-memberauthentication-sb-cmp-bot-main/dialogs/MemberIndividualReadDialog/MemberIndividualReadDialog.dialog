@@ -1,0 +1,431 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "kaNW4X",
+    "name": "MemberIndividualReadDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "ECPHyC"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "hdIZ41"
+          },
+          "property": "conversation.startDate",
+          "value": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "BlnFSb"
+          },
+          "assignments": [
+            {
+              "property": "dialog.body",
+              "value": "{\"logLevel\":\"INFO\", \"additionalRequestParams\":{\"businessUnit\":\"${conversation.businessUnit}\"}, \"sessionId\":\"${conversation.callGUID}\", \"memIdentifier\":\"${conversation.iMID}\", \"consumerApp\":\"${conversation.consumerAppName}\" }"
+            },
+            {
+              "property": "conversation.memberIndividualsReadUrl",
+              "value": "=concat(settings.memberIndividualsReadEndpoint,\"?ver=\",settings.botVersion,\"&botname=\",settings.botName,\"&env=\",settings.botEnvironment)"
+            },
+            {
+              "property": "dialog.verbiageToggle",
+              "value": "=conversation.tfnConfig.AI_Suppress_Global_Verbiage_Toggle == \"ON\"?false:true"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "7YFpOQ"
+          },
+          "activity": "${SendActivity_DisableSpeechEvent()}"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "Q8Bdc3"
+          },
+          "activityProcessed": true,
+          "dialog": "GetPromptTelemetryProps"
+        },
+        {
+          "$kind": "Optum.HttpRequestDialog",
+          "$designer": {
+            "id": "NSEqoR"
+          },
+          "verbiageToggleVal": "=dialog.verbiageToggle",
+          "tokenurl": "=settings.accessTokenEndPoint",
+          "clientid": "=settings.accessTokenClientId",
+          "clientsecret": "=settings.accessTokenClientSecret",
+          "url": "=conversation.memberIndividualsReadUrl",
+          "method": "POST",
+          "body": "=dialog.body",
+          "tokencontentType": "application/json",
+          "contentType": "application/json",
+          "timeout": "=settings.mwResponseTimeoutInMS",
+          "retryCount": 0,
+          "retryInterval": 0,
+          "firstPrompt": "=Common.SendActivity_GlobalTimeOutFirstMsg()",
+          "repeatPrompt": "=Common.SendActivity_GlobalTimeOutSecondMsg()",
+          "fstpmtteleval": "=conversation.firstPromptTelemetryProps",
+          "rptpmtteleval": "=conversation.repeatPromptTelemetryProps",
+          "tokenTimeout": "=settings.accessTokenTimeout",
+          "resultProperty": "dialog.memberIndividualReadData",
+          "promptTime": "=conversation.promptTimeInMS",
+          "connectionString": "=settings.connectionString",
+          "containerName": "=settings.containerName"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "KQMJIi"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "MWAUTH02",
+            "pegType": "DataInterface",
+            "request": "{\"URL\":\"${conversation.memberIndividualsReadUrl}\",\"RequestBody\":${dialog.body}}",
+            "response": "=dialog.memberIndividualReadData",
+            "startDTM": "=conversation.startDate",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "MembAuthSkill_MWAUTH02_Peg"
+          }
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "p0gZag"
+          },
+          "condition": "dialog.memberIndividualReadData.status_code",
+          "cases": [
+            {
+              "value": "200",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "CXRO5L"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.identificationResponse",
+                      "value": "=dialog.memberIndividualReadData.output"
+                    },
+                    {
+                      "property": "conversation.IDFlag",
+                      "value": "=\"Y\""
+                    },
+                    {
+                      "property": "conversation.mwFailure",
+                      "value": false
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "43Rjbe"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "00021",
+                    "pegType": "General",
+                    "request": "",
+                    "response": "",
+                    "startDTM": "=conversation.startDate",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "MembAuthSkill_MWAUTH02_Success_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "Ze3NbW"
+                  },
+                  "condition": "=count(conversation.identificationResponse.dobList)>=20",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "mxW2h8"
+                      },
+                      "property": "conversation.maxIdentityRecords",
+                      "value": "=\"Y\""
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "Bc25XV"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "00022",
+                        "pegType": "General",
+                        "request": "",
+                        "response": "",
+                        "startDTM": "=conversation.startDate",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "MembAuthSkill_MWAUTH02_MaxRecords_Peg"
+                      }
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "irdoH0"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "00023",
+                        "pegType": "General",
+                        "request": "",
+                        "response": "",
+                        "startDTM": "=conversation.startDate",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "MembAuthSkill_MWAUTH02_NoMaxRecords_Peg"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "sosOrd"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "CheckLast4SSNAuthToggle"
+                }
+              ]
+            },
+            {
+              "value": "404",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "Ixwwmb"
+                  },
+                  "property": "conversation.mwFailure",
+                  "value": false
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "slIvdQ"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "00014",
+                    "pegType": "General",
+                    "request": "",
+                    "response": "",
+                    "startDTM": "=conversation.startDate",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "MembAuthSkill_MWAUTH02_Failure_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "4XvkIP"
+                  },
+                  "condition": "=conversation.tfnConfig.ConfirmMemIDMsg_Toggle == \"OFF\"",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "gqiPmz"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.IDFlag",
+                          "value": "=\"N\""
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "FEyjte"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "00015",
+                        "pegType": "General",
+                        "request": "",
+                        "response": "",
+                        "startDTM": "=conversation.startDate",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "MembAuthSkill_NoConfirmMemIDToggle_Peg"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "ZYjiBG"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "AuthInCompleteDialog"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "REcotq"
+                      },
+                      "condition": "=conversation.midConfirmed",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "8T9izj"
+                          },
+                          "assignments": [
+                            {
+                              "property": "conversation.IDFlag",
+                              "value": "=\"N\""
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "xFVWSi"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "00015",
+                            "pegType": "General",
+                            "request": "",
+                            "response": "",
+                            "startDTM": "=conversation.startDate",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "MembAuthSkill_MIDConfirmed_Peg"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "o4S84g"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "AuthInCompleteDialog"
+                        }
+                      ],
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "r4m41l"
+                          },
+                          "assignments": [
+                            {
+                              "property": "conversation.midConfirmed",
+                              "value": true
+                            },
+                            {
+                              "property": "conversation.inputVal",
+                              "value": "confirmMID"
+                            },
+                            {
+                              "property": "conversation.noMatchFlag",
+                              "value": 1
+                            },
+                            {
+                              "property": "conversation.noInputFlag",
+                              "value": 1
+                            },
+                            {
+                              "property": "conversation.repeatFlag",
+                              "value": 1
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "y5zURU"
+                          },
+                          "activity": "${SendActivity_ConfirmMID()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "IAaA9W"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "=MainDialog.PegVal(conversation.inputVal)",
+                            "pegType": "General",
+                            "request": "=Common.SendActivity_ConfirmMID()",
+                            "response": "",
+                            "startDTM": "=conversation.startDate",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "=MainDialog.PegName(conversation.inputVal,\"InputAsk\")"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "408",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "m9tXYM"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "GlobalContainer",
+                  "options": {
+                    "globalParam": "timeoutxfer"
+                  }
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "olD9ok"
+              },
+              "activityProcessed": true,
+              "dialog": "RetryMWService",
+              "options": {
+                "tobeCalledDialogName": "MemberIndividualReadDialog"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "MemberIndividualReadDialog.lg",
+  "recognizer": "MemberIndividualReadDialog.lu.qna",
+  "id": "MemberIndividualReadDialog"
+}

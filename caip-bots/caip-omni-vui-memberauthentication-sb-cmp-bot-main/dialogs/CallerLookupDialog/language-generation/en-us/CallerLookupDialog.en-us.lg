@@ -1,0 +1,26 @@
+> !# @Namespace=CallerLookupDialog
+> !# @Exports = SendActivity_spkCallerInformLookup
+[import](common.lg)
+
+# SendActivity_spkCallerInformLookup()
+[Activity
+    Text = ${spkCallerInformLookupTemplate()}
+    Speak = ${spkCallerInformLookupTemplate()}
+    InputHint = ignoringInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: false,
+            bargeIn: false,
+            bargeInOnDTMF: false,
+            dtmfCollect: false
+        }
+    }
+}
+]
+
+# spkCallerInformLookupTemplate()
+- IF: ${conversation.callerType == "provider"}
+    - Thank you. One moment while I pull up the account.
+- ELSE:
+    - Thanks.

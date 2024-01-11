@@ -1,0 +1,16 @@
+[import](common.lg)
+> !# @Namespace=CheckMultiplePolicies
+> !# @Exports = PolicyCategory
+
+
+# PolicyCategory(param1)
+- IF: ${toLower(param1) == 'caid'}
+    - Medicaid
+- ELSEIF: ${toLower(param1) == 'care'}
+    - Medicare
+- ELSEIF: ${toLower(param1) == 'comm'}
+    - Commercial
+- ELSEIF: ${toLower(param1) == 'exgn'}
+    - Exchange
+- ELSE:
+    - NA

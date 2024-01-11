@@ -1,0 +1,293 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "kQ2gGx",
+    "name": "ExtraMessagingDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "vErm6L"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "Q53aif"
+          },
+          "condition": "conversation.flowState.flowPreviousPrompt=='confirm_intent_options'",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "AUtrve"
+              },
+              "condition": "=and(not(equals(conversation.flowState.lastIntent, 'agentGeneral')), not(equals(conversation.flowState.lastIntent, 'disambigGeneral')), not(equals(conversation.flowState.flowPreviousPrompt, 'disambigGeneral')), not(equals(conversation.lastNMorNI, 'NM3')))",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "5ggfPL"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal('UserInput')",
+                    "pegType": "UserInput",
+                    "request": "User Input",
+                    "response": "=turn.recognized",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=equals(conversation.currentAsk, '') ? MainDialog.PegName(conversation.flowState.flowPreviousPrompt, '_UserInput')  : MainDialog.PegName(conversation.currentAsk, '_UserInput')"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "e2J2N2",
+                    "comment": "Reset currentAsk"
+                  },
+                  "property": "conversation.currentAsk",
+                  "value": "=''"
+                }
+              ],
+              "elseActions": []
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "LYarIu"
+          },
+          "condition": "conversation.callerIntentconfig.extraMessage",
+          "cases": [
+            {
+              "value": "disambigBenefits",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "5rxP3f"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "DisambigBenefits"
+                }
+              ]
+            },
+            {
+              "value": "claimsGeneral",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "thJp8A"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "ClaimsGeneral"
+                }
+              ]
+            },
+            {
+              "value": "disambigGeneral",
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "rKhUEn"
+                  },
+                  "condition": "=conversation.flowState.flowPreviousPrompt == 'disambigGeneral'",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "Vf6Qty"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "CallerType"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "0tPz88"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "DisambigGeneral"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "AccountUpdate",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "FwU56f"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "AccountUpdate"
+                }
+              ]
+            },
+            {
+              "value": "callerType",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "PtgKdG"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "CallerType"
+                }
+              ]
+            },
+            {
+              "value": "mentalHealthGeneral",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "6vNtf4"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "MentalHealthGeneral"
+                }
+              ]
+            },
+            {
+              "value": "financialAccountsGeneral",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "qDDuLo"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "FinancialAccountsGeneral"
+                }
+              ]
+            },
+            {
+              "value": "preApprovalRx",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "4gr9nO"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "PreApprovalRx"
+                }
+              ]
+            },
+            {
+              "value": "balanceDisambig",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "umg5iI"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "BalanceDisambig"
+                }
+              ]
+            },
+            {
+              "value": "nurselineDisambig",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "t91cly"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "NurseLineDisambig"
+                }
+              ]
+            },
+            {
+              "value": "crisisDisambig",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "blzg9A"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "CrisisDisambig"
+                }
+              ]
+            },
+            {
+              "value": "solutranDisambig",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "fXOXBC"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "SolutranDisambig"
+                }
+              ]
+            },
+            {
+              "value": "OpenEnrollment",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "PwnBub"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "OpenEnrollment"
+                }
+              ]
+            },
+            {
+              "value": "paymentDisambig",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "3r4AGA"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "PaymentDisambig"
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "XWXo4b"
+              },
+              "activityProcessed": true,
+              "dialog": "Transfer",
+              "options": {
+                "behavior": "EndSkill"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "ExtraMessagingDialog.lg",
+  "recognizer": "ExtraMessagingDialog.lu.qna",
+  "id": "ExtraMessagingDialog"
+}

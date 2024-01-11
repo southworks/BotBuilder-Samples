@@ -1,0 +1,40 @@
+{
+    "$schema": "https://raw.githubusercontent.com/microsoft/botframework-sdk/master/schemas/component/component.schema",
+    "$role": "implements(Microsoft.IDialog)",
+    "title": "Omni-Rapid IVR Messaging",
+    "description": "This will Rapid IVR Messaging Package for BOT Composer Project",
+    "type": "object",
+    "properties": {
+        "disabled": {
+            "$ref": "schema:#/definitions/booleanExpression",
+            "title": "Disabled",
+            "description": "Optional condition which if true will disable this action."
+        },
+        "lineOfBusiness": {
+            "$ref": "schema:#/definitions/stringExpression",
+            "title": "Line Of Business",
+            "description": "Line Of Business of the Bot"
+        },
+        "location": {
+            "$ref": "schema:#/definitions/stringExpression",
+            "title": "Location",
+            "description": "Location where the Message to be prompt in Bot"
+        },
+        "env": {
+            "$ref": "schema:#/definitions/stringExpression",
+            "title": "Environment",
+            "description": "Environment of the Bot"
+        },
+        "callId": {
+            "$ref": "schema:#/definitions/stringExpression",
+            "title": "Call Id",
+            "description": "Call id for Telemetry log."
+            
+        },       
+        "resultProperty": {
+            "$ref": "schema:#/definitions/stringExpression",
+            "title": "Result",
+            "description": "Value from callers memory to store the result"
+        }
+    }
+}

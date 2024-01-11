@@ -1,0 +1,1436 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "name": "omni-vui-policyselection-sb-cmp",
+    "description": "",
+    "id": "A79tBe"
+  },
+  "autoEndDialog": false,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnConversationUpdateActivity",
+      "$designer": {
+        "id": "376720"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.Foreach",
+          "$designer": {
+            "id": "518944",
+            "name": "Loop: for each item"
+          },
+          "itemsProperty": "turn.Activity.membersAdded",
+          "actions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "641773",
+                "name": "Branch: if/else"
+              },
+              "condition": "string(dialog.foreach.value.id) != string(turn.Activity.Recipient.id)",
+              "actions": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnUnknownIntent",
+      "$designer": {
+        "id": "mb2n1u"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "15zX6X"
+          },
+          "activityProcessed": true,
+          "dialog": "NoMatchInput"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnEventActivity",
+      "$designer": {
+        "id": "ijDPSl",
+        "name": "Event received (Event activity)"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "UXAHMK"
+          },
+          "condition": "turn.activity.name",
+          "cases": [
+            {
+              "value": "triggerSkill",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "3wCZjx"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.inputVal",
+                      "value": "=\"\""
+                    },
+                    {
+                      "property": "conversation.noMatchFlag",
+                      "value": 0
+                    },
+                    {
+                      "property": "conversation.noInputFlag",
+                      "value": 0
+                    },
+                    {
+                      "property": "conversation.policySelectedFlag",
+                      "value": false
+                    },
+                    {
+                      "property": "conversation.skillStartDate",
+                      "value": "=formatDateTime(utcNow())"
+                    },
+                    {
+                      "property": "conversation.skillResponse",
+                      "value": {
+                        "continueTheFlow": true,
+                        "skillName": "PolicySelectionSkill",
+                        "transferReasonCode": "?"
+                      }
+                    },
+                    {
+                      "property": "conversation.skillResponseParams",
+                      "value": {}
+                    },
+                    {
+                      "property": "conversation.pegCount",
+                      "value": 0
+                    },
+                    {
+                      "value": {
+                        "Peg": "AllPegNames"
+                      },
+                      "property": "conversation.allPegNames"
+                    },
+                    {
+                      "property": "conversation.member",
+                      "value": {
+                        "individuals": ""
+                      }
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "1eFMWQ"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.appName",
+                      "value": "UHC Member"
+                    },
+                    {
+                      "property": "conversation.conversationId",
+                      "value": "Call_123_456_789_987"
+                    },
+                    {
+                      "property": "conversation.tfnConfig",
+                      "value": {
+                        "HoldOnGetDetails_Toggle": "ON",
+                        "Policy_askDOS_Toggle": "ON",
+                        "Policy_askDateRange_Toggle": "ON",
+                        "Policy_DateRange": "CURRENT,PAST,FUTURE",
+                        "MembershipSearch_Coverage_Version": "2",
+                        "IDAuth_Coverage_Type_Priority": "M,B,MC,ME,MH,MS,RX",
+                        "MR_TFN_PrescriptonDrugPlan": "OFF",
+                        "IsSupMediPlan_Toggle": "ON"
+                      }
+                    },
+                    {
+                      "property": "conversation.callId",
+                      "value": "testcallid"
+                    },
+                    {
+                      "property": "conversation.callGUID",
+                      "value": "xxxxxrrxxxxxrrgggg"
+                    },
+                    {
+                      "property": "conversation.businessUnit",
+                      "value": "uhc"
+                    },
+                    {
+                      "property": "conversation.globalTimeOutFirstTemplate",
+                      "value": "Looks like systems are taking longer than expected on our end, so we appreciate your patience."
+                    },
+                    {
+                      "property": "conversation.globalTimeOutSecondTemplate",
+                      "value": "Things are still loading, we're really sorry about the delay."
+                    },
+                    {
+                      "property": "conversation.timeOutXferTemplate",
+                      "value": "Since we're having trouble, let's get someone to help you."
+                    },
+                    {
+                      "property": "conversation.userIntentDOS",
+                      "value": true
+                    },
+                    {
+                      "property": "conversation.callerType",
+                      "value": "member"
+                    }
+                  ],
+                  "disabled": true
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "f93rJc"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.appName",
+                      "value": "=turn.activity.value.appName"
+                    },
+                    {
+                      "property": "conversation.conversationId",
+                      "value": "=turn.activity.value.conversationId"
+                    },
+                    {
+                      "property": "conversation.tfnConfig",
+                      "value": "=turn.activity.value.parameters.tfnConfig"
+                    },
+                    {
+                      "property": "conversation.callId",
+                      "value": "=turn.activity.value.callId"
+                    },
+                    {
+                      "property": "conversation.tfn",
+                      "value": "=turn.activity.value.tfn"
+                    },
+                    {
+                      "property": "conversation.callGUID",
+                      "value": "=turn.activity.value.callGUID"
+                    },
+                    {
+                      "property": "conversation.businessUnit",
+                      "value": "=turn.activity.value.businessUnit"
+                    },
+                    {
+                      "property": "conversation.callerType",
+                      "value": "=if(turn.activity.value.parameters.callerType, turn.activity.value.parameters.callerType,\"member\")"
+                    },
+                    {
+                      "property": "conversation.userIntentDOS",
+                      "value": "=turn.activity.value.parameters.userIntentDOS?turn.activity.value.parameters.userIntentDOS:false"
+                    },
+                    {
+                      "property": "conversation.promptTimeInMS",
+                      "value": "=if(turn.activity.value.parameters.tfnConfig.PolicySelection_GlobalTimeout_InterPromptTimeout, turn.activity.value.parameters.tfnConfig.PolicySelection_GlobalTimeout_InterPromptTimeout,settings.promptTimeInMS)"
+                    },
+                    {
+                      "property": "conversation.globalTimeOutFirstTemplate",
+                      "value": "=if(turn.activity.value.parameters.tfnConfig.PolicySelection_GlobalTimeout_FirstPrompt, turn.activity.value.parameters.tfnConfig.PolicySelection_GlobalTimeout_FirstPrompt,\"Looks like systems are taking longer than expected on our end, so we appreciate your patience.\")"
+                    },
+                    {
+                      "property": "conversation.globalTimeOutSecondTemplate",
+                      "value": "=if(turn.activity.value.parameters.tfnConfig.PolicySelection_GlobalTimeout_SecondPrompt, turn.activity.value.parameters.tfnConfig.PolicySelection_GlobalTimeout_SecondPrompt,\"Things are still loading, we're really sorry about the delay.\")"
+                    },
+                    {
+                      "property": "conversation.timeOutXferTemplate",
+                      "value": "Since we're having trouble, let's get someone to help you."
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "FnTykO"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "TriggerSkillEvent",
+                    "pegType": "General",
+                    "request": "TriggerSkill Event",
+                    "response": "=turn.activity.value",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "PolicySelectionSkill_SkillStart_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "u6eSfy"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "ValidateInputParams"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "l4JCPu"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "GetDetailsDialog"
+                }
+              ]
+            },
+            {
+              "value": "DTMF",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "ESqNfL"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "DTMFDialog",
+                  "options": {
+                    "value": "=turn.activity.value"
+                  }
+                }
+              ]
+            },
+            {
+              "value": "noUserInput",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "FOiSTO"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "NoUserInput",
+                  "options": {
+                    "activityValue": "=turn.activity.value"
+                  }
+                }
+              ]
+            },
+            {
+              "value": "testEvent",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "1elcvj"
+                  },
+                  "activity": "${TestEventMsg()}"
+                }
+              ]
+            }
+          ],
+          "default": []
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "dYLrqM",
+        "name": "agent"
+      },
+      "intent": "agent",
+      "condition": "=#agent.score>0.7",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "7uHaX1"
+          },
+          "activityProcessed": true,
+          "dialog": "AgentDialog"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnError",
+      "$designer": {
+        "id": "74j3op",
+        "name": "Error occurred (Error event)"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "oLPHKS"
+          },
+          "property": "conversation.error",
+          "value": true
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "NrRHgU"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "ErrorEvent",
+            "pegType": "General",
+            "request": "",
+            "response": "=turn",
+            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "PolicySelectionSkill_Error_Peg"
+          }
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "NrRHgU"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "ErrorEvent",
+            "pegType": "General",
+            "request": "",
+            "response": "=turn",
+            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "PolicySelectionSkill_Error_Peg"
+          }
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "XFd0lz"
+          },
+          "activityProcessed": true,
+          "dialog": "GlobalContainer",
+          "options": {
+            "globalParam": "systemerror",
+            "errorMessage": "=turn.dialogEvent.value.message",
+            "errorCode": "=turn.dialogEvent.value.name"
+          }
+        }
+      ],
+      "condition": "=!conversation.error",
+      "runOnce": false
+    },
+    {
+      "$kind": "Microsoft.OnDialogEvent",
+      "$designer": {
+        "id": "QNRilO",
+        "name": "endSkill"
+      },
+      "event": "endSkill",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "htEFQR"
+          },
+          "assignments": [
+            {
+              "property": "conversation.skillLogCustomMetrics",
+              "value": {}
+            },
+            {
+              "property": "conversation.skillLogCustomMetrics",
+              "value": "=addProperty(conversation.skillLogCustomMetrics,\"AppName\",conversation.appName)"
+            },
+            {
+              "property": "conversation.skillLogCustomMetrics",
+              "value": "=addProperty(conversation.skillLogCustomMetrics,\"CallGUID\",conversation.callGUID ? conversation.callGUID : \"\")"
+            },
+            {
+              "property": "conversation.skillLogCustomMetrics",
+              "value": "=addProperty(conversation.skillLogCustomMetrics,\"CallId\",conversation.callId ? conversation.callId : \"\")"
+            },
+            {
+              "property": "conversation.skillLogCustomMetrics",
+              "value": "=addProperty(conversation.skillLogCustomMetrics,\"TFN\",conversation.tfn ? conversation.tfn : \"\")"
+            },
+            {
+              "property": "conversation.skillLogCustomMetrics",
+              "value": "=addProperty(conversation.skillLogCustomMetrics,\"ConversationId\", conversation.conversationId ? conversation.conversationId : \"\")"
+            },
+            {
+              "property": "conversation.skillLogCustomMetrics",
+              "value": "=addProperty(conversation.skillLogCustomMetrics,\"StartDTM\",conversation.skillStartDate ? conversation.skillStartDate : \"\")"
+            },
+            {
+              "property": "conversation.skillLogCustomMetrics",
+              "value": "=addProperty(conversation.skillLogCustomMetrics,\"EndDTM\",formatDateTime(utcNow()))"
+            },
+            {
+              "value": "=addProperty(conversation.skillLogCustomMetrics,\"SkillDuration\",conversation.skillStartDate?dateTimeDiff(formatDateTime(utcNow()),conversation.skillStartDate):\"\")",
+              "property": "conversation.skillLogCustomMetrics"
+            },
+            {
+              "property": "conversation.skillLogCustomMetrics",
+              "value": "=addProperty(conversation.skillLogCustomMetrics,\"PegName\", \"PolicySelectionSkill_SkillLog_Peg\")"
+            },
+            {
+              "property": "conversation.skillLogCustomMetrics",
+              "value": "=addProperty(conversation.skillLogCustomMetrics,\"transferReason\",conversation.transferReason)"
+            },
+            {
+              "property": "conversation.skillLogCustomMetrics",
+              "value": "=addProperty(conversation.skillLogCustomMetrics,\"transferReasonCode\",conversation.transferReasonCode)"
+            },
+            {
+              "property": "conversation.skillLogCustomMetrics",
+              "value": "=addProperty(conversation.skillLogCustomMetrics,\"silentTransfer\",conversation.silentTransfer)"
+            },
+            {
+              "property": "conversation.skillLogCustomMetrics",
+              "value": "=addProperty(conversation.skillLogCustomMetrics,\"transferPeg\",MainDialog.PegVal(conversation.inputVal))"
+            },
+            {
+              "property": "conversation.skillLogCustomMetrics",
+              "value": "=addProperty(conversation.skillLogCustomMetrics,\"AllPegNames\",conversation.allPegNames)"
+            },
+            {
+              "property": "conversation.customMetricsArr",
+              "value": "=[]"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EditArray",
+          "$designer": {
+            "id": "z3DNMa"
+          },
+          "changeType": "push",
+          "itemsProperty": "conversation.customMetricsArr",
+          "value": "=conversation.skillLogCustomMetrics",
+          "resultProperty": "conversation.newCustomMetricsArr"
+        },
+        {
+          "$kind": "Microsoft.TelemetryTrackEventAction",
+          "$designer": {
+            "id": "GWpRAl"
+          },
+          "eventName": "PolicySelectionSkill_SkillLog_Peg",
+          "properties": {
+            "customMetrics": "=conversation.customMetricsArr"
+          }
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "gQPzvP"
+          },
+          "value": "=turn.dialogEvent.value"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "QLjwRw",
+        "name": "policySelection"
+      },
+      "intent": "policySelection",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "mdZUE7"
+          },
+          "assignments": [
+            {
+              "value": "=turn.recognized.luisResult.prediction.entities",
+              "property": "conversation.Entities"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "xuC8S3"
+          },
+          "condition": "=conversation.Entities.policyCategoryList!=null",
+          "actions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "ElJs6b"
+              },
+              "condition": "=conversation.inputVal==\"askDualPolicyDynamicQuestion\"",
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "U2W5du"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "NoMatchInput"
+                }
+              ],
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "FAe3MS"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal(conversation.inputVal)",
+                    "pegType": "UserInput",
+                    "request": "User Input",
+                    "response": "=turn.recognized",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=MainDialog.PegName(conversation.inputVal,\"LuisResult\")"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "I58cQX"
+                  },
+                  "value": "=where(conversation.multiplePolicyArray, x, x.policyCategory==conversation.Entities.policyCategoryList[0][0])",
+                  "property": "conversation.multiplepolicies"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "5dAH92"
+                  },
+                  "condition": "=count(conversation.multiplepolicies)>0",
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "JQpu5N"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "NoMatchInput"
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "on6alN"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.policyCategory",
+                          "value": "=conversation.multiplepolicies[0].policyCategory"
+                        },
+                        {
+                          "property": "conversation.groupNumber",
+                          "value": "=conversation.multiplepolicies[0].groupNumber[0]"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "yS7tNl"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "00380",
+                        "pegType": "General",
+                        "request": "",
+                        "response": "",
+                        "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "PolicySelectionSkill_askDualPolicyDynamicQuestion_Success_Peg"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "4p40gI"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "MembershipSearchDialog"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "jzTT99"
+              },
+              "activityProcessed": true,
+              "dialog": "NoMatchInput"
+            }
+          ]
+        }
+      ],
+      "condition": "=#policySelection.score>0.7"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "bPRpVM",
+        "name": "yesResponse"
+      },
+      "intent": "yesResponse",
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "kirv7V"
+          },
+          "condition": "=conversation.inputVal == \"askSupMed\"",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "X8qPdq"
+              },
+              "activityProcessed": true,
+              "dialog": "NoMatchInput"
+            }
+          ],
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "O27Mpe"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "=MainDialog.PegVal(conversation.inputVal)",
+                "pegType": "UserInput",
+                "request": "User Input",
+                "response": "=turn.recognized",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "=MainDialog.PegName(conversation.inputVal,\"LuisResult\")"
+              }
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "BP5Bil"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.medSup",
+                  "value": "Y"
+                },
+                {
+                  "property": "conversation.notvalidpolicyresolved",
+                  "value": true
+                },
+                {
+                  "property": "conversation.onlyAARP",
+                  "value": true
+                },
+                {
+                  "property": "conversation.onlyRx",
+                  "value": false
+                },
+                {
+                  "property": "conversation.mw_policy_DOS",
+                  "value": "=\"\""
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "txjyCv"
+              },
+              "activityProcessed": true,
+              "dialog": "MembershipSearchDialog"
+            }
+          ]
+        }
+      ],
+      "condition": "=#yesResponse.score>0.7"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "bysluO",
+        "name": "noResponse"
+      },
+      "intent": "noResponse",
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "KHABlR"
+          },
+          "condition": "=conversation.inputVal == \"askSupMed\"",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "j2tzyi"
+              },
+              "activityProcessed": true,
+              "dialog": "NoMatchInput"
+            }
+          ],
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "srB7BN"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "=MainDialog.PegVal(conversation.inputVal)",
+                "pegType": "UserInput",
+                "request": "User Input",
+                "response": "=turn.recognized",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "=MainDialog.PegName(conversation.inputVal,\"LuisResult\")"
+              }
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "KXOrDf"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.medSup",
+                  "value": "N"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "Rzjnc7"
+              },
+              "activityProcessed": true,
+              "dialog": "DualCoverageLookup"
+            }
+          ]
+        }
+      ],
+      "condition": "=#noResponse.score>0.7"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "QHtoiv",
+        "name": "dateRange"
+      },
+      "intent": "dateRange",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "tm3fEk"
+          },
+          "assignments": [
+            {
+              "property": "conversation.Entities",
+              "value": "=turn.recognized.luisResult.prediction.entities"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "zATtdy"
+          },
+          "condition": "=conversation.Entities.dateRangeML!=null",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "vNyVQ8"
+              },
+              "activityProcessed": true,
+              "dialog": "NoMatchInput"
+            }
+          ],
+          "actions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "P3BZzC"
+              },
+              "condition": "=conversation.inputVal==\"askDateRange\"",
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "3vs1FW"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "NoMatchInput"
+                }
+              ],
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "TZhbKI"
+                  },
+                  "condition": "=contains(conversation.Entities.dateRangeML[0], 'dateRangeCurrentChild')",
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "bYwADi"
+                      },
+                      "condition": "=contains(conversation.Entities.dateRangeML[0], 'dateRangePastChild')",
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.IfCondition",
+                          "$designer": {
+                            "id": "t6laoC"
+                          },
+                          "condition": "=contains(conversation.Entities.dateRangeML[0], 'dateRangeFutureChild')",
+                          "elseActions": [
+                            {
+                              "$kind": "Microsoft.BeginDialog",
+                              "$designer": {
+                                "id": "TOxxds"
+                              },
+                              "activityProcessed": true,
+                              "dialog": "NoMatchInput"
+                            },
+                            {
+                              "$kind": "Microsoft.EndDialog",
+                              "$designer": {
+                                "id": "dIRDjn"
+                              }
+                            }
+                          ],
+                          "actions": [
+                            {
+                              "$kind": "Microsoft.SetProperty",
+                              "$designer": {
+                                "id": "PnushC"
+                              },
+                              "property": "conversation.policy_DateRange",
+                              "value": "FUTURE,CURRENT,PAST"
+                            }
+                          ]
+                        }
+                      ],
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "waiCP2"
+                          },
+                          "property": "conversation.policy_DateRange",
+                          "value": "PAST,CURRENT,FUTURE"
+                        }
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "6f8ls7"
+                      },
+                      "property": "conversation.policy_DateRange",
+                      "value": "CURRENT,PAST,FUTURE"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "7zCBoK"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal(conversation.inputVal)",
+                    "pegType": "UserInput",
+                    "request": "User Input",
+                    "response": "=turn.recognized",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=MainDialog.PegName(conversation.inputVal,\"LuisResult\")"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "DkU8cZ"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "CoverageLookup"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "condition": "=#dateRange.score>0.7"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "RAVjyf",
+        "name": "dateOfService"
+      },
+      "intent": "dateOfService",
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "G9WE0X"
+          },
+          "condition": "=conversation.inputVal==\"askDOS\"",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "yOooNH"
+              },
+              "activityProcessed": true,
+              "dialog": "NoMatchInput"
+            }
+          ],
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "2O6w79"
+              },
+              "activityProcessed": true,
+              "dialog": "DateFormat",
+              "options": {
+                "dosValue": "=turn.recognized.luisResult.prediction.entities"
+              }
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "6HxFVr"
+              },
+              "activityProcessed": true,
+              "dialog": "ValidateDOS"
+            }
+          ]
+        }
+      ],
+      "condition": "=#dateOfService.score>0.7"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "fafGjp",
+        "name": "somethingElse"
+      },
+      "intent": "somethingElse",
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "leZtl1"
+          },
+          "condition": "=conversation.inputVal == \"askSupMed\" || conversation.inputVal == \"askSupMedRx\"",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "mVDwys"
+              },
+              "activityProcessed": true,
+              "dialog": "NoMatchInput"
+            }
+          ],
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "P0Ylqk"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "=MainDialog.PegVal(conversation.inputVal)",
+                "pegType": "UserInput",
+                "request": "User Input",
+                "response": "=turn.recognized",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "=MainDialog.PegName(conversation.inputVal,\"LuisResult\")"
+              }
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "BtVud4"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.medSup",
+                  "value": "N"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "N584oq"
+              },
+              "activityProcessed": true,
+              "dialog": "DualCoverageLookup"
+            }
+          ]
+        }
+      ],
+      "condition": "=#somethingElse.score>0.7"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "ZIGE9C",
+        "name": "supplementalPlan"
+      },
+      "intent": "supplementalPlan",
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "gvQRS9"
+          },
+          "condition": "=conversation.inputVal == \"askSupMed\" || conversation.inputVal == \"askSupMedRx\"",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "iaQoWH"
+              },
+              "activityProcessed": true,
+              "dialog": "NoMatchInput"
+            }
+          ],
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "6r1PSr"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "=MainDialog.PegVal(conversation.inputVal)",
+                "pegType": "UserInput",
+                "request": "User Input",
+                "response": "=turn.recognized",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "=MainDialog.PegName(conversation.inputVal,\"LuisResult\")"
+              }
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "BPvBQ4"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.medSup",
+                  "value": "Y"
+                },
+                {
+                  "property": "conversation.notvalidpolicyresolved",
+                  "value": true
+                },
+                {
+                  "property": "conversation.onlyAARP",
+                  "value": true
+                },
+                {
+                  "property": "conversation.onlyRx",
+                  "value": false
+                },
+                {
+                  "property": "conversation.mw_policy_DOS",
+                  "value": "=\"\""
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "60RUAk"
+              },
+              "activityProcessed": true,
+              "dialog": "MembershipSearchDialog"
+            }
+          ]
+        }
+      ],
+      "condition": "=#supplementalPlan.score>0.7"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "NOprop",
+        "name": "prescriptionDrug"
+      },
+      "intent": "prescriptionDrug",
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "wnGTWM"
+          },
+          "condition": "=conversation.inputVal == \"askSupMedRx\"",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "sVEVDo"
+              },
+              "activityProcessed": true,
+              "dialog": "NoMatchInput"
+            }
+          ],
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "kSzzHo"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "=MainDialog.PegVal(conversation.inputVal)",
+                "pegType": "UserInput",
+                "request": "User Input",
+                "response": "=turn.recognized",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "=MainDialog.PegName(conversation.inputVal,\"LuisResult\")"
+              }
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "fhEGY8"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.medSup",
+                  "value": "Y"
+                },
+                {
+                  "property": "conversation.notvalidpolicyresolved",
+                  "value": true
+                },
+                {
+                  "property": "conversation.onlyAARP",
+                  "value": false
+                },
+                {
+                  "property": "conversation.onlyRx",
+                  "value": true
+                },
+                {
+                  "property": "conversation.mw_policy_DOS",
+                  "value": "=\"\""
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "utNLIM"
+              },
+              "activityProcessed": true,
+              "dialog": "MembershipSearchDialog"
+            }
+          ]
+        }
+      ],
+      "condition": "=#prescriptionDrug.score>0.7"
+    },
+    {
+      "$kind": "Microsoft.OnError",
+      "$designer": {
+        "id": "WISTwS",
+        "name": "Error occurred (Error event)"
+      },
+      "runOnce": true,
+      "condition": "=conversation.error",
+      "actions": [
+        {
+          "$kind": "Microsoft.TelemetryTrackEventAction",
+          "$designer": {
+            "id": "lAyOd8"
+          },
+          "eventName": "Error_Trace",
+          "properties": {
+            "Error_Trace": "=turn.dialogEvent.value"
+          }
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "huZfDb"
+          },
+          "value": {
+            "skillName": "PolicySelectionSkill",
+            "continueTheFlow": true,
+            "transferReasonCode": "4",
+            "parameters": {
+              "policySelectedFlag": false
+            }
+          }
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "ZULOoD",
+        "name": "goodbye"
+      },
+      "intent": "goodbye",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "H3lAKU"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "=MainDialog.PegVal(conversation.inputVal)",
+            "pegType": "UserInput",
+            "request": "User Input",
+            "response": "=turn.recognized",
+            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "=MainDialog.PegName(conversation.inputVal,\"LuisResult\")"
+          }
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "h56ZE3"
+          },
+          "activityProcessed": true,
+          "dialog": "GlobalContainer",
+          "options": {
+            "globalParam": "goodbye"
+          }
+        }
+      ],
+      "condition": "=#goodbye.score>0.7"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "4YsOMu",
+        "name": "pause"
+      },
+      "intent": "pause",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "h1zfZT"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "=MainDialog.PegVal(conversation.inputVal)",
+            "pegType": "UserInput",
+            "request": "User Input",
+            "response": "=turn.recognized",
+            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "=MainDialog.PegName(conversation.inputVal,\"LuisResult\")"
+          }
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "pjJPiN"
+          },
+          "activity": "${SendActivity_MoreTimeRequestMsg()}"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "Ayo1E2"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "01006",
+            "pegType": "General",
+            "request": "=Common.SendActivity_MoreTimeRequestMsg()",
+            "response": "",
+            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "PolicySelectionSkill_MoreTimeRequest_Peg"
+          }
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "uRa0WM"
+          },
+          "activityProcessed": true,
+          "dialog": "RepeatMessages"
+        }
+      ],
+      "condition": "=#pause.score>0.7"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "USJzEh",
+        "name": "repeat"
+      },
+      "intent": "repeat",
+      "condition": "=#repeat.score>0.7",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "gRmyWz"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "=MainDialog.PegVal(conversation.inputVal)",
+            "pegType": "UserInput",
+            "request": "User Input",
+            "response": "=turn.recognized",
+            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "=MainDialog.PegName(conversation.inputVal,\"LuisResult\")"
+          }
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "4OnlVh"
+          },
+          "activityProcessed": true,
+          "dialog": "RepeatMessages"
+        }
+      ]
+    }
+  ],
+  "generator": "omni-vui-policyselection-sb-cmp.lg",
+  "id": "omni-vui-policyselection-sb-cmp",
+  "recognizer": "omni-vui-policyselection-sb-cmp.lu.qna"
+}

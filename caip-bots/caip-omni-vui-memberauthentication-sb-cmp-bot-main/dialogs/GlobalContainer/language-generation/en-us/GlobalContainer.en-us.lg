@@ -1,0 +1,148 @@
+> !# @Namespace=GlobalContainer
+> !# @Exports = SendActivity_AuthSystemErrorMsg,SendActivity_AuthMaxNoMatchMsg,SendActivity_AuthMaxNoInputDisconnectMsg,SendActivity_AuthMaxNoInputTransferMsg,SendActivity_AuthAgentXferMsg,SendActivity_AuthDontHaveKnowItXferMsg,SendActivity_CallerNotHearingTfxMsg
+[import](common.lg)
+
+
+
+# SendActivity_AuthSystemErrorMsg()
+[Activity
+    Text = ${AuthSystemErrorTemplate()}
+    Speak = ${AuthSystemErrorTemplate()}
+    InputHint = ignoringInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: false,
+            bargeIn: false,
+            bargeInOnDTMF: false,
+            dtmfCollect: false,
+            enableSpeechInput: false
+
+        }
+      } 
+    }
+]
+
+# AuthSystemErrorTemplate()
+- I'm sorry, but something isn't working right on my end. Let's connect with someone who can help.
+# SendActivity_AuthMaxNoMatchMsg()
+[Activity
+    Text = ${AuthMaxNoMatchTemplate()}
+    Speak = ${AuthMaxNoMatchTemplate()}
+    InputHint = ignoringInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: false,
+            bargeIn: false,
+            bargeInOnDTMF: false,
+            dtmfCollect: false,
+            enableSpeechInput: false
+        }
+      } 
+    }
+]
+
+# AuthMaxNoMatchTemplate()
+- Since, we're having some trouble, let's connect with someone who can help.
+# SendActivity_AuthMaxNoInputDisconnectMsg()
+[Activity
+    Text = ${AuthMaxNoInputDisconnectTemplate()}
+    Speak = ${AuthMaxNoInputDisconnectTemplate()}
+    InputHint = ignoringInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: false,
+            bargeIn: false,
+            bargeInOnDTMF: false,
+            dtmfCollect: false,
+            enableSpeechInput: false
+        }
+      } 
+    }
+]
+
+# AuthMaxNoInputDisconnectTemplate()
+- I apologize, but I did not hear a response and have to end this call. Thank you for calling United Health Care. Goodbye. 
+# SendActivity_AuthMaxNoInputTransferMsg()
+[Activity
+    Text = ${AuthMaxNoInputTransferTemplate()}
+    Speak = ${AuthMaxNoInputTransferTemplate()}
+    InputHint = ignoringInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: false,
+            bargeIn: false,
+            bargeInOnDTMF: false,
+            dtmfCollect: false,
+            enableSpeechInput: false
+        }
+      } 
+    }
+]
+
+# AuthMaxNoInputTransferTemplate()
+- I'm not able to hear you. Why don't we connect with someone who can help.
+# SendActivity_AuthAgentXferMsg()
+[Activity
+    Text = ${AuthAgentXferTemplate()}
+    Speak = ${AuthAgentXferTemplate()}
+    InputHint = ignoringInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: false,
+            bargeIn: false,
+            bargeInOnDTMF: false,
+            dtmfCollect: false,
+            enableSpeechInput: false
+        }
+      } 
+    }
+]
+
+# AuthAgentXferTemplate()
+- Let's get someone to help.
+
+# SendActivity_CallerNotHearingTfxMsg()
+[Activity
+    Text = ${CallerNotHearingTemplate()}
+    Speak = ${CallerNotHearingTemplate()}
+    InputHint = ignoringInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: false,
+            bargeIn: false,
+            bargeInOnDTMF: false,
+            dtmfCollect: false,
+            enableSpeechInput: false
+        }
+      } 
+    }
+]
+
+# CallerNotHearingTemplate()
+- Let's get someone to better assist you.
+
+# SendActivity_AuthDontHaveKnowItXferMsg()
+[Activity
+    Text = ${DontKnowXferTemplate()}
+    Speak = ${DontKnowXferTemplate()}
+    InputHint = ignoringInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: false,
+            bargeIn: false,
+            bargeInOnDTMF: false,
+            dtmfCollect: false,
+            enableSpeechInput: false
+        }
+      } 
+    }
+]
+# DontKnowXferTemplate()
+- No problem, let's get you someone who can help you.

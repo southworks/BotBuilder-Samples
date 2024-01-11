@@ -1,0 +1,67 @@
+> !# @Namespace=MainDialog
+> !# @Exports = MWWaitingPrompt,getTfnLob,getConfigExperience,getBusinessSegment
+[import](common.lg)
+# MWWaitingPrompt()
+[Activity
+    Text = ${MWWaitingPrompt_text()}
+    Speak = ${MWWaitingPrompt_text()}
+    ChannelData = ${
+        {
+            
+            activityParams:{
+                enableSpeechInput: false,
+                sendDTMF: false,
+                bargeIn: false,
+                bargeInOnDTMF: false,
+                dtmfCollect: false
+            }
+        }
+    }
+]
+
+#getTfnLob()
+ -IF: ${contains(conversation.appListForMRLob,getProperty(conversation.KVPs, "ENT_IVRAppNm"))}
+     - MR
+ - ELSEIF: ${contains(conversation.appListForCSLob,getProperty(conversation.KVPs, "ENT_IVRAppNm"))}
+     -CS
+ - ELSE:
+     -EI
+#getBusinessSegment()
+-IF: ${equals(conversation.tfnLOB,"CS")}
+    - C&S
+-ELSEIF: ${equals(conversation.tfnLOB,"MR")}
+	-M&R
+-ELSE:
+  - E&I
+
+#getMRExperience()
+-IF: ${equals(getProperty(conversation.KVPs, "ENT_IVRAppNm"),"OVA") }
+    -MemberOVARootBot
+- ELSE:
+    -MemberMAPRootBot
+
+#getConfigExperience()
+ -IF: ${equals(conversation.tfnLOB,"CS")}
+     -MemberCASRootBot
+ - ELSEIF: ${equals(conversation.tfnLOB,"MR")}
+     - ${getMRExperience()}
+-ELSE:
+     -MemberMEMRootBot
+     
+# SendActivity_InitialConfig()
+[Activity
+    Type = event
+    Name = config
+    channelData = ${
+        {
+            sessionParams:{
+                sendEventsToBot: ["noUserInput"],
+                userNoInputTimeoutMS: 7000,
+                userNoInputRetries: 3,
+                bargeIn: false,
+                bargeInOnDTMF: false
+                
+            }
+        }
+    }
+]

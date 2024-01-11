@@ -1,0 +1,159 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "ccBb6y",
+    "name": "LoadEntityConfig",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "KktopM",
+        "comment": ""
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "H7M57g"
+          },
+          "assignments": [
+            {
+              "property": "conversation.intent",
+              "value": "=trim(dialog.luisintent)"
+            },
+            {
+              "property": "conversation.entity",
+              "value": "=trim(dialog.luisEntity)"
+            },
+            {
+              "property": "dialog.appName",
+              "value": "=if(or(equals(conversation.tfnLOB, 'EI'), equals(conversation.tfnLOB, 'CS')), conversation.tfnLOB, conversation.tfnAppName)"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "W1Hqht"
+          },
+          "property": "dialog.tableQuery",
+          "value": "=concat(\"AppName eq '\", dialog.appName, \"' and LUIS_Intent eq '\", conversation.intent, \"' and LUIS_Entity eq '\", conversation.entity, \"' and Context eq '\", dialog.context, \"'\")"
+        },
+        {
+          "$kind": "Optum.GetAzureTableDataDialog",
+          "$designer": {
+            "id": "xsoHTS"
+          },
+          "accountName": "=settings.azureTableAccountName",
+          "key": "=settings.azureTableKey",
+          "resultProperty": "dialog.results",
+          "tableQuery": "=dialog.tableQuery",
+          "tableName": "=settings.azureTableName"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "kMlpiP"
+          },
+          "property": "conversation.results",
+          "value": "=dialog.results.data"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "x3oLEi"
+          },
+          "condition": "=and(trim(dialog.context)!=\"\",conversation.results[0].Reference_Intent!=\"\")",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "0xeUhE"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.intent",
+                  "value": "=conversation.results[0].Reference_Intent"
+                },
+                {
+                  "property": "conversation.entity",
+                  "value": "=conversation.results[0].Reference_Entity"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "4vmKVb"
+          },
+          "assignments": [
+            {
+              "property": "conversation.callerIntentconfig.QT_NLTagQuestionType",
+              "value": "=conversation.results[0].QT_NLTagQuestionType"
+            },
+            {
+              "value": "=conversation.results[0].PT_NLTagProductType",
+              "property": "conversation.callerIntentconfig.PT_NLTagProductType"
+            },
+            {
+              "value": "=conversation.results[0].CT_NLTagCallerType",
+              "property": "conversation.callerIntentconfig.CT_NLTagCallerType"
+            },
+            {
+              "property": "conversation.callerIntentconfig.NLTagSubFunction",
+              "value": "=conversation.results[0].NLTagSubFunction"
+            },
+            {
+              "property": "conversation.callerIntentconfig.NLTagSubFunctionDetail",
+              "value": "=conversation.results[0].NLTagSubFunctionDetail"
+            },
+            {
+              "property": "conversation.callerIntentconfig.NLTagProduct",
+              "value": "=conversation.results[0].NLTagProduct"
+            },
+            {
+              "property": "conversation.callerIntentconfig.reqiresAuth",
+              "value": "=conversation.results[0].reqiresAuth"
+            },
+            {
+              "property": "conversation.callerIntentconfig.extraMessage",
+              "value": "=conversation.results[0].extraMessage"
+            },
+            {
+              "property": "conversation.callerIntentconfig.Intent_Verbiage",
+              "value": "=conversation.results[0].Intent_Verbiage"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "jVYSKd"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "CFG",
+            "pegType": "General",
+            "request": "=dialog.tableQuery",
+            "response": "${string(conversation.callerIntentconfig)}",
+            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "MemberIntentSkill_LoadEntityConfig_Peg"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "LoadEntityConfig.lg",
+  "recognizer": "LoadEntityConfig.lu.qna",
+  "id": "LoadEntityConfig"
+}

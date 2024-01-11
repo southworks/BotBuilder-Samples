@@ -1,0 +1,158 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "OrO5BZ",
+    "name": "ValidateInputParams",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "V8XTRy"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "pNPYgq"
+          },
+          "condition": "=exists(turn.activity.value.appName)",
+          "actions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "5iztsw"
+              },
+              "condition": "=exists(turn.activity.value.callGUID)",
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "78RNZo"
+                  },
+                  "condition": "=exists(turn.activity.value.businessUnit)",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "11lo8Q"
+                      },
+                      "condition": "=exists(turn.activity.value.parameters.tfnConfig)",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.IfCondition",
+                          "$designer": {
+                            "id": "TJABx8"
+                          },
+                          "condition": "=exists(turn.activity.value.parameters.tfnConfig.MembershipSearch_Coverage_Version)",
+                          "actions": [
+                            {
+                              "$kind": "Microsoft.IfCondition",
+                              "$designer": {
+                                "id": "EfGmFH"
+                              },
+                              "condition": "=exists(turn.activity.value.parameters.tfnConfig.IDAuth_Coverage_Type_Priority)",
+                              "actions": [
+                                {
+                                  "$kind": "Microsoft.EndDialog",
+                                  "$designer": {
+                                    "id": "D2VEuH"
+                                  }
+                                }
+                              ],
+                              "elseActions": [
+                                {
+                                  "$kind": "Microsoft.SetProperty",
+                                  "$designer": {
+                                    "id": "9IJGPk"
+                                  },
+                                  "property": "conversation.errorMessage",
+                                  "value": "No IDAuth_Coverage_Type_Priority in tfnconfig Input from Root Bot"
+                                }
+                              ]
+                            }
+                          ],
+                          "elseActions": [
+                            {
+                              "$kind": "Microsoft.SetProperty",
+                              "$designer": {
+                                "id": "95Gvfp"
+                              },
+                              "property": "conversation.errorMessage",
+                              "value": "No MembershipSearch_Coverage_Version in tfnconfig Input from Root Bot"
+                            }
+                          ]
+                        }
+                      ],
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "dzho9K"
+                          },
+                          "value": "No tfnConfig Input from Root Bot",
+                          "property": "conversation.errorMessage"
+                        }
+                      ]
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "IhHCau"
+                      },
+                      "value": "No Business Unit Input from Root Bot",
+                      "property": "conversation.errorMessage"
+                    }
+                  ]
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "jLdNX0"
+                  },
+                  "value": "No call GUID Input from Root Bot",
+                  "property": "conversation.errorMessage"
+                }
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "ByqjWg"
+              },
+              "property": "conversation.errorMessage",
+              "value": "No App Name Input from Root Bot"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "gy7P75"
+          },
+          "activityProcessed": true,
+          "dialog": "GlobalContainer",
+          "options": {
+            "globalParam": "systemerror",
+            "errorCode": "000",
+            "errorMessage": "=conversation.errorMessage"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "ValidateInputParams.lg",
+  "recognizer": "ValidateInputParams.lu.qna",
+  "id": "ValidateInputParams"
+}

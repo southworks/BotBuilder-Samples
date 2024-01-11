@@ -1,0 +1,9 @@
+{
+    "$schema": "https://raw.githubusercontent.com/microsoft/botframework-sdk/master/schemas/component/component.schema",
+    "$role": "implements(Microsoft.IDialog)",
+    "title": "FlushTelemetry",
+    "description": "Action to flush queued telemetry to application insights",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {}
+}

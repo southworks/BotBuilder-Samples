@@ -1,0 +1,8 @@
+{
+  "$kind": "Microsoft.MultiLanguageRecognizer",
+  "id": "LUIS_omni-vui-memberauthentication-sb-cmp",
+  "recognizers": {
+    "en-us": "omni-vui-memberauthentication-sb-cmp.en-us.lu",
+    "": "omni-vui-memberauthentication-sb-cmp.en-us.lu"
+  }
+}

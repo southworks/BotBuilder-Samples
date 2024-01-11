@@ -1,0 +1,229 @@
+> !# @Namespace=GlobalContainer
+> !# @Exports = AuthMaxNMMsg,AuthMaxNIDisconnectMsg,AuthMaxNITransferMsg,AuthAgentRequestMsg, AuthAgentXferMsg, AuthSystemErrorMsg,SendActivity_GoodByeMsg,GlobalRepeatXferMsg,GlobalTimeoutSecondMsg,GlobalTimeoutFirstMsg, GlobalTimeOutXferMsg
+[import](common.lg)
+# AuthMaxNMMsg()
+[Activity
+    Text = ${AuthMaxNMTemplate()}
+    Speak = ${AuthMaxNMTemplate()}
+    InputHint = ignoringInput
+    ChannelData = ${
+        {
+            activityParams:{
+                sendDTMF: false,
+                bargeIn: false,
+                bargeInOnDTMF: false,
+                dtmfCollect: false,
+                dtmfCollectInterDigitTimeoutMS: settings.dtmfCollectInterDigitTimeoutMS,
+                dtmfCollectSubmitDigit: "#",
+                dtmfCollectMaxDigits: 0,
+                enableSpeechInput: false
+            }
+        }
+    }
+]
+# AuthMaxNIDisconnectMsg()
+[Activity
+    Text = ${AuthMaxNIDisconnectTemplate()}
+    Speak = ${AuthMaxNIDisconnectTemplate()}
+    InputHint = ignoringInput
+    ChannelData = ${
+        {
+            activityParams:{
+                sendDTMF: false,
+                bargeIn: false,
+                bargeInOnDTMF: false,
+                dtmfCollect: false,
+                dtmfCollectInterDigitTimeoutMS: settings.dtmfCollectInterDigitTimeoutMS,
+                dtmfCollectSubmitDigit: "#",
+                dtmfCollectMaxDigits: 0,
+                enableSpeechInput: false
+            }
+        }
+    }
+]
+# AuthMaxNITransferMsg()
+[Activity
+    Text = ${AuthMaxNITransferTemplate()}
+    Speak = ${AuthMaxNITransferTemplate()}
+    InputHint = ignoringInput
+    ChannelData = ${
+        {
+            activityParams:{
+                sendDTMF: false,
+                bargeIn: false,
+                bargeInOnDTMF: false,
+                dtmfCollect: false,
+                dtmfCollectInterDigitTimeoutMS: settings.dtmfCollectInterDigitTimeoutMS,
+                dtmfCollectSubmitDigit: "#",
+                dtmfCollectMaxDigits: 0,
+                enableSpeechInput: false
+            }
+        }
+    }
+]
+# AuthAgentRequestMsg()
+[Activity
+    Text = ${AuthAgentRequestTemplate()}
+    Speak = ${AuthAgentRequestTemplate()}
+    InputHint = ignoringInput
+    ChannelData = ${
+        {
+            activityParams:{
+                sendDTMF: false,
+                bargeIn: false,
+                bargeInOnDTMF: false,
+                dtmfCollect: false,
+                dtmfCollectInterDigitTimeoutMS: settings.dtmfCollectInterDigitTimeoutMS,
+                dtmfCollectSubmitDigit: "#",
+                dtmfCollectMaxDigits: 0,
+                enableSpeechInput: false
+            }
+        }
+    }
+]
+# AuthAgentXferMsg()
+[Activity
+    Text = ${AuthAgentXferTemplate()}
+    Speak = ${AuthAgentXferTemplate()}
+    InputHint = ignoringInput
+    ChannelData = ${
+        {
+            activityParams:{
+                sendDTMF: false,
+                bargeIn: false,
+                bargeInOnDTMF: false,
+                dtmfCollect: false,
+                dtmfCollectInterDigitTimeoutMS: settings.dtmfCollectInterDigitTimeoutMS,
+                dtmfCollectSubmitDigit: "#",
+                dtmfCollectMaxDigits: 0,
+                enableSpeechInput: false
+            }
+        }
+    }
+]
+
+# AuthSystemErrorMsg()
+[Activity
+    Text = ${AuthSystemErrorTemplate()}
+    Speak = ${AuthSystemErrorTemplate()}
+    InputHint = ignoringInput
+    ChannelData = ${
+        {
+            activityParams:{
+                sendDTMF: false,
+                bargeIn: false,
+                bargeInOnDTMF: false,
+                dtmfCollect: false,
+                dtmfCollectInterDigitTimeoutMS: settings.dtmfCollectInterDigitTimeoutMS,
+                dtmfCollectSubmitDigit: "#",
+                dtmfCollectMaxDigits: 0,
+                enableSpeechInput: false
+            }
+        }
+    }
+]
+
+# SendActivity_GoodByeMsg()
+[Activity
+    Text = ${GoodByeTemplate()}
+    Speak = ${GoodByeTemplate()}
+    InputHint = ignoringInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: false,
+            bargeIn: false,
+            bargeInOnDTMF: false,
+            dtmfCollect: false
+            }
+        }
+    }
+]
+# GlobalRepeatXferMsg()
+[Activity
+    Text = ${GlobalRepeatXferTemplate()}
+    Speak = ${GlobalRepeatXferTemplate()}
+    InputHint = ignoringInput
+    ChannelData = ${
+        {
+            activityParams:{
+                sendDTMF: false,
+                bargeIn: false,
+                bargeInOnDTMF: false,
+                dtmfCollect: false,
+                dtmfCollectInterDigitTimeoutMS: settings.dtmfCollectInterDigitTimeoutMS,
+                dtmfCollectSubmitDigit: "#",
+                dtmfCollectMaxDigits: 0,
+                enableSpeechInput: false
+            }
+        }
+    }
+]
+# GlobalTimeoutFirstMsg()
+[Activity
+    Text = ${conversation.tfnConfig.Personalization_GlobalTimeout_FirstPrompt}
+    Speak = ${conversation.tfnConfig.Personalization_GlobalTimeout_FirstPrompt}
+    InputHint = ignoringInput
+    ChannelData = ${
+        {
+            activityParams:{
+                sendDTMF: false,
+                bargeIn: false,
+                bargeInOnDTMF: false,
+                dtmfCollect: false,
+                dtmfCollectInterDigitTimeoutMS: settings.dtmfCollectInterDigitTimeoutMS,
+                dtmfCollectSubmitDigit: "#",
+                dtmfCollectMaxDigits: 10,
+                enableSpeechInput: false
+            }
+        }
+    }
+]
+
+# GlobalTimeoutSecondMsg()
+[Activity
+    Text = ${conversation.tfnConfig.Personalization_GlobalTimeout_SecondPrompt}
+    Speak = ${conversation.tfnConfig.Personalization_GlobalTimeout_SecondPrompt}
+    InputHint = ignoringInput
+    ChannelData = ${
+        {
+            activityParams:{
+                sendDTMF: false,
+                bargeIn: false,
+                bargeInOnDTMF: false,
+                dtmfCollect: false,
+                dtmfCollectInterDigitTimeoutMS: settings.dtmfCollectInterDigitTimeoutMS,
+                dtmfCollectSubmitDigit: "#",
+                dtmfCollectMaxDigits: 10,
+                enableSpeechInput: false
+            }
+        }
+    }
+]
+
+# GlobalTimeOutXferMsg()
+[Activity
+    Text = ${TimeOutXferTemplate()}
+    Speak = ${TimeOutXferTemplate()}
+    InputHint = ignoringInput
+    ChannelData = ${
+        {
+            activityParams:{
+                sendDTMF: false,
+                bargeIn: false,
+                bargeInOnDTMF: false,
+                dtmfCollect: false,
+                dtmfCollectInterDigitTimeoutMS: settings.dtmfCollectInterDigitTimeoutMS,
+                dtmfCollectSubmitDigit: "#",
+                dtmfCollectMaxDigits: 10,
+                enableSpeechInput: false
+            }
+        }
+    }
+]
+
+
+
+
+
+

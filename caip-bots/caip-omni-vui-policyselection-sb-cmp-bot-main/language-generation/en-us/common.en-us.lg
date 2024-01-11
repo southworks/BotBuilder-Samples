@@ -1,0 +1,283 @@
+> To learn more about the LG file format, read the documentation at
+> https://aka.ms/lg-file-format
+> !# @Namespace=Common
+> !# @Exports = SendActivity_GlobalTimeOutFirstMsg,SendActivity_GlobalTimeOutSecondMsg,SendActivity_TimeOutXferMsg,SendActivity_GoodByeMsg,SendActivity_MWPolicySystemErrorMsg,SendActivity_PolicySystemErrorMsg,SendActivity_askDOS,SendActivity_askSupMed,SendActivity_askSupMedRx,SendActivity_askDateRange,SendActivity_askDualPolicyDynamicQuestion, SendActivity_PolicyAgentRequestMsg, SendActivity_MoreTimeRequestMsg,SendActivity_DisableSpeechEvent
+
+# SendActivity_GlobalTimeOutFirstMsg()
+[Activity
+    Text = ${conversation.globalTimeOutFirstTemplate}
+    Speak = ${conversation.globalTimeOutFirstTemplate}
+    InputHint = ignoringInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: false,
+            bargeIn: false,
+            bargeInOnDTMF: false,
+            dtmfCollect: false,
+            enableSpeechInput: false
+            }
+        }
+    }
+]
+# SendActivity_GlobalTimeOutSecondMsg()
+[Activity
+    Text = ${conversation.globalTimeOutSecondTemplate}
+    Speak = ${conversation.globalTimeOutSecondTemplate}
+    InputHint = ignoringInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: false,
+            bargeIn: false,
+            bargeInOnDTMF: false,
+            dtmfCollect: false,
+            enableSpeechInput: false
+            }
+        }
+    }
+]
+# SendActivity_TimeOutXferMsg()
+[Activity
+    Text = ${conversation.timeOutXferTemplate}
+    Speak = ${conversation.timeOutXferTemplate}
+    InputHint = ignoringInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: false,
+            bargeIn: false,
+            bargeInOnDTMF: false,
+            dtmfCollect: false,
+            enableSpeechInput: false
+            }
+        }
+    }
+]
+# GoodByeTemplate()
+- Alright, I will be ending this call. We are here when you need us, so be sure to call again with any other questions.
+# SendActivity_GoodByeMsg()
+[Activity
+    Text = ${GoodByeTemplate()}
+    Speak = ${GoodByeTemplate()}
+    InputHint = ignoringInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: false,
+            bargeIn: false,
+            bargeInOnDTMF: false,
+            dtmfCollect: false,
+            enableSpeechInput: false
+            }
+        }
+    }
+]
+
+# SendActivity_PolicySystemErrorMsg()
+[Activity
+    Text = ${PolicySystemErrorTemplate()}
+    Speak = ${PolicySystemErrorTemplate()}
+    InputHint = ignoringInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: false,
+            bargeIn: false,
+            bargeInOnDTMF: false,
+            dtmfCollect: false,
+            enableSpeechInput: false
+        }
+      } 
+    }
+]
+
+# PolicySystemErrorTemplate()
+- I'm sorry, but something isn't working properly on our end. Let's connect with someone who can help.
+
+# SendActivity_MWPolicySystemErrorMsg()
+[Activity
+    Text = ${MWPolicySystemErrorTemplate()}
+    Speak = ${MWPolicySystemErrorTemplate()}
+    InputHint = ignoringInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: false,
+            bargeIn: false,
+            bargeInOnDTMF: false,
+            dtmfCollect: false,
+            enableSpeechInput: false
+        }
+      } 
+    }
+]
+
+# MWPolicySystemErrorTemplate()
+- Let's connect with someone who can help.
+
+# SendActivity_askDOS()
+[Activity
+    Text = ${askDOSTemplate()}
+    Speak = ${askDOSTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,            
+            sttDisablePunctuation: true,
+            sttProvider: settings.dobSTTProvider,
+            dtmfCollectMaxDigits: 8,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfTimeoutMSForDOB
+        }
+    }
+}
+]
+
+# askDOSTemplate()
+- What's the date of service?
+
+# SendActivity_askSupMed()
+[Activity
+    Text = ${askSupMedTemplate()}
+    Speak = ${askSupMedTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            dtmfCollectMaxDigits: 1
+        }
+    }
+}
+]
+
+# askSupMedTemplate()
+- IF: ${conversation.callerType == "provider"}
+    - Are you calling about this member's AARP supplement plan?
+- ELSE:
+    - Are you calling about an AARP supplement plan?
+
+
+# SendActivity_askSupMedRx()
+[Activity
+    Text = ${askSupMedRxTemplate()}
+    Speak = ${askSupMedRxTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            dtmfCollectMaxDigits: 1
+        }
+    }
+}
+]
+
+# askSupMedRxTemplate()
+- Which plan are you inquiring about: AARP Supplement, Prescription Drug or Something Else?
+
+# SendActivity_askDateRange()
+[Activity
+    Text = ${askDateRangeTemplate()}
+    Speak = ${askDateRangeTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            dtmfCollectMaxDigits: 1,
+            sttSpeechContexts: [{"phrases":["current"]},{"phrases":["past"]},{"phrases":["future"]}]
+        }
+    }
+}
+]
+
+# askDateRangeTemplate()
+- Are you inquiring about your current, recent past or future coverage?
+
+
+# SendActivity_askDualPolicyDynamicQuestion()
+[Activity
+    Text = ${askDualPolicyDynamicQuestionTemplate()}
+    Speak = ${askDualPolicyDynamicQuestionTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            dtmfCollectMaxDigits: 1
+        }
+    }
+}
+]
+
+# askDualPolicyDynamicQuestionTemplate()
+- Are you inquiring about a ${conversation.multiplePolicyReadOut} policy
+# SendActivity_PolicyAgentRequestMsg()
+[Activity
+    Text = ${PolicyAgentRequestTemplate()}
+    Speak = ${PolicyAgentRequestTemplate()}
+    InputHint = ignoringInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: false,
+            bargeIn: false,
+            bargeInOnDTMF: false,
+            dtmfCollect: false
+        }
+      } 
+    }
+]
+
+# PolicyAgentRequestTemplate()
+- I need this information first so I can quickly connect you with the right agent.
+
+# SendActivity_MoreTimeRequestMsg()
+[Activity
+    Text = ${MoreTimeRequestTemplate()}
+    Speak = ${MoreTimeRequestTemplate()}
+    InputHint = ignoringInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: false,
+            bargeIn: false,
+            bargeInOnDTMF: false,
+            dtmfCollect: false
+        }
+      } 
+    }
+]
+
+# MoreTimeRequestTemplate()
+- That's Ok. Get what you need and let me know when you have your information available.
+
+# SendActivity_DisableSpeechEvent()
+[Activity
+    Type = event
+    Name = config
+    channelData = ${
+        {
+            activityParams:{
+                enableSpeechInput: false
+            }
+        }
+    }
+]

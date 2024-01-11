@@ -1,0 +1,8 @@
+{
+  "$kind": "Microsoft.MultiLanguageRecognizer",
+  "id": "LUIS_omni-vui-memberintent-sb-cmp",
+  "recognizers": {
+    "en-us": "omni-vui-memberintent-sb-cmp.en-us.lu",
+    "": "omni-vui-memberintent-sb-cmp.en-us.lu"
+  }
+}

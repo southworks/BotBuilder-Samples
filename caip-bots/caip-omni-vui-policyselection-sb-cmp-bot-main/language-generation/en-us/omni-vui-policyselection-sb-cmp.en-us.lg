@@ -1,0 +1,107 @@
+> !# @Namespace=MainDialog
+> !# @Exports = PegVal,MWPegVal,PegName,TestEventMsg
+[import](common.lg)
+
+# TestEventTemplate()
+- Bot is connected and working.
+
+# TestEventMsg()
+[Activity
+    Text = ${TestEventTemplate()}
+    Speak = ${TestEventTemplate()}
+    InputHint = ignoringInput
+    ChannelData = ${
+        {
+            sessionParams:{
+                sendDTMF: false,
+                bargeIn: false,
+                bargeInOnDTMF: false,
+                dtmfCollect: false,
+                userNoInputTimeoutMS: settings.userNoInputTimeoutMS,
+                userNoInputRetries: 3,
+                sendEventsToBot: ["noUserInput"]
+            }
+        }
+    }
+]
+
+
+# PegVal(param)
+- IF: ${toLower(param) == 'askdaterange'}
+    - 00303
+- ELSEIF: ${toLower(param) == 'askdos'}
+    - 00302 
+- ELSEIF: ${toLower(param) == 'asksupmed'}
+    - 00354 
+- ELSEIF: ${toLower(param) == 'asksupmedrx'}
+    - 00355
+- ELSEIF: ${toLower(param) == 'askdualpolicydynamicquestion'}
+    - 00378
+- ELSEIF: ${toLower(param) == 'dualcoverage'}
+    - MWAUTH03
+- ELSE:
+    - ''
+
+# MWPegVal(param1,param2)
+- IF: ${toLower(concat(param1,param2)) == 'askdaterangesuccess'}
+    - 00350
+- ELSEIF: ${toLower(concat(param1,param2)) == 'asksupmedsuccess'}
+    - 00356
+- ELSEIF: ${toLower(concat(param1,param2)) == 'asksupmedrxsuccess'}
+    - 00356
+- ELSEIF: ${toLower(concat(param1,param2)) == 'dualcoveragesuccess'} 
+    - 00382
+- ELSEIF: ${toLower(concat(param1,param2)) == 'askdualpolicydynamicquestionsuccess'}
+    - 00382
+- ELSEIF: ${toLower(concat(param1,param2)) == 'askdaterangenodata'}
+    - 00351
+- ELSEIF: ${toLower(concat(param1,param2)) == 'holdonnodata'}
+    - 00351
+- ELSEIF: ${toLower(concat(param1,param2)) == 'asksupmednodata'}
+    - 00357 
+- ELSEIF: ${toLower(concat(param1,param2)) == 'asksupmedrxnodata'}
+    - 00357
+- ELSEIF: ${toLower(concat(param1,param2)) == 'dualcoveragenodata'} 
+    - 00383 
+- ELSEIF: ${toLower(concat(param1,param2)) == 'askdualpolicydynamicquestionnodata'}
+    - 00383
+- ELSEIF: ${toLower(concat(param1,param2)) == 'askdaterangeretry'}
+    - 00353
+- ELSEIF: ${toLower(concat(param1,param2)) == 'holdonretry'}
+    - 00353
+- ELSEIF: ${toLower(concat(param1,param2)) == 'asksupmedretry'}
+    -  00359
+- ELSEIF: ${toLower(concat(param1,param2)) == 'asksupmedrxretry'}
+    - 00359
+- ELSEIF: ${toLower(concat(param1,param2)) == 'dualcoverageretry'} 
+    - 00385
+- ELSEIF: ${toLower(concat(param1,param2)) == 'askdualpolicydynamicquestionretry'}
+    - 00385
+- ELSEIF: ${toLower(concat(param1,param2)) == 'askdaterangenoretry'}
+    - 00352
+- ELSEIF: ${toLower(concat(param1,param2)) == 'holdonnoretry'}
+    - 00352
+- ELSEIF: ${toLower(concat(param1,param2)) == 'asksupmednoretry'}
+    - 00358
+- ELSEIF: ${toLower(concat(param1,param2)) == 'asksupmedrxnoretry'}
+    - 00358
+- ELSEIF: ${toLower(concat(param1,param2)) == 'dualcoveragenoretry'} 
+    - 00384
+- ELSEIF: ${toLower(concat(param1,param2)) == 'askdualpolicydynamicquestionnoretry'}
+    - 00384
+- ELSE:
+    - ''
+
+# PegName(param1,param2)
+- IF: ${toLower(param1) == 'askdaterange'}
+    - PolicySelectionSkill_${param1}_${param2}_Peg
+- ELSEIF: ${toLower(param1) == 'askdos'}
+    - PolicySelectionSkill_${param1}_${param2}_Peg 
+- ELSEIF: ${toLower(param1) == 'asksupmed'}
+    - PolicySelectionSkill_${param1}_${param2}_Peg 
+- ELSEIF: ${toLower(param1) == 'asksupmedrx'}
+    - PolicySelectionSkill_${param1}_${param2}_Peg
+- ELSEIF: ${toLower(param1) == 'askdualpolicydynamicquestion'}
+    - PolicySelectionSkill_${param1}_${param2}_Peg
+- ELSE:
+    - ''

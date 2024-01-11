@@ -1,0 +1,529 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "kVp8Tb",
+    "name": "GlobalContainer",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "5f6LQK"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "JJUbl8"
+          },
+          "property": "conversation.startDate",
+          "value": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "N3SbqY"
+          },
+          "property": "conversation.globalVal",
+          "value": "=dialog.globalParam"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "xEzrii"
+          },
+          "condition": "=conversation.globalVal",
+          "cases": [
+            {
+              "value": "systemerror",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "o85HwH"
+                  },
+                  "activity": "${SendActivity_AuthSystemErrorMsg()}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "XLWmTe"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "01003",
+                    "pegType": "General",
+                    "request": "=GlobalContainer.SendActivity_AuthSystemErrorMsg()",
+                    "response": "=concat(dialog.errorCode,dialog.errorMessage)",
+                    "startDTM": "=conversation.startDate",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "MembAuthSkill_AuthSystemError_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "jVd4bw"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.transferReasonCode",
+                      "value": "4"
+                    },
+                    {
+                      "property": "conversation.transferReason",
+                      "value": "=concat(conversation.inputVal,\"_Error\")"
+                    },
+                    {
+                      "property": "conversation.skillResponse",
+                      "value": "=setProperty(conversation.skillResponse,\"errorCode\",dialog.errorCode)"
+                    },
+                    {
+                      "property": "conversation.skillResponse",
+                      "value": "=setProperty(conversation.skillResponse,\"errorMessage\",dialog.errorMessage)"
+                    },
+                    {
+                      "property": "conversation.silentTransfer",
+                      "value": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "maxnomatch",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "BsYCUo"
+                  },
+                  "activity": "${SendActivity_AuthMaxNoMatchMsg()}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "yZGDD5"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "01000",
+                    "pegType": "General",
+                    "request": "=GlobalContainer.SendActivity_AuthMaxNoMatchMsg()",
+                    "response": "",
+                    "startDTM": "=conversation.startDate",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "MembAuthSkill_AuthMaxNoMatch_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "mgwqdc"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.transferReasonCode",
+                      "value": "M"
+                    },
+                    {
+                      "property": "conversation.transferReason",
+                      "value": "=concat(conversation.inputVal,\"_MaxNoMatch\")"
+                    },
+                    {
+                      "property": "conversation.silentTransfer",
+                      "value": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "maxnoinput",
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "TR24bL"
+                  },
+                  "condition": "=conversation.tfnConfig.IDAuthSkill_Disconnect_MaxNI==\"false\"",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "Bddz1F"
+                      },
+                      "activity": "${SendActivity_AuthMaxNoInputTransferMsg()}"
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "gq1NM3"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "01001",
+                        "pegType": "General",
+                        "request": "=GlobalContainer.SendActivity_AuthMaxNoInputTransferMsg()",
+                        "response": "",
+                        "startDTM": "=conversation.startDate",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "MembAuthSkill_AuthMaxNoInputTransfer_Peg"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "uyHBFi"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.transferReasonCode",
+                          "value": "N"
+                        },
+                        {
+                          "property": "conversation.transferReason",
+                          "value": "=concat(conversation.inputVal,\"_MaxNoInput\")"
+                        },
+                        {
+                          "property": "conversation.silentTransfer",
+                          "value": true
+                        }
+                      ]
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "IIyE5I"
+                      },
+                      "activity": "${SendActivity_AuthMaxNoInputDisconnectMsg()}"
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "iWrKd9"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "01002",
+                        "pegType": "General",
+                        "request": "=GlobalContainer.SendActivity_AuthMaxNoInputDisconnectMsg()",
+                        "response": "",
+                        "startDTM": "=conversation.startDate",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "MembAuthSkill_AuthMaxNoInputDisconnect_Peg"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "VfAWxk"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.transferReasonCode",
+                          "value": "0"
+                        },
+                        {
+                          "property": "conversation.transferReason",
+                          "value": "=concat(conversation.inputVal,\"_MaxNoInput\")"
+                        },
+                        {
+                          "property": "conversation.silentTransfer",
+                          "value": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "agent",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "yMr2Fz"
+                  },
+                  "activity": "${SendActivity_AuthAgentXferMsg()}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "MkFNbm"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "01005",
+                    "pegType": "General",
+                    "request": "=GlobalContainer.SendActivity_AuthAgentXferMsg()",
+                    "response": "",
+                    "startDTM": "=conversation.startDate",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "MembAuthSkill_AuthAgentXfer_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "4Bm06O"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.transferReasonCode",
+                      "value": "3"
+                    },
+                    {
+                      "property": "conversation.transferReason",
+                      "value": "=concat(conversation.inputVal,\"_Agent\")"
+                    },
+                    {
+                      "property": "conversation.silentTransfer",
+                      "value": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "repeat",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "VbDNy1"
+                  },
+                  "activity": "${SendActivity_CallerNotHearingTfxMsg()}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "SdiHr9"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "01012",
+                    "pegType": "General",
+                    "request": "=GlobalContainer.SendActivity_CallerNotHearingTfxMsg()",
+                    "response": "",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "MembAuthSkill_CallerNotHearingTfx_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "1cOjHI"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.transferReasonCode",
+                      "value": "3"
+                    },
+                    {
+                      "property": "conversation.transferReason",
+                      "value": "=concat(conversation.inputVal,\"_MaxRepeat\")"
+                    },
+                    {
+                      "property": "conversation.silentTransfer",
+                      "value": "true"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "timeoutxfer",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "NKCwGo"
+                  },
+                  "activity": "${SendActivity_TimeOutXferMsg()}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "L2dziA"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "01123",
+                    "pegType": "General",
+                    "request": "=Common.SendActivity_TimeOutXferMsg()",
+                    "response": "",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "MembAuthSkill_TimeOutXfer_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "8H3MuX"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.transferReasonCode",
+                      "value": "X"
+                    },
+                    {
+                      "property": "conversation.transferReason",
+                      "value": "=concat(conversation.inputVal,\"_Timeout\")"
+                    },
+                    {
+                      "property": "conversation.silentTransfer",
+                      "value": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "goodbye",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "3l6qbt"
+                  },
+                  "activity": "${SendActivity_GoodByeMsg()}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "EpGpcr"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "01124",
+                    "pegType": "General",
+                    "request": "=Common.SendActivity_GoodByeMsg()",
+                    "response": "",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "MembAuthSkill_GoodBye_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "aiNXNP"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.transferReasonCode",
+                      "value": "0"
+                    },
+                    {
+                      "property": "conversation.transferReason",
+                      "value": "=concat(conversation.inputVal,\"_Bye\")"
+                    },
+                    {
+                      "property": "conversation.silentTransfer",
+                      "value": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "dontknow",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "1dD2Cq"
+                  },
+                  "activity": "${SendActivity_AuthDontHaveKnowItXferMsg()}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "3jIHLV"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "01008",
+                    "pegType": "General",
+                    "request": "=GlobalContainer.SendActivity_AuthDontHaveKnowItXferMsg()",
+                    "response": "",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "MembAuthSkill_AuthDontHaveKnowItXfer_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "gg9LKf"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.transferReasonCode",
+                      "value": "3"
+                    },
+                    {
+                      "property": "conversation.transferReason",
+                      "value": "=concat(conversation.inputVal,\"_DontKnow\")"
+                    },
+                    {
+                      "property": "conversation.silentTransfer",
+                      "value": "true"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "PpIlPf"
+              },
+              "activityProcessed": true,
+              "dialog": "NoMatchInput"
+            },
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "aYBKjT"
+              }
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "Au5ENq"
+          },
+          "activityProcessed": true,
+          "dialog": "SetSkillResponseParams"
+        }
+      ]
+    }
+  ],
+  "generator": "GlobalContainer.lg",
+  "recognizer": "GlobalContainer.lu.qna",
+  "id": "GlobalContainer"
+}

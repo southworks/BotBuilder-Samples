@@ -1,0 +1,524 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "F0gEgz",
+    "name": "StartSkill",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "eKzvag",
+        "comment": "Setting the skill bot to start the conversation with the user."
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "4mJiNY"
+          },
+          "property": "conversation.botName",
+          "value": "=turn.activity.value.appName"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "LdQcqT"
+          },
+          "value": "=formatDateTime(utcNow())",
+          "property": "conversation.skillStartDate"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "DyDBum",
+            "comment": "Initialize bot properties.\n\ncurrentContext: Set the current flow of the conversation.\n\nflowNextPrompt: Indicates the next prompt in a given flow to be sent to the user.\n\nflowPreviousPrompt: Set the last prompt sent to user so the bot can send it again if user asks to repeat.\n\nlastIntent: The las intent identified by LUIS. We use it to drive the conversation in a given prompt based on the user answer.\n\nfailedCount: Counts the number of input failures including no user input.\n\nnoMatchCount: Counts the number of times the user input hasn't pass the input validation.\n\nconfirmIntentCount: Count the number of times the flow goes to the ConfirmIntent prompt.\n\nintentCaptureRepeatCount: Count the number of times the user has asked to repeat the IntentCapture prompt.\n\nintentAgentCount: Count the number of times the user as asked for an agent."
+          },
+          "assignments": [
+            {
+              "property": "conversation.flowState.flowNextPrompt",
+              "value": "Start"
+            },
+            {
+              "property": "conversation.flowState.flowPreviousPrompt",
+              "value": "none"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "none"
+            },
+            {
+              "property": "conversation.flowState.failedCount",
+              "value": 0
+            },
+            {
+              "property": "conversation.flowState.noMatchCount",
+              "value": 0
+            },
+            {
+              "property": "conversation.flowState.confirmIntentCount",
+              "value": 0
+            },
+            {
+              "property": "conversation.flowState.intentCaptureRepeatCount",
+              "value": 0
+            },
+            {
+              "property": "conversation.flowState.intentAgentCount",
+              "value": 0
+            },
+            {
+              "property": "conversation.callerType.entityFound",
+              "value": "='No'"
+            },
+            {
+              "property": "conversation.flowState.noUserInputCount",
+              "value": 0
+            },
+            {
+              "property": "conversation.callerIntentconfig.extraMessage",
+              "value": "=''"
+            },
+            {
+              "property": "conversation.currentAsk",
+              "value": "=''"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "0VhbYn"
+          },
+          "assignments": [
+            {
+              "property": "conversation.pegCount",
+              "value": 0
+            },
+            {
+              "property": "conversation.allPegNames",
+              "value": {
+                "Peg": "AllPegNames"
+              }
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "xJIwk5"
+          },
+          "property": "conversation.endDialogParams",
+          "value": "NA"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "0O9fIL"
+          },
+          "assignments": [
+            {
+              "property": "conversation.KVPs",
+              "value": {
+                "ENT_IVRAppTransferReason": "?"
+              }
+            },
+            {
+              "property": "conversation.KVPs",
+              "value": "=addProperty(conversation.KVPs, 'ENT_CallUUID', turn.activity.value.callId)"
+            },
+            {
+              "property": "conversation.KVPs",
+              "value": "=addProperty(conversation.KVPs, 'ENT_ToAddress', turn.activity.value.ENT_ToAddress)"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "o8Ill0"
+          },
+          "assignments": [
+            {
+              "property": "conversation.tfnConfig",
+              "value": "=turn.activity.value.parameters.tfnConfig"
+            },
+            {
+              "property": "conversation.conversationId",
+              "value": "=turn.activity.value.conversationId"
+            },
+            {
+              "property": "conversation.callGUID",
+              "value": "=turn.activity.value.callGUID"
+            },
+            {
+              "value": "=turn.activity.value.parameters.silentTransfer",
+              "property": "conversation.silentTransfer"
+            },
+            {
+              "property": "conversation.tfnLOB",
+              "value": "=turn.activity.value.parameters.tfnLOB"
+            },
+            {
+              "property": "conversation.businessUnit",
+              "value": "=turn.activity.value.businessUnit"
+            },
+            {
+              "property": "conversation.tfnAppName",
+              "value": "=turn.activity.value.parameters.tfnAppName"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "ki3o8C",
+            "comment": ""
+          },
+          "assignments": [
+            {
+              "property": "conversation.callerIntentconfig",
+              "value": {
+                "QT_NLTagQuestionType": "",
+                "PT_NLTagProductType": "",
+                "CT_NLTagCallerType": "",
+                "NLTagSubFunction": "",
+                "NLTagSubFunctionDetail": "",
+                "NLTagProduct": "",
+                "reqiresAuth": "",
+                "extraMessage": "",
+                "Intent_Verbiage": ""
+              }
+            },
+            {
+              "property": "conversation.intent",
+              "value": "none"
+            },
+            {
+              "property": "conversation.entity",
+              "value": "none"
+            },
+            {
+              "property": "conversation.error",
+              "value": false
+            },
+            {
+              "property": "conversation.transferReasonCode",
+              "value": "?"
+            },
+            {
+              "property": "conversation.lastNMorNI",
+              "value": "none"
+            },
+            {
+              "property": "conversation.Utterance",
+              "value": "=''"
+            },
+            {
+              "property": "conversation.solutranGreetingMessage",
+              "value": false
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "mymWwj",
+            "name": "Set properties reuse array list"
+          },
+          "assignments": [
+            {
+              "property": "conversation.startPromptLists",
+              "value": [
+                "IntentCapture",
+                "IntentCaptureRepeatVerbiage",
+                "ConfirmIntent",
+                "AgentTransferCapture",
+                "confirm_intent_options",
+                "IntentCaptureRetry",
+                "Enrollment_CaptureMnu"
+              ]
+            },
+            {
+              "property": "conversation.agentDisambigPromptListNM",
+              "value": [
+                "disambigBenefits",
+                "claimsGeneral",
+                "pharmacyGeneral",
+                "financialAccountsGeneral",
+                "preApprovalRx",
+                "balanceDisambig"
+              ]
+            },
+            {
+              "value": [
+                "disambigGeneral",
+                "disambigBenefits",
+                "pharmacyGeneral",
+                "mentalHealthGeneral",
+                "financialAccountsGeneral",
+                "preApprovalRx"
+              ],
+              "property": "conversation.benefitsCobraDisambigLists"
+            },
+            {
+              "value": [
+                "disambigGeneral",
+                "disambigBenefits",
+                "mentalHealthGeneral"
+              ],
+              "property": "conversation.benefitsEOBDisambigList"
+            },
+            {
+              "value": [
+                "disambigGeneral",
+                "mentalHealthGeneral"
+              ],
+              "property": "conversation.benefitsFindProviderDisambigList"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "IDRYgl",
+            "name": "Set properties disambigBenefits"
+          },
+          "assignments": [
+            {
+              "property": "conversation.disambigBenefitsValidIntents",
+              "value": [
+                "benefits",
+                "mentalHealth",
+                "dentalGeneral",
+                "vision",
+                "somethingElse",
+                "pharmacy"
+              ]
+            },
+            {
+              "property": "conversation.disambigBenfitsInvalidEntitys",
+              "value": [
+                "benefitsGeneralChild",
+                "pharmacyMailOrderChild",
+                "pharmacySpecialtyChild",
+                "benefits1099Child",
+                "benefitsSpendingChild",
+                "eapML",
+                "benefits1ML"
+              ]
+            },
+            {
+              "property": "conversation.disambigBenfitsIntentsWithContext",
+              "value": [
+                "vision",
+                "somethingElse"
+              ]
+            },
+            {
+              "value": [
+                "",
+                "mentalHealthGeneralML",
+                "substanceAbuseChild",
+                "dentalGeneralML"
+              ],
+              "property": "conversation.disambigBenfitsEntitiesWithContext"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "rkvxLQ",
+            "name": "Set properties ClaimsGeneral"
+          },
+          "assignments": [
+            {
+              "property": "conversation.claimsGeneralValidIntents",
+              "value": [
+                "benefits",
+                "claims",
+                "mentalHealth",
+                "behavioralHealth",
+                "pharmacy",
+                "dentalGeneral",
+                "vision",
+                "somethingElse",
+                "billingGeneral",
+                "letter",
+                "HIPAA",
+                "makePayment",
+                "rewardsForActionGeneral"
+              ]
+            },
+            {
+              "property": "conversation.claimsGeneralValidEntitys",
+              "value": [
+                "behavioralHealthChild",
+                "claimsPharmacyChild",
+                "claimsDentalChild",
+                "claimsVisionChild",
+                "claimsMedicalChild",
+                "pharmacyGeneralChild",
+                "pharmacySpecialtyChild",
+                "pharmacyDeniedPrescriptionChild",
+                "pharmacyPrescriptionRefillChild",
+                "benefitsTreatmentChild",
+                "claimsBehavioralChild"
+              ]
+            },
+            {
+              "value": [
+                "billingGeneral",
+                "letter",
+                "HIPAA",
+                "makePayment",
+                "rewardsForActionGeneral"
+              ],
+              "property": "conversation.intentsWithoutEntitys"
+            },
+            {
+              "property": "conversation.claimsGeneralInvalidEntitys",
+              "value": [
+                "pharmacyMailOrderChild"
+              ]
+            },
+            {
+              "property": "conversation.claimsGeneralIntentsWithContext",
+              "value": [
+                "vision",
+                "somethingElse"
+              ]
+            },
+            {
+              "value": [
+                "",
+                "mentalHealthGeneralML",
+                "substanceAbuseChild",
+                "dentalGeneralML",
+                "benefitsHearingAidsChild",
+                "benefitsShinglesChild",
+                "benefitsFluShotChild",
+                "benefitsHomeHealthChild"
+              ],
+              "property": "conversation.claimsGeneralEntitiesWithContext"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "MM2664",
+            "name": "Set properties pharmacyGeneral"
+          },
+          "assignments": [
+            {
+              "property": "conversation.pharmacyGeneralValidIntentsEntities",
+              "value": [
+                "enrollment@",
+                "pharmacy@pharmacyDeniedPrescriptionChild",
+                "pharmacy@pharmacyPrescriptionRefillChild",
+                "pharmacy@pharmacyMailOrderChild",
+                "somethingElse@"
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "QAJTDc",
+            "name": "Set properties mentalHealthGeneral"
+          },
+          "assignments": [
+            {
+              "property": "conversation.mentalHealthGeneralValidIntentsEntities",
+              "value": [
+                "benefits@",
+                "doctor@",
+                "claims@"
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "B2AxaJ",
+            "name": "Set properties financialAccountGeneral"
+          },
+          "assignments": [
+            {
+              "property": "conversation.financialAccountGeneralValidIntentsEntities",
+              "value": [
+                "financial@FSAChild",
+                "HRA@",
+                "HSA@",
+                "somethingElse@"
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "jJiOFq",
+            "name": "Set properties preApproval Rx"
+          },
+          "assignments": [
+            {
+              "property": "conversation.preApprovalRxValidIntentsEntities",
+              "value": [
+                "pharmacy@pharmacySpecialtyChild",
+                "somethingElse@"
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "yenrxx",
+            "comment": "Calculating and adding the skill connection duration."
+          },
+          "property": "turn.activity.value",
+          "value": "=addProperty(turn.activity.value, 'skillConnectionDuration', dateTimeDiff(formatDateTime(utcNow()), turn.activity.value.parameters.skillConnectionStartDate))"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "okItfW",
+            "name": "Telemetry For StartSkill"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "memberIntent_StartSkill_Event",
+            "pegType": "General",
+            "request": "Start Skill Event",
+            "response": "=turn",
+            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "MemberIntentSkill_Start_SkillEvent_Peg"
+          }
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "35SjIb"
+          },
+          "activityProcessed": true,
+          "dialog": "Flow-Start"
+        }
+      ]
+    }
+  ],
+  "generator": "StartSkill.lg",
+  "recognizer": "StartSkill.lu.qna",
+  "id": "StartSkill"
+}

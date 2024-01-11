@@ -1,0 +1,459 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "ToSDFU",
+    "name": "GlobalBehavior",
+    "comment": "Handle the conversation for max NM, max NI, System error, Agent transfer and End call."
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "0Ka9MN",
+        "comment": "Handle the conversation for NM1, NI1, System error, Agent transfer and End call."
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "2fbigH"
+          },
+          "condition": "dialog.behavior",
+          "cases": [
+            {
+              "value": "NoUserInput",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "u1LY6v"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal('Toggle')",
+                    "pegType": " General",
+                    "request": "=conversation.tfnConfig.Root_uhcmember_disconnect_maxNI",
+                    "response": "",
+                    "startDTM": "=conversation.startDate",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, 'uhcMember_disconnect_maxNIToggle')"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "A0hJ4z"
+                  },
+                  "condition": "=conversation.tfnConfig.Root_uhcmember_disconnect_maxNI=='true'",
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "GST1ko"
+                      },
+                      "assignments": [
+                        {
+                          "property": "dialog.transferMessage",
+                          "value": "=Common.UHCMember_Max_NI_Transfer_text()"
+                        },
+                        {
+                          "property": "conversation.pegNumber",
+                          "value": "10188"
+                        },
+                        {
+                          "property": "conversation.transferReasonCode",
+                          "value": "?"
+                        },
+                        {
+                          "property": "conversation.transferReason",
+                          "value": "Max_NI"
+                        },
+                        {
+                          "property": "conversation.setEvent",
+                          "value": "memberAuth"
+                        }
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "GFNCrB"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.flowState.flowPreviousPrompt",
+                          "value": "maxNIStillThere"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "JLw5aw"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.flowState.noMatchCount",
+                          "value": 0
+                        },
+                        {
+                          "property": "conversation.flowState.noUserInputCount",
+                          "value": 0
+                        },
+                        {
+                          "property": "conversation.flowState.failedCount",
+                          "value": 0
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "Jf9HVA"
+                      },
+                      "activity": "${UHCMember_MaxNIStillThere_Msg()}"
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "8SreVi"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "=MainDialog.PegVal('')",
+                        "pegType": "InputAsk",
+                        "request": "=GlobalBehavior.UHCMember_MaxNIStillThere_Msg()",
+                        "response": "",
+                        "startDTM": "=conversation.startDate",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt,'_Prmt')"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.EndDialog",
+                      "$designer": {
+                        "id": "v8Dh5C"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "hwVXKL"
+                  },
+                  "property": "conversation.silentTransfer",
+                  "value": true
+                }
+              ]
+            },
+            {
+              "value": "SystemError",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "feuJ2V"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.transferMessage",
+                      "value": "=Common.UHCMember_SystemError_Transfer_text()"
+                    },
+                    {
+                      "property": "conversation.pegNumber",
+                      "value": "10192"
+                    },
+                    {
+                      "property": "conversation.transferReasonCode",
+                      "value": "?"
+                    },
+                    {
+                      "property": "conversation.transferReason",
+                      "value": "SystemError"
+                    },
+                    {
+                      "property": "conversation.setEvent",
+                      "value": "memberAuth"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "1hw8Qd"
+                  },
+                  "property": "conversation.silentTransfer",
+                  "value": true
+                }
+              ]
+            },
+            {
+              "value": "ErrorEvent",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "fqEQon"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.transferMessage",
+                      "value": "NA"
+                    },
+                    {
+                      "property": "conversation.pegNumber",
+                      "value": "Error_event"
+                    },
+                    {
+                      "property": "conversation.transferReasonCode",
+                      "value": "?"
+                    },
+                    {
+                      "property": "conversation.setEvent",
+                      "value": "memberAuth"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "chSuoW"
+                  },
+                  "property": "conversation.silentTransfer",
+                  "value": true
+                }
+              ]
+            },
+            {
+              "value": "Spanish",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "a4LR9g"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.transferMessage",
+                      "value": "=Common.UHCMember_Spanish_text()"
+                    },
+                    {
+                      "property": "conversation.pegNumber",
+                      "value": "memberIntent_GlobalBehavior_SpanishXfer"
+                    },
+                    {
+                      "property": "conversation.transferReasonCode",
+                      "value": "X"
+                    },
+                    {
+                      "property": "conversation.transferReason",
+                      "value": "SpanishXfer"
+                    },
+                    {
+                      "property": "conversation.setEvent",
+                      "value": "defaultTransfer"
+                    },
+                    {
+                      "property": "conversation.transferType ",
+                      "value": "Spanish"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "Translator",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "YRoPG9"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.transferMessage",
+                      "value": "NA"
+                    },
+                    {
+                      "property": "conversation.pegNumber",
+                      "value": "memberIntent_GlobalBehavior_TranslatorXfer"
+                    },
+                    {
+                      "property": "conversation.transferReasonCode",
+                      "value": "X"
+                    },
+                    {
+                      "property": "conversation.transferReason",
+                      "value": "TranslatorXfer"
+                    },
+                    {
+                      "property": "conversation.setEvent",
+                      "value": "defaultTransfer"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "Agent",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "9LcSGa"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.transferReasonCode",
+                      "value": "3"
+                    },
+                    {
+                      "property": "conversation.transferReason",
+                      "value": "AgentXfer"
+                    },
+                    {
+                      "property": "conversation.setEvent",
+                      "value": "defaultTransfer"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "oHT42k"
+                  },
+                  "condition": "=conversation.callerIntentconfig.CT_NLTagCallerType == 'PV'",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "YfJpQH"
+                      },
+                      "assignments": [
+                        {
+                          "property": "dialog.transferMessage",
+                          "value": "=Common.UHCMember_ProviderXfer_text()"
+                        },
+                        {
+                          "property": "conversation.pegNumber",
+                          "value": "memberIntent_Start_ProviderXferPrmt"
+                        }
+                      ]
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "bFV9sK"
+                      },
+                      "assignments": [
+                        {
+                          "property": "dialog.transferMessage",
+                          "value": "NA"
+                        },
+                        {
+                          "property": "conversation.pegNumber",
+                          "value": "memberIntent_GlobalBehavior_AgentXfer"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "SPopIc"
+          },
+          "condition": "=dialog.transferMessage != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "tLqueJ"
+              },
+              "condition": "=conversation.transferReason == 'SpanishXfer'",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "Pyjo7J"
+                  },
+                  "activity": "${SpanishTransferMessage()}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "6vVtln"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal('GlobalBehavior_SpanishXferPrmt')",
+                    "pegType": "InputAsk",
+                    "request": "=GlobalBehavior.SpanishTransferMessage()",
+                    "response": "",
+                    "startDTM": "=conversation.startDate",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=MainDialog.PegName('GlobalBehavior', 'SpanishXfer_Prmt')"
+                  }
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "nKEie3"
+                  },
+                  "activity": "${TransferMessage(dialog.transferMessage)}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "fBfvve"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal('Max_NI')",
+                    "pegType": "InputAsk",
+                    "request": "=GlobalBehavior.TransferMessage(dialog.transferMessage)",
+                    "response": "",
+                    "startDTM": "=conversation.startDate",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=MainDialog.PegName('GlobalBehavior', 'Max_NI_Prmt')"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "VIqCJX"
+          },
+          "activityProcessed": true,
+          "dialog": "Transfer",
+          "options": {}
+        }
+      ]
+    }
+  ],
+  "generator": "GlobalBehavior.lg",
+  "recognizer": "GlobalBehavior.lu.qna",
+  "id": "GlobalBehavior"
+}

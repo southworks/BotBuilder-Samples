@@ -1,0 +1,82 @@
+{
+  "omni-vui-memberauthentication-sb-cmp.en-us": {
+    "rootDialog": true,
+    "triggers": {
+      "": [
+        "NoMatchInput.en-us",
+        "TelemetryDialog.en-us",
+        "ValidateInputParams.en-us",
+        "MemberIDInputDialog.en-us",
+        "ValidateANIDialog.en-us",
+        "DTMFDialog.en-us",
+        "NoUserInput.en-us",
+        "GlobalContainer.en-us"
+      ],
+      "YesResponse": [
+        "YesDialog.en-us"
+      ],
+      "noResponse": [
+        "NoDialog.en-us"
+      ],
+      "getFirstName": [
+        "TelemetryDialog.en-us",
+        "CheckFirstNameMatches.en-us",
+        "NoMatchInput.en-us",
+        "NoMatchInput.en-us"
+      ],
+      "getMemberBirthday": [
+        "NoMatchInput.en-us",
+        "DateFormat.en-us",
+        "NoMatchInput.en-us",
+        "TelemetryDialog.en-us",
+        "TelemetryDialog.en-us",
+        "CheckDOBMatches.en-us"
+      ],
+      "getMemberID": [
+        "TelemetryDialog.en-us",
+        "CheckLast4SSNMatches.en-us",
+        "NoMatchInput.en-us",
+        "NoMatchInput.en-us",
+        "TelemetryDialog.en-us",
+        "SetiMID.en-us",
+        "MemberIndividualReadDialog.en-us",
+        "NoMatchInput.en-us",
+        "TelemetryDialog.en-us",
+        "SetiMID.en-us",
+        "MemberIndividualReadDialog.en-us",
+        "NoMatchInput.en-us"
+      ],
+      "getPhoneNumber": [
+        "NoMatchInput.en-us",
+        "TelemetryDialog.en-us",
+        "MemberPhoneReadDialog.en-us"
+      ],
+      "getZipcode": [
+        "NoMatchInput.en-us",
+        "TelemetryDialog.en-us",
+        "CheckZIPMatches.en-us"
+      ],
+      "agent": [
+        "TelemetryDialog.en-us",
+        "AgentDialog.en-us"
+      ],
+      "pause": [
+        "TelemetryDialog.en-us",
+        "TelemetryDialog.en-us",
+        "RepeatMessages.en-us"
+      ],
+      "repeat": [
+        "TelemetryDialog.en-us",
+        "GlobalRepeatMessages.en-us"
+      ],
+      "goodbye": [
+        "TelemetryDialog.en-us",
+        "GlobalContainer.en-us"
+      ],
+      "dontKnowResponse": [
+        "TelemetryDialog.en-us",
+        "DontKnowDialog.en-us"
+      ]
+    }
+  }
+}

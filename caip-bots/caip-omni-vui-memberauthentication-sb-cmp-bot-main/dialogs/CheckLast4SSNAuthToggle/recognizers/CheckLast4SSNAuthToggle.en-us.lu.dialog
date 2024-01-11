@@ -1,0 +1,8 @@
+{
+  "$kind": "Microsoft.LuisRecognizer",
+  "id": "LUIS_CheckLast4SSNAuthToggle",
+  "applicationId": "=settings.luis.CheckLast4SSNAuthToggle_en_us_lu.appId",
+  "version": "=settings.luis.CheckLast4SSNAuthToggle_en_us_lu.version",
+  "endpoint": "=settings.luis.endpoint",
+  "endpointKey": "=settings.luis.endpointKey"
+}

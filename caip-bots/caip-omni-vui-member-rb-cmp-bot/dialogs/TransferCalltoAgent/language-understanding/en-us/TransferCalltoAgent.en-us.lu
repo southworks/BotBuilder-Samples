@@ -1,0 +1,77 @@
+> LUIS application information
+> !# @app.name = caip-omni-vui-member-rb-cmp-bot-xfer
+> !# @app.versionId = UHC_Member_EI_PlanType 2.1
+> !# @app.culture = en-us
+> !# @app.luis_schema_version = 7.0.0
+> !# @app.settings.NormalizePunctuation = True
+> !# @app.settings.UseAllTrainingData = True
+> !# @app.tokenizerVersion = 1.0.0
+
+
+> # Intent definitions
+
+# None
+
+
+# planType
+- {@planTypeML={@planTypeCommStateChild=community}}
+- {@planTypeML={@planTypeCommStateChild=community plan}}
+- {@planTypeML={@planTypeAdvantageChild=medicare}}
+- {@planTypeML={@planTypeAdvantageChild=medicare advantage}}
+- {@planTypeML={@planTypeAdvantageChild=medicare advantage plan}}
+- {@planTypeML={@planTypeAdvantageChild=medicare part a}}
+- {@planTypeML={@planTypeAdvantageChild=medicare part d}}
+- {@planTypeML={@planTypeAdvantageChild=medicare supplement}}
+- {@planTypeML={@planTypeAdvantageChild=medicare supplemental plan}}
+- {@planTypeML={@planTypeAdvantageChild=part d}}
+- {@planTypeML={@planTypeCommStateChild=state}}
+- {@planTypeML={@planTypeCommStateChild=state plan}}
+- {@planTypeML={@planTypeAdvantageChild=supplemental insurance}}
+
+
+@ intent planType usesFeature planTypeML
+
+# somethingElse
+- {@somethingElseML=anything else}
+- help with {@somethingElseML=something else}
+- i am looking for {@somethingElseML=something else}.
+- i'm looking for a {@somethingElseML=different thing}.
+- i'm trying to find {@somethingElseML=something else}.
+- it's for {@somethingElseML=something else}
+- {@somethingElseML=none of these}
+- {@somethingElseML=something different}
+- {@somethingElseML=something else}
+- {@somethingElseML}
+
+
+@ intent somethingElse usesFeature somethingElseML
+
+> # Entity definitions
+
+@ ml planTypeML
+    - @ ml planTypeAdvantageChild usesFeature medicareAdvantagePlanFeature
+    - @ ml planTypeCommStateChild usesFeature communityStatePlanFeature
+
+
+@ ml somethingElseML usesFeature somethingElseNoneFeature
+
+
+> # PREBUILT Entity definitions
+
+
+> # Phrase list definitions
+
+@ phraselist medicareAdvantagePlanFeature(interchangeable) disabledForAllModels = 
+	- medicare,medicare advantage,medicare plan,medicare advantage plan,medicare supplement plan,supplemental plan,part d,prescription drug plan,medicare part a,medicare part b,medicare part c,medicare part d
+
+@ phraselist communityStatePlanFeature(interchangeable) disabledForAllModels = 
+	- community plan,state plan,community,state,community and state plan
+
+@ phraselist somethingElseNoneFeature(interchangeable) disabledForAllModels = 
+	- something else,none of the above,none of it,none of them,none of that,none,none of above,none of those,different thing,something different,anything else
+
+
+> # List entities
+
+> # RegEx entities
+

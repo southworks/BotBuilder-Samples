@@ -1,0 +1,26 @@
+> !# @Namespace=AuthCompleteDialog
+> !# @Exports = SendActivity_spkAccountConfirmed
+[import](common.lg)
+
+# spkAccountConfirmedTemplate()
+- IF: ${conversation.callerType == "provider"}
+    - Alright, I have the account in front of me now.
+- ELSE:
+    - Alright, I have your account in front of me now.
+
+# SendActivity_spkAccountConfirmed()
+[Activity
+    Text = ${spkAccountConfirmedTemplate()}
+    Speak = ${spkAccountConfirmedTemplate()}
+    InputHint = ignoringInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: false,
+            bargeIn: false,
+            bargeInOnDTMF: false,
+            dtmfCollect: false
+        }
+    }
+}
+]

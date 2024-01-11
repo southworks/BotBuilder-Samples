@@ -1,0 +1,98 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "WdL8Bt",
+    "name": "ValidateANIDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "xtsiok"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "1ZLXFh"
+          },
+          "condition": "=isInteger(conversation.ani)",
+          "actions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "NwjD6l"
+              },
+              "condition": "or(!conversation.tfnConfig.ANI_Authentication_Toggle,conversation.tfnConfig.ANI_Authentication_Toggle == \"ON\")",
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "yDr5vR"
+                  },
+                  "condition": "or(!conversation.tfnConfig.ANI_Exclusion_Toggle,conversation.tfnConfig.ANI_Exclusion_Toggle == \"OFF\")",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "bGZB6Q"
+                      },
+                      "property": "conversation.IDType",
+                      "value": "=\"ANI\""
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "ObYbc1"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "MemberPhoneReadDialog"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "RdYvOw"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "CheckPhoneNumberToggle"
+                    }
+                  ]
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "Xau1tN"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "CheckPhoneNumberToggle"
+                }
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "awY2YL"
+              },
+              "activityProcessed": true,
+              "dialog": "CheckPhoneNumberToggle"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "ValidateANIDialog.lg",
+  "recognizer": "ValidateANIDialog.lu.qna",
+  "id": "ValidateANIDialog"
+}

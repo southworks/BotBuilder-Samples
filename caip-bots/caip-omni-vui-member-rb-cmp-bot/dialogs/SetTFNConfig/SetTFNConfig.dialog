@@ -1,0 +1,224 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "8zgk5E",
+    "name": "SetTFNConfig",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.tfnFound",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "OT2uGi"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "IRQHzM"
+          },
+          "assignments": [
+            {
+              "value": "=(toLower(MainDialog.getConfigExperience()))",
+              "property": "conversation.configExperience"
+            },
+            {
+              "value": "=(getProperty(conversation.KVPs, \"ENT_ToAddress\"))",
+              "property": "conversation.tfn"
+            },
+            {
+              "property": "conversation.tfnfilename",
+              "value": "=concat(string(conversation.tfn),if(length(string(conversation.tfn))>0, \"_\", \"\") ,conversation.configExperience)"
+            },
+            {
+              "property": "conversation.startDate",
+              "value": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")"
+            }
+          ]
+        },
+        {
+          "$kind": "Optum.ConfigLoaderDialog",
+          "$designer": {
+            "id": "6OEY4V",
+            "name": "CFGBOT_GetTFNConfig"
+          },
+          "tfnExperienceName": "=conversation.tfnfilename",
+          "resultProperty": "dialog.tfnConfigResponse"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "eR9P53"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "memberRoot_CFG_GetTFNExperience",
+            "pegType": "DataInterface",
+            "request": "=conversation.tfnfilename",
+            "response": "=dialog.tfnConfigResponse",
+            "startDTM": "=conversation.startDate",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "MemberRootBot_CFG_GetTFNExperience_Peg"
+          }
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "vbaC3r"
+          },
+          "condition": "=and(string(dialog.tfnconfigresponse.status)==string('success'),!empty(dialog.tfnconfigresponse.data))",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "zt6vMl"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.tfnConfig",
+                  "value": "=json(string(dialog.tfnconfigresponse.data))"
+                }
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "BeB1pU"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.ENT_BotAction",
+                  "value": "ROUT2AGENT"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "dTZxEm"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "memberRoot_GetTFNCFG_ErrorException",
+                "pegType": "DataInterface",
+                "request": "=conversation.tfnfilename",
+                "response": "=dialog.tfnconfigresponse.data",
+                "startDTM": "=conversation.startDate",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MemberRootBot_GetTFNCFG_ErrorException_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "Oe7ptR"
+              },
+              "activityProcessed": true,
+              "dialog": "GlobalBehavior",
+              "options": {
+                "behavior": "SystemError"
+              }
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "QNfq8n"
+          },
+          "property": "conversation.tfnConfig",
+          "value": {
+            "Root_scrCM_Script": "script:EandI_BOT",
+            "Root_Greeting_WAV": "false",
+            "IDAuth_Coverage_Type_Priority": "M,B,MC,ME,MH,MS,RX",
+            "DOB_Authentication_Toggle": "ON",
+            "Root_uhcmember_disconnect_maxNI": "true",
+            "ConfirmMemIDMsg_Toggle": "ON",
+            "HoldOnGetDetails_Toggle": "ON",
+            "Root_Greeting_TTS": "United HealthCare",
+            "CM_Skill_disconnect_maxNI": "ON",
+            "idPolicySkill_disconnect_maxNI": "true",
+            "Root_uhcMember_CallerIntent_Toggle": "ON",
+            "CMSkill_AI_Suppress_Global_Verbiage_RepeatToggle": "OFF",
+            "Root_Language_Toggle": "ON",
+            "Root_ANI_Exclusion_Toggle": "OFF",
+            "Root_Greeting_Toggle": "ON",
+            "Root_AI_Suppress_Global_Verbiage_Toggle": "OFF",
+            "Root_uhcMember_XferMessage_Toggle": "ON",
+            "Policy_askDateRange_Toggle": "OFF",
+            "Root_PolicySelection_Toggle": "ON",
+            "Root_ProviderIntercept_Exclusion_Toggle": "OFF",
+            "Root_ANI_Exists_Lookup_Toggle": "ON",
+            "Root_IVRExitAppName": "MEMS",
+            "IDAuthSkill_Disconnect_MaxNI": "true",
+            "ANI_Authentication_Toggle": "ON",
+            "Last4SSN_Authentication_Toggle": "OFF",
+            "Policy_askDOS_Toggle": "OFF",
+            "Root_FL_MultiLang_Toggle": "OFF",
+            "MemberMEMRootBot_fsm": "{ \t\"name\": \"UHCMember\", \t\"state\": [ \t\t\"start\", \t\t\"playGreeting\", \t\t\"directMessage\", \t\t\"providerExclusion\", \t\t\"aniExclusion\", \t\t\"language\", \t\t\"araConversationManager\", \t\t\"callerIntent\", \t\t\"authentication\", \t\t\"policySelection\", \t\t\"sms\", \t\t\"scrConversationManager\", \t\t\"selfService\", \t\t\"transfer\" \t], \t\"initial\": \"start\", \t\"transition\": [ \t\t{ \t\t\t\"event\": \"playGreeting\", \t\t\t\"trigger\": \"NA\", \t\t\t\"from\": \"start\", \t\t\t\"to\": \"greeting\" \t\t}, \t\t{ \t\t\t\"event\": \"directMessage\", \t\t\t\"trigger\": \"directMessage\", \t\t\t\"from\": \"greeting\", \t\t\t\"to\": \"directMessage\" \t\t}, \t\t{ \t\t\t\"event\": \"providerExclusion\", \t\t\t\"trigger\": \"providerExclusion\", \t\t\t\"from\": \"directMessage\", \t\t\t\"to\": \"providerExclusion\" \t\t}, \t\t{ \t\t\t\"event\": \"aniExclusion\", \t\t\t\"trigger\": \"aniExclusion\", \t\t\t\"from\": \"providerExclusion\", \t\t\t\"to\": \"aniExclusion\" \t\t}, \t\t{ \t\t\t\"event\": \"transfer\", \t\t\t\"trigger\": \"defaultTransfer\", \t\t\t\"from\": \"providerExclusion\", \t\t\t\"to\": \"transfer\" \t\t}, \t\t{ \t\t\t\"event\": \"araConversationManager\", \t\t\t\"trigger\": \"araConversationManager\", \t\t\t\"from\": \"aniExclusion\", \t\t\t\"to\": \"araConversationManager\" \t\t}, \t\t{ \t\t\t\"event\": \"language\", \t\t\t\"trigger\": \"language\", \t\t\t\"from\": \"araConversationManager\", \t\t\t\"to\": \"language\" \t\t}, \t\t{ \t\t\t\"event\": \"transfer\", \t\t\t\"trigger\": \"defaultTransfer\", \t\t\t\"from\": \"araConversationManager\", \t\t\t\"to\": \"tansfer\" \t\t}, \t\t{ \t\t\t\"event\": \"callerIntent\", \t\t\t\"trigger\": \"callerIntent\", \t\t\t\"from\": \"language\", \t\t\t\"to\": \"callerIntent\" \t\t}, \t\t{ \t\t\t\"event\": \"transfer\", \t\t\t\"trigger\": \"defaultTransfer\", \t\t\t\"from\": \"language\", \t\t\t\"to\": \"tansfer\" \t\t}, \t\t{ \t\t\t\"event\": \"authentication\", \t\t\t\"trigger\": \"memberAuth\", \t\t\t\"from\": \"callerIntent\", \t\t\t\"to\": \"authentication\" \t\t}, \t\t{ \t\t\t\"event\": \"policySelection\", \t\t\t\"trigger\": \"policySelection\", \t\t\t\"from\": \"authentication\", \t\t\t\"to\": \"policySelection\" \t\t}, \t\t{ \t\t\t\"event\": \"transfer\", \t\t\t\"trigger\": \"defaultTransfer\", \t\t\t\"from\": \"authentication\", \t\t\t\"to\": \"transfer\" \t\t}, \t\t{ \t\t\t\"event\": \"sms\", \t\t\t\"trigger\": \"sms\", \t\t\t\"from\": \"policySelection\", \t\t\t\"to\": \"sms\" \t\t}, \t\t{ \t\t\t\"event\": \"scrConversationManager\", \t\t\t\"trigger\": \"scrConversationManager\", \t\t\t\"from\": \"sms\", \t\t\t\"to\": \"scrConversationManager\" \t\t}, \t\t{ \t\t\t\"event\": \"selfService\", \t\t\t\"trigger\": \"selfService\", \t\t\t\"from\": \"scrConversationManager\", \t\t\t\"to\": \"selfService\" \t\t}, \t\t{ \t\t\t\"event\": \"transfer\", \t\t\t\"trigger\": \"defaultTransfer\", \t\t\t\"from\": \"scrConversationManager\", \t\t\t\"to\": \"transfer\" \t\t}, \t\t{ \t\t\t\"event\": \"transfer\", \t\t\t\"trigger\": \"defaultTransfer\", \t\t\t\"from\": \"selfService\", \t\t\t\"to\": \"transfer\" \t\t}, \t\t{ \t\t\t\"event\": \"transfer\", \t\t\t\"trigger\": \"defaultTransfer\", \t\t\t\"from\": \"callerIntent\", \t\t\t\"to\": \"transfer\" \t\t}, \t\t{ \t\t\t\"event\": \"transfer\", \t\t\t\"trigger\": \"defaultTransfer\", \t\t\t\"from\": \"policySelection\", \t\t\t\"to\": \"transfer\" \t\t} \t] }",
+            "IDAuthSkill_RetryAgent_Toggle": "ON",
+            "CMSkill_AI_Global_Repeat_Toggle": "ON",
+            "MembershipSearch_Coverage_Version": "2",
+            "CallerType_Toggle": "ON",
+            "Member_Authentication_Version": "1_0_0",
+            "CMSkill_Request": "{\"_Request\":\"script:UHC_EI_Specialty_IVR\", \"_ENT_CRMOprtyStatus\":\"Return/RFC Pending\", \"_ENT_CRMOprtyType\":\"Hearing Aid & Accessories\", \"_ENT_UCID\":\"00128555411683817354\", \"_LOB\":\"UHC\"}",
+            "ANI_Exclusion_Toggle": "ON",
+            "Root_callerIntent_selfService_List": "benefits,cardReplacement,doctor",
+            "Root_callRecordingPrompt_Toggle": "ON",
+            "CMSkill_AI_Suppress_Global_Verbiage_Toggle": "OFF",
+            "TwinAuthenticationToggle": "OFF",
+            "Root_uhcMember_ProviderSearch_Toggle": "OFF",
+            "Root_callerIntentEntity_BOTSelfService_List": "findProviderChild",
+            "Root_callerIntent_BOTSelfService_List": "doctor",
+            "Root_uhcMember_Authentication_Toggle": "ON",
+            "Phone_Nbr_Prompt_Toggle": "OFF",
+            "confirmMultiplePolicyToggle": "ON",
+            "MR_TFN_PrescriptonDrugPlan": "OFF",
+            "IDAuthSkill_RetryDontKnow_Toggle": "ON",
+            "Root_araConversationManager_Toggle": "ON",
+            "Root_DirectMessage_Toggle": "OFF",
+            "Root_SMS_Msg_LOB": "E&I",
+            "ID_Auth_ID_Menu_Type": "MEMID",
+            "MW_Retry_Toggle": "ON",
+            "Root_scrConversationManager_Toggle": "ON",
+            "Root_selfService_Toggle": "ON",
+            "ZIPAuthenticationToggle": "OFF",
+            "Root_uhcMember_BenefitAndEligibility_Toggle": "ON",
+            "IsSupMediPlan_Toggle_PolicySelectionSkill": "ON",
+            "Root_providerIntercept_Toggle": "ON",
+            "Root_callerIntentEntity_IVRSelfService_List": "benefitsEligChild,benefitsDeductibleChild,benefitsCopayChild,benefitsOutOfPocketChild,benefitsCoinsuranceChild,benefitsMedicalChild,benefitsTreatmentChild,cardGeneralChild,doctorGeneralChild,findProviderChild",
+            "Root_selfService_available": "",
+            "idPolicySkill_retryAgent_toggle": "ON",
+            "CMSkill_Disabled_Campaigns": "",
+            "Root_RestrictedANI_List": "800,888,877,866,855,844,833",
+            "Member_Authentication_Toggle": "ON",
+            "CMSkill_retryAgent_toggle": "ON",
+            "Root_SMS_Msg_Toggle": "ON",
+            "nicePolicySelection_Toggle": "ON",
+            "Root_FindProvider_Toggle": "ON"
+          },
+          "disabled": true
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "zOsabJ"
+          },
+          "property": "dialog.tfnFound",
+          "value": true
+        }
+      ]
+    }
+  ],
+  "generator": "SetTFNConfig.lg",
+  "recognizer": "SetTFNConfig.lu.qna",
+  "id": "SetTFNConfig"
+}

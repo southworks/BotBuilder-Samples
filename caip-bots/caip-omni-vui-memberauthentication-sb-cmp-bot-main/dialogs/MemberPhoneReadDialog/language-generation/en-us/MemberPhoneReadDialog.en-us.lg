@@ -1,0 +1,24 @@
+> !# @Namespace=MemberPhoneReadDialog
+> !# @Exports = SendActivity_AuthLookupPhoneFail
+[import](common.lg)
+
+# SendActivity_AuthLookupPhoneFail()
+[Activity
+    Text = ${AuthLookupPhoneFailTemplate()}
+    Speak = ${AuthLookupPhoneFailTemplate()}
+    InputHint = ignoringInput
+        ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: false,
+            bargeIn: false,
+            bargeInOnDTMF: false,
+            dtmfCollect: false
+        }
+    }
+}
+]
+
+# AuthLookupPhoneFailTemplate()
+- Sorry. Let's try that a different way
+

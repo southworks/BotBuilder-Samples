@@ -1,0 +1,109 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "ZqRwDg",
+    "name": "AgentDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "NZbIww"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "e96VNk"
+          },
+          "condition": "or(!conversation.tfnConfig.IDAuthSkill_RetryAgent_Toggle ,conversation.tfnConfig.IDAuthSkill_RetryAgent_Toggle ==\"ON\")",
+          "actions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "MY6yxU"
+              },
+              "condition": "=!conversation.agentCalled",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "CnrFnS"
+                  },
+                  "property": "conversation.agentCalled",
+                  "value": true
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "btW3ig"
+                  },
+                  "activity": "${SendActivity_AuthAgentRequestMsg()}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "vwnB1k"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "01004",
+                    "pegType": "General",
+                    "request": "=AgentDialog.SendActivity_AuthAgentRequestMsg()",
+                    "response": "",
+                    "startDTM": "=conversation.startDate",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "MembAuthSkill_AuthAgentRequest_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "68MQ5b"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "RepeatMessages"
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "GTSzFY"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "GlobalContainer",
+                  "options": {
+                    "globalParam": "agent"
+                  }
+                }
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "ohfEhO"
+              },
+              "activityProcessed": true,
+              "dialog": "GlobalContainer",
+              "options": {
+                "globalParam": "agent"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "AgentDialog.lg",
+  "recognizer": "AgentDialog.lu.qna",
+  "id": "AgentDialog"
+}

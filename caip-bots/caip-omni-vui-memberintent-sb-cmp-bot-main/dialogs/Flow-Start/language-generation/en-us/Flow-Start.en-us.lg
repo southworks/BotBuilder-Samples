@@ -1,0 +1,67 @@
+> !# @Namespace = StartFlow
+> !# @Exports = IntentCaptureInitial_V2, IntentCaptureInitial, IntentCaptureRepeatVerbiage, IntentCaptureRetry, ConfirmIntent, AgentTransferCapture
+
+[import](common.lg)
+
+
+# IntentCaptureInitial()
+[Activity
+    Text = ${IntentCaptureInitial_text()}
+    Speak = ${IntentCaptureInitial_text()}
+    InputHint = expectingInput
+    ChannelData = ${StartPrompts_ActivityParams(1500)}
+]
+
+# IntentCaptureInitial_V2()
+[Activity
+    Text = ${UHCMember_IntentCapture_V2_text()}
+    Speak = ${UHCMember_IntentCapture_V2_text()}
+    InputHint = expectingInput
+    ChannelData = ${StartPrompts_ActivityParams(1500)}
+]
+# IntentCaptureRetry()
+[Activity
+    Text = ${IntentCaptureRetry_text()}
+    Speak = ${IntentCaptureRetry_text()}
+    InputHint = expectingInput
+    ChannelData = ${StartPrompts_ActivityParams(1500)}
+]
+
+# ConfirmIntent()
+[Activity
+    Text = ${ConfirmIntent_text()}
+    Speak = ${ConfirmIntent_text()}
+    InputHint = expectingInput
+    ChannelData = ${StartPrompts_ActivityParams(1500)}
+]
+
+# AgentTransferCapture()
+[Activity
+    Text = ${AgentTransferCapture_text()}
+    Speak = ${AgentTransferCapture_text()}
+    InputHint = expectingInput
+     ChannelData = ${
+        {
+            activityParams:{
+                sttDisablePunctuation:true,
+                continuousASR: true,
+                continuousASRTimeoutInMS: 1500,
+                continuousASRDigits: "#",
+                sendDTMF: true,
+                bargeIn: true,
+                bargeInOnDTMF: true,
+                dtmfCollect: true,
+                dtmfCollectInterDigitTimeoutMS: 1000,
+                dtmfCollectMaxDigits: 1
+            }
+        }
+    }
+]
+
+# IntentCaptureRepeatVerbiage()
+[Activity
+    Text = ${IntentCaptureRepeatVerbiage_text()}
+    Speak = ${IntentCaptureRepeatVerbiage_text()}
+    InputHint = expectingInput
+    ChannelData = ${StartPrompts_ActivityParams(1500)}
+]

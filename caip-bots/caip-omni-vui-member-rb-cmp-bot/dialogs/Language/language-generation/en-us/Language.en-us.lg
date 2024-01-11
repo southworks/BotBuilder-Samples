@@ -1,0 +1,47 @@
+[import](common.lg)
+> !# @Namespace = Language
+> !# @Exports = SendActivity_SpanishPrompt, SendActivity_SpanishXfer
+# SendActivity_SpanishPrompt()
+[Activity
+    Text = ${SpanishPrompt_text()}
+    Speak = ${SpanishPrompt_text()}
+    InputHint = expectingInput
+    channelData = ${
+        {
+            activityParams: {
+                sttDisablePunctuation: true, 
+                continuousASR: true, 
+                continuousASRTimeoutInMS: 1000, 
+                continuousASRDigits: "#", 
+                sendDTMF: true, 
+                bargeIn: true, 
+                bargeInOnDTMF: true, 
+                dtmfCollect: true, 
+                dtmfCollectSubmitDigit: "#", 
+                dtmfCollectMaxDigits: 1,
+                userNoInputTimeoutMS: 3000,
+                ttsProvider: settings.spanishTTSProvider,
+                voiceName: "es-US-AlonsoNeural",
+                userNoInputRetries:0
+            }
+        }
+    }
+]
+
+# SendActivity_SpanishXfer()
+[Activity
+    Text = ${SpanishXfer_text()}
+    Speak = ${SpanishXfer_text()}
+    InputHint = ignoringInput
+    channelData = ${
+        {
+            activityParams: {                
+                sendDTMF: false, 
+                bargeIn: false, 
+                bargeInOnDTMF: false,                
+                ttsProvider: settings.spanishTTSProvider,
+                voiceName: "es-US-AlonsoNeural"
+            }
+        }
+    }
+]

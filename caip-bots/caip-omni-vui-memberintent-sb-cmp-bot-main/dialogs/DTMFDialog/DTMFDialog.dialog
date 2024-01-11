@@ -1,0 +1,515 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "jtiUqy",
+    "name": "DTMFDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "S5wlDB"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "fTEsW8"
+          },
+          "condition": "=dialog.activityValue",
+          "cases": [
+            {
+              "value": "0",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "yLaK4G"
+                  },
+                  "condition": "=conversation.flowState.flowPreviousPrompt",
+                  "cases": [
+                    {
+                      "value": "mentalHealthGeneral",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "Y4Y7xi"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LoadEntityConfig",
+                          "options": {
+                            "luisIntent": "mentalHealth",
+                            "context": "=conversation.flowState.flowPreviousPrompt",
+                            "luisEntity": "=''"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "wonShW"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "Transfer",
+                          "options": {
+                            "behavior": "EndSkill"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "value": "paymentDisambig",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "buP7j0"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LoadEntityConfig",
+                          "options": {
+                            "luisIntent": "makePayment",
+                            "context": "=conversation.flowState.flowPreviousPrompt",
+                            "luisEntity": "=''"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "ioSp0s"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "Transfer",
+                          "options": {
+                            "behavior": "EndSkill"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "value": "solutranUpfront",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "EF4mPK"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "OpenEnrollmentUpfront"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "openEnrollmentUpfront",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "WNGLwp"
+                          },
+                          "property": "conversation.flowState.flowNextPrompt",
+                          "value": "Enrollment_CaptureMnu"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "C0c1RT"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "Flow-Start"
+                        }
+                      ]
+                    }
+                  ],
+                  "default": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "Zkr0vz"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "NoMatchInput"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "1",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "MhmShJ"
+                  },
+                  "condition": "=conversation.flowState.flowPreviousPrompt",
+                  "cases": [
+                    {
+                      "value": "preApprovalRx",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "MEjIjz"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LoadEntityConfig",
+                          "options": {
+                            "luisIntent": "pharmacy",
+                            "context": "preApprovalRx",
+                            "luisEntity": "pharmacySpecialtyChild"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "hmVSCk"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "CallerType"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "mentalHealthGeneral",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "jB5dwC",
+                            "name": "With context"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LoadEntityConfig",
+                          "options": {
+                            "luisIntent": "claims",
+                            "luisEntity": "claimsML",
+                            "context": "=conversation.flowState.flowPreviousPrompt"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "mnvsfD"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "CallerType"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "paymentDisambig",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "buP7j0"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LoadEntityConfig",
+                          "options": {
+                            "luisIntent": "yes",
+                            "context": "=conversation.flowState.flowPreviousPrompt",
+                            "luisEntity": "=''"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "ioSp0s"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "Transfer",
+                          "options": {
+                            "behavior": "EndSkill"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "value": "solutranUpfront",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "xZ8hav"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LoadEntityConfig",
+                          "options": {
+                            "luisIntent": "solutran",
+                            "context": "=''",
+                            "luisEntity": "=''"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "KIOgyJ"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "Transfer",
+                          "options": {
+                            "behavior": "EndSkill"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "value": "openEnrollmentUpfront",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "WmqA2F"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LoadEntityConfig",
+                          "options": {
+                            "luisIntent": "enrollment",
+                            "context": "=''",
+                            "luisEntity": "enrollmentML"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "18pXAs"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "Transfer",
+                          "options": {
+                            "behavior": "EndSkill"
+                          }
+                        }
+                      ]
+                    }
+                  ],
+                  "default": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "LJctNR"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "NoMatchInput"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "2",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "EM1ohi"
+                  },
+                  "condition": "=conversation.flowState.flowPreviousPrompt",
+                  "cases": [
+                    {
+                      "value": "preApprovalRx",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "iJIJb9"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LoadEntityConfig",
+                          "options": {
+                            "luisIntent": "somethingElse",
+                            "context": "preApprovalRx",
+                            "luisEntity": "=''"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "d2zaFj"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "CallerType"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "mentalHealthGeneral",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "UXb5un",
+                            "name": "With context"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LoadEntityConfig",
+                          "options": {
+                            "luisIntent": "benefits",
+                            "luisEntity": "benefits1ML",
+                            "context": "=conversation.flowState.flowPreviousPrompt"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "n1o2TD"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "CallerType"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "paymentDisambig",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "buP7j0"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LoadEntityConfig",
+                          "options": {
+                            "luisIntent": "makePayment",
+                            "context": "=conversation.flowState.flowPreviousPrompt",
+                            "luisEntity": "=''"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "ioSp0s"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "Transfer",
+                          "options": {
+                            "behavior": "EndSkill"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "value": "solutranUpfront",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "2ozJR3"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "OpenEnrollmentUpfront"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "openEnrollmentUpfront",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "0lDBGL"
+                          },
+                          "property": "conversation.flowState.flowNextPrompt",
+                          "value": "Enrollment_CaptureMnu"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "vQ2Xb7"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "Flow-Start"
+                        }
+                      ]
+                    }
+                  ],
+                  "default": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "1TWVDi"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "NoMatchInput"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "3",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "EhAc3L"
+                  },
+                  "condition": "=conversation.flowState.flowPreviousPrompt",
+                  "cases": [
+                    {
+                      "value": "mentalHealthGeneral",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "Lfnt6M",
+                            "name": "With context"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LoadEntityConfig",
+                          "options": {
+                            "luisIntent": "somethingElse",
+                            "luisEntity": "=''",
+                            "context": "=conversation.flowState.flowPreviousPrompt"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "815WiU"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "CallerType"
+                        }
+                      ]
+                    }
+                  ],
+                  "default": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "178yXE"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "NoMatchInput"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "ADW7hO"
+              },
+              "activityProcessed": true,
+              "dialog": "NoMatchInput"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "DTMFDialog.lg",
+  "recognizer": "DTMFDialog.lu.qna",
+  "id": "DTMFDialog"
+}

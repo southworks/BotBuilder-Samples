@@ -1,0 +1,3 @@
+> !# @Namespace=DTMFDialog
+> !# @Exports = AniTypeMsg
+[import](common.lg)

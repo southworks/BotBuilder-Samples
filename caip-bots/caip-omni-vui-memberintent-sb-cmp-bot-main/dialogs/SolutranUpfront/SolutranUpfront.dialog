@@ -1,0 +1,109 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "smYRPD",
+    "name": "SolutranUpfront",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "gqNheu"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "fUIynj",
+            "name": "Toggle Solutran?"
+          },
+          "condition": "=conversation.tfnConfig.CallerIntent_SolutranDisambig_Toggle == 'ON'",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "tvMu3q"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.flowState.flowPreviousPrompt",
+                  "value": "='solutranUpfront'"
+                },
+                {
+                  "value": "=conversation.flowState.flowPreviousPrompt",
+                  "property": "conversation.flowState.flowNextPrompt"
+                },
+                {
+                  "property": "conversation.solutranGreetingMessage",
+                  "value": true
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "VmYnIQ"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.flowState.noMatchCount",
+                  "value": 0
+                },
+                {
+                  "property": "conversation.flowState.noUserInputCount",
+                  "value": 0
+                },
+                {
+                  "property": "conversation.flowState.failedCount",
+                  "value": 0
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "HCrUgn"
+              },
+              "activity": "${UHCMember_SolutranUpfront_Msg()}"
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "2M3LaX"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "=MainDialog.PegVal('')",
+                "pegType": "InputAsk",
+                "request": "=SolutranUpfront.UHCMember_SolutranUpfront_Msg()",
+                "response": "",
+                "startDTM": "=conversation.startDate",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt,'_Prmt')"
+              }
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "30feCH"
+              },
+              "activityProcessed": true,
+              "dialog": "OpenEnrollmentUpfront"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "SolutranUpfront.lg",
+  "recognizer": "SolutranUpfront.lu.qna",
+  "id": "SolutranUpfront"
+}

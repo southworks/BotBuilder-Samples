@@ -1,0 +1,1235 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "kVp8Tb",
+    "name": "GlobalContainer",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "5f6LQK"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "JJUbl8"
+          },
+          "property": "conversation.startDate",
+          "value": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "N3SbqY"
+          },
+          "property": "conversation.globalVal",
+          "value": "=dialog.globalParam"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "xEzrii"
+          },
+          "condition": "=conversation.globalVal",
+          "cases": [
+            {
+              "value": "systemerror",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "upW2kX"
+                  },
+                  "activity": "${AuthSystemErrorMsg()}"
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "D0VgXv"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.IVRTransferReason",
+                      "value": "4"
+                    },
+                    {
+                      "property": "conversation.setEvent",
+                      "value": "transfer"
+                    },
+                    {
+                      "property": "conversation.silentTransfer",
+                      "value": "true"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "AVcDMg"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.transferReason",
+                      "value": "SystemError"
+                    },
+                    {
+                      "property": "conversation.transferPeg",
+                      "value": "02003"
+                    },
+                    {
+                      "property": "conversation.skillResponseParams",
+                      "value": "=addProperty(conversation.skillResponseParams,\"transferReason\",conversation.transferReason)"
+                    },
+                    {
+                      "property": "conversation.skillResponseParams",
+                      "value": "=addProperty(conversation.skillResponseParams,\"transferPeg\",conversation.transferPeg)"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "jVd4bw"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.skillResponseParams",
+                      "value": "=addProperty(conversation.skillResponseParams,\"setEvent\",conversation.setEvent)"
+                    },
+                    {
+                      "property": "conversation.skillResponseParams",
+                      "value": "=addProperty(conversation.skillResponseParams,\"authFlag\",conversation.authFlag)"
+                    },
+                    {
+                      "property": "conversation.skillResponse",
+                      "value": "=setProperty(conversation.skillResponse,\"transferReasonCode\",conversation.IVRTransferReason)"
+                    },
+                    {
+                      "property": "conversation.skillResponse",
+                      "value": "=setProperty(conversation.skillResponse,\"errorCode\",dialog.errorCode)"
+                    },
+                    {
+                      "property": "conversation.skillResponse",
+                      "value": "=setProperty(conversation.skillResponse,\"errorMessage\",dialog.errorMessage)"
+                    },
+                    {
+                      "property": "conversation.skillResponse",
+                      "value": "=addProperty(conversation.skillResponse,\"parameters\",conversation.skillResponseParams)"
+                    },
+                    {
+                      "property": "conversation.skillResponse",
+                      "value": "=setProperty(conversation.skillResponse,\"silentTransfer\",conversation.silentTransfer)"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "i9tRTa"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "01003",
+                    "pegType": "General",
+                    "request": "=GlobalContainer.AuthSystemErrorMsg()",
+                    "response": "=conversation.skillResponse",
+                    "startDTM": "=conversation.startDate",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "ConversationManagerSkill_AuthSystemError_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.CancelAllDialogs",
+                  "$designer": {
+                    "id": "wwvq3j"
+                  },
+                  "activityProcessed": true,
+                  "eventName": "endSkill",
+                  "eventValue": "=conversation.skillResponse"
+                }
+              ]
+            },
+            {
+              "value": "maxnomatch",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "BsYCUo"
+                  },
+                  "activity": "${AuthMaxNMMsg()}"
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "71MjQ0"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.IVRTransferReason",
+                      "value": "M"
+                    },
+                    {
+                      "property": "conversation.setEvent",
+                      "value": "transfer"
+                    },
+                    {
+                      "property": "conversation.silentTransfer",
+                      "value": "true"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "BOw1rv"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.transferReason",
+                      "value": "=concat(conversation.inputVal, \"_MaxNoMatch\")"
+                    },
+                    {
+                      "property": "conversation.transferPeg",
+                      "value": "01000"
+                    },
+                    {
+                      "property": "conversation.skillResponseParams",
+                      "value": "=addProperty(conversation.skillResponseParams,\"transferReason\",conversation.transferReason)"
+                    },
+                    {
+                      "property": "conversation.skillResponseParams",
+                      "value": "=addProperty(conversation.skillResponseParams,\"transferPeg\",conversation.transferPeg)"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "m9nwMc"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.skillResponseParams",
+                      "value": "=addProperty(conversation.skillResponseParams,\"setEvent\",conversation.setEvent)"
+                    },
+                    {
+                      "property": "conversation.skillResponseParams",
+                      "value": "=addProperty(conversation.skillResponseParams,\"authFlag\",conversation.authFlag)"
+                    },
+                    {
+                      "property": "conversation.skillResponse",
+                      "value": "=setProperty(conversation.skillResponse,\"transferReasonCode\",conversation.IVRTransferReason)"
+                    },
+                    {
+                      "property": "conversation.skillResponse",
+                      "value": "=addProperty(conversation.skillResponse,\"parameters\",conversation.skillResponseParams)"
+                    },
+                    {
+                      "property": "conversation.skillResponse",
+                      "value": "=setProperty(conversation.skillResponse,\"silentTransfer\",conversation.silentTransfer)"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "fCqYu7"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "01000",
+                    "pegType": "General",
+                    "request": "=GlobalContainer.AuthMaxNMMsg()",
+                    "response": "=conversation.skillResponse",
+                    "startDTM": "=conversation.startDate",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "ConversationManagerSkill_AuthMaxNoMatch_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.CancelAllDialogs",
+                  "$designer": {
+                    "id": "BxSPra"
+                  },
+                  "activityProcessed": true,
+                  "eventName": "endSkill",
+                  "eventValue": "=conversation.skillResponse"
+                }
+              ]
+            },
+            {
+              "value": "maxnoinput",
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "TR24bL"
+                  },
+                  "condition": "=string(conversation.tfnConfig.CM_Skill_disconnect_maxNI)==\"ON\"",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "Bddz1F"
+                      },
+                      "activity": "${AuthMaxNIDisconnectMsg()}"
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "CJZ76U"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.IVRTransferReason",
+                          "value": "0"
+                        },
+                        {
+                          "property": "conversation.setEvent",
+                          "value": "transfer"
+                        },
+                        {
+                          "property": "conversation.silentTransfer",
+                          "value": "true"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "4DJ8p3"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.transferReason",
+                          "value": "=concat(conversation.inputVal, \"_MaxNoInputDisconnectON\")"
+                        },
+                        {
+                          "property": "conversation.transferPeg",
+                          "value": "01002"
+                        },
+                        {
+                          "property": "conversation.skillResponseParams",
+                          "value": "=addProperty(conversation.skillResponseParams,\"transferReason\",conversation.transferReason)"
+                        },
+                        {
+                          "property": "conversation.skillResponseParams",
+                          "value": "=addProperty(conversation.skillResponseParams,\"transferPeg\",conversation.transferPeg)"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "BH9QlS"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.skillResponseParams",
+                          "value": "=addProperty(conversation.skillResponseParams,\"setEvent\",conversation.setEvent)"
+                        },
+                        {
+                          "property": "conversation.skillResponseParams",
+                          "value": "=addProperty(conversation.skillResponseParams,\"authFlag\",conversation.authFlag)"
+                        },
+                        {
+                          "property": "conversation.skillResponse",
+                          "value": "=setProperty(conversation.skillResponse,\"transferReasonCode\",conversation.IVRTransferReason)"
+                        },
+                        {
+                          "property": "conversation.skillResponse",
+                          "value": "=addProperty(conversation.skillResponse,\"parameters\",conversation.skillResponseParams)"
+                        },
+                        {
+                          "value": "=setProperty(conversation.skillResponse,\"silentTransfer\",conversation.silentTransfer)",
+                          "property": "conversation.skillResponse"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "QckXek"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "01002",
+                        "pegType": "General",
+                        "request": "=GlobalContainer.AuthMaxNIDisconnectMsg()",
+                        "response": "=conversation.skillResponse",
+                        "startDTM": "=conversation.startDate",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "ConversationManagerSkill_AuthMaxNoInputDisconnect_Peg"
+                      }
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "IIyE5I"
+                      },
+                      "activity": "${AuthMaxNITransferMsg()}"
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "LhWNIr"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.IVRTransferReason",
+                          "value": "N"
+                        },
+                        {
+                          "property": "conversation.setEvent",
+                          "value": "transfer"
+                        },
+                        {
+                          "property": "conversation.silentTransfer",
+                          "value": "true"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "1sXDyv"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.transferReason",
+                          "value": "=concat(conversation.inputVal, \"_MaxNoInputDisconnectOFF\")"
+                        },
+                        {
+                          "property": "conversation.transferPeg",
+                          "value": "01001"
+                        },
+                        {
+                          "property": "conversation.skillResponseParams",
+                          "value": "=addProperty(conversation.skillResponseParams,\"transferReason\",conversation.transferReason)"
+                        },
+                        {
+                          "property": "conversation.skillResponseParams",
+                          "value": "=addProperty(conversation.skillResponseParams,\"transferPeg\",conversation.transferPeg)"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "6Xh4qX"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.skillResponseParams",
+                          "value": "=addProperty(conversation.skillResponseParams,\"setEvent\",conversation.setEvent)"
+                        },
+                        {
+                          "property": "conversation.skillResponseParams",
+                          "value": "=addProperty(conversation.skillResponseParams,\"authFlag\",conversation.authFlag)"
+                        },
+                        {
+                          "property": "conversation.skillResponse",
+                          "value": "=setProperty(conversation.skillResponse,\"transferReasonCode\",conversation.IVRTransferReason)"
+                        },
+                        {
+                          "property": "conversation.skillResponse",
+                          "value": "=addProperty(conversation.skillResponse,\"parameters\",conversation.skillResponseParams)"
+                        },
+                        {
+                          "value": "=setProperty(conversation.skillResponse,\"silentTransfer\",conversation.silentTransfer)",
+                          "property": "conversation.skillResponse"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "ScTvVK"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "01001",
+                        "pegType": "General",
+                        "request": "=GlobalContainer.AuthMaxNITransferMsg()",
+                        "response": "=conversation.skillResponse",
+                        "startDTM": "=conversation.startDate",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "ConversationManagerSkill_AuthMaxNoInputTransfer_Peg"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.CancelAllDialogs",
+                  "$designer": {
+                    "id": "jIoBGr"
+                  },
+                  "activityProcessed": true,
+                  "eventName": "endSkill",
+                  "eventValue": "=conversation.skillResponse"
+                }
+              ]
+            },
+            {
+              "value": "agent",
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "6i5AvU"
+                  },
+                  "condition": "=string(conversation.tfnConfig.CMSkill_retryAgent_toggle)==\"ON\"",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "XgO2Dn"
+                      },
+                      "condition": "=conversation.agentFlag==1",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "rSplwq"
+                          },
+                          "property": "conversation.agentFlag",
+                          "value": "=add(conversation.agentFlag,1)"
+                        },
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "b550Sn"
+                          },
+                          "activity": "${AuthAgentRequestMsg()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "swGYWa"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "01004",
+                            "pegType": "General",
+                            "request": "Global Container Auth Agent Request Prompt",
+                            "response": "=GlobalContainer.AuthAgentRequestMsg()",
+                            "startDTM": "=conversation.startDate",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "ConversationManagerSkill_AuthAgentRequest_Peg"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "fAVk4a"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "RepeatMessages"
+                        }
+                      ],
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "LnTfhK"
+                          },
+                          "activity": "${AuthAgentXferMsg()}"
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "z8owhf"
+                          },
+                          "assignments": [
+                            {
+                              "property": "conversation.IVRTransferReason",
+                              "value": "3"
+                            },
+                            {
+                              "property": "conversation.setEvent",
+                              "value": "transfer"
+                            },
+                            {
+                              "property": "conversation.silentTransfer",
+                              "value": "true"
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "7KnrAO"
+                          },
+                          "assignments": [
+                            {
+                              "property": "conversation.transferReason",
+                              "value": "=concat(conversation.inputVal, \"_MaxAgent\")"
+                            },
+                            {
+                              "property": "conversation.transferPeg",
+                              "value": "01005"
+                            },
+                            {
+                              "property": "conversation.skillResponseParams",
+                              "value": "=addProperty(conversation.skillResponseParams,\"transferReason\",conversation.transferReason)"
+                            },
+                            {
+                              "property": "conversation.skillResponseParams",
+                              "value": "=addProperty(conversation.skillResponseParams,\"transferPeg\",conversation.transferPeg)"
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "nMHHZr"
+                          },
+                          "assignments": [
+                            {
+                              "property": "conversation.skillResponseParams",
+                              "value": "=addProperty(conversation.skillResponseParams,\"setEvent\",conversation.setEvent)"
+                            },
+                            {
+                              "property": "conversation.skillResponseParams",
+                              "value": "=addProperty(conversation.skillResponseParams,\"authFlag\",conversation.authFlag)"
+                            },
+                            {
+                              "property": "conversation.skillResponse",
+                              "value": "=setProperty(conversation.skillResponse,\"transferReasonCode\",conversation.IVRTransferReason)"
+                            },
+                            {
+                              "property": "conversation.skillResponse",
+                              "value": "=addProperty(conversation.skillResponse,\"parameters\",conversation.skillResponseParams)"
+                            },
+                            {
+                              "property": "conversation.skillResponse",
+                              "value": "=setProperty(conversation.skillResponse,\"silentTransfer\",conversation.silentTransfer)"
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "LWui5I"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "01005",
+                            "pegType": "General",
+                            "request": "=GlobalContainer.AuthAgentXferMsg()",
+                            "response": "=conversation.skillResponse",
+                            "startDTM": "=conversation.startDate",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "ConversationManagerSkill_AuthAgentXfer_Peg"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.CancelAllDialogs",
+                          "$designer": {
+                            "id": "Xabggy"
+                          },
+                          "activityProcessed": true,
+                          "eventName": "endSkill",
+                          "eventValue": "=conversation.skillResponse"
+                        }
+                      ]
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "YS6Pod"
+                      },
+                      "activity": "${AuthAgentXferMsg()}"
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "Z9OByi"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.IVRTransferReason",
+                          "value": "3"
+                        },
+                        {
+                          "property": "conversation.setEvent",
+                          "value": "transfer"
+                        },
+                        {
+                          "property": "conversation.silentTransfer",
+                          "value": "true"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "KAbGP0"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.transferReason",
+                          "value": "=concat(conversation.inputVal, \"_RetryAgentOFF\")"
+                        },
+                        {
+                          "property": "conversation.transferPeg",
+                          "value": "01005"
+                        },
+                        {
+                          "property": "conversation.skillResponseParams",
+                          "value": "=addProperty(conversation.skillResponseParams,\"transferReason\",conversation.transferReason)"
+                        },
+                        {
+                          "property": "conversation.skillResponseParams",
+                          "value": "=addProperty(conversation.skillResponseParams,\"transferPeg\",conversation.transferPeg)"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "T9Vtdz"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.skillResponseParams",
+                          "value": "=addProperty(conversation.skillResponseParams,\"setEvent\",conversation.setEvent)"
+                        },
+                        {
+                          "property": "conversation.skillResponseParams",
+                          "value": "=addProperty(conversation.skillResponseParams,\"authFlag\",conversation.authFlag)"
+                        },
+                        {
+                          "property": "conversation.skillResponse",
+                          "value": "=setProperty(conversation.skillResponse,\"transferReasonCode\",conversation.IVRTransferReason)"
+                        },
+                        {
+                          "property": "conversation.skillResponse",
+                          "value": "=addProperty(conversation.skillResponse,\"parameters\",conversation.skillResponseParams)"
+                        },
+                        {
+                          "value": "=setProperty(conversation.skillResponse,\"silentTransfer\",conversation.silentTransfer)",
+                          "property": "conversation.skillResponse"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "01pqhT"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "01005",
+                        "pegType": "General",
+                        "request": "=GlobalContainer.AuthAgentXferMsg()",
+                        "response": "=conversation.skillResponse",
+                        "startDTM": "=conversation.startDate",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "ConversationManagerSkill_AuthAgentXfer_Peg"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.CancelAllDialogs",
+                      "$designer": {
+                        "id": "QfLsLO"
+                      },
+                      "activityProcessed": true,
+                      "eventName": "endSkill",
+                      "eventValue": "=conversation.skillResponse"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "goodbye",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "3l6qbt"
+                  },
+                  "activity": "${SendActivity_GoodByeMsg()}"
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "k07EeL"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.IVRTransferReason",
+                      "value": "0"
+                    },
+                    {
+                      "property": "conversation.setEvent",
+                      "value": "HU"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "P5qwEw"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.transferReason",
+                      "value": "=concat(conversation.inputVal, \"_Goodbye\")"
+                    },
+                    {
+                      "property": "conversation.transferPeg",
+                      "value": "01124"
+                    },
+                    {
+                      "property": "conversation.skillResponseParams",
+                      "value": "=addProperty(conversation.skillResponseParams,\"transferReason\",conversation.transferReason)"
+                    },
+                    {
+                      "property": "conversation.skillResponseParams",
+                      "value": "=addProperty(conversation.skillResponseParams,\"transferPeg\",conversation.transferPeg)"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "SA9w3x"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.skillResponseParams",
+                      "value": "=addProperty(conversation.skillResponseParams,\"setEvent\",conversation.setEvent)"
+                    },
+                    {
+                      "property": "conversation.skillResponse",
+                      "value": "=setProperty(conversation.skillResponse,\"transferReasonCode\",conversation.IVRTransferReason)"
+                    },
+                    {
+                      "property": "conversation.skillResponse",
+                      "value": "=addProperty(conversation.skillResponse,\"parameters\",conversation.skillResponseParams)"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "WXlxgo"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "01124",
+                    "pegType": "General",
+                    "request": "=GlobalContainer.SendActivity_GoodByeMsg()",
+                    "response": "=conversation.skillResponse",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "ConversationManagerSkill_GoodBye_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.CancelAllDialogs",
+                  "$designer": {
+                    "id": "YQZTbZ"
+                  },
+                  "activityProcessed": true,
+                  "eventName": "endSkill",
+                  "eventValue": "=conversation.skillResponse"
+                }
+              ]
+            },
+            {
+              "value": "repeat",
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "lZPsVa"
+                  },
+                  "condition": "=string(conversation.tfnConfig.CMSkill_AI_Suppress_Global_Verbiage_RepeatToggle)==\"ON\"",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "SaOv0G"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.IVRTransferReason",
+                          "value": "X"
+                        },
+                        {
+                          "property": "conversation.setEvent",
+                          "value": "transfer"
+                        },
+                        {
+                          "property": "conversation.silentTransfer",
+                          "value": "false"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "6SLhqU"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.transferReason",
+                          "value": "=concat(conversation.inputVal, \"_AI_Suppress_Global_Verbiage_Toggle_ON\")"
+                        },
+                        {
+                          "property": "conversation.transferPeg",
+                          "value": "00809"
+                        },
+                        {
+                          "property": "conversation.skillResponseParams",
+                          "value": "=addProperty(conversation.skillResponseParams,\"transferReason\",conversation.transferReason)"
+                        },
+                        {
+                          "property": "conversation.skillResponseParams",
+                          "value": "=addProperty(conversation.skillResponseParams,\"transferPeg\",conversation.transferPeg)"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "MJFZ7Z"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.skillResponseParams",
+                          "value": "=addProperty(conversation.skillResponseParams,\"setEvent\",conversation.setEvent)"
+                        },
+                        {
+                          "property": "conversation.skillResponse",
+                          "value": "=setProperty(conversation.skillResponse,\"transferReasonCode\",conversation.IVRTransferReason)"
+                        },
+                        {
+                          "property": "conversation.skillResponse",
+                          "value": "=addProperty(conversation.skillResponse,\"parameters\",conversation.skillResponseParams)"
+                        },
+                        {
+                          "property": "conversation.skillResponse",
+                          "value": "=setProperty(conversation.skillResponse,\"silentTransfer\",conversation.silentTransfer)"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "G1jMbq"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "00809",
+                        "pegType": "General",
+                        "request": "CMSkill_AI_Suppress_Global_Verbiage_RepeatToggle ON",
+                        "response": "=conversation.skillResponse",
+                        "startDTM": "=conversation.startDate",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "ConversationManagerSkill_AI_Suppress_Global_Verbiage_Toggle_ON_Peg"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.CancelAllDialogs",
+                      "$designer": {
+                        "id": "aXy33s"
+                      },
+                      "activityProcessed": true,
+                      "eventName": "endSkill",
+                      "eventValue": "=conversation.skillResponse"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "FiO70Y"
+                      },
+                      "condition": "=string(conversation.tfnConfig.CMSkill_AI_Global_Repeat_Toggle)==\"ON\"",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "8ywFnQ"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "RepeatMessages"
+                        }
+                      ],
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "a3qdLT"
+                          },
+                          "assignments": [
+                            {
+                              "property": "conversation.IVRTransferReason",
+                              "value": "X"
+                            },
+                            {
+                              "property": "conversation.setEvent",
+                              "value": "transfer"
+                            },
+                            {
+                              "property": "conversation.silentTransfer",
+                              "value": "true"
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "gVxX6X"
+                          },
+                          "assignments": [
+                            {
+                              "property": "conversation.transferReason",
+                              "value": "=concat(conversation.inputVal, \"_Repeat\")"
+                            },
+                            {
+                              "property": "conversation.transferPeg",
+                              "value": "01012"
+                            },
+                            {
+                              "property": "conversation.skillResponseParams",
+                              "value": "=addProperty(conversation.skillResponseParams,\"transferReason\",conversation.transferReason)"
+                            },
+                            {
+                              "property": "conversation.skillResponseParams",
+                              "value": "=addProperty(conversation.skillResponseParams,\"transferPeg\",conversation.transferPeg)"
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "rv2ETj"
+                          },
+                          "assignments": [
+                            {
+                              "property": "conversation.skillResponseParams",
+                              "value": "=addProperty(conversation.skillResponseParams,\"setEvent\",conversation.setEvent)"
+                            },
+                            {
+                              "property": "conversation.skillResponse",
+                              "value": "=setProperty(conversation.skillResponse,\"transferReasonCode\",conversation.IVRTransferReason)"
+                            },
+                            {
+                              "property": "conversation.skillResponse",
+                              "value": "=addProperty(conversation.skillResponse,\"parameters\",conversation.skillResponseParams)"
+                            },
+                            {
+                              "value": "=setProperty(conversation.skillResponse,\"silentTransfer\",conversation.silentTransfer)",
+                              "property": "conversation.skillResponse"
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "sNSDCB"
+                          },
+                          "activity": "${GlobalRepeatXferMsg()}"
+                        },
+                        {
+                          "$kind": "Microsoft.IfCondition",
+                          "$designer": {
+                            "id": "62p5mx"
+                          },
+                          "condition": "=string(conversation.RepeatTransferType)==\"MAXREPEAT\"",
+                          "elseActions": [
+                            {
+                              "$kind": "Microsoft.BeginDialog",
+                              "$designer": {
+                                "id": "2IwmZu"
+                              },
+                              "activityProcessed": true,
+                              "dialog": "TelemetryDialog",
+                              "options": {
+                                "peg": "01012",
+                                "pegType": "General",
+                                "request": "=GlobalContainer.GlobalRepeatXferMsg()",
+                                "response": "=conversation.skillResponse",
+                                "startDTM": "=conversation.startDate",
+                                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                                "eventName": "ConversationManagerSkill_AI_Global_Repeat_Toggle_OFF_Peg"
+                              }
+                            }
+                          ],
+                          "actions": [
+                            {
+                              "$kind": "Microsoft.BeginDialog",
+                              "$designer": {
+                                "id": "sR4YY2"
+                              },
+                              "activityProcessed": true,
+                              "dialog": "TelemetryDialog",
+                              "options": {
+                                "peg": "01012",
+                                "pegType": "General",
+                                "request": "=GlobalContainer.GlobalRepeatXferMsg()",
+                                "response": "=conversation.skillResponse",
+                                "startDTM": "=conversation.startDate",
+                                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                                "eventName": "ConversationManagerSkill_MaxRepeat_Peg"
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.CancelAllDialogs",
+                          "$designer": {
+                            "id": "uP8e7K"
+                          },
+                          "activityProcessed": true,
+                          "eventName": "endSkill",
+                          "eventValue": "=conversation.skillResponse"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "timeout",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "xqNPf2"
+                  },
+                  "activity": "${GlobalTimeOutXferMsg()}"
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "mkBqsM"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.IVRTransferReason",
+                      "value": "X"
+                    },
+                    {
+                      "property": "conversation.setEvent",
+                      "value": "transfer"
+                    },
+                    {
+                      "property": "conversation.silentTransfer",
+                      "value": "true"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "DcfBoN"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.transferReason",
+                      "value": "TimeoutXfer"
+                    },
+                    {
+                      "property": "conversation.transferPeg",
+                      "value": "01123"
+                    },
+                    {
+                      "property": "conversation.skillResponseParams",
+                      "value": "=addProperty(conversation.skillResponseParams,\"transferReason\",conversation.transferReason)"
+                    },
+                    {
+                      "property": "conversation.skillResponseParams",
+                      "value": "=addProperty(conversation.skillResponseParams,\"transferPeg\",conversation.transferPeg)"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "qFFhKr"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.skillResponseParams",
+                      "value": "=addProperty(conversation.skillResponseParams,\"setEvent\",conversation.setEvent)"
+                    },
+                    {
+                      "property": "conversation.skillResponse",
+                      "value": "=setProperty(conversation.skillResponse,\"transferReasonCode\",conversation.IVRTransferReason)"
+                    },
+                    {
+                      "property": "conversation.skillResponse",
+                      "value": "=setProperty(conversation.skillResponse,\"silentTransfer\",conversation.silentTransfer)"
+                    },
+                    {
+                      "property": "conversation.skillResponse",
+                      "value": "=addProperty(conversation.skillResponse,\"parameters\",conversation.skillResponseParams)"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "OV5d8V"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "01123",
+                    "pegType": "General",
+                    "request": "=GlobalContainer.GlobalTimeOutXferMsg()",
+                    "response": "=conversation.skillResponse",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "ConversationManagerSkill_TimeOutXfer_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.CancelAllDialogs",
+                  "$designer": {
+                    "id": "ECuyDK"
+                  },
+                  "activityProcessed": true,
+                  "eventName": "endSkill",
+                  "eventValue": "=conversation.skillResponse"
+                }
+              ]
+            }
+          ],
+          "default": []
+        }
+      ]
+    }
+  ],
+  "generator": "GlobalContainer.lg",
+  "recognizer": "GlobalContainer.lu.qna",
+  "id": "GlobalContainer"
+}

@@ -1,0 +1,611 @@
+> !# @Namespace=NoUserInput
+> !# @Exports = SendActivity_NoUserInput2ConfirmMID,SendActivity_NoUserInput2ConfirmLast4SSN,SendActivity_NoUserInput2ConfirmZIPCode,SendActivity_NoUserInput2ConfirmDOB,SendActivity_NoUserInput2PromptMEMID,SendActivity_NoUserInput2PromptSSN,SendActivity_NoUserInput2PromptFirstName,SendActivity_NoUserInput2PromptPhoneNumber,SendActivity_NoUserInput2PromptSSNMID,SendActivity_NoUserInput2PromptLast4SSN,SendActivity_NoUserInput2PromptZIPCode,SendActivity_NoUserInput2PromptDOB,SendActivity_NoUserInput1PromptDOB,SendActivity_NoUserInput1PromptZIPCode,SendActivity_NoUserInput1PromptLast4SSN,SendActivity_NoUserInput1PromptPhoneNumber,SendActivity_NoUserInput1PromptFirstName,SendActivity_NoUserInput1PromptSSN,SendActivity_NoUserInput1PromptSSNMID,SendActivity_NoUserInput1PromptMEMID,SendActivity_NoUserInputConfirmDOB,SendActivity_NoUserInputConfirmZIPCode,SendActivity_NoUserInputConfirmLast4SSN,SendActivity_NoUserInputConfirmMID,SendActivity_NoUserInput1PromptMIDAARP,SendActivity_NoUserInput2PromptMIDAARP
+[import](common.lg)
+
+
+# NoUserInput1PromptDOBTemplate()
+- IF: ${conversation.callerType=="provider"}           
+    - I'm still listening. Please provide the member's date of birth as... month, day, and year. For example... June nineteenth...1967.
+- ELSE:          
+    - I'm still listening. Can you please provide your birthday (including the four digit year). For example... June nineteenth...1967.
+# SendActivity_NoUserInput1PromptDOB()
+[Activity
+    Text = ${NoUserInput1PromptDOBTemplate()}
+    Speak = ${NoUserInput1PromptDOBTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: true,
+            sttProvider: settings.dobSTTProvider,
+            dtmfCollectMaxDigits: 8,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfInterDigitTimeoutThreeSec
+            }
+        }
+    }
+]
+
+# NoUserInput2PromptDOBTemplate()
+- IF: ${conversation.callerType=="provider"}           
+    - I'm still here, do you have the member date of birth, please?
+- ELSE:          
+    - I'm still here, do you have your date of birth, please?
+# SendActivity_NoUserInput2PromptDOB()
+[Activity
+    Text = ${NoUserInput2PromptDOBTemplate()}
+    Speak = ${NoUserInput2PromptDOBTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: true,
+            sttProvider: settings.dobSTTProvider,
+            dtmfCollectMaxDigits: 8,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfInterDigitTimeoutThreeSec
+            }
+        }
+    }
+]
+
+# NoUserInput1PromptZIPCodeTemplate()
+- IF: ${conversation.callerType=="provider"}            
+    - I'm still listening. What is the member's Zip code?
+- ELSE:           
+    - I'm still listening. What is your ZIP code?
+# SendActivity_NoUserInput1PromptZIPCode()
+[Activity
+    Text = ${NoUserInput1PromptZIPCodeTemplate()}
+    Speak = ${NoUserInput1PromptZIPCodeTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: true,
+            dtmfCollectMaxDigits: 6,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfInterDigitTimeoutThreeSec
+            }
+        }
+    }
+]
+
+# NoUserInput2PromptZIPCodeTemplate()
+- Still here! What's the ZIP code, please?
+
+# SendActivity_NoUserInput2PromptZIPCode()
+[Activity
+    Text = ${NoUserInput2PromptZIPCodeTemplate()}
+    Speak = ${NoUserInput2PromptZIPCodeTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: true,
+            dtmfCollectMaxDigits: 6,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfInterDigitTimeoutThreeSec
+            }
+        }
+    }
+]
+
+# NoUserInput1PromptLast4SSNTemplate()
+- IF: ${conversation.callerType=="provider"}                 
+    - I'm still listening, please repeat the the last four digits of the member's social security number.
+- ELSE:                
+    - I'm still listening. What are the last four digits of your social security number?
+# SendActivity_NoUserInput1PromptLast4SSN()
+[Activity
+    Text = ${NoUserInput1PromptLast4SSNTemplate()}
+    Speak = ${NoUserInput1PromptLast4SSNTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            dtmfCollectMaxDigits: 4,
+            sttDisablePunctuation: true,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfInterDigitTimeoutThreeSec
+            }
+        }
+    }
+]
+
+# NoUserInput2PromptLast4SSNTemplate()
+- IF: ${conversation.callerType=="provider"}                 
+    - I'm still here, what are the last four digits of the member's social security number, please.
+- ELSE:                
+    - I'm still here, what are the last four digits of your social security number, please.
+# SendActivity_NoUserInput2PromptLast4SSN()
+[Activity
+    Text = ${NoUserInput2PromptLast4SSNTemplate()}
+    Speak = ${NoUserInput2PromptLast4SSNTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            dtmfCollectMaxDigits: 4,
+            sttDisablePunctuation: true,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfInterDigitTimeoutThreeSec
+            }
+        }
+    }
+]
+# NoUserInput1PromptPhoneNumberTemplate()
+- I'm still listening. What is your primary phone number in the account?
+# SendActivity_NoUserInput1PromptPhoneNumber()
+[Activity
+    Text = ${NoUserInput1PromptPhoneNumberTemplate()}
+    Speak = ${NoUserInput1PromptPhoneNumberTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: true,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfInterDigitTimeoutThreeSec,
+            sttProvider: settings.phoneSTTProvider,
+            dtmfCollectMaxDigits: 10
+            }
+        }
+    }
+]
+# NoUserInput2PromptPhoneNumberTemplate()
+- Still here. Do you have that account primary phone number?
+# SendActivity_NoUserInput2PromptPhoneNumber()
+[Activity
+    Text = ${NoUserInput2PromptPhoneNumberTemplate()}
+    Speak = ${NoUserInput2PromptPhoneNumberTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: true,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfInterDigitTimeoutThreeSec,
+            sttProvider: settings.phoneSTTProvider,
+            dtmfCollectMaxDigits: 10
+            }
+        }
+    }
+]
+# NoUserInput1PromptFirstNameTemplate()
+- IF: ${conversation.callerType=="provider"}             
+    - I'm still listening. Please tell me the member's first name?
+- ELSE:            
+    - I'm still listening. Please tell me your first name?
+# SendActivity_NoUserInput1PromptFirstName()
+[Activity
+    Text = ${NoUserInput1PromptFirstNameTemplate()}
+    Speak = ${NoUserInput1PromptFirstNameTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: false,
+            bargeIn: true,
+            bargeInOnDTMF: false,
+            dtmfCollect: false,
+            sttDisablePunctuation: true,
+            sttSpeechContexts:conversation.firstNamePhraseList
+            }
+        }
+    }
+]
+# NoUserInput2PromptFirstNameTemplate()
+- IF: ${conversation.callerType=="provider"}             
+    - I'm still here. What is the member's first name, please?
+- ELSE:            
+    - I'm still here. What is your first name, please? 
+# SendActivity_NoUserInput2PromptFirstName()
+[Activity
+    Text = ${NoUserInput2PromptFirstNameTemplate()}
+    Speak = ${NoUserInput2PromptFirstNameTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: false,
+            bargeIn: true,
+            bargeInOnDTMF: false,
+            dtmfCollect: false,
+            sttDisablePunctuation: true,
+            sttSpeechContexts:conversation.firstNamePhraseList
+            }
+        }
+    }
+]
+# NoUserInput1PromptSSNTemplate()
+- IF: ${conversation.callerType=="provider"}              
+    - I'm still listening for the member's Social Security Number.
+- ELSE:            
+    - I'm still listening. What is your Social Security Number?
+# NoUserInput1PromptSSNMIDTemplate()
+- IF: ${conversation.callerType=="provider"}               
+    - I'm still listening, what is the member's ID or Social Security Number? 
+- ELSE:             
+    - I'm still listening. What is your member ID? You can also tell me your Social Security Number.
+# NoUserInput1PromptMEMIDTemplate()
+- IF: ${conversation.callerType=="provider"}               
+    - I'm still listening. What is the member's ID number?
+- ELSE:             
+    - I'm still listening. What's your member ID?
+# SendActivity_NoUserInput1PromptSSN()
+[Activity
+    Text = ${NoUserInput1PromptSSNTemplate()}
+    Speak = ${NoUserInput1PromptSSNTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: true,
+            sttProvider: settings.ssnSTTProvider,
+            dtmfCollectMaxDigits: 13,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfInterDigitTimeoutThreeSec
+            }
+        }
+    }
+]
+# NoUserInput2PromptSSNTemplate()
+- Still here! What's the Social Security Number, please?
+# SendActivity_NoUserInput2PromptSSN()
+[Activity
+    Text = ${NoUserInput2PromptSSNTemplate()}
+    Speak = ${NoUserInput2PromptSSNTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: true,
+            sttProvider: settings.ssnSTTProvider,
+            dtmfCollectMaxDigits: 13,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfInterDigitTimeoutThreeSec
+            }
+        }
+    }
+]
+# SendActivity_NoUserInput1PromptSSNMID()
+[Activity
+    Text = ${NoUserInput1PromptSSNMIDTemplate()}
+    Speak = ${NoUserInput1PromptSSNMIDTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: true,
+            sttProvider: settings.midSTTProvider,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfInterDigitTimeoutThreeSec,
+            dtmfCollectMaxDigits: 13
+            }
+        }
+    }
+]
+# NoUserInput2PromptSSNMIDTemplate()
+- I'm still here! What's the member ID or Social Security Number, please?
+# SendActivity_NoUserInput2PromptSSNMID()
+[Activity
+    Text = ${NoUserInput2PromptSSNMIDTemplate()}
+    Speak = ${NoUserInput2PromptSSNMIDTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: true,
+            sttProvider: settings.midSTTProvider,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfInterDigitTimeoutThreeSec,
+            dtmfCollectMaxDigits: 13
+            }
+        }
+    }
+]
+# SendActivity_NoUserInput1PromptMEMID()
+[Activity
+    Text = ${NoUserInput1PromptMEMIDTemplate()}
+    Speak = ${NoUserInput1PromptMEMIDTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: true,
+            sttProvider: settings.midSTTProvider,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfInterDigitTimeoutThreeSec,
+            dtmfCollectMaxDigits: 13,
+            userNoInputTimeoutMS: settings.MIDUserNoInputMS
+            }
+        }
+    }
+]
+# NoUserInput2PromptMEMIDTemplate()
+- I'm still here! What's the member ID, please?
+# SendActivity_NoUserInput2PromptMEMID()
+[Activity
+    Text = ${NoUserInput2PromptMEMIDTemplate()}
+    Speak = ${NoUserInput2PromptMEMIDTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: true,
+            sttProvider: settings.midSTTProvider,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfInterDigitTimeoutThreeSec,
+            dtmfCollectMaxDigits: 13,
+            userNoInputTimeoutMS: settings.MIDUserNoInputMS
+            }
+        }
+    }
+]
+# NoUserInputConfirmDOBTemplate()
+- I'm still listening. I heard you say ${conversation.iDOB}. Is that correct?
+# SendActivity_NoUserInputConfirmDOB()
+[Activity
+    Text = ${NoUserInputConfirmDOBTemplate()}
+    Speak = ${NoUserInputConfirmDOBTemplate()}
+    InputHint = expectingInput
+        ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: false,
+            dtmfCollectMaxDigits: 1,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfCollectInterDigitTimeoutMS
+
+        }
+    }
+}
+]
+# NoUserInput2ConfirmDOBTemplate()
+-I'm still here. The date of birth is ${conversation.iDOB}, right?
+# SendActivity_NoUserInput2ConfirmDOB()
+[Activity
+    Text = ${NoUserInput2ConfirmDOBTemplate()}
+    Speak = ${NoUserInput2ConfirmDOBTemplate()}
+    InputHint = expectingInput
+        ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: false,
+            dtmfCollectMaxDigits: 1,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfCollectInterDigitTimeoutMS
+
+        }
+    }
+}
+]
+# NoUserInputConfirmZIPCodeTemplate()
+- I'm still listening. I heard you say <say-as interpret-as="number_digit">${conversation.iZIP}</say-as>. Is that correct?
+# SendActivity_NoUserInputConfirmZIPCode()
+[Activity
+    Text = ${NoUserInputConfirmZIPCodeTemplate()}
+    Speak = ${NoUserInputConfirmZIPCodeTemplate()}
+    InputHint = expectingInput
+        ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: false,
+            dtmfCollectMaxDigits: 1,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfCollectInterDigitTimeoutMS
+        }
+    }
+}
+]
+
+# NoUserInput2ConfirmZIPCodeTemplate()
+- Still here! That's <say-as interpret-as="number_digit">${conversation.iZIP}</say-as>, right?
+# SendActivity_NoUserInput2ConfirmZIPCode()
+[Activity
+    Text = ${NoUserInput2ConfirmZIPCodeTemplate()}
+    Speak = ${NoUserInput2ConfirmZIPCodeTemplate()}
+    InputHint = expectingInput
+        ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: false,
+            dtmfCollectMaxDigits: 1,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfCollectInterDigitTimeoutMS
+        }
+    }
+}
+]
+# NoUserInputConfirmLast4SSNTemplate()
+- I'm still listening. I heard you say <say-as interpret-as="number_digit">${conversation.i4SSN}</say-as>. Is that correct?
+# SendActivity_NoUserInputConfirmLast4SSN()
+[Activity
+    Text = ${NoUserInputConfirmLast4SSNTemplate()}
+    Speak = ${NoUserInputConfirmLast4SSNTemplate()}
+    InputHint = expectingInput
+        ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: false,
+            dtmfCollectMaxDigits: 1,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfCollectInterDigitTimeoutMS
+        }
+    }
+}
+]
+# NoUserInput2ConfirmLast4SSNTemplate()
+- I'm still here, I heard <say-as interpret-as="number_digit">${conversation.i4SSN}</say-as>, is that right?
+# SendActivity_NoUserInput2ConfirmLast4SSN()
+[Activity
+    Text = ${NoUserInput2ConfirmLast4SSNTemplate()}
+    Speak = ${NoUserInput2ConfirmLast4SSNTemplate()}
+    InputHint = expectingInput
+        ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: false,
+            dtmfCollectMaxDigits: 1,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfCollectInterDigitTimeoutMS
+        }
+    }
+}
+]
+# NoUserInputConfirmMIDTemplate()
+- I'm still listening. I heard you say <say-as interpret-as="number_digit">${conversation.iMemberID}</say-as>. Is that correct?
+# SendActivity_NoUserInputConfirmMID()
+[Activity
+    Text = ${NoUserInputConfirmMIDTemplate()}
+    Speak = ${NoUserInputConfirmMIDTemplate()}
+    InputHint = expectingInput
+        ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: false,
+            dtmfCollectMaxDigits: 1,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfCollectInterDigitTimeoutMS
+        }
+    }
+}
+]
+# NoUserInput2ConfirmMIDTemplate()
+- I'm still here! I heard you say <say-as interpret-as="number_digit">${conversation.iMemberID}</say-as>, right?
+# SendActivity_NoUserInput2ConfirmMID()
+[Activity
+    Text = ${NoUserInput2ConfirmMIDTemplate()}
+    Speak = ${NoUserInput2ConfirmMIDTemplate()}
+    InputHint = expectingInput
+        ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: false,
+            dtmfCollectMaxDigits: 1,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfCollectInterDigitTimeoutMS
+        }
+    }
+}
+]
+
+# NoUserInput1PromptMIDAARPTemplate()
+- IF: ${conversation.callerType=="provider"}               
+    - I'm still listening. What is the member's ID number?
+- ELSE:             
+    - I'm still listening. What's your member ID?
+
+# SendActivity_NoUserInput1PromptMIDAARP()
+[Activity
+    Text = ${NoUserInput1PromptMIDAARPTemplate()}
+    Speak = ${NoUserInput1PromptMIDAARPTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: true,
+            sttProvider: settings.midSTTProvider,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfInterDigitTimeoutThreeSec,
+            dtmfCollectMaxDigits: 13,
+            userNoInputTimeoutMS: settings.MIDUserNoInputMS
+            }
+        }
+    }
+]
+
+
+# NoUserInput2PromptMIDAARPTemplate()
+- I'm still here! What's the member ID, please?
+# SendActivity_NoUserInput2PromptMIDAARP()
+[Activity
+    Text = ${NoUserInput2PromptMIDAARPTemplate()}
+    Speak = ${NoUserInput2PromptMIDAARPTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: true,
+            sttProvider: settings.midSTTProvider,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfInterDigitTimeoutThreeSec,
+            dtmfCollectMaxDigits: 13,
+            userNoInputTimeoutMS: settings.MIDUserNoInputMS
+            }
+        }
+    }
+]

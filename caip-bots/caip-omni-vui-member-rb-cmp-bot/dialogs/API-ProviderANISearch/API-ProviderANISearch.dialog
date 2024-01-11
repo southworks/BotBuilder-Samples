@@ -1,0 +1,300 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "vuf3LI",
+    "name": "API-ProviderANISearch",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "OjXMsH"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "XmMzoR"
+          },
+          "activityProcessed": true,
+          "dialog": "GetTelemetryProps"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "Ko41tw"
+          },
+          "assignments": [
+            {
+              "property": "conversation.providerAniSearchUrl",
+              "value": "=concat(settings.providerAniSearchEndpoint, \"?ver=\", settings.botVersion,\"&botname=\", settings.botName,\"&env=\", settings.botEnvironment)"
+            },
+            {
+              "property": "conversation.tokenUrl",
+              "value": "=concat(settings.accessTokenEndPoint, \"?ver=\", settings.botVersion, \"&botname=\", settings.botName, \"&env=\", settings.botEnvironment)"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "vqcuz9",
+            "name": "Setting request body for Member Info search API call"
+          },
+          "property": "conversation.providerAniSearchReqBody",
+          "value": {
+            "sessionId": "${conversation.storageKey}",
+            "consumerApp": "UHCMemberRoot",
+            "phoneNumber": "${conversation.ani}",
+            "firstName": "${conversation.KVPs.ENT_ContactFirstNm}",
+            "logLevel": "INFO"
+          }
+        },
+        {
+          "$kind": "Optum.HttpRequestDialog",
+          "$designer": {
+            "id": "gTCL7h",
+            "name": "Omni-Http Request ProviderAniSearch"
+          },
+          "clientid": "=settings.accessTokenClientId",
+          "clientsecret": "=settings.accessTokenClientSecret",
+          "tokencontentType": "application/json",
+          "method": "POST",
+          "contentType": "application/json",
+          "timeout": "=settings.mwTimeOutInMS",
+          "resultProperty": "dialog.providerAniSearchResult",
+          "verbiageToggleVal": true,
+          "retryCount": 0,
+          "retryInterval": 0,
+          "connectionString": "=settings.connectionString",
+          "containerName": "=settings.containerName",
+          "tokenurl": "=conversation.tokenUrl",
+          "url": "=conversation.providerAniSearchUrl",
+          "body": "=conversation.providerAniSearchReqBody",
+          "firstPrompt": "=GlobalBehavior.GlobalTimeoutFirstMsg()",
+          "repeatPrompt": "=GlobalBehavior.GlobalTimeoutRepeatMsg()",
+          "fstpmtteleval": "=conversation.fpTelemetryProps",
+          "rptpmtteleval": "=conversation.rpTelemetryProps",
+          "promptTime": "=if(conversation.tfnConfig.Root_GlobalTimeout_InterPromptTimeout, int(conversation.tfnConfig.Root_GlobalTimeout_InterPromptTimeout), settings.promptTimeInMS)",
+          "tokenTimeout": "=settings.accessTokenTimeout"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "6WBHGh",
+            "name": "Telemetry for MWProviderAniSearch"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "memberRoot_MWProviderANISearch",
+            "pegType": "DataInterface",
+            "request": "{\"URL\":\"${conversation.providerAniSearchUrl}\",\"RequestBody\":${conversation.providerAniSearchReqBody}}",
+            "response": "=dialog.providerAniSearchResult",
+            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "AppName": "=settings.botName",
+            "conversationId": "=conversation.conversationId",
+            "eventName": "MemberRootBot_MWProviderANISearch_Peg"
+          }
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "0wHCn8"
+          },
+          "condition": "=dialog.providerAniSearchResult.output.returnCode",
+          "cases": [
+            {
+              "value": "200",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "ki86Sz",
+                    "name": "Telemetry ProviderAniSearch Success"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "memberRoot_MWProviderAniSearch_Success",
+                    "pegType": "General",
+                    "request": "",
+                    "response": "=dialog.providerAniSearchResult",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "AppName": "=settings.botName",
+                    "conversationId": "=conversation.conversationId",
+                    "eventName": "MemberRootBot_MWProviderAniSearch_Success_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "Rx6H6l"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.providerAniSearchResponse",
+                      "value": "=dialog.providerAniSearchResult.output"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "y8SBHE"
+                  },
+                  "condition": "=int(conversation.providerAniSearchResponse.noOfProvidersFound) >0",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "lALknA"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.ENT_BotAction",
+                          "value": "ROUTE2IVR"
+                        },
+                        {
+                          "property": "conversation.callerType",
+                          "value": "PV"
+                        },
+                        {
+                          "property": "conversation.silentTransfer",
+                          "value": true
+                        },
+                        {
+                          "property": "conversation.transferReason",
+                          "value": "memberRoot_ProviderANIIntercepted"
+                        },
+                        {
+                          "property": "conversation.transferPegVal",
+                          "value": "MemberRootBot_ProviderANIIntercepted_Peg"
+                        },
+                        {
+                          "property": "conversation.ENT_ContactConstituentType",
+                          "value": "Provider"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "ThMEbU",
+                        "name": "Telemetry for AniIntercepted"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "memberRoot_ProviderANIIntercepted",
+                        "pegType": "General",
+                        "request": "",
+                        "response": "",
+                        "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "AppName": "=settings.botName",
+                        "conversationId": "=conversation.conversationId",
+                        "eventName": "MemberRootBot_ProviderANIIntercepted_Peg"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "ATDQqU"
+                      },
+                      "property": "conversation.currentTrigger",
+                      "value": "='defaultTransfer'"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "STenCC"
+                      },
+                      "property": "conversation.currentTrigger",
+                      "value": "aniExclusion"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "404",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "2nfi6T",
+                    "name": "Telemetry for NoData"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "memberRoot_MWProviderAniSearch_Nodata",
+                    "pegType": "General",
+                    "request": "",
+                    "response": "NoData",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "AppName": "=settings.botName",
+                    "conversationId": "=conversation.conversationId",
+                    "eventName": "MemberRootBot_MWProviderAniSearch_NoData_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "Ey5eBt"
+                  },
+                  "property": "conversation.currentTrigger",
+                  "value": "aniExclusion"
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "72wD2x",
+                "name": "Telemetry ProviderAniSearch Error/Exception"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "memberRoot_MWProviderAniSearch_Error",
+                "pegType": "General",
+                "request": "",
+                "response": "=dialog.providerAniSearchResult",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "AppName": "=settings.botName",
+                "conversationId": "=conversation.conversationId",
+                "eventName": "MemberRootBot_MWProviderAniSearch_Error_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "MdoR7h"
+              },
+              "property": "conversation.currentTrigger",
+              "value": "aniExclusion"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "API-ProviderANISearch.lg",
+  "recognizer": "API-ProviderANISearch.lu.qna",
+  "id": "API-ProviderANISearch"
+}

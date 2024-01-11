@@ -1,0 +1,247 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "J8Ln25",
+    "name": "EndSkill",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "KWQKyD"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "QsuCUx"
+          },
+          "condition": "=dialog.behavior == 'EndSkill'",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "xoj7dB"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.flowState.flowPreviousPrompt",
+                  "value": "=if(equals(conversation.flowState.flowPreviousPrompt, 'callerTypeGeneral'), conversation.flowState.flowNextPrompt, conversation.flowState.flowPreviousPrompt)"
+                },
+                {
+                  "property": "conversation.transferReason",
+                  "value": "=if(equals(conversation.lastNMorNI, 'none'), '', concat(conversation.lastNMorNI, '_'))"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "bBrxSm"
+              },
+              "condition": "=conversation.callerIntentconfig.CT_NLTagCallerType == 'PV'",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "mvGSiX"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.pegNumber",
+                      "value": "memberIntent_Start_ProviderXferPrmt"
+                    },
+                    {
+                      "property": "conversation.transferReason",
+                      "value": "=concat(conversation.transferReason, 'PV')"
+                    },
+                    {
+                      "property": "conversation.setEvent",
+                      "value": "defaultTransfer"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "UcFKdt"
+                  },
+                  "activity": "${ProviderXferMessage()}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "dxHACX"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal('Start_ProviderXferPrmt')",
+                    "pegType": "InputAsk",
+                    "request": "=EndSkill.ProviderXferMessage()",
+                    "response": "",
+                    "startDTM": "=conversation.startDate",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=MainDialog.PegName('Start', 'ProviderXfer_Prmt')"
+                  }
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "drzif3"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.pegNumber",
+                      "value": "memberIntent_GlobalBehavior_EndSkill"
+                    },
+                    {
+                      "property": "conversation.transferReason",
+                      "value": "=concat(conversation.transferReason, 'MM')"
+                    },
+                    {
+                      "property": "conversation.setEvent",
+                      "value": "=if(equals(conversation.lastNMorNI, 'NM3'), 'memberAuth',  if(equals(conversation.callerIntentconfig.reqiresAuth, 'Yes'), 'memberAuth', 'defaultTransfer'))"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "82eZy3"
+          },
+          "assignments": [
+            {
+              "property": "dialog.transferPegVal",
+              "value": "=MainDialog.PegVal('')"
+            },
+            {
+              "property": "dialog.transferReason",
+              "value": "=concat(MainDialog.PegVal(''), '_', conversation.transferReason)"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "rVYmVh"
+          },
+          "value": "=if(and(equals(conversation.intent, 'agentGeneral'), equals(conversation.setEvent, 'defaultTransfer')), '3', conversation.transferReasonCode)",
+          "property": "conversation.transferReasonCode"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "d8Q2Bd"
+          },
+          "assignments": [
+            {
+              "property": "conversation.KVPs",
+              "value": "=setProperty(conversation.KVPs, \"ENT_IVRAppTransferReason\", conversation.transferReasonCode)"
+            },
+            {
+              "value": "=setProperty(conversation.KVPs, \"silentTransfer\", conversation.silentTransfer)",
+              "property": "conversation.KVPs"
+            },
+            {
+              "property": "dialog.transferType",
+              "value": "=if(conversation.transferType == 'Spanish', conversation.transferType, if(conversation.silentTransfer, 'silent', ''))"
+            },
+            {
+              "property": "conversation.entity",
+              "value": "=if(contains(conversation.entity, '-'), split(conversation.entity, '-')[0], conversation.entity)"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "nsGMY7"
+          },
+          "value": "=if(and(equals(conversation.callerIntentconfig.reqiresAuth, 'Yes'), not(contains('X3', conversation.transferReasonCode))), 'S', if(and(equals(conversation.callerIntentconfig.reqiresAuth, ''), equals(conversation.setEvent, 'memberAuth')), 'S', conversation.transferReasonCode))",
+          "property": "conversation.transferReasonCode"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "41QuEw"
+          },
+          "property": "conversation.endDialogParams",
+          "value": {
+            "continueTheFlow": true,
+            "skillName": "caip-omni-vui-memberintent-sb-cmp",
+            "transferReasonCode": "${conversation.transferReasonCode}",
+            "parameters": {
+              "skillError": "${conversation.error}",
+              "transferReason": "${dialog.transferReason}",
+              "transferPegVal": "${dialog.transferPegVal}",
+              "transferType": "${dialog.transferType}",
+              "backToRootStartDate": "${formatDateTime(utcNow())}",
+              "KVPs": "${conversation.KVPs}",
+              "setEvent": "${conversation.setEvent}",
+              "callerIntent": "${if(and(empty(getProperty(conversation.callerIntentconfig, 'QT_NLTagQuestionType')), empty(getProperty(conversation.callerIntentconfig, 'PT_NLTagProductType'))), '', conversation.intent)}",
+              "callerIntentEntity": "${if(and(empty(getProperty(conversation.callerIntentconfig, 'QT_NLTagQuestionType')), empty(getProperty(conversation.callerIntentconfig, 'PT_NLTagProductType'))), '', conversation.entity)}",
+              "requiresAuthentication": "${conversation.callerIntentconfig.reqiresAuth}",
+              "ciCallerType": "${conversation.callerIntentconfig.CT_NLTagCallerType}",
+              "ciQuestionType": "${conversation.callerIntentconfig.QT_NLTagQuestionType}",
+              "ciProductType": "${conversation.callerIntentconfig.PT_NLTagProductType}",
+              "ciSubFunction": "${conversation.callerIntentconfig.NLTagSubFunction}",
+              "ciSubFunctionDetail": "${conversation.callerIntentconfig.NLTagSubFunctionDetail}",
+              "ciProduct": "${conversation.callerIntentconfig.NLTagProduct}",
+              "ciUtterance": "${conversation.Utterance}"
+            }
+          }
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "Uek2tK"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "=conversation.pegNumber",
+            "pegType": "Transfer",
+            "request": "=conversation.endDialogParams",
+            "startDTM": "=conversation.startDate",
+            "response": "",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "MemberIntentSkill_EndSkill_Peg"
+          }
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "5vLZHn"
+          },
+          "activityProcessed": true,
+          "dialog": "SkillLog",
+          "options": {
+            "transferReason": "=dialog.transferReason",
+            "transferPegVal": "=dialog.transferPegVal"
+          }
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "8mI4Ix"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "Transfer.lg",
+  "recognizer": "Transfer.lu.qna",
+  "id": "Transfer"
+}

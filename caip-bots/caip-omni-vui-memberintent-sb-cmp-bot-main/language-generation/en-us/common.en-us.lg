@@ -1,0 +1,229 @@
+
+> !# @Namespace = Common
+> !# @Exports = TestEventTemplate, TransferEvent_activity, UHCMember_MentalHealth_General_text,GlobalTimeoutFirstTemplate, GlobalTimeoutRepeatTemplate, GlobalSystemErrorTemplate, Prompt_ActivityParams, MainMenu_ActivityParams, UHCMember_DisambigBenefits, UHCMember_DisambigBenefits_NM1, UHCMember_DisambigBenefits_NI1, UHCMember_Intent_DisambigGenerale, UHCMember_Intent_DisambigGenerale_NI1, UHCMember_Intent_DisambigGenerale_NI2, UHCMember_Intent_DisambigGenerale_NM1, UHCMember_Intent_DisambigGenerale_NM2, UHCMember_ClaimsGeneral, UHCMember_ClaimsGeneral_NM1_text, UHCMember_ClaimsGeneral_NI1_text, UHCMember_PharmacyGeneral, UHCMember_PharmacyGeneral_NM1, UHCMember_PharmacyGeneral_NI1, UHCMember_AcctUpdate_EnI, UHCMember_CallerType, UHCMember_Max_NI_Transfer_text, UHCMember_Max_NI_Disconnect_text, UHCMember_SystemError_Transfer_text, UHCMember_ProviderXfer_text, UHCMember_Spanish_text
+
+# TestEventTemplate()
+- Bot is connected and working.
+
+# GlobalTimeoutFirstTemplate()
+- Looks like systems are taking longer than expected on our end, so we appreciate your patience.
+# GlobalTimeoutRepeatTemplate()
+- Things are still loading, we're really sorry about the delay.
+# GlobalSystemErrorTemplate()
+- Since we're having trouble, let’s get someone to help you.
+
+# IntentCaptureInitial_text()
+- I'm Avery your virtual assistant. I'm able to understand complete sentences, what can I help you with today?
+# IntentCaptureRepeatVerbiage_text()
+- What else can we help you with today?
+# ConfirmIntent_text()
+- You're calling about ${dialog.intentVerbiage}, correct?
+# IntentCaptureRetry_text()
+- Sorry I didn't get that right. Can you tell me a bit more about why you're calling?
+# AgentTransferCapture_text()
+- I can answer questions about your plan. Can you tell me the reason for your call?
+
+# IntentCaptureInitial_NM1_text()
+- Hmm, could you tell me a bit more about why you're calling?
+# IntentCaptureRetry_NM1_text()
+- Hmm, could you tell me a bit more about why you're calling?
+# AgentTransferCapture_NM1_text()
+- Hmm, could you tell me a bit more about why you're calling?
+# ConfirmIntent_NM1_text()
+- Are you calling about ${dialog.intentVerbiage}?
+
+
+# IntentCaptureInitial_NM2_text()
+- We need a little more information. Here are some examples of things you can say:<break time="600ms" /> 'I want to check my benefits'<break time="300ms" />or<break time="300ms" /> 'I have a question about a claim'.  So, tell me, what can I help you with today?
+# IntentCaptureRetry_NM2_text()
+- We need a little more information. Here are some examples of things you can say:<break time="600ms" /> 'I want to check my benefits'<break time="300ms" />or<break time="300ms" /> 'I have a question about a claim'.  So, tell me, what can I help you with today?
+# AgentTransferCapture_NM2_text()
+- We need a little more information. Here are some examples of things you can say:<break time="600ms" /> 'I want to check my benefits'<break time="300ms" />or<break time="300ms" /> 'I have a question about a claim'.  So, tell me, what can I help you with today?
+# ConfirmIntent_NM2_text()
+- Is that right?
+
+# IntentCaptureInitial_NI1_text()
+- We can help you with benefits<break time="300ms" />, claims...<break time="100ms" />or any other questions you may have. So, what are you calling about today?
+# IntentCaptureRetry_NI1_text()
+- We can help you with benefits<break time="300ms" />, claims...<break time="100ms" />or any other questions you may have. So, what are you calling about today?
+# AgentTransferCapture_NI1_text()
+- We can help you with benefits<break time="300ms" />, claims...<break time="100ms" />or any other questions you may have. So, what are you calling about today?
+# ConfirmIntent_NI1_text()
+- Are you calling about ${dialog.intentVerbiage}?
+
+# IntentCaptureInitial_NI2_text()
+- How can we help you today?
+# IntentCaptureRetry_NI2_text()
+- How can we help you today?
+# AgentTransferCapture_NI2_text()
+- How can we help you today?
+# ConfirmIntent_NI2_text()
+- Did I get that right?
+
+# IgnoringPrompt_ActivityParams()
+- ${{activityParams: {sttDisablePunctuation: bool(1), continuousASR: bool(1),sendDTMF: bool(0),bargeIn: bool(1),bargeInOnDTMF: bool(0),dtmfCollect: bool(0), continuousASRTimeoutInMS: 1000, continuousASRDigits: "#"}}}
+
+# StartPrompts_ActivityParams(continuousASRTimeoutInMSParam)
+- ${{ 
+    activityParams: { 
+        sttDisablePunctuation: bool(1), 
+        continuousASR: bool(1), 
+        continuousASRTimeoutInMS: continuousASRTimeoutInMSParam, 
+        continuousASRDigits: "#", 
+        sendDTMF: bool(1), 
+        bargeIn: bool(1), 
+        bargeInOnDTMF: bool(1), 
+        dtmfCollect: bool(1), 
+        dtmfCollectSubmitDigit: "#", 
+        dtmfCollectMaxDigits: 1
+    }
+}}
+
+# ExpectingPrompts_ActivityParams(continuousASRTimeoutInMSParam)
+- ${{ 
+    activityParams: { 
+        sttDisablePunctuation: bool(1), 
+        continuousASR: bool(1), 
+        continuousASRTimeoutInMS: continuousASRTimeoutInMSParam, 
+        continuousASRDigits: "#", 
+        sendDTMF: bool(1), 
+        bargeIn: bool(1), 
+        bargeInOnDTMF: bool(1), 
+        dtmfCollect: bool(1), 
+        dtmfCollectSubmitDigit: "#", 
+        dtmfCollectMaxDigits: 1
+    }  
+}}
+
+# UHCMember_DisambigBenefits_text()
+- Sure, what type of benefit are you calling about?
+# UHCMember_DisambigBenefits_NI1_text()
+- I'm still listening. Which type of benefits question do you have today. Just say...<break time="350ms" /> Medical...<break time="350ms" />mental health...<break time="350ms" />Substance abuse...<break time="350ms" />Prescriptions...<break time="350ms" />Dental...<break time="350ms" />Vision...or <break time="350ms" />something else...
+# UHCMember_DisambigBenefits_NM1_text()
+- I'll need that again. Which type of benefits question do you have today? Just say... <break time="350ms" />Medical...<break time="350ms" />mental health...<break time="350ms" />Substance abuse...<break time="350ms" />Prescriptions...<break time="350ms" />Dental...<break time="350ms" />Vision...<break time="300ms" />or <break time="250ms" />something else...
+
+# NurseLineDisambig_text()
+- Do you need to speak with a registered nurse regarding a clinical question or concern?
+# NurseLineDisambig_NM1_text()
+- I'll need that again. Are you calling to speak with a registered nurse regarding a clinical question or concern?
+# NurseLineDisambig_NI1_text()
+- I'm still listening. Are you calling to speak with a registered nurse regarding a clinical question or concern?
+
+# CrisisDisambig_text()
+-Are you calling regarding a behavioral health crisis?
+# CrisisDisambig_NM1_text()
+-I'll need that again. Are you calling regarding a behavioral health crisis?
+# CrisisDisambig_NI1_text()
+-I'm still listening. Are you calling regarding a behavioral health crisis?
+
+# UHCMember_ClaimsGeneral_text()
+- Sure, what type of claim are you calling about?
+# UHCMember_ClaimsGeneral_NM1_text()
+- I'll need that again. What type of claim question do you have today? Just say... <break time="350ms" />Medical...<break time="350ms" />mental health...<break time="350ms" />Substance abuse...<break time="350ms" />Prescriptions...<break time="350ms" />Dental...<break time="350ms" />Vision...<break time="300ms" />or <break time="250ms" />something else...
+# UHCMember_ClaimsGeneral_NI1_text()
+- I'm still listening. What type of claim question do you have today? Just say...<break time="350ms" /> Medical...<break time="350ms" />mental health...<break time="350ms" />Substance abuse...<break time="350ms" />Prescriptions...<break time="350ms" />Dental...<break time="350ms" />Vision...<break time="300ms" />or <break time="250ms" />something else...
+
+# UHCMember_Intent_DisambigGeneral_text()
+- Hmm, could you tell me a bit more about why you're calling?
+# UHCMember_Intent_DisambigGeneral_NI1_text()
+- We can help you with benefits<break time="300ms" />, claims...<break time="100ms" />or any other questions you may have. So, what are you calling about today?
+# UHCMember_Intent_DisambigGeneral_NI2_text()
+- How can we help you today?
+# UHCMember_Intent_DisambigGeneral_NM1_text()
+- Hmm, could you tell me a bit more about why you're calling?
+# UHCMember_Intent_DisambigGeneral_NM2_text()
+- We need a little more information. Here are some examples of things you can say:<break time="600ms" /> 'I want to check my benefits'<break time="300ms" />or<break time="300ms" /> 'I have a question about a claim'.  So, tell me, what can I help you with today?
+
+# UHCMember_PharmacyGeneral_text()
+- What type of Pharmacy question do you have?
+# UHCMember_PharmacyGeneral_NM1_text()
+- I'll need that again. Are you calling about...<break time="200ms" /> ...“the status of a mail order”…<break time="250ms" />...”enrolling in home delivery”...<break time="250ms" />or, “something else”?
+# UHCMember_PharmacyGeneral_NI1_text()
+- I'm still listening. Are you calling about...<break time="200ms" /> ...“the status of a mail order”…<break time="250ms" />...”enrolling in home delivery”...<break time="250ms" />or, “something else”?
+
+# UHCMember_AcctUpdate_EnI_text()
+- Address changes and dependent changes need to be made through your employer. If that's all you needed, feel free to hang-up. Otherwise...
+
+# UHCMember_CallerType_text()
+- Are you calling today as a Healthcare professional?
+
+# UHCMember_Max_NI_Transfer_text()
+- I'm not able to hear you. Let's move on... 
+# UHCMember_Max_NI_Disconnect_text()
+- I apologize, but I did not hear a response and have to end this call. Thank you for calling United Health Care. Goodbye.
+# UHCMember_SystemError_Transfer_text()
+- I'm sorry, but something isn't working right on my end. Let's move on...
+# UHCMember_ProviderXfer_text()
+- Please hold while your call is transferred to our automated provider services system.
+# UHCMember_Spanish_text()
+- Un momento, por favor.
+
+# UHCMember_MentalHealth_General_text()
+- What type of Mental Health information would you like?
+# UHCMember_FinancialAccount_General_text()
+- What type of account are you calling about?
+# UHCMember_PreApproval_Rx_text()
+- What type of Pre-Authorization are you calling about?
+
+# UHCMember_BalanceDisambig_text()
+- What type of balance are you calling about?
+# UHCMember_BalanceDisambig_NM1_text()
+- I'll need that again. Are you calling about a 'Premium Balance', a 'Reward Balance, or about your 'UCard'?
+# UHCMember_BalanceDisambig_NI1_text()
+- I'm still listening. Are you calling about a 'Premium Balance', a 'Reward Balance, or about your 'UCard'?
+
+# UHCMember_MentalHealth_General_NI1_text()
+- I'm still listening. What type of Mental Health information would you like? 'Claims', 'Benefits', or is it for 'something else'?
+# UHCMember_MentalHealth_General_NM1_text()
+- I'll need that again. What type of Mental Health information would you like? 'Claims', 'Benefits', or is it for 'something else'?
+# UHCMember_FinancialAccount_General_NM1_text()
+- I'll need that again. Are you calling about a Health Savings Account, Flexible spending account, or Health Reimbursement Account?
+# UHCMember_FinancialAccount_General_NI1_text()
+- I'm still listening. Are you calling about a Health Savings Account, Flexible spending account, or Health Reimbursement Account?
+# UHCMember_PreApproval_Rx_NM1_text()
+- I'll need that again. Are you calling about a preauthorization for a prescription drug?
+# UHCMember_PreApproval_Rx_NI1_text()
+- I'm still listening. Are you calling about a preauthorization for a prescription drug?
+
+# UHCMember_BillingDisambig_text()
+- Would you like to self pay at no additional cost using your credit or debit Card?
+# UHCMember_BillingDisambig_NM1_text()
+- I'll need that again. Would you like to self pay with your credit or debit card at no additional cost?
+# UHCMember_BillingDisambig_NI1_text()
+- I'm still listening. Would you like to self pay with your credit or debit card at no additional cost?
+
+# UHCMember_SolutranDisambig_text()
+- Are you calling with a question about over-the-counter benefits (including catalog requests, card balance, and order support)?
+# UHCMember_SolutranDisambig_NM1_text()
+- I'll need that again. Are you calling with a question about over-the-counter benefits (including catalog requests, card balance, and order support)?
+# UHCMember_SolutranDisambig_NI1_text()
+- I'm still listening. Are you calling with a question about over-the-counter benefits (including catalog requests, card balance, and order support)?
+
+# UHCMember_OpenEnrollment_text()
+- Are you calling to enroll in a new Medicare plan with United Healthcare?
+# UHCMember_OpenEnrollment_NM1_text()
+- I'll need that again. Are you calling to enroll in a new Medicare plan with United Healthcare?
+# UHCMember_OpenEnrollment_NI1_text()
+- I'm still listening. Are you calling to enroll in a new Medicare plan with United Healthcare?
+
+# UHCMember_MaxNIStillThere_text()
+- Are you still there? <break time="1200ms" />If I don't hear anything, I'll have to end this call...
+# UHCMember_MaxNIXferToAuth_text()
+- Since we were having some trouble with the previous question, let's move on...
+
+# UHCMember_PaymentDisambig_text()
+- You can make payments and check a balance through our self-service option. Would you like to try it?
+# UHCMember_PaymentDisambig_NM1_text()
+- I'll need that again. You can make payments and check a balance through our self service option. Would you like to try it? You can say 'Yes' (and go to our self service option). Or you can say 'No' (and go to an agent).
+# UHCMember_PaymentDisambig_NI1_text()
+- I'm still listening. You can make payments and check a balance through our self service option.  Would you like to try it? You can say 'Yes' (and go to our self service option). Or you can say 'No' (and go to an agent).
+
+# UHCMember_SolutranUpfront_text()
+- I'm Avery, your virtual assistant. Are you calling with a question about over-the-counter benefits (including catalog requests, card balance, and order support)?
+# UHCMember_IntentCapture_V2_text()
+- I'm able to understand complete sentences. What can I help you with today?
+
+# UHCMember_OpenEnrollmentUpfront_text1
+- Are you calling to enroll in a new Medicare plan with United Healthcare?
+# UHCMember_OpenEnrollmentUpfront_text2
+- I'm Avery, your virtual assistant. Are you calling to enroll in a new Medicare plan with United Healthcare?

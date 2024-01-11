@@ -1,0 +1,1497 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "NSPOWK",
+    "name": "ValidateInput",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "ey1NI4",
+        "comment": "Validates  the user input before proceding to HandleContext."
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "VQMBST"
+          },
+          "condition": "=conversation.flowState.flowPreviousPrompt",
+          "cases": [
+            {
+              "value": "disambigBenefits",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "Ixx3gY"
+                  },
+                  "property": "dialog.entitiesToStartList",
+                  "value": [
+                    "benefitsEOBChild",
+                    "benefitsCobraChild"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "9JHDjd"
+                  },
+                  "assignments": [
+                    {
+                      "value": "=trim(MainDialog.GetEntityFromAnyIntent(conversation.flowState.lastIntent, conversation.turnRecognized))",
+                      "property": "conversation.luisCallerEntity"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "kyzTly"
+                  },
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "siKma4"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.flowState.flowNextPrompt",
+                          "value": "to_end_skill"
+                        },
+                        {
+                          "property": "dialog.inputValidated",
+                          "value": true
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.EndDialog",
+                      "$designer": {
+                        "id": "f8Vgzs"
+                      },
+                      "value": "=dialog.inputValidated"
+                    }
+                  ],
+                  "condition": "=contains(dialog.entitiesToStartList, conversation.luisCallerEntity)"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "6fCcGQ"
+                  },
+                  "condition": "=and(contains(conversation.disambigBenefitsValidIntents, conversation.flowState.lastIntent), not(contains(conversation.disambigBenfitsInvalidEntitys,conversation.luisCallerEntity)))",
+                  "actions": [],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "D2HVLH"
+                      },
+                      "property": "dialog.inputValidated",
+                      "value": false
+                    },
+                    {
+                      "$kind": "Microsoft.EndDialog",
+                      "$designer": {
+                        "id": "fVEsji"
+                      },
+                      "value": "=dialog.inputValidated"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "KOBI6Y"
+                  },
+                  "condition": "=or(contains(conversation.disambigBenfitsEntitiesWithContext, conversation.luisCallerEntity), contains(conversation.disambigBenfitsIntentsWithContext, conversation.flowState.lastIntent))",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "n4nIiR",
+                        "name": "With context"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "LoadEntityConfig",
+                      "options": {
+                        "luisIntent": "=conversation.flowState.lastIntent",
+                        "luisEntity": "=conversation.luisCallerEntity",
+                        "context": "=conversation.flowState.flowPreviousPrompt"
+                      }
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "4kqOxj",
+                        "name": "Without context"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "LoadEntityConfig",
+                      "options": {
+                        "luisIntent": "=conversation.flowState.lastIntent",
+                        "luisEntity": "=conversation.luisCallerEntity",
+                        "context": "=''"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "TRIVuo"
+                  },
+                  "property": "dialog.inputValidated",
+                  "value": "=if(count(conversation.results) == 0, false, true)"
+                }
+              ]
+            },
+            {
+              "value": "claimsGeneral",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "ipbefb"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.luisCallerEntity",
+                      "value": "=trim(MainDialog.GetEntityFromAnyIntent(conversation.flowState.lastIntent, conversation.turnRecognized))"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "5gpbRg"
+                  },
+                  "condition": "=and(contains(conversation.claimsGeneralValidIntents, conversation.flowState.lastIntent),not(contains(conversation.claimsGeneralInvalidEntitys,conversation.luisCallerEntity)))",
+                  "actions": [],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "5TrSuS"
+                      },
+                      "property": "dialog.inputValidated",
+                      "value": false
+                    },
+                    {
+                      "$kind": "Microsoft.EndDialog",
+                      "$designer": {
+                        "id": "cqCatR"
+                      },
+                      "value": "=dialog.inputValidated"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "qyW04v"
+                  },
+                  "condition": "=or(contains(conversation.claimsGeneralValidEntitys, conversation.luisCallerEntity),contains(conversation.intentsWithoutEntitys, conversation.flowState.lastIntent))",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "ojYyG5",
+                        "name": "Without context"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "LoadEntityConfig",
+                      "options": {
+                        "luisIntent": "=conversation.flowState.lastIntent",
+                        "luisEntity": "=conversation.luisCallerEntity",
+                        "context": "=''"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "WVO6tA"
+                      },
+                      "property": "dialog.inputValidated",
+                      "value": "=if(count(conversation.results) == 0, false, true)"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "QHwv9t"
+                      },
+                      "condition": "=or(contains(conversation.claimsGeneralEntitiesWithContext, conversation.luisCallerEntity),conversation.luisCallerEntity==\"benefitsMedicalChild\", contains(conversation.claimsGeneralIntentsWithContext, conversation.flowState.lastIntent))",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "JgUSRY",
+                            "name": "With context"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LoadEntityConfig",
+                          "options": {
+                            "luisIntent": "=conversation.flowState.lastIntent",
+                            "luisEntity": "=conversation.luisCallerEntity",
+                            "context": "=conversation.flowState.flowPreviousPrompt"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "A6mrIl"
+                          },
+                          "property": "dialog.inputValidated",
+                          "value": "=if(count(conversation.results) == 0, false, true)"
+                        }
+                      ],
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "f2eyVz"
+                          },
+                          "property": "dialog.inputValidated",
+                          "value": false
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "callerTypeGeneral",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "AQJeyv"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.callerTypeEntities",
+                      "value": "=MainDialog.GetCallerTypeEntity(conversation.turnRecognized)"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "qGl8Iy"
+                  },
+                  "condition": "=conversation.callerTypeEntities=='callerTypeProviderChild'",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "5vb9Sf"
+                      },
+                      "property": "conversation.callerIntentconfig.CT_NLTagCallerType",
+                      "value": "='PV'"
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "PkOZq5"
+                      },
+                      "property": "dialog.inputValidated",
+                      "value": true
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "pPOswS"
+                      },
+                      "condition": "=conversation.callerTypeEntities=='callerTypeMemberChild'",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "rfZEUK"
+                          },
+                          "property": "conversation.callerIntentconfig.CT_NLTagCallerType",
+                          "value": "=if(conversation.enrollmentIntentSet, conversation.callerIntentconfig.CT_NLTagCallerType, 'MM')"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "yGRBRi"
+                      },
+                      "property": "dialog.inputValidated",
+                      "value": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "disambigGeneral",
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "4yyUKQ"
+                  },
+                  "condition": "conversation.flowState.lastIntent== 'disambigGeneral'",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "w9Xm2E"
+                      },
+                      "property": "dialog.inputValidated",
+                      "value": false
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "6XZikJ"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "Validate_IntentCapture",
+                      "options": {},
+                      "resultProperty": "dialog.inputValidated"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "pharmacyGeneral",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "UCrNCA"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.luisCallerEntity",
+                      "value": "=trim(MainDialog.GetEntityFromAnyIntent(conversation.flowState.lastIntent, conversation.turnRecognized))"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "BbP6vm"
+                  },
+                  "property": "dialog.intentEntity",
+                  "value": "=concat(conversation.flowState.lastIntent, '@', conversation.luisCallerEntity)"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "cLRwM9"
+                  },
+                  "condition": "=contains(conversation.pharmacyGeneralValidIntentsEntities, dialog.intentEntity)",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "dgHK7z",
+                        "name": "With context"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "LoadEntityConfig",
+                      "options": {
+                        "luisIntent": "=conversation.flowState.lastIntent",
+                        "luisEntity": "=conversation.luisCallerEntity",
+                        "context": "=conversation.flowState.flowPreviousPrompt"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "OgGFOh"
+                      },
+                      "property": "dialog.inputValidated",
+                      "value": "=if(count(conversation.results) == 0, false, true)"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "mDGL4C"
+                      },
+                      "property": "dialog.inputValidated",
+                      "value": false
+                    },
+                    {
+                      "$kind": "Microsoft.EndDialog",
+                      "$designer": {
+                        "id": "JJ47Su"
+                      },
+                      "value": "=dialog.inputValidated"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "mentalHealthGeneral",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "rOHBIL"
+                  },
+                  "property": "dialog.entitiesToStartList",
+                  "value": [
+                    "benefitsEOBChild",
+                    "benefitsCobraChild",
+                    "findProviderChild"
+                  ],
+                  "disabled": true
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "yorysU"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.luisCallerEntity",
+                      "value": "=trim(MainDialog.GetEntityFromAnyIntent(conversation.flowState.lastIntent, conversation.turnRecognized))"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "7dVBtw"
+                  },
+                  "condition": "=equals( conversation.luisCallerEntity, \"behavioralHealthCrisisChild\")",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "CLQXYz"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "LoadEntityConfig",
+                      "options": {
+                        "luisIntent": "behavioralHealth",
+                        "context": "=conversation.flowState.flowPreviousPrompt",
+                        "luisEntity": "behavioralHealthChild"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "qP0aZA"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.flowState.flowNextPrompt",
+                          "value": "to_end_skill"
+                        },
+                        {
+                          "property": "dialog.inputValidated",
+                          "value": true
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.EndDialog",
+                      "$designer": {
+                        "id": "3394yw"
+                      },
+                      "value": "=dialog.inputValidated"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "MXaKgL"
+                      },
+                      "value": "=if(or(equals(conversation.flowState.lastIntent, 'benefits'), equals(conversation.flowState.lastIntent, 'doctor'), equals(conversation.flowState.lastIntent, 'claims')), '', trim(MainDialog.GetEntityFromAnyIntent(conversation.flowState.lastIntent, conversation.turnRecognized)))",
+                      "property": "conversation.luisCallerEntity"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "mqgG1C"
+                  },
+                  "property": "dialog.intentEntity",
+                  "value": "=if(or(equals(conversation.flowState.lastIntent, 'benefits'), equals(conversation.flowState.lastIntent, 'claims'), equals(conversation.flowState.lastIntent, 'doctor')), concat(conversation.flowState.lastIntent, '@'), concat(conversation.flowState.lastIntent, '@', conversation.luisCallerEntity))"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "1Q049c"
+                  },
+                  "condition": "=contains(conversation.mentalHealthGeneralValidIntentsEntities, dialog.intentEntity)",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "nSIlWJ",
+                        "name": "With context"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "LoadEntityConfig",
+                      "options": {
+                        "luisIntent": "=conversation.flowState.lastIntent",
+                        "luisEntity": "=conversation.luisCallerEntity",
+                        "context": "=conversation.flowState.flowPreviousPrompt"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "DMhPuZ"
+                      },
+                      "property": "dialog.inputValidated",
+                      "value": "=if(count(conversation.results) == 0, false, true)"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "9bQE33"
+                      },
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "t6aB3h"
+                          },
+                          "property": "dialog.inputValidated",
+                          "value": false
+                        }
+                      ],
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "cbwfs2"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LoadEntityConfig",
+                          "options": {
+                            "luisIntent": "somethingElse",
+                            "context": "mentalHealthGeneral",
+                            "luisEntity": "=''"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "8SUW3m"
+                          },
+                          "property": "dialog.inputValidated",
+                          "value": "=if(count(conversation.results) == 0, false, true)"
+                        }
+                      ],
+                      "condition": "=conversation.turnRecognized.score >= 0.7"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "financialAccountsGeneral",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "BheeaX"
+                  },
+                  "property": "dialog.entitiesToStartList",
+                  "value": [
+                    "benefitsCobraChild"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "giVSXG"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.luisCallerEntity",
+                      "value": "=trim(MainDialog.GetEntityFromAnyIntent(conversation.flowState.lastIntent, conversation.turnRecognized))"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "ynoHBQ"
+                  },
+                  "condition": "=contains(dialog.entitiesToStartList, conversation.luisCallerEntity)",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "n2CKhD"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.flowState.flowNextPrompt",
+                          "value": "to_end_skill"
+                        },
+                        {
+                          "property": "dialog.inputValidated",
+                          "value": true
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.EndDialog",
+                      "$designer": {
+                        "id": "SHKO4m"
+                      },
+                      "value": "=dialog.inputValidated"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "PiDj36"
+                  },
+                  "property": "dialog.intentEntity",
+                  "value": "=concat(conversation.flowState.lastIntent, '@', conversation.luisCallerEntity)"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "l0L6xe"
+                  },
+                  "condition": "=contains(conversation.financialAccountGeneralValidIntentsEntities, dialog.intentEntity)",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "7EtB3c",
+                        "name": "With context"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "LoadEntityConfig",
+                      "options": {
+                        "luisIntent": "=conversation.flowState.lastIntent",
+                        "luisEntity": "=conversation.luisCallerEntity",
+                        "context": "=conversation.flowState.flowPreviousPrompt"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "Jo3j7x"
+                      },
+                      "property": "dialog.inputValidated",
+                      "value": "=if(count(conversation.results) == 0, false, true)"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "x0OQEC"
+                      },
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "ScdGCq"
+                          },
+                          "property": "dialog.inputValidated",
+                          "value": false
+                        }
+                      ],
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "E4PKVA"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LoadEntityConfig",
+                          "options": {
+                            "luisIntent": "somethingElse",
+                            "context": "preApprovalRx",
+                            "luisEntity": "=''"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "Yzfk9i"
+                          },
+                          "property": "dialog.inputValidated",
+                          "value": "=if(count(conversation.results) == 0, false, true)"
+                        }
+                      ],
+                      "condition": "=conversation.turnRecognized.score >= 0.7"
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "Ki0dOb"
+                      },
+                      "property": "dialog.inputValidated",
+                      "value": false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "preApprovalRx",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "PaXml0"
+                  },
+                  "property": "dialog.entitiesToStartList",
+                  "value": [
+                    "benefitsCobraChild"
+                  ],
+                  "disabled": true
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "PkBdfT"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.luisCallerEntity",
+                      "value": "=trim(MainDialog.GetEntityFromAnyIntent(conversation.flowState.lastIntent, conversation.turnRecognized))"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "Xt8Peb"
+                  },
+                  "condition": "=contains(dialog.entitiesToStartList, conversation.luisCallerEntity)",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "qoGcS9"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.flowState.flowNextPrompt",
+                          "value": "to_end_skill"
+                        },
+                        {
+                          "property": "dialog.inputValidated",
+                          "value": true
+                        }
+                      ],
+                      "disabled": true
+                    },
+                    {
+                      "$kind": "Microsoft.EndDialog",
+                      "$designer": {
+                        "id": "KAtaec"
+                      },
+                      "value": "=dialog.inputValidated",
+                      "disabled": true
+                    }
+                  ],
+                  "disabled": true
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "qaXnWC"
+                  },
+                  "property": "dialog.intentEntity",
+                  "value": "=concat(conversation.flowState.lastIntent, '@', conversation.luisCallerEntity)"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "ff2skl"
+                  },
+                  "condition": "=contains(conversation.preApprovalRxValidIntentsEntities, dialog.intentEntity)",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "lne8yS",
+                        "name": "With context"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "LoadEntityConfig",
+                      "options": {
+                        "luisIntent": "=conversation.flowState.lastIntent",
+                        "luisEntity": "=conversation.luisCallerEntity",
+                        "context": "=conversation.flowState.flowPreviousPrompt"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "vhi7XJ"
+                      },
+                      "property": "dialog.inputValidated",
+                      "value": "=if(count(conversation.results) == 0, false, true)"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "UhssJE"
+                      },
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "BaaFgT"
+                          },
+                          "property": "dialog.inputValidated",
+                          "value": false
+                        }
+                      ],
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "wtKsED"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LoadEntityConfig",
+                          "options": {
+                            "luisIntent": "somethingElse",
+                            "context": "preApprovalRx",
+                            "luisEntity": "=''"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "UCGqeH"
+                          },
+                          "property": "dialog.inputValidated",
+                          "value": "=if(count(conversation.results) == 0, false, true)"
+                        }
+                      ],
+                      "condition": "=conversation.turnRecognized.score >= 0.7"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "solutranDisambig",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "WOgDTV"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.luisCallerEntity",
+                      "value": "=trim(MainDialog.GetEntityFromAnyIntent(conversation.flowState.lastIntent, conversation.turnRecognized))"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "XvE2SL"
+                  },
+                  "property": "dialog.intentEntity",
+                  "value": "=concat(conversation.flowState.lastIntent, '@', conversation.luisCallerEntity)"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "KJwafT"
+                  },
+                  "condition": "=or(equals(dialog.intentEntity, 'pharmacy@pharmacyOTCChild'), equals(dialog.intentEntity, 'solutran@'))",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "FfkXoa",
+                        "name": "With context"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "LoadEntityConfig",
+                      "options": {
+                        "luisIntent": "solutran",
+                        "luisEntity": "=''",
+                        "context": "=''"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "C09L0E"
+                      },
+                      "property": "dialog.inputValidated",
+                      "value": "=if(count(conversation.results) == 0, false, true)"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "9v4toP"
+                      },
+                      "property": "dialog.inputValidated",
+                      "value": false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "openEnrollment",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "fDOeoG"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.luisCallerEntity",
+                      "value": "=trim(MainDialog.GetEntityFromAnyIntent(conversation.flowState.lastIntent, conversation.turnRecognized))"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "qNORQE"
+                  },
+                  "property": "dialog.intentEntity",
+                  "value": "=concat(conversation.flowState.lastIntent, '@', conversation.luisCallerEntity)"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "Dwb1WP"
+                  },
+                  "condition": "=equals(dialog.intentEntity, 'enrollment@enrollmentML')",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "g9AAct",
+                        "name": "With context"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "LoadEntityConfig",
+                      "options": {
+                        "luisIntent": "=conversation.flowState.lastIntent",
+                        "luisEntity": "=conversation.luisCallerEntity",
+                        "context": "=conversation.flowState.flowPreviousPrompt"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "0SqXMP"
+                      },
+                      "property": "dialog.inputValidated",
+                      "value": "=if(count(conversation.results) == 0, false, true)"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "DpKYED"
+                      },
+                      "property": "dialog.inputValidated",
+                      "value": false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "balanceDisambig",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "zyecQZ"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.luisCallerEntity",
+                      "value": "=trim(MainDialog.GetEntityFromAnyIntent(conversation.flowState.lastIntent, conversation.turnRecognized))"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "wATZm0"
+                  },
+                  "property": "dialog.intentEntity",
+                  "value": "=concat(conversation.flowState.lastIntent, '@', conversation.luisCallerEntity)"
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "VOILE9"
+                  },
+                  "condition": "dialog.intentEntity",
+                  "cases": [
+                    {
+                      "value": "billingGeneral@",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "b5htgn",
+                            "name": "With context"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LoadEntityConfig",
+                          "options": {
+                            "luisIntent": "=conversation.flowState.lastIntent",
+                            "luisEntity": "=conversation.luisCallerEntity",
+                            "context": "=conversation.flowState.flowPreviousPrompt"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "LxQRAD"
+                          },
+                          "property": "dialog.inputValidated",
+                          "value": "=if(count(conversation.results) == 0, false, true)"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "rewardsForHealthGeneral@",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "DcTKbw",
+                            "name": "With context"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LoadEntityConfig",
+                          "options": {
+                            "luisIntent": "=conversation.flowState.lastIntent",
+                            "luisEntity": "=conversation.luisCallerEntity",
+                            "context": "=conversation.flowState.flowPreviousPrompt"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "Sa6ZZs"
+                          },
+                          "property": "dialog.inputValidated",
+                          "value": "=if(count(conversation.results) == 0, false, true)"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "uCard@",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "zmlbH8",
+                            "name": "With context"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LoadEntityConfig",
+                          "options": {
+                            "luisIntent": "=conversation.flowState.lastIntent",
+                            "luisEntity": "=conversation.luisCallerEntity",
+                            "context": "=conversation.flowState.flowPreviousPrompt"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "yf9WRL"
+                          },
+                          "property": "dialog.inputValidated",
+                          "value": "=if(count(conversation.results) == 0, false, true)"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "cardReplacement@cardGeneralChild",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "ZPLvrW",
+                            "name": "With context"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LoadEntityConfig",
+                          "options": {
+                            "luisIntent": "=conversation.flowState.lastIntent",
+                            "luisEntity": "=conversation.luisCallerEntity",
+                            "context": "=conversation.flowState.flowPreviousPrompt"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "RFqQKS"
+                          },
+                          "property": "dialog.inputValidated",
+                          "value": "=if(count(conversation.results) == 0, false, true)"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "pharmacy@pharmacyOTCChild",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "YyQDPZ",
+                            "name": "With context"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LoadEntityConfig",
+                          "options": {
+                            "luisIntent": "=conversation.flowState.lastIntent",
+                            "luisEntity": "=conversation.luisCallerEntity",
+                            "context": "=conversation.flowState.flowPreviousPrompt"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "Ulf2W8"
+                          },
+                          "property": "dialog.inputValidated",
+                          "value": "=if(count(conversation.results) == 0, false, true)"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "balance@",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "Rm17fE"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LoadEntityConfig",
+                          "options": {
+                            "luisIntent": "=conversation.flowState.lastIntent",
+                            "context": "=conversation.flowState.flowPreviousPrompt",
+                            "luisEntity": "=conversation.luisCallerEntity"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "jzurLH"
+                          },
+                          "property": "dialog.inputValidated",
+                          "value": "=if(count(conversation.results) == 0, false, true)"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "solutran@",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "GJFyQ5"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LoadEntityConfig",
+                          "options": {
+                            "luisIntent": "=conversation.flowState.lastIntent",
+                            "context": "=conversation.flowState.flowPreviousPrompt",
+                            "luisEntity": "=conversation.luisCallerEntity"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "pHJFox"
+                          },
+                          "property": "dialog.inputValidated",
+                          "value": "=if(count(conversation.results) == 0, false, true)"
+                        }
+                      ]
+                    }
+                  ],
+                  "default": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "ozahnr"
+                      },
+                      "property": "dialog.inputValidated",
+                      "value": false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "nurselineDisambig",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "7oagYX"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.luisCallerEntity",
+                      "value": "=trim(MainDialog.GetEntityFromAnyIntent(conversation.flowState.lastIntent, conversation.turnRecognized))"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "LbTE3j"
+                  },
+                  "property": "dialog.intentEntity",
+                  "value": "=concat(conversation.flowState.lastIntent, '@', conversation.luisCallerEntity)"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "fpiULY"
+                  },
+                  "condition": "=equals(dialog.intentEntity, 'prevention@preventionNurseLineChild')",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "m3cfl3",
+                        "name": "With context"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "LoadEntityConfig",
+                      "options": {
+                        "luisIntent": "=conversation.flowState.lastIntent",
+                        "luisEntity": "=conversation.luisCallerEntity",
+                        "context": "=conversation.flowState.flowPreviousPrompt"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "WMtpxl"
+                      },
+                      "property": "dialog.inputValidated",
+                      "value": "=if(count(conversation.results) == 0, false, true)"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "5VaxKK"
+                      },
+                      "property": "dialog.inputValidated",
+                      "value": false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "solutranUpfront",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "SxCWho"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.luisCallerEntity",
+                      "value": "=trim(MainDialog.GetEntityFromAnyIntent(conversation.flowState.lastIntent, conversation.turnRecognized))"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "Kvksdz"
+                  },
+                  "property": "dialog.intentEntity",
+                  "value": "=concat(conversation.flowState.lastIntent, '@', conversation.luisCallerEntity)"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "QWD384"
+                  },
+                  "condition": "=or(equals(dialog.intentEntity, 'pharmacy@pharmacyOTCChild'), equals(dialog.intentEntity, 'solutran@'))",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "sDbceO",
+                        "name": "With context"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "LoadEntityConfig",
+                      "options": {
+                        "luisIntent": "solutran",
+                        "luisEntity": "=''",
+                        "context": "=''"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "xaeHt5"
+                      },
+                      "property": "dialog.inputValidated",
+                      "value": "=if(count(conversation.results) == 0, false, true)"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "iC0lB0"
+                      },
+                      "property": "dialog.inputValidated",
+                      "value": false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "openEnrollmentUpfront",
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "BdL74H"
+                  },
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "cWCVPO"
+                      },
+                      "property": "conversation.flowState.flowNextPrompt",
+                      "value": "Enrollment_CaptureMnu"
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "Fl2kzc"
+                      },
+                      "property": "dialog.inputValidated",
+                      "value": true
+                    }
+                  ],
+                  "condition": "=conversation.turnRecognized.score >= 0.7",
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "CX1Gyc"
+                      },
+                      "property": "dialog.inputValidated",
+                      "value": false
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "VHtC6x"
+              },
+              "condition": "=contains(conversation.startPromptLists, conversation.flowState.flowNextPrompt)",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "JgYPGq"
+                  },
+                  "property": "conversation.Utterance",
+                  "value": "=if(equals(conversation.flowState.flowNextPrompt, 'IntentCapture'), conversation.flowState.lastUtterance, conversation.Utterance)"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "Y3fFoA"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "Validate_IntentCapture",
+                  "resultProperty": "dialog.inputValidated"
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "ZpYoIq"
+                  },
+                  "property": "dialog.inputValidated",
+                  "value": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "44fBfo"
+          },
+          "value": "=dialog.inputValidated"
+        }
+      ]
+    }
+  ],
+  "generator": "ValidateInput.lg",
+  "recognizer": "ValidateInput.lu.qna",
+  "id": "ValidateInput"
+}

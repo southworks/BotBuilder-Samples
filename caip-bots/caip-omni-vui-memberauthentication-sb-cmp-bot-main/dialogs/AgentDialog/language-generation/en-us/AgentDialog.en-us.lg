@@ -1,0 +1,23 @@
+> !# @Namespace=AgentDialog
+> !# @Exports = SendActivity_AuthAgentRequestMsg
+[import](common.lg)
+
+# SendActivity_AuthAgentRequestMsg()
+[Activity
+    Text = ${AuthAgentRequestTemplate()}
+    Speak = ${AuthAgentRequestTemplate()}
+    InputHint = ignoringInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: false,
+            bargeIn: false,
+            bargeInOnDTMF: false,
+            dtmfCollect: false
+        }
+      } 
+    }
+]
+
+# AuthAgentRequestTemplate()
+- I need this information first so I can quickly connect you with the right agent.

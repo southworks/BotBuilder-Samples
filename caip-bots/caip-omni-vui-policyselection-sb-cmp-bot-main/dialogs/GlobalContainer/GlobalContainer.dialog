@@ -1,0 +1,431 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "kVp8Tb",
+    "name": "GlobalContainer",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "5f6LQK"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "JJUbl8"
+          },
+          "property": "conversation.startDate",
+          "value": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "N3SbqY"
+          },
+          "property": "conversation.globalVal",
+          "value": "=dialog.globalParam"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "xEzrii"
+          },
+          "condition": "=conversation.globalVal",
+          "cases": [
+            {
+              "value": "systemerror",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "o85HwH"
+                  },
+                  "activity": "${SendActivity_PolicySystemErrorMsg()}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "XLWmTe"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "01003",
+                    "pegType": "General",
+                    "request": "=Common.SendActivity_PolicySystemErrorMsg()",
+                    "response": "=dialog.errorMessage",
+                    "startDTM": "=conversation.startDate",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "PolicySelectionSkill_PolicySystemError_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "jVd4bw"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.transferReasonCode",
+                      "value": "4"
+                    },
+                    {
+                      "property": "conversation.transferReason",
+                      "value": "=concat(conversation.inputVal,\"_Error\")"
+                    },
+                    {
+                      "property": "conversation.silentTransfer",
+                      "value": true
+                    },
+                    {
+                      "property": "conversation.skillResponse",
+                      "value": "=setProperty(conversation.skillResponse,\"errorCode\",dialog.errorCode)"
+                    },
+                    {
+                      "property": "conversation.skillResponse",
+                      "value": "=setProperty(conversation.skillResponse,\"errorMessage\",dialog.errorMessage)"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "maxnomatch",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "BsYCUo"
+                  },
+                  "activity": "${SendActivity_PolicyMaxNoMatchMsg()}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "yZGDD5"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "01000",
+                    "pegType": "General",
+                    "request": "=GlobalContainer.SendActivity_PolicyMaxNoMatchMsg()",
+                    "response": "",
+                    "startDTM": "=conversation.startDate",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "PolicySelectionSkill_PolicyMaxNoMatch_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "71MjQ0"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.transferReasonCode",
+                      "value": "M"
+                    },
+                    {
+                      "property": "conversation.transferReason",
+                      "value": "=concat(conversation.inputVal,\"_MaxNoMatch\")"
+                    },
+                    {
+                      "property": "conversation.silentTransfer",
+                      "value": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "maxnoinput",
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "TR24bL"
+                  },
+                  "condition": "=conversation.tfnConfig.idPolicySkill_disconnect_maxNI==\"false\"",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "Bddz1F"
+                      },
+                      "activity": "${SendActivity_PolicyMaxNoInputTransferMsg()}"
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "gq1NM3"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "01001",
+                        "pegType": "General",
+                        "request": "=GlobalContainer.SendActivity_PolicyMaxNoInputTransferMsg()",
+                        "response": "",
+                        "startDTM": "=conversation.startDate",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "PolicySelectionSkill_PolicyMaxNoInputTransfer_Peg"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "CJZ76U"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.transferReasonCode",
+                          "value": "N"
+                        },
+                        {
+                          "property": "conversation.transferReason",
+                          "value": "=concat(conversation.inputVal,\"_MaxNoInput\")"
+                        },
+                        {
+                          "property": "conversation.silentTransfer",
+                          "value": true
+                        }
+                      ]
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "IIyE5I"
+                      },
+                      "activity": "${SendActivity_PolicyMaxNoInputDisconnectMsg()}"
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "iWrKd9"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "01002",
+                        "pegType": "General",
+                        "request": "=GlobalContainer.SendActivity_PolicyMaxNoInputDisconnectMsg()",
+                        "response": "",
+                        "startDTM": "=conversation.startDate",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "PolicySelectionSkill_PolicyMaxNoInputDisconnect_Peg"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "LhWNIr"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.transferReasonCode",
+                          "value": "0"
+                        },
+                        {
+                          "property": "conversation.transferReason",
+                          "value": "=concat(conversation.inputVal,\"_MaxNoInput\")"
+                        },
+                        {
+                          "property": "conversation.silentTransfer",
+                          "value": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "agent",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "yMr2Fz"
+                  },
+                  "activity": "${SendActivity_PolicyAgentXferMsg()}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "MkFNbm"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "01005",
+                    "pegType": "General",
+                    "request": "=GlobalContainer.SendActivity_PolicyAgentXferMsg()",
+                    "response": "",
+                    "startDTM": "=conversation.startDate",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "PolicySelectionSkill_PolicyAgentXfer_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "BycY9x"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.transferReasonCode",
+                      "value": "3"
+                    },
+                    {
+                      "property": "conversation.transferReason",
+                      "value": "=concat(conversation.inputVal,\"_Agent\")"
+                    },
+                    {
+                      "property": "conversation.silentTransfer",
+                      "value": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "timeoutxfer",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "lbArdR"
+                  },
+                  "activity": "${SendActivity_TimeOutXferMsg()}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "dCOl4o"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "01123",
+                    "pegType": "General",
+                    "request": "=Common.SendActivity_TimeOutXferMsg()",
+                    "response": "",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "PolicySelectionSkill_TimeOutXfer_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "jNreUr"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.transferReasonCode",
+                      "value": "X"
+                    },
+                    {
+                      "property": "conversation.transferReason",
+                      "value": "=concat(conversation.inputVal,\"_Timeout\")"
+                    },
+                    {
+                      "property": "conversation.silentTransfer",
+                      "value": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "goodbye",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "3l6qbt"
+                  },
+                  "activity": "${SendActivity_GoodByeMsg()}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "EpGpcr"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "01124",
+                    "pegType": "General",
+                    "request": "=Common.SendActivity_GoodByeMsg()",
+                    "response": "",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "PolicySelectionSkill_GoodBye_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "9FTnWe"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.transferReasonCode",
+                      "value": "0"
+                    },
+                    {
+                      "property": "conversation.transferReason",
+                      "value": "=concat(conversation.inputVal,\"_Bye\")"
+                    }, 
+                    {
+                      "property": "conversation.silentTransfer",
+                      "value": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "OEMcLF"
+              },
+              "activityProcessed": true,
+              "dialog": "NoMatchInput"
+            },
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "PWdc7V"
+              }
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "EWwEJN"
+          },
+          "activityProcessed": true,
+          "dialog": "SetSkillResponseParams"
+        }
+      ]
+    }
+  ],
+  "generator": "GlobalContainer.lg",
+  "recognizer": "GlobalContainer.lu.qna",
+  "id": "GlobalContainer"
+}

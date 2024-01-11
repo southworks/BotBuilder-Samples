@@ -1,0 +1,8 @@
+{
+  "$kind": "Microsoft.LuisRecognizer",
+  "id": "LUIS_CallerLookupDialog",
+  "applicationId": "=settings.luis.CallerLookupDialog_en_us_lu.appId",
+  "version": "=settings.luis.CallerLookupDialog_en_us_lu.version",
+  "endpoint": "=settings.luis.endpoint",
+  "endpointKey": "=settings.luis.endpointKey"
+}

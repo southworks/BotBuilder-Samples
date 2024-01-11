@@ -1,0 +1,174 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "o5jrmU",
+    "name": "CheckFirstNameMatches",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "dyAI0p"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "WWDwe9"
+          },
+          "condition": "=contains(conversation.identificationResponse.firstNameList,titleCase(conversation.iFirstName))",
+          "actions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "LDppR2"
+              },
+              "condition": "=count(conversation.matchedIndicies)>0",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "hLDV9X"
+                  },
+                  "property": "conversation.newElements",
+                  "value": "=createArray()"
+                },
+                {
+                  "$kind": "Microsoft.Foreach",
+                  "$designer": {
+                    "id": "urO5hq"
+                  },
+                  "index": "dialog.foreach.index",
+                  "value": "dialog.foreach.value",
+                  "itemsProperty": "conversation.matchedIndicies",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "DT7HXp"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.newElementList",
+                          "value": {}
+                        },
+                        {
+                          "property": "conversation.newElementList",
+                          "value": "=addProperty(conversation.newElementList,\"index\", dialog.foreach.value)"
+                        },
+                        {
+                          "property": "conversation.newElementList",
+                          "value": "=addProperty(conversation.newElementList,\"value\",conversation.identificationResponse.firstNameList[dialog.foreach.value])"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.EditArray",
+                      "$designer": {
+                        "id": "y1eDgW"
+                      },
+                      "changeType": "push",
+                      "itemsProperty": "conversation.newElements",
+                      "value": "=conversation.newElementList"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "0fH00D"
+                  },
+                  "value": "=where(conversation.newElements, name, name.value ==titleCase(conversation.iFirstName))",
+                  "property": "conversation.matchedFirstName"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "btMu2o"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "GetMatchedIndicies",
+                  "options": {
+                    "matchedArray": "=conversation.matchedFirstName"
+                  }
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "atLM4N"
+                  },
+                  "property": "conversation.matchedFirstName",
+                  "value": "=where(indicesAndValues(conversation.identificationResponse.firstNameList), firstname, firstname.value ==conversation.iFirstName)"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "XfBGXo"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "GetMatchedIndicies",
+                  "options": {
+                    "matchedArray": "=conversation.matchedFirstName"
+                  }
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "90GY9m"
+              },
+              "condition": "=count(conversation.matchedFirstName)==1",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "PhiJjX"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.member.auth.firstName",
+                      "value": "=conversation.matchedFirstName[0].value"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "dYZw2j"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "CheckZIPAuthToggle"
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "2A06Yv"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "FxQHJl"
+          },
+          "activityProcessed": true,
+          "dialog": "CheckIDType"
+        }
+      ]
+    }
+  ],
+  "generator": "CheckFirstNameMatches.lg",
+  "recognizer": "CheckFirstNameMatches.lu.qna",
+  "id": "CheckFirstNameMatches"
+}

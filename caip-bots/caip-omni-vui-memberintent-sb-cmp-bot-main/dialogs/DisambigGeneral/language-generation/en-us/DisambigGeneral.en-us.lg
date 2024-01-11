@@ -1,0 +1,11 @@
+> !# @Namespace=DisambigGeneralDialog
+> !# @Exports = UHCMember_Intent_DisambigGeneralMsg
+[import](common.lg)
+
+# UHCMember_Intent_DisambigGeneralMsg()
+[Activity
+    Text = ${UHCMember_Intent_DisambigGeneral_text()}
+    Speak = ${UHCMember_Intent_DisambigGeneral_text()}
+    InputHint = expectingInput
+    ChannelData = ${ExpectingPrompts_ActivityParams(1500)}
+]

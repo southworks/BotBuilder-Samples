@@ -1,0 +1,199 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "AhEqcU",
+    "name": "CheckDOBAuthToggle",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "Htc15X"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "QJDkpf"
+          },
+          "condition": "or(!conversation.tfnConfig.DOB_Authentication_Toggle,conversation.tfnConfig.DOB_Authentication_Toggle==\"ON\")",
+          "actions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "ukcZZD"
+              },
+              "condition": "=exists(conversation.iDOB)",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "aOwfC5"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "CheckDOBMatches"
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "Z4NRub"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "DOBInputDialog"
+                }
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "mkzOC0"
+              },
+              "condition": "=conversation.last4SSNConfirmed",
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "lPHxu5"
+                  },
+                  "condition": "=equals(conversation.IDType,\"MEMID\")",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "UAUFtq"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "00029",
+                        "pegType": "General",
+                        "request": "",
+                        "response": "",
+                        "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "MembAuthSkill_Last4SSNConfirmed_Peg"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "ZVp7mr"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.authFlag",
+                          "value": false
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "UAWCMx"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "AuthInCompleteDialog"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "QNaC08"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "00049",
+                        "pegType": "General",
+                        "request": "",
+                        "response": "",
+                        "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "MembAuthSkill_Last4SSNConfirmed_MIDNeeded_Peg"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "5vV0R3"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "MemberIDInputDialog"
+                    }
+                  ]
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "pKLiTj"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.last4SSNConfirmed",
+                      "value": true
+                    },
+                    {
+                      "property": "conversation.inputVal",
+                      "value": "=\"confirmLast4SSN\""
+                    },
+                    {
+                      "property": "conversation.noMatchFlag",
+                      "value": 1
+                    },
+                    {
+                      "property": "conversation.noInputFlag",
+                      "value": 1
+                    },
+                    {
+                      "property": "conversation.repeatFlag",
+                      "value": 1
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "h7HzPF"
+                  },
+                  "activity": "${SendActivity_ConfirmLast4SSN()}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "TAyXNa"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal(conversation.inputVal)",
+                    "pegType": "Input Ask",
+                    "request": "=Common.SendActivity_ConfirmLast4SSN()",
+                    "response": "",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=MainDialog.PegName(conversation.inputVal,\"InputAsk\")"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "CheckDOBAuthToggle.lg",
+  "recognizer": "CheckDOBAuthToggle.lu.qna",
+  "id": "CheckDOBAuthToggle"
+}

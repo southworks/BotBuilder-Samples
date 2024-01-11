@@ -1,0 +1,153 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "R1YDGv",
+    "name": "RetryMWService",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "QgAq8C"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "Qhuqrl"
+          },
+          "property": "conversation.startDate",
+          "value": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "WUK257"
+          },
+          "condition": "=conversation.tfnConfig.MW_Retry_Toggle == \"ON\" &&  !conversation.mwFailure",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "3h7B0p"
+              },
+              "property": "dialog.inputVal",
+              "value": "=dialog.tobeCalledDialogName+\"true\""
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "taxjgW"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "=MainDialog.PegVal(dialog.inputVal)",
+                "pegType": "General",
+                "request": "",
+                "response": "",
+                "startDTM": "=conversation.startDate",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "=MainDialog.PegName(dialog.inputVal,\"RetryToggleON\")"
+              }
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "YFxvA1"
+              },
+              "property": "conversation.mwFailure",
+              "value": true
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "J2pdgB"
+              },
+              "activityProcessed": true,
+              "dialog": "=dialog.tobeCalledDialogName"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "e51Nc1"
+              },
+              "property": "dialog.inputVal",
+              "value": "=dialog.tobeCalledDialogName+\"false\""
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "EB0xeU"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "=MainDialog.PegVal(dialog.inputVal)",
+                "pegType": "General",
+                "request": "",
+                "response": "",
+                "startDTM": "=conversation.startDate",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "=MainDialog.PegName(dialog.inputVal,\"RetryToggleOFF\")"
+              }
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "rJ5ccc"
+              },
+              "condition": "=equals(dialog.tobeCalledDialogName,\"MemberPhoneSearchDialog\")",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "KdbvMW"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "MemberIDInputDialog"
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "0ioGOF"
+                  }
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "fRgwrB"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.authFlag",
+                  "value": false
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "qvows3"
+              },
+              "activityProcessed": true,
+              "dialog": "AuthInCompleteDialog"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "RetryMWService.lg",
+  "recognizer": "RetryMWService.lu.qna",
+  "id": "RetryMWService"
+}

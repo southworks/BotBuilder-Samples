@@ -1,0 +1,73 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "rilD3X",
+    "name": "SSNInputDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "UWe0vU"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "6N7XF3"
+          },
+          "assignments": [
+            {
+              "property": "conversation.inputVal",
+              "value": "=\"promptLast4SSN\""
+            },
+            {
+              "property": "conversation.noMatchFlag",
+              "value": 1
+            },
+            {
+              "property": "conversation.noInputFlag",
+              "value": 1
+            },
+            {
+              "property": "conversation.repeatFlag",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "DhRH1h"
+          },
+          "activity": "${SendActivity_PromptLast4SSN()}"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "2einMU"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "=MainDialog.PegVal(conversation.inputVal)",
+            "pegType": "Input Ask",
+            "request": "=Common.SendActivity_PromptLast4SSN()",
+            "response": "",
+            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "=MainDialog.PegName(conversation.inputVal,\"InputAsk\")"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "SSNInputDialog.lg",
+  "recognizer": "SSNInputDialog.lu.qna",
+  "id": "SSNInputDialog"
+}

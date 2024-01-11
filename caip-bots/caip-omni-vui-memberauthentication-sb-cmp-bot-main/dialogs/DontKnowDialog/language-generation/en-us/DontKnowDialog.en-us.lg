@@ -1,0 +1,22 @@
+> !# @Namespace=DontKnowDialog
+> !# @Exports = SendActivity_AuthDontHaveKnowItRequestMsg
+[import](common.lg)
+
+# SendActivity_AuthDontHaveKnowItRequestMsg()
+[Activity
+    Text = ${DontKnowRequestTemplate()}
+    Speak = ${DontKnowRequestTemplate()}
+    InputHint = ignoringInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: false,
+            bargeIn: false,
+            bargeInOnDTMF: false,
+            dtmfCollect: false
+        }
+      } 
+    }
+]
+# DontKnowRequestTemplate()
+- We'll need this information to quickly connect you with the right person to help you.

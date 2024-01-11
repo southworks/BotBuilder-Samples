@@ -1,0 +1,115 @@
+> !# @Namespace=NoMatchInput
+> !# @Exports = SendActivity_noMatchAskDOS,SendActivity_noMatchAskDateRange,SendActivity_noMatchAskSupMed,SendActivity_noMatchAskSupMedRx,SendActivity_noMatchAskDualPolicyDynamicQuestion
+[import](common.lg)
+
+# SendActivity_noMatchAskDOS()
+[Activity
+    Text = ${noMatchAskDOSTemplate()}
+    Speak = ${noMatchAskDOSTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: true,
+            sttProvider: settings.dobSTTProvider,
+            dtmfCollectMaxDigits: 8,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfTimeoutMSForDOB
+        }
+    }
+}
+]
+
+# noMatchAskDOSTemplate()
+- I didn't quite catch that. Please tell me the date of service.
+
+# SendActivity_noMatchAskDateRange()
+[Activity
+    Text = ${noMatchAskDateRangeTemplate()}
+    Speak = ${noMatchAskDateRangeTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            dtmfCollectMaxDigits: 1,
+            sttSpeechContexts: [{"phrases":["current"]},{"phrases":["past"]},{"phrases":["future"]}]
+        }
+    }
+}
+]
+
+# noMatchAskDateRangeTemplate()
+- I didn't quite catch that. Are you inquiring about your current, recent past or future coverage?
+
+# SendActivity_noMatchAskSupMed()
+[Activity
+    Text = ${noMatchAskSupMedTemplate()}
+    Speak = ${noMatchAskSupMedTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            dtmfCollectMaxDigits: 1
+        }
+    }
+}
+]
+
+# noMatchAskSupMedTemplate()
+- IF: ${conversation.callerType == "provider"}
+    - I didn't quite catch that. Are you inquiring about this member's AARP supplement plan?
+- ELSE:
+    - I didn't quite catch that. Are you calling about your AARP supplement plan?
+
+# SendActivity_noMatchAskSupMedRx()
+[Activity
+    Text = ${noMatchAskSupMedRxTemplate()}
+    Speak = ${noMatchAskSupMedRxTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            dtmfCollectMaxDigits: 1
+        }
+    }
+}
+]
+
+# noMatchAskSupMedRxTemplate()
+- I didn't quite catch that. Which plan are you inquiring about: AARP Supplement, Prescription Drug or Something Else?
+
+# SendActivity_noMatchAskDualPolicyDynamicQuestion()
+[Activity
+    Text = ${noMatchAskDualPolicyDynamicQuestionTemplate()}
+    Speak = ${noMatchAskDualPolicyDynamicQuestionTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            dtmfCollectMaxDigits: 1
+        }
+    }
+}
+]
+
+# noMatchAskDualPolicyDynamicQuestionTemplate()
+- I didn't quite catch that. Which are you inquiring about ${conversation.multiplePolicyReadOut}?

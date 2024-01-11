@@ -1,0 +1,96 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "GkbVlv",
+    "name": "AskDateRangeToggle",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "fNtWOK"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "NcbsYY"
+          },
+          "condition": "=conversation.tfnConfig.Policy_askDateRange_Toggle==\"ON\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "jMyapI"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.inputVal",
+                  "value": "askDateRange"
+                },
+                {
+                  "property": "conversation.noMatchFlag",
+                  "value": 1
+                },
+                {
+                  "property": "conversation.noInputFlag",
+                  "value": 1
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "oOHWBA"
+              },
+              "activity": "${SendActivity_askDateRange()}"
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "hz7jZC"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "=MainDialog.PegVal(conversation.inputVal)",
+                "pegType": "Input Ask",
+                "request": "=Common.SendActivity_askDateRange()",
+                "response": "",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "=MainDialog.PegName(conversation.inputVal,\"InputAsk\")"
+              }
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "4VDr73"
+              },
+              "property": "conversation.policy_DateRange",
+              "value": "=if(exists(conversation.tfnConfig.Policy_DateRange), conversation.tfnConfig.Policy_DateRange, \"CURRENT,PAST,FUTURE\")"
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "e4XcPr"
+              },
+              "activityProcessed": true,
+              "dialog": "CoverageLookup"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "AskDateRangeToggle.lg",
+  "recognizer": "AskDateRangeToggle.lu.qna",
+  "id": "AskDateRangeToggle"
+}

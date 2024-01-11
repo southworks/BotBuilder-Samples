@@ -1,0 +1,215 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "VUZGZ0",
+    "name": "CoverageLookup",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "N3mE08"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "lVevix"
+          },
+          "activityProcessed": true,
+          "dialog": "MembershipSearchDialog"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "9Zk92c"
+          },
+          "condition": "=conversation.tfnConfig.IsSupMediPlan_Toggle==\"OFF\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "e1DRVn"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.medSup",
+                  "value": "N"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "Ivs1by"
+              },
+              "activityProcessed": true,
+              "dialog": "DualCoverageLookup"
+            },
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "Mdc1M4"
+              }
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "Jvm18l"
+              },
+              "condition": "=conversation.membershipSearchData.output.isAARP",
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "2adCYr"
+                  },
+                  "condition": "=conversation.membershipSearchData.output.isAARPwithRx",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "0y8fNn"
+                      },
+                      "condition": "=conversation.tfnConfig.MR_TFN_PrescriptonDrugPlan==\"ON\"",
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "wf10mc"
+                          },
+                          "assignments": [
+                            {
+                              "property": "conversation.inputVal",
+                              "value": "askSupMedRx"
+                            },
+                            {
+                              "property": "conversation.noMatchFlag",
+                              "value": 1
+                            },
+                            {
+                              "property": "conversation.noInputFlag",
+                              "value": 1
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "im1ZJL"
+                          },
+                          "activity": "${SendActivity_askSupMedRx()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "WnkKTx"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "=MainDialog.PegVal(conversation.inputVal)",
+                            "pegType": "Input Ask",
+                            "request": "=Common.SendActivity_askSupMedRx()",
+                            "response": "",
+                            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "=MainDialog.PegName(conversation.inputVal,\"InputAsk\")"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.EndDialog",
+                          "$designer": {
+                            "id": "GosOTx"
+                          }
+                        }
+                      ]
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "QTIti9"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.inputVal",
+                          "value": "askSupMed"
+                        },
+                        {
+                          "property": "conversation.noMatchFlag",
+                          "value": 1
+                        },
+                        {
+                          "property": "conversation.noInputFlag",
+                          "value": 1
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "O3TLxR"
+                      },
+                      "activity": "${SendActivity_askSupMed()}"
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "1TURME"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "=MainDialog.PegVal(conversation.inputVal)",
+                        "pegType": "Input Ask",
+                        "request": "=Common.SendActivity_askSupMed()",
+                        "response": "",
+                        "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "=MainDialog.PegName(conversation.inputVal,\"InputAsk\")"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.EndDialog",
+                      "$designer": {
+                        "id": "3xQCfb"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "ryE7Ov"
+          },
+          "property": "conversation.medSup",
+          "value": "N"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "L18f9z"
+          },
+          "activityProcessed": true,
+          "dialog": "DualCoverageLookup"
+        }
+      ]
+    }
+  ],
+  "generator": "CoverageLookup.lg",
+  "recognizer": "CoverageLookup.lu.qna",
+  "id": "CoverageLookup"
+}

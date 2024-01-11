@@ -1,0 +1,105 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "XiH1rF",
+    "name": "CheckLast4SSNAuthToggle",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "FSHnV2"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "91ue9F"
+          },
+          "condition": "or(!conversation.tfnConfig.Last4SSN_Authentication_Toggle ,conversation.tfnConfig.Last4SSN_Authentication_Toggle == \"ON\")",
+          "elseActions": [],
+          "actions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "p2O2fE"
+              },
+              "condition": "=conversation.identificationResponse.last4SSNList != \"\" ",
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "a8JAg8"
+                  },
+                  "condition": "=exists(conversation.i4SSN)",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "T0YInq"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "CheckLast4SSNMatches"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "j54371"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "SSNInputDialog"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "yJyXm6"
+                  }
+                }
+              ],
+              "elseActions": []
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "3tegBe"
+          },
+          "condition": "=exists(conversation.iDOB)",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "wbQluJ"
+              },
+              "activityProcessed": true,
+              "dialog": "DOBInputDialog"
+            }
+          ],
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "kuxUl9"
+              },
+              "activityProcessed": true,
+              "dialog": "CheckDOBMatches"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "CheckLast4SSNAuthToggle.lg",
+  "recognizer": "CheckLast4SSNAuthToggle.lu.qna",
+  "id": "CheckLast4SSNAuthToggle"
+}

@@ -1,0 +1,40 @@
+{
+    "$schema": "https://schemas.botframework.com/schemas/component/v1.0/component.schema",
+    "$role": "implements(Microsoft.IDialog)",
+    "title": "Omni-SensitiveData",
+    "description": "Handling of sensitive data in Audiocodes and LUIS.",
+    "type": "object",
+    "required": [
+        "property"
+    ],
+    "properties": {
+        "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Optional id for the dialog"
+        },
+        "disabled": {
+            "$ref": "schema:#/definitions/booleanExpression",
+            "title": "Disabled",
+            "description": "Optional condition which if true will disable this action.",
+            "examples": [
+                "user.age > 3"
+            ]
+        },
+      "logType": {
+             "title": "Sensitive Data",
+            "description": "Select an option(Yes or No) ",
+            "oneOf":[
+                {
+            "type": "string",
+            "title": "Select type",
+            "description": "Select an option",
+            "enum":[
+                "YES",
+                "NO"   
+                ]
+                }
+            ]
+        }
+    }
+}

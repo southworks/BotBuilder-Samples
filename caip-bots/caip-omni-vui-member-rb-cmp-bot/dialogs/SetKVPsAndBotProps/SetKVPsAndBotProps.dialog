@@ -1,0 +1,380 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "gvnAzx",
+    "name": "SetKVPsIN",
+    "comment": "Get KVPs from GMS, set the KVPs values, the ANI and the conversation Id. "
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.kvpsFound",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "XXrU9i"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "J5LKCn"
+          },
+          "condition": "=and(string(turn.activity.name)==\"channel\",or(string(turn.activity.channelData.StorageKey),and(string(turn.activity.value)==\"telephony\",string(turn.activity.channelData.CiscoGUcid))))",
+          "elseActions": [],
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "kTwO7I"
+              },
+              "value": "caip-omni-vui-member-rb-cmp",
+              "property": "conversation.botName"
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "rts9mD",
+                "comment": "Initializing Telemetry props."
+              },
+              "assignments": [
+                {
+                  "property": "conversation.pegCount",
+                  "value": 0
+                },
+                {
+                  "property": "conversation.allPegNames",
+                  "value": {
+                    "Peg": "AllPegNames"
+                  }
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "jnkmL3"
+              },
+              "property": "conversation.currentBot",
+              "value": "root"
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "Ssfrtp"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.KVPs",
+                  "value": "={}"
+                },
+                {
+                  "property": "conversation.ENT_BotAction",
+                  "value": "ROUTE2AGENT"
+                },
+                {
+                  "property": "conversation.ENT_IVRAppTransferReason",
+                  "value": "?"
+                },
+                {
+                  "property": "conversation.ENT_ICMIVRTransferReason",
+                  "value": "?"
+                },
+                {
+                  "property": "conversation.callerType",
+                  "value": "MM"
+                },
+                {
+                  "property": "conversation.callerLanguage",
+                  "value": "English"
+                },
+                {
+                  "property": "conversation.authFlag",
+                  "value": false
+                },
+                {
+                  "property": "conversation.silentTransfer",
+                  "value": false
+                },
+                {
+                  "property": "conversation.contactSourceSystemMapJSON",
+                  "value": {
+                    "10": "Z",
+                    "11": "?",
+                    "12": "?",
+                    "13": "G",
+                    "14": "O",
+                    "15": "?",
+                    "24": "O",
+                    "30": "?",
+                    "31": "?",
+                    "32": "N",
+                    "33": "I",
+                    "34": "R",
+                    "35": "?",
+                    "41": "F",
+                    "44": "?",
+                    "45": "?",
+                    "54": "S",
+                    "55": "B",
+                    "56": "B",
+                    "57": "P",
+                    "58": "M",
+                    "59": "M",
+                    "60": "M",
+                    "61": "M",
+                    "62": "M",
+                    "63": "M",
+                    "64": "M",
+                    "65": "M",
+                    "66": "F",
+                    "01": "U",
+                    "02": "C",
+                    "03": "P",
+                    "04": "?",
+                    "05": "F",
+                    "06": "?",
+                    "07": "?",
+                    "08": "L",
+                    "09": "D",
+                    "A8": "F",
+                    "A9": "F",
+                    "CR": "A"
+                  }
+                },
+                {
+                  "property": "conversation.medicalBEVisitCount",
+                  "value": 0
+                },
+                {
+                  "property": "conversation.medicalEligibilityVisitCount",
+                  "value": 0
+                },
+                {
+                  "property": "conversation.AppNm",
+                  "value": "=''"
+                },
+                {
+                  "property": "conversation.AppVsnNbr",
+                  "value": "=''"
+                },
+                {
+                  "property": "conversation.AppArea",
+                  "value": "=''"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "69ZWqV"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.startDate",
+                  "value": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")"
+                },
+                {
+                  "property": "conversation.callStartDate",
+                  "value": "=formatDateTime(utcNow())"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "BZrLUt"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "TelephonyEvent",
+                "pegType": "General",
+                "request": "Telephony Event",
+                "response": "=turn",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MemberRootBot_Telephony_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "qrS4WL",
+                "comment": "Initializing bot properties."
+              },
+              "assignments": [
+                {
+                  "property": "conversation.storageKey",
+                  "value": "=turn.activity.channelData.StorageKey ? turn.activity.channelData.StorageKey : turn.activity.channelData.CiscoGUcid"
+                },
+                {
+                  "property": "conversation.conversationId",
+                  "value": "=turn.activity.conversation.id"
+                },
+                {
+                  "property": "conversation.botDnFromTelephony",
+                  "value": "=turn.activity.channelData.callee ? turn.activity.channelData.callee : settings.eiBotDN"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "VfOeET"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.kvpInUrl",
+                  "value": "=concat(settings.gmsEndPoint,conversation.storageKey,\"?ver=\",settings.botVersion,\"&botname=\",settings.botName,\"&env=\",settings.botEnvironment)"
+                },
+                {
+                  "property": "conversation.tokenUrl",
+                  "value": "=concat(settings.accessTokenEndPoint,\"?ver=\",settings.botVersion,\"&botname=\",settings.botName,\"&env=\",settings.botEnvironment)"
+                }
+              ]
+            },
+            {
+              "$kind": "Optum.HttpRequestDialog",
+              "$designer": {
+                "id": "S1qBRh"
+              },
+              "clientid": "=settings.accessTokenClientId",
+              "clientsecret": "=settings.accessTokenClientSecret",
+              "tokencontentType": "application/json",
+              "method": "GET",
+              "contentType": "application/json",
+              "timeout": "=settings.gmsResponseTimeoutInMS",
+              "resultProperty": "dialog.gmsResult",
+              "verbiageToggleVal": false,
+              "retryCount": "=settings.retryCount",
+              "retryInterval": "=settings.retryInterval",
+              "connectionString": "=settings.connectionString",
+              "containerName": "=settings.containerName",
+              "tokenurl": "=conversation.tokenUrl",
+              "url": "=conversation.kvpInUrl",
+              "tokenTimeout": "=settings.accessTokenTimeout"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "UDYSW3"
+              },
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "zE3GDw",
+                    "comment": "Set KVPs to conversation scope and add CiscoGUcid."
+                  },
+                  "assignments": [
+                    {
+                      "value": "=json(dialog.gmsResult.output.KVPs)",
+                      "property": "conversation.KVPs"
+                    },
+                    {
+                      "property": "conversation.KVPs",
+                      "value": "=getProperty(conversation.KVPs, \"CiscoGUcid\") ? setProperty(conversation.KVPs, \"CiscoGUcid\", turn.activity.channelData.CiscoGUcid) :addProperty(conversation.KVPs, \"CiscoGUcid\", turn.activity.channelData.CiscoGUcid)"
+                    },
+                    {
+                      "value": "=getProperty(conversation.KVPs, \"conversationId\") ? setProperty(conversation.KVPs, \"conversationId\", string(turn.activity.conversation.id)) : addProperty(conversation.KVPs, \"conversationId\", string(turn.activity.conversation.id))",
+                      "property": "conversation.KVPs"
+                    },
+                    {
+                      "property": "conversation.ENT_ContactConstituentType",
+                      "value": "=getProperty(conversation.KVPs, \"ENT_ContactConstituentType\")"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "Dc1U7r"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "memberRoot_Start_KVPIN",
+                    "pegType": "DataInterface",
+                    "request": "{\"URL\": \"${conversation.kvpInUrl}\"}",
+                    "response": "=dialog.gmsResult",
+                    "startDTM": "=conversation.startDate",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "MemberRootBot_Start_KVPIN_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "qUAMb9"
+                  },
+                  "property": "conversation.ani",
+                  "value": "=isMatch(getProperty(conversation.KVPs, \"ENT_FromAddress\"),\"^[0-9]*$\") ? int(getProperty(conversation.KVPs, \"ENT_FromAddress\")) : getProperty(conversation.KVPs, \"ENT_FromAddress\")"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "RtUDd8"
+                  },
+                  "property": "dialog.kvpsFound",
+                  "value": true
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "q9iyXI"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "memberRoot_Start_KVPIN_Failure",
+                    "pegType": "DataInterface",
+                    "request": "{\"URL\": \"${conversation.kvpInUrl}\"}",
+                    "response": "=dialog.gmsResult",
+                    "startDTM": "=conversation.startDate",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "MemberRootBot_Start_KVPIN_Failure_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "Nrwxto"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.transferReason",
+                      "value": "MemberRootBot_KVPIN_SysError"
+                    },
+                    {
+                      "property": "conversation.transferPegVal",
+                      "value": "GMS_ERROR"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "9GQs28"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "GlobalBehavior",
+                  "options": {
+                    "behavior": "SystemError"
+                  }
+                }
+              ],
+              "condition": "=and(string(dialog.gmsResult.status_messages)!=\"error\", dialog.gmsResult.status_code==200, length(string(dialog.gmsResult.output.KVPs))>2)"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "SetKVPsAndBotProps.lg",
+  "recognizer": "SetKVPsAndBotProps.lu.qna",
+  "id": "SetKVPsAndBotProps"
+}

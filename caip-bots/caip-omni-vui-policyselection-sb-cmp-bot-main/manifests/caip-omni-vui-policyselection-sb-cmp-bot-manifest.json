@@ -1,0 +1,25 @@
+{
+  "$schema": "https://schemas.botframework.com/schemas/skills/v2.2/skill-manifest.json",
+  "$id": "caip-omni-vui-policyselection-sb-cmp-bot",
+  "endpoints": [
+    {
+      "protocol": "BotFrameworkV3",
+      "name": "omni-vui-policyselection-sb-cmp",
+      "endpointUrl": "https://omni-vui-policyselection-sb-cmp-app-dev-v1.azurewebsites.net/api/messages",
+      "description": "to select the membership associated with the user",
+      "msAppId": "52cc7e7f-7126-4d04-a3b7-be8cf10be3ed"
+    }
+  ],
+  "name": "caip-omni-vui-policyselection-sb-cmp-bot",
+  "version": "1.0",
+  "publisherName": "CoreEngineeringTeam",
+  "activities": {
+    "omni-vui-policyselection-sb-cmp": {
+      "type": "event",
+      "name": "omni-vui-policyselection-sb-cmp"
+    },
+    "message": {
+      "type": "message"
+    }
+  }
+}

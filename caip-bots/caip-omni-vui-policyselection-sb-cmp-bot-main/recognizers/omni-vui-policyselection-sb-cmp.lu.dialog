@@ -1,0 +1,8 @@
+{
+  "$kind": "Microsoft.MultiLanguageRecognizer",
+  "id": "LUIS_omni-vui-policyselection-sb-cmp",
+  "recognizers": {
+    "en-us": "omni-vui-policyselection-sb-cmp.en-us.lu",
+    "": "omni-vui-policyselection-sb-cmp.en-us.lu"
+  }
+}

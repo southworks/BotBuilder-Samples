@@ -1,0 +1,517 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "CWbgMS",
+    "name": "GetMemberCoverage",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "fvt8FN"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "VfOeEF"
+          },
+          "assignments": [
+            {
+              "property": "conversation.memberCoverageUrl",
+              "value": "=concat(settings.memberCoverageSearchEndPoint,\"?ver=\",settings.botVersion,\"&botname=\",settings.botName,\"&env=\",settings.botEnvironment)"
+            },
+            {
+              "property": "conversation.tokenUrl",
+              "value": "=concat(settings.accessTokenEndPoint,\"?ver=\",settings.botVersion,\"&botname=\",settings.botName,\"&env=\",settings.botEnvironment)"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "3y2Yaj"
+          },
+          "property": "dialog.groupNumber",
+          "value": "=getProperty(conversation.KVPs, 'ENT_ContactGroupID') ? getProperty(conversation.KVPs, 'ENT_ContactGroupID') : ''"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "nFFpu5",
+            "name": "Setting request body for Member Info search API call"
+          },
+          "property": "conversation.memberCoverageSearchReqBody",
+          "value": {
+            "sessionId": "${conversation.storageKey}",
+            "consumerApp": "UHCMemberRootBOT",
+            "coverageVersion": "${conversation.tfnConfig.MembershipSearch_Coverage_version}",
+            "coverageTypePriority": "M,MA,MC,ME,MH,MS,B,RX",
+            "timeLinePriority": "CURRENT,PAST,FUTURE",
+            "groupNumber": "${dialog.groupNumber}",
+            "logLevel": "INFO"
+          }
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "FISvHj",
+            "name": "Set properties for fpTelemetry"
+          },
+          "assignments": [
+            {
+              "property": "conversation.telemetryProps",
+              "value": "={}"
+            },
+            {
+              "property": "conversation.customMetrics",
+              "value": "={}"
+            },
+            {
+              "property": "conversation.telemetryProps",
+              "value": "=addProperty(conversation.telemetryProps,\"appName\", settings.botName)"
+            },
+            {
+              "property": "conversation.telemetryProps",
+              "value": "=addProperty(conversation.telemetryProps,\"peg\",\"10194\")"
+            },
+            {
+              "property": "conversation.telemetryProps",
+              "value": "=addProperty(conversation.telemetryProps,\"pegType\",\"General\")"
+            },
+            {
+              "property": "conversation.telemetryProps",
+              "value": "=addProperty(conversation.telemetryProps,\"request\",GlobalBehavior.GlobalTimeoutFirstMsg())"
+            },
+            {
+              "property": "conversation.telemetryProps",
+              "value": "=addProperty(conversation.telemetryProps,\"response\",\"\")"
+            },
+            {
+              "property": "conversation.telemetryProps",
+              "value": "=addProperty(conversation.telemetryProps,\"startDTM\",utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\"))"
+            },
+            {
+              "property": "conversation.telemetryProps",
+              "value": "=addProperty(conversation.telemetryProps,\"endDTM\",utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\"))"
+            },
+            {
+              "value": "=addProperty(conversation.telemetryProps,\"conversationId\",conversation.conversationId ? conversation.conversationId : \"\")",
+              "property": "conversation.telemetryProps"
+            },
+            {
+              "value": "=addProperty(conversation.telemetryProps,\"callId\",getProperty(conversation.KVPs, \"ENT_CallUUID\") ? getProperty(conversation.KVPs, \"ENT_CallUUID\") : \"\")",
+              "property": "conversation.telemetryProps"
+            },
+            {
+              "property": "conversation.telemetryProps",
+              "value": "=addProperty(conversation.telemetryProps,\"pegName\", \"MemberRootBot_FirstGlobalTimeout_Peg\")"
+            },
+            {
+              "property": "conversation.customMetrics",
+              "value": "=addProperty(conversation.customMetrics,\"Peg\",\"10194\")"
+            },
+            {
+              "property": "conversation.customMetrics",
+              "value": "=addProperty(conversation.customMetrics,\"PegType\",\"General\")"
+            },
+            {
+              "property": "conversation.customMetrics",
+              "value": "=addProperty(conversation.customMetrics,\"Request\",GlobalBehavior.GlobalTimeoutFirstMsg())"
+            },
+            {
+              "property": "conversation.customMetrics",
+              "value": "=addProperty(conversation.customMetrics,\"Response\",\"\")"
+            },
+            {
+              "property": "conversation.customMetrics",
+              "value": "=addProperty(conversation.customMetrics,\"StartDTM\",utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\"))"
+            },
+            {
+              "property": "conversation.customMetrics",
+              "value": "=addProperty(conversation.customMetrics,\"EndDTM\",utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\"))"
+            },
+            {
+              "value": "=addProperty(conversation.customMetrics,\"ConversationId\",conversation.conversationId ? conversation.conversationId : \"\")",
+              "property": "conversation.customMetrics"
+            },
+            {
+              "value": "=addProperty(conversation.customMetrics,\"CallId\",getProperty(conversation.KVPs, \"ENT_CallUUID\") ? getProperty(conversation.KVPs, \"ENT_CallUUID\") : \"\")",
+              "property": "conversation.customMetrics"
+            },
+            {
+              "property": "conversation.customMetrics",
+              "value": "=addProperty(conversation.customMetrics,\"PegName\", \"MemberRootBot_FirstGlobalTimeout_Peg\")"
+            },
+            {
+              "property": "conversation.customMetrics",
+              "value": "=addProperty(conversation.customMetrics,\"AppName\", \"MemberRootBot\")"
+            },
+            {
+              "property": "conversation.customMetricsArr",
+              "value": "=[]"
+            },
+            {
+              "property": "conversation.fpTelemetryProps",
+              "value": "={}"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EditArray",
+          "$designer": {
+            "id": "GPql3A"
+          },
+          "changeType": "push",
+          "resultProperty": "conversation.newCustomMetricsArr",
+          "itemsProperty": "conversation.customMetricsArr",
+          "value": "=conversation.customMetrics"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "lzXR9e"
+          },
+          "assignments": [
+            {
+              "property": "conversation.telemetryProps",
+              "value": "=addProperty(conversation.telemetryProps,\"customMetrics\",conversation.customMetricsArr)"
+            },
+            {
+              "value": "=addProperty(conversation.fpTelemetryProps,\"properties\", conversation.telemetryProps)",
+              "property": "conversation.fpTelemetryProps"
+            },
+            {
+              "property": "conversation.fpTelemetryProps",
+              "value": "=addProperty(conversation.fpTelemetryProps,\"name\", \"MemberRootBot_FirstGlobalTimeout_Peg\")"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "FISvHi",
+            "name": "Set properties for rpTelemetry"
+          },
+          "assignments": [
+            {
+              "property": "conversation.telemetryProps",
+              "value": "={}"
+            },
+            {
+              "property": "conversation.customMetrics",
+              "value": "={}"
+            },
+            {
+              "property": "conversation.telemetryProps",
+              "value": "=addProperty(conversation.telemetryProps,\"appName\", settings.botName)"
+            },
+            {
+              "property": "conversation.telemetryProps",
+              "value": "=addProperty(conversation.telemetryProps,\"peg\",\"10195\")"
+            },
+            {
+              "property": "conversation.telemetryProps",
+              "value": "=addProperty(conversation.telemetryProps,\"pegType\",\"General\")"
+            },
+            {
+              "property": "conversation.telemetryProps",
+              "value": "=addProperty(conversation.telemetryProps,\"request\",GlobalBehavior.GlobalTimeoutRepeatMsg())"
+            },
+            {
+              "property": "conversation.telemetryProps",
+              "value": "=addProperty(conversation.telemetryProps,\"response\",\"\")"
+            },
+            {
+              "property": "conversation.telemetryProps",
+              "value": "=addProperty(conversation.telemetryProps,\"startDTM\",utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\"))"
+            },
+            {
+              "property": "conversation.telemetryProps",
+              "value": "=addProperty(conversation.telemetryProps,\"endDTM\",utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\"))"
+            },
+            {
+              "value": "=addProperty(conversation.telemetryProps,\"conversationId\",conversation.conversationId ? conversation.conversationId : \"\")",
+              "property": "conversation.telemetryProps"
+            },
+            {
+              "value": "=addProperty(conversation.telemetryProps,\"callId\",getProperty(conversation.KVPs, \"ENT_CallUUID\") ? getProperty(conversation.KVPs, \"ENT_CallUUID\") : \"\")",
+              "property": "conversation.telemetryProps"
+            },
+            {
+              "property": "conversation.telemetryProps",
+              "value": "=addProperty(conversation.telemetryProps,\"pegName\", \"MemberRootBot_SecondGlobalTimeout_Peg\")"
+            },
+            {
+              "property": "conversation.telemetryProps",
+              "value": "=addProperty(conversation.telemetryProps,\"TFN\",getProperty(conversation.KVPs, \"ENT_ToAddress\") ? getProperty(conversation.KVPs, \"ENT_ToAddress\") : \"\")"
+            },
+            {
+              "property": "conversation.customMetrics",
+              "value": "=addProperty(conversation.customMetrics,\"Peg\",\"10195\")"
+            },
+            {
+              "property": "conversation.customMetrics",
+              "value": "=addProperty(conversation.customMetrics,\"PegType\",\"General\")"
+            },
+            {
+              "property": "conversation.customMetrics",
+              "value": "=addProperty(conversation.customMetrics,\"Request\",GlobalBehavior.GlobalTimeoutRepeatMsg())"
+            },
+            {
+              "property": "conversation.customMetrics",
+              "value": "=addProperty(conversation.customMetrics,\"Response\",\"\")"
+            },
+            {
+              "property": "conversation.customMetrics",
+              "value": "=addProperty(conversation.customMetrics,\"StartDTM\",utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\"))"
+            },
+            {
+              "property": "conversation.customMetrics",
+              "value": "=addProperty(conversation.customMetrics,\"EndDTM\",utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\"))"
+            },
+            {
+              "value": "=addProperty(conversation.customMetrics,\"ConversationId\",conversation.conversationId ? conversation.conversationId : \"\")",
+              "property": "conversation.customMetrics"
+            },
+            {
+              "value": "=addProperty(conversation.customMetrics,\"CallId\",getProperty(conversation.KVPs, \"ENT_CallUUID\") ? getProperty(conversation.KVPs, \"ENT_CallUUID\") : \"\")",
+              "property": "conversation.customMetrics"
+            },
+            {
+              "property": "conversation.customMetrics",
+              "value": "=addProperty(conversation.customMetrics,\"PegName\", \"MemberRootBot_SecondGlobalTimeout_Peg\")"
+            },
+            {
+              "property": "conversation.customMetrics",
+              "value": "=addProperty(conversation.customMetrics,\"AppName\", \"MemberRootBot\")"
+            },
+            {
+              "property": "conversation.customMetricsArr",
+              "value": "=[]"
+            },
+            {
+              "property": "conversation.rpTelemetryProps",
+              "value": "={}"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EditArray",
+          "$designer": {
+            "id": "GPql3A"
+          },
+          "changeType": "push",
+          "resultProperty": "conversation.newCustomMetricsArr",
+          "itemsProperty": "conversation.customMetricsArr",
+          "value": "=conversation.customMetrics"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "0JlTPA"
+          },
+          "assignments": [
+            {
+              "property": "conversation.telemetryProps",
+              "value": "=addProperty(conversation.telemetryProps,\"customMetrics\",conversation.customMetricsArr)"
+            },
+            {
+              "value": "=addProperty(conversation.rpTelemetryProps,\"properties\", conversation.telemetryProps)",
+              "property": "conversation.rpTelemetryProps"
+            },
+            {
+              "property": "conversation.rpTelemetryProps",
+              "value": "=addProperty(conversation.rpTelemetryProps,\"name\", \"MemberRootBot_SecondGlobalTimeout_Peg\")"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "VyGZtv"
+          },
+          "value": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+          "property": "dialog.startDTM"
+        },
+        {
+          "$kind": "Optum.HttpRequestDialog",
+          "$designer": {
+            "id": "EiW5RD",
+            "name": "Omni-Http Request MemberCoverage"
+          },
+          "clientid": "=settings.accessTokenClientId",
+          "clientsecret": "=settings.accessTokenClientSecret",
+          "tokencontentType": "application/json",
+          "method": "POST",
+          "contentType": "application/json",
+          "timeout": "=settings.mwTimeOutInMS",
+          "resultProperty": "dialog.memberCoverageSearchResult",
+          "verbiageToggleVal": true,
+          "retryCount": 0,
+          "retryInterval": 0,
+          "connectionString": "=settings.connectionString",
+          "containerName": "=settings.containerName",
+          "tokenurl": "=conversation.tokenUrl",
+          "url": "=conversation.memberCoverageUrl",
+          "body": "=conversation.memberCoverageSearchReqBody",
+          "firstPrompt": "=GlobalBehavior.GlobalTimeoutFirstMsg()",
+          "repeatPrompt": "=GlobalBehavior.GlobalTimeoutRepeatMsg()",
+          "fstpmtteleval": "=conversation.fpTelemetryProps",
+          "rptpmtteleval": "=conversation.rpTelemetryProps",
+          "promptTime": "=settings.promptTimeInMS",
+          "tokenTimeout": "=settings.accessTokenTimeout"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "1XrnhI",
+            "name": "Telemetry for MWAUTH36"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "memberRoot_MWAUTH03",
+            "pegType": "DataInterface",
+            "request": "{\"URL\":\"${conversation.memberCoverageUrl}\",\"RequestBody\":${conversation.memberCoverageSearchReqBody}}",
+            "response": "=dialog.memberCoverageSearchResult",
+            "startDTM": "=dialog.startDTM",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "AppName": "=settings.botName",
+            "conversationId": "=conversation.conversationId",
+            "eventName": "MemberRootBot_MWAUTH03_Peg"
+          }
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "V3G4U0",
+            "comment": "Return Code 200 == Success\n                     404 == NotFound\n      Anything Else = Sys Error/Timeout",
+            "name": "Branch: Switch options Based on API response"
+          },
+          "cases": [
+            {
+              "value": "200",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "rq6mkb"
+                  },
+                  "property": "conversation.memberCoverage",
+                  "value": "=dialog.memberCoverageSearchResult.output"
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "VS7bIr"
+                  }
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "GpBhi8"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.transferPegVal",
+                      "value": "memberRoot_MWAUTH03_NoData"
+                    },
+                    {
+                      "property": "conversation.transferReason",
+                      "value": "MemberRootBot_SearchMemberCoverage_NoData"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "1XrnhH",
+                    "name": "Telemetry for 10119(not Found)"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=conversation.transferPegVal",
+                    "pegType": "General",
+                    "request": "",
+                    "response": "NoData",
+                    "startDTM": "=dialog.startDTM",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "AppName": "=settings.botName",
+                    "conversationId": "=conversation.conversationId",
+                    "eventName": "MemberRootBot_MWAUTH03_NoData_Peg"
+                  }
+                }
+              ],
+              "value": "404"
+            }
+          ],
+          "condition": "=dialog.memberCoverageSearchResult.status_code",
+          "default": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "Q75Re4"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.transferPegVal",
+                  "value": "=equals(getProperty(dialog.memberInfoSearchResult, \"status_code\"), \"000\") ? \"memberRoot_MWAUTH03_Timeout\" : \"memberRoot_MWAUTH03_ErrorException\""
+                },
+                {
+                  "property": "conversation.transferReason",
+                  "value": "=equals(getProperty(dialog.memberCoverageSearchResult, \"status_code\"), \"000\")? \"MemberRootBot_SearchMemberCoverage_TimeOut\" : \"MemberRootBot_SearchMemberCoverage_SystemError\""
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "obQ3Wy",
+                "name": "Telemetry for TimeOut & SysError"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "=conversation.transferPegVal",
+                "pegType": "General",
+                "request": "MWUTH06 request",
+                "response": "=equals(getProperty(dialog.providerSearchResult, \"status_code\"), \"000\")? \"RequestTimeOut\" : \"SystemError\"",
+                "startDTM": "=conversation.startDTM",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "AppName": "=settings.botName",
+                "conversationId": "=conversation.conversationId",
+                "eventName": "=equals(getProperty(dialog.memberInfoSearchResult, \"status_code\"), \"000\")? \"MemberRootBot_MWAUTH03_Timeout_Peg\" : \"MemberRootBot_MWAUTH03_ErrorException_Peg\""
+              }
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "YM8rOw",
+            "name": "Globals"
+          },
+          "activityProcessed": true,
+          "dialog": "GlobalBehavior",
+          "options": {
+            "behavior": "SystemError"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "GetMemberCoverage.lg",
+  "recognizer": "GetMemberCoverage.lu.qna",
+  "id": "GetMemberCoverage"
+}

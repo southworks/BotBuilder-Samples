@@ -1,0 +1,141 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "NFrEmv",
+    "name": "AuthCompleteDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "A8538O"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "jbxtzY"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "00069",
+            "pegType": "General",
+            "request": "",
+            "response": "",
+            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "MembAuthSkill_AuthComplete_Peg"
+          }
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "MCLMZJ"
+          },
+          "condition": "=conversation.tfnConfig.IDAuth_AccountConfirmPrompt_Toggle == \"OFF\"",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "zbmmhr"
+              },
+              "activity": "${SendActivity_spkAccountConfirmed()}"
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "1WF3eL"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "00169",
+                "pegType": "General",
+                "request": "=AuthCompleteDialog.SendActivity_spkAccountConfirmed()",
+                "response": "",
+                "startDTM": "=conversation.startDate",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MembAuthSkill_AccountConfirmed_Peg"
+              }
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "hhPgh5"
+          },
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "r8ZwKm"
+              },
+              "activityProcessed": true,
+              "dialog": "AARPLocatorKeysSearchDialog"
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "SqpCfE"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.skillResponseParams",
+                  "value": "=addProperty(conversation.skillResponseParams, \"breezeId\", conversation.breezeId)"
+                },
+                {
+                  "property": "conversation.skillResponseParams",
+                  "value": "=addProperty(conversation.skillResponseParams, \"aarpBreezeIdPresent\", conversation.aarpBreezeIdPresent)"
+                }
+              ]
+            }
+          ],
+          "actions": [],
+          "condition": "=!contains(toLower(conversation.consumerAppName),\"aarp\")"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "ccNfqm"
+          },
+          "assignments": [
+            {
+              "value": "=addProperty(conversation.skillResponseParams,\"member\",conversation.member.individual)",
+              "property": "conversation.skillResponseParams"
+            },
+            {
+              "property": "conversation.transferReasonCode",
+              "value": "S"
+            },
+            {
+              "property": "conversation.transferReason",
+              "value": "=concat(conversation.inputVal,\"_AuthComplete\")"
+            },
+            {
+              "property": "conversation.silentTransfer",
+              "value": false
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "pFvAnr"
+          },
+          "activityProcessed": true,
+          "dialog": "SetSkillResponseParams"
+        }
+      ]
+    }
+  ],
+  "generator": "AuthCompleteDialog.lg",
+  "recognizer": "AuthCompleteDialog.lu.qna",
+  "id": "AuthCompleteDialog"
+}

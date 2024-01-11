@@ -1,0 +1,381 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "EuWS7i",
+    "name": "MembershipSearchDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "bT6fLc"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "tST22Q"
+          },
+          "assignments": [
+            {
+              "value": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+              "property": "conversation.startDate"
+            },
+            {
+              "property": "dialog.body",
+              "value": "{ \"logLevel\": \"INFO\",\"sessionId\": \"${conversation.callGUID}\",\"consumerApp\": \"${conversation.appName}\",  \"coverageVersion\": \"${conversation.tfnConfig.MembershipSearch_Coverage_Version}\",\"coverageTypePriority\": \"${conversation.tfnConfig.IDAuth_Coverage_Type_Priority}\", \"timeLinePriority\": \"${conversation.policy_DateRange}\",\"dateOfService\": \"${conversation.mw_policy_DOS}\",\"onlyRx\": \"${conversation.onlyRx}\",\"onlyAARP\": \"${conversation.onlyAARP}\",\"medSup\": \"${conversation.medSup}\",\"groupNumber\": \"${conversation.groupNumber}\",\"policyCategory\": \"${conversation.policyCategory}\"  }"
+            },
+             {
+              "property": "conversation.memberMembershipSearchUrl",
+              "value": "=concat(settings.memberMembershipSearchEndpoint,\"?ver=\",settings.botVersion,\"&botname=\",settings.botName,\"&env=\",settings.botEnvironment)"
+            },
+            {
+              "property": "dialog.verbiageToggle",
+              "value": "=conversation.tfnConfig.AI_Suppress_Global_Verbiage_Toggle == \"ON\"?false:true"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "AnY7KP"
+          },
+          "activity": "${SendActivity_DisableSpeechEvent()}"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "8Neg1Y"
+          },
+          "activityProcessed": true,
+          "dialog": "GetPromptTelemetryProps"
+        },
+        {
+          "$kind": "Optum.HttpRequestDialog",
+          "$designer": {
+            "id": "RPucop"
+          },
+          "verbiageToggleVal": "=dialog.verbiageToggle",
+          "tokenurl": "=settings.accessTokenEndPoint",
+          "clientid": "=settings.accessTokenClientId",
+          "clientsecret": "=settings.accessTokenClientSecret",
+          "url": "=conversation.memberMembershipSearchUrl",
+          "method": "POST",
+          "body": "=dialog.body",
+          "tokencontentType": "application/json",
+          "contentType": "application/json",
+          "timeout": "=settings.mwResponseTimeoutInMS",
+          "retryCount": 0,
+          "retryInterval": 0,
+          "firstPrompt": "=Common.SendActivity_GlobalTimeOutFirstMsg()",
+          "repeatPrompt": "=Common.SendActivity_GlobalTimeOutSecondMsg()",
+          "fstpmtteleval": "=conversation.firstPromptTelemetryProps",
+          "rptpmtteleval": "=conversation.repeatPromptTelemetryProps",
+          "tokenTimeout": "=settings.accessTokenTimeout",
+          "resultProperty": "conversation.membershipSearchData",
+          "promptTime": "=conversation.promptTimeInMS",
+          "connectionString": "=settings.connectionString",
+          "containerName": "=settings.containerName"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "dwR3Vv"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "MWAUTH03",
+            "pegType": "DataInterface",
+            "request": "{\"URL\":\"${conversation.memberMembershipSearchUrl}\",\"RequestBody\":${dialog.body}}",
+            "response": "=conversation.membershipSearchData",
+            "startDTM": "=conversation.startDate",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "PolicySelectionSkill_MWAUTH03_Peg"
+          }
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "6jcp97"
+          },
+          "condition": "=conversation.membershipSearchData.status_code",
+          "cases": [
+            {
+              "value": "200",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "B75BzJ"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.MWPegVal(conversation.inputVal,\"Success\")",
+                    "pegType": "General",
+                    "request": "",
+                    "response": "",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "PolicySelectionSkill_MWAUTH03_Success_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "QyrPEB"
+                  },
+                  "condition": "=conversation.alreadyCalledMW",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "zgqokq"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.memberindividualsmemberships",
+                          "value": "=conversation.membershipSearchData.output.coverage"
+                        },
+                        {
+                          "property": "conversation.policySelectedFlag",
+                          "value": true
+                        },
+                        {
+                          "property": "conversation.transferReasonCode",
+                          "value": "S"
+                        },
+                        {
+                          "property": "conversation.transferReason",
+                          "value": "=concat(conversation.inputVal,\"_PolicySelectionComplete\")"
+                        },
+                        {
+                          "value": "=addProperty(conversation.skillResponseParams,\"member\",conversation.memberindividualsmemberships)",
+                          "property": "conversation.skillResponseParams"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "PHeeIT"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "SetSkillResponseParams"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "vo38e3"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.alreadyCalledMW",
+                          "value": true
+                        },
+                        {
+                          "property": "conversation.memberindividualsmemberships",
+                          "value": "=conversation.membershipSearchData.output.coverage"
+                        },
+                        {
+                          "property": "conversation.resolveCoverageIndicator",
+                          "value": "=conversation.membershipSearchData.output.resolveCoverageIndicator"
+                        },
+                        {
+                          "property": "conversation.mwFailure",
+                          "value": false
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "404",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "FVSU3E"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.MWPegVal(conversation.inputVal,\"NoData\")",
+                    "pegType": "General",
+                    "request": "",
+                    "response": "",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "PolicySelectionSkill_MWAUTH03_NoData_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "F5CwO0"
+                  },
+                  "activity": "${SendActivity_MWPolicySystemErrorMsg()}"
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "540gX9"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.transferReasonCode",
+                      "value": "X"
+                    },
+                    {
+                      "property": "conversation.transferReason",
+                      "value": "=concat(conversation.inputVal,\"_PolicySelectionInComplete\")"
+                    },
+                    {
+                      "property": "conversation.silentTransfer",
+                      "value": true
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "5ZF3lp"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "SetSkillResponseParams"
+                }
+              ]
+            },
+            {
+              "value": "408",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "OsO92k"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "GlobalContainer",
+                  "options": {
+                    "globalParam": "timeoutxfer"
+                  }
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "P3WZ0V"
+              },
+              "condition": "=conversation.tfnConfig.MW_Retry_Toggle == \"ON\" &&  !conversation.mwFailure",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "qtGixW"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.MWPegVal(conversation.inputVal,\"Retry\")",
+                    "pegType": "General",
+                    "request": "",
+                    "response": "",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "PolicySelectionSkill_MWAUTH03_Retry_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "QPmOtj"
+                  },
+                  "property": "conversation.mwFailure",
+                  "value": true
+                },
+                {
+                  "$kind": "Microsoft.RepeatDialog",
+                  "$designer": {
+                    "id": "l50E1w"
+                  },
+                  "activityProcessed": true,
+                  "allowLoop": false
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "TahadJ"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.MWPegVal(conversation.inputVal,\"NoRetry\")",
+                    "pegType": "General",
+                    "request": "",
+                    "response": "",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "PolicySelectionSkill_MWAUTH03_NoRetry_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "U2yWJX"
+                  },
+                  "activity": "${SendActivity_MWPolicySystemErrorMsg()}"
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "xxC0PT"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.transferReasonCode",
+                      "value": "X"
+                    },
+                    {
+                      "property": "conversation.silentTransfer",
+                      "value": true
+                    },
+                    {
+                      "property": "conversation.transferReason",
+                      "value": "=concat(conversation.inputVal,\"_PolicySelectionInComplete\")"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "NYny5Z"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "SetSkillResponseParams"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "MembershipSearchDialog.lg",
+  "recognizer": "MembershipSearchDialog.lu.qna",
+  "id": "MembershipSearchDialog"
+}

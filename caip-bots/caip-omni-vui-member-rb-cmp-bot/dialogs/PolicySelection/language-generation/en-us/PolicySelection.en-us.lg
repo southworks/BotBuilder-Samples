@@ -1,0 +1,47 @@
+> !# @Namespace=PolicySelection
+> !# @Exports =PolicySelectionSkill_Activity_Params, ConfigActivityEvent_AfterSkill,getCDSRequest
+[import](common.lg)
+
+# PolicySelectionSkill_Activity_Params()
+[Activity
+    Type = event
+    Name = triggerSkill
+    value = ${
+		{
+			appName: conversation.botName,
+			businessUnit:concat("Member",conversation.tfnLOB),
+			conversationId:conversation.conversationId,
+			callId: conversation.KVPs.ENT_CallUUID,
+			tfn: conversation.KVPs.ENT_ToAddress,
+			callGUID: conversation.storageKey,			
+			parameters: {
+				tfnConfig: conversation.tfnConfig,
+				userIntentDoS: false,
+				callerType: "member"
+			}
+		}
+    }
+]
+
+# ConfigActivityEvent_AfterSkill()
+[Activity
+    Type = event
+    Name = config
+    channelData = ${
+        {
+            activityParams:{
+                bargeIn: false,
+                bargeInOnDTMF: false,
+                enableSpeechInput: false
+            },
+            sessionParams:{
+                userNoInputTimeoutMS:5000
+            }
+        }
+    }
+]
+
+#getCDSRequest()
+-${	
+	
+}

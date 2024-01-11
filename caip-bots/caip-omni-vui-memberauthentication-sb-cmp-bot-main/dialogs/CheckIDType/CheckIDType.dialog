@@ -1,0 +1,117 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "LtcHfk",
+    "name": "CheckIDType",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "lds2PD"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "kwS6KL"
+          },
+          "condition": "=conversation.IDType==\"MEMID\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "57BVs2"
+              },
+              "condition": "=conversation.tfnConfig.ZIPAuthenticationToggle == \"ON\"",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "cDSkA9"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "ZIPInputDialog"
+                }
+              ],
+              "elseActions": [
+              {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "xfUpzt"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "00043",
+                "pegType": "General",
+                "request": "",
+                "response": "",
+                "startDTM": "=conversation.startDate",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MembAuthSkill_TwinAuthOFF_MIDExists_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "Yj9ACg"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.authFlag",
+                  "value": false
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "SNRhsc"
+              },
+              "activityProcessed": true,
+              "dialog": "AuthInCompleteDialog"
+            }
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "dxy2mx"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "00044",
+                "pegType": "General",
+                "request": "",
+                "response": "",
+                "startDTM": "=conversation.startDate",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MembAuthSkill_TwinAuthOFF_MIDNotExists_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "iY4hjW"
+              },
+              "activityProcessed": true,
+              "dialog": "MemberIDInputDialog"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "CheckIDType.lg",
+  "recognizer": "CheckIDType.lu.qna",
+  "id": "CheckIDType"
+}

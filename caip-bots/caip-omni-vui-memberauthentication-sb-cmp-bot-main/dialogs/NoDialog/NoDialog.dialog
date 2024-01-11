@@ -1,0 +1,413 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "n6qmvy",
+    "name": "NoDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "yO3tjG"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "Cc5UWi"
+          },
+          "condition": "conversation.inputVal",
+          "cases": [
+            {
+              "value": "confirmLast4SSN",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "iiDnxF"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal(conversation.inputVal)",
+                    "pegType": "UserInput",
+                    "request": "User Input",
+                    "response": "=if(dialog.fromDialogName==\"DTMF\",turn.activity,turn.recognized)",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=if(dialog.fromDialogName==\"DTMF\",MainDialog.PegName(conversation.inputVal,\"DTMFInput\"),MainDialog.PegName(conversation.inputVal,\"LuisResult\"))"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "ZvDgmY"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.inputVal",
+                      "value": "=\"promptLast4SSN\""
+                    },
+                    {
+                      "property": "conversation.noMatchFlag",
+                      "value": 1
+                    },
+                    {
+                      "property": "conversation.noInputFlag",
+                      "value": 1
+                    },
+                    {
+                      "property": "conversation.repeatFlag",
+                      "value": 1
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "XzlNFi"
+                  },
+                  "activity": "${SendActivity_AuthNoConfirmationMsg()}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "srhSjg"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal(concat(\"ConfirmLast4SSN\",\"NoConfirmation\"))",
+                    "pegType": "General",
+                    "request": "=NoDialog.SendActivity_AuthNoConfirmationMsg()",
+                    "response": "",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=MainDialog.PegName(\"ConfirmLast4SSN\",\"NoConfirmation\")"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "dRdzL0"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "RepeatMessages"
+                }
+              ]
+            },
+            {
+              "value": "confirmZIPCode",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "tjrnKV"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal(conversation.inputVal)",
+                    "pegType": "UserInput",
+                    "request": "User Input",
+                    "response": "=if(dialog.fromDialogName==\"DTMF\",turn.activity,turn.recognized)",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=if(dialog.fromDialogName==\"DTMF\",MainDialog.PegName(conversation.inputVal,\"DTMFInput\"),MainDialog.PegName(conversation.inputVal,\"LuisResult\"))"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "CHv7Ay"
+                  },
+                  "assignments": [
+                    {
+                      "value": "=\"promptZIPCode\"",
+                      "property": "conversation.inputVal"
+                    },
+                    {
+                      "property": "conversation.noMatchFlag",
+                      "value": 1
+                    },
+                    {
+                      "property": "conversation.noInputFlag",
+                      "value": 1
+                    },
+                    {
+                      "property": "conversation.repeatFlag",
+                      "value": 1
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "UHQJ0h"
+                  },
+                  "activity": "${SendActivity_AuthZIPNoConfirmationMsg()}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "iMBuPL"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal(concat(\"ConfirmZIPCode\",\"NoConfirmation\"))",
+                    "pegType": "General",
+                    "request": "=NoDialog.SendActivity_AuthZIPNoConfirmationMsg()",
+                    "response": "",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=MainDialog.PegName(\"ConfirmZIPCode\",\"NoConfirmation\")"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "mX415A"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "RepeatMessages"
+                }
+              ]
+            },
+            {
+              "value": "confirmMID",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "aW57n3"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal(conversation.inputVal)",
+                    "pegType": "UserInput",
+                    "request": "User Input",
+                    "response": "=if(dialog.fromDialogName==\"DTMF\",turn.activity,turn.recognized)",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=if(dialog.fromDialogName==\"DTMF\",MainDialog.PegName(conversation.inputVal,\"DTMFInput\"),MainDialog.PegName(conversation.inputVal,\"LuisResult\"))"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "ebgyrX"
+                  },
+                  "condition": "=conversation.tfnConfig.ID_Auth_ID_Menu_Type",
+                  "cases": [
+                    {
+                      "value": "SSN",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "KxrqS7"
+                          },
+                          "value": "=\"promptSSN\"",
+                          "property": "conversation.inputVal"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "MID-SSN",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "hY16Dw"
+                          },
+                          "property": "conversation.inputVal",
+                          "value": "=\"promptMIDSSN\""
+                        }
+                      ]
+                    },
+                    {
+                      "value": "MEMID",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "19HuE0"
+                          },
+                          "property": "conversation.inputVal",
+                          "value": "=\"promptMEMID\""
+                        }
+                      ]
+                    },
+                    {
+                      "value": "MID-AARP",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "9gwGcw"
+                          },
+                          "property": "conversation.inputVal",
+                          "value": "=\"promptMIDAARP\""
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "Lpqxxj"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.noMatchFlag",
+                      "value": 1
+                    },
+                    {
+                      "property": "conversation.noInputFlag",
+                      "value": 1
+                    },
+                    {
+                      "property": "conversation.repeatFlag",
+                      "value": 1
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "pkPRuM"
+                  },
+                  "activity": "${SendActivity_AuthMIDNoConfirmationMsg()}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "0fvEzs"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal(concat(\"ConfirmMID\",\"NoConfirmation\"))",
+                    "pegType": "General",
+                    "request": "=Common.SendActivity_AuthMIDNoConfirmationMsg()",
+                    "response": "",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=MainDialog.PegName(\"ConfirmMID\",\"NoConfirmation\")"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "6XKw8U"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "RepeatMessages"
+                }
+              ]
+            },
+            {
+              "value": "confirmDOB",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "SkQHBZ"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal(conversation.inputVal)",
+                    "pegType": "UserInput",
+                    "request": "User Input",
+                    "response": "=if(dialog.fromDialogName==\"DTMF\",turn.activity,turn.recognized)",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=if(dialog.fromDialogName==\"DTMF\",MainDialog.PegName(conversation.inputVal,\"DTMFInput\"),MainDialog.PegName(conversation.inputVal,\"LuisResult\"))"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "wNS1W6"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.inputVal",
+                      "value": "=\"promptDOB\""
+                    },
+                    {
+                      "property": "conversation.noMatchFlag",
+                      "value": 1
+                    },
+                    {
+                      "property": "conversation.noInputFlag",
+                      "value": 1
+                    },
+                    {
+                      "property": "conversation.repeatFlag",
+                      "value": 1
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "WZzw0j"
+                  },
+                  "activity": "${SendActivity_AuthNoConfirmationMsg()}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "vsJPd0"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal(concat(\"ConfirmDOB\",\"NoConfirmation\"))",
+                    "pegType": "General",
+                    "request": "=NoDialog.SendActivity_AuthNoConfirmationMsg()",
+                    "response": "",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=MainDialog.PegName(\"ConfirmDOB\",\"NoConfirmation\")"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "uS2EkK"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "RepeatMessages"
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "8qGyEO"
+              },
+              "activityProcessed": true,
+              "dialog": "NoMatchInput"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "NoDialog.lg",
+  "recognizer": "NoDialog.lu.qna",
+  "id": "NoDialog"
+}

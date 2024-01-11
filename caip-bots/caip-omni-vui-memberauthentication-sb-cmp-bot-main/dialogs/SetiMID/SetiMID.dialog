@@ -1,0 +1,209 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "fZJ68X",
+    "name": "SetiMID",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "ISFkeY"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "H6D7TK"
+          },
+          "condition": "=and(!equals(conversation.iMemberID,'123456789'),isMatch(conversation.iMemberID,'^[A-Za-z0-9]{6,13}$'))",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "i8Mlbu"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.newMemberID",
+                  "value": "=split(conversation.iMemberID,'')"
+                },
+                {
+                  "property": "conversation.isMemberIDAllZeros",
+                  "value": "=all(conversation.newMemberID,item,item == \"0\")"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "WYqGTV"
+              },
+              "condition": "=!conversation.isMemberIDAllZeros",
+              "elseActions": [],
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "EOrdPo"
+                  },
+                  "property": "conversation.callMWAUTH02",
+                  "value": true
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "dcEAZs"
+                  },
+                  "condition": "=and(contains(toLower(conversation.consumerAppName),\"aarp\"), length(conversation.iMemberID) == 10)",
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "Fm6gHW"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.iMID",
+                          "value": "=conversation.iMemberID"
+                        }
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "mGMpo7"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.iMID",
+                          "value": "=substring(conversation.iMemberID, 0, 9)"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "P69mdT"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "vykdX3"
+          },
+          "condition": "=!conversation.memidRetry",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "hxLueZ"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.callMWAUTH02",
+                  "value": false
+                },
+                {
+                  "property": "conversation.memidRetry",
+                  "value": true
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "lo7r0D"
+              },
+              "activity": "${SendActivity_AuthMIDNoConfirmationMsg()}"
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "WBvKvU"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "00117",
+                "pegType": "General",
+                "request": "=Common.SendActivity_AuthMIDNoConfirmationMsg()",
+                "response": "",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MembAuthSkill_NotValidMID_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "W5727w"
+              },
+              "activityProcessed": true,
+              "dialog": "RepeatMessages"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "fSsy0K"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "00119",
+                "pegType": "General",
+                "request": "",
+                "response": "",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MembAuthSkill_NotValidMIDAgain_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "2HFX29"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.authFlag",
+                  "value": false
+                },
+                {
+                  "property": "conversation.IDFlag",
+                  "value": "N"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "WOGnec"
+              },
+              "activityProcessed": true,
+              "dialog": "AuthInCompleteDialog"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "SetiMID.lg",
+  "recognizer": "SetiMID.lu.qna",
+  "id": "SetiMID"
+}

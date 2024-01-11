@@ -1,0 +1,26 @@
+{
+  "$schema": "https://schemas.botframework.com/schemas/skills/v2.2/skill-manifest.json",
+  "$id": "caip-omni-vui-personalization-sb-cmp-bot",
+  "endpoints": [
+    {
+      "protocol": "BotFrameworkV3",
+      "name": "omni-vui-personalization-sb-cmp",
+      "endpointUrl": "=settings.skillEndpointUrl",
+      "description": "<description>",
+      "msAppId": "=settings.skillmsAppId"
+    }
+  ],
+  "name": "caip-omni-vui-personalization-sb-cmp-bot",
+  "version": "1.0",
+  "publisherName": "Optum",
+  "description": "conversation manager skill",
+  "activities": {
+    "omni-vui-personalization-sb-cmp": {
+      "type": "event",
+      "name": "omni-vui-personalization-sb-cmp"
+    },
+    "message": {
+      "type": "message"
+    }
+  }
+}

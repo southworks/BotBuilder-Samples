@@ -1,0 +1,105 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "juRWiv",
+    "name": "Validate_IntentCapture",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "rEmTFH"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "yY3vdg"
+          },
+          "condition": "=float(turn.recognized.score) < 0.7",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "Wit6Zu"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.inputValidated",
+                  "value": true
+                },
+                {
+                  "property": "conversation.flowState.flowNextPrompt",
+                  "value": "to_validate_intent"
+                }
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "rTkT9B"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "=MainDialog.PegVal('UserInput')",
+                "pegType": "UserInput",
+                "request": "User Input",
+                "response": "=turn.recognized",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "=equals(conversation.currentAsk, '') ? MainDialog.PegName(conversation.flowState.flowPreviousPrompt, '_UserInput')  : MainDialog.PegName(conversation.currentAsk, '_UserInput')"
+              }
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "DoWVrD",
+                "comment": "Reset currentAsk"
+              },
+              "property": "conversation.currentAsk",
+              "value": "=''"
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "Otj51H"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.inputValidated",
+                  "value": true
+                },
+                {
+                  "property": "conversation.flowState.flowNextPrompt",
+                  "value": "ConfirmIntent"
+                },
+                {
+                  "value": "=conversation.flowState.flowNextPrompt",
+                  "property": "conversation.flowState.flowPreviousPrompt"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "wtjMr6"
+          },
+          "value": "=dialog.inputValidated"
+        }
+      ]
+    }
+  ],
+  "generator": "Validate_IntentCapture.lg",
+  "recognizer": "Validate_IntentCapture.lu.qna",
+  "id": "Validate_IntentCapture"
+}

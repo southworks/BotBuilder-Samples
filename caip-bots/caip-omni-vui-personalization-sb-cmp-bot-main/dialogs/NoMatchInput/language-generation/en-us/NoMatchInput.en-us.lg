@@ -1,0 +1,30 @@
+> !# @Namespace=NoMatch
+> !# @Exports = ConversationManagerReturnedMenu_NM1_Msg
+[import](common.lg)
+
+# ConversationManagerReturnedMenu_NM1_Msg()
+[Activity
+    Text = ${conversation.tts}
+    Speak = ${conversation.tts}
+    InputHint = expectingInput
+    ChannelData = ${
+        {
+            activityParams:{
+                continuousASR: true,
+                continuousASRTimeoutInMS: settings.continuousASRTimeoutInMS,
+                continuousASRDigits: "#",
+                sendDTMF: true,
+                bargeIn: true,
+                bargeInOnDTMF: true,
+                dtmfCollect: true,
+                dtmfCollectInterDigitTimeoutMS: settings.dtmfCollectInterDigitTimeoutMS,
+                dtmfCollectMaxDigits: 1,
+                dtmfCollectSubmitDigit: "#",
+                userNoInputTimeoutMS: settings.userNoInputTimeoutMS,
+                userNoInputRetries: 1,
+                enableSpeechInput: true,
+                sttDisablePunctuation: true
+            }
+        }
+    }
+]

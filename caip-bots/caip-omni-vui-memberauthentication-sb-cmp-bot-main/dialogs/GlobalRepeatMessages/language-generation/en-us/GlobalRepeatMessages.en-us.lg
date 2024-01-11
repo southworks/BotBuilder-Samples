@@ -1,0 +1,334 @@
+> !# @Namespace=GlobalRepeatMessages
+> !# @Exports = SendActivity_GRepeatPromptDOB,SendActivity_GRepeatPromptZIPCode,SendActivity_GRepeatPromptLast4SSN,SendActivity_GRepeatPromptPhoneNumber,SendActivity_GRepeatPromptFirstName,SendActivity_GRepeatPromptSSN,SendActivity_GRepeatPromptSSNMID,SendActivity_GRepeatPromptMEMID,SendActivity_GRepeatConfirmDOB,SendActivity_GRepeatConfirmZIPCode,SendActivity_GRepeatConfirmLast4SSN,SendActivity_GRepeatConfirmMID,SendActivity_GRepeatPromptMIDAARP
+[import](common.lg)
+
+# GRepeatPromptDOBTemplate()
+- IF: ${conversation.callerType=="provider"}     
+    - I said, ${conversation.tfnConfig.dob_IncludeDateExample_Toggle == 'OFF' ? "Please may I have the member's birthdate, including the four digit year?" : "Please may I have the member's birthdate (including the 4 digit year)." }
+- ELSE:    
+    - I said, ${conversation.tfnConfig.dob_IncludeDateExample_Toggle == 'OFF' ? "Can you please tell me your birthday, including the four digit year?" : "Can you please tell me your birthday (including the four digit year)." }
+
+# SendActivity_GRepeatPromptDOB()
+[Activity
+    Text = ${GRepeatPromptDOBTemplate()}
+    Speak = ${GRepeatPromptDOBTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: true,
+            sttProvider: settings.dobSTTProvider,
+            dtmfCollectMaxDigits: 8,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfInterDigitTimeoutThreeSec
+            }
+        }
+    }
+]
+
+# GRepeatPromptSSNTemplate()
+- IF: ${conversation.callerType=="provider"}       
+    - I said, "What's the Social Security Number?"
+- ELSE:      
+    - I said, "Please tell me your Social Security Number?"
+
+# SendActivity_GRepeatPromptSSN()
+[Activity
+    Text = ${GRepeatPromptSSNTemplate()}
+    Speak = ${GRepeatPromptSSNTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: true,
+            sttProvider: settings.ssnSTTProvider,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfInterDigitTimeoutThreeSec,
+            dtmfCollectMaxDigits: 13
+            }
+        }
+    }
+]
+
+# GRepeatPromptSSNMIDTemplate()
+- IF: ${conversation.callerType=="provider"}       
+    - I said, "I'll need the member ID or Social Security Number?"
+- ELSE:      
+    - I said, "Can you please tell me your member ID or Social Security Number?"
+
+# SendActivity_GRepeatPromptSSNMID()
+[Activity
+    Text = ${GRepeatPromptSSNMIDTemplate()}
+    Speak = ${GRepeatPromptSSNMIDTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: true,
+            sttProvider: settings.midSTTProvider,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfInterDigitTimeoutThreeSec,
+            dtmfCollectMaxDigits: 13
+            }
+        }
+    }
+]
+
+# GRepeatPromptMEMIDTemplate()
+- IF: ${conversation.callerType=="provider"}        
+    - I said, "What's the ID number?"
+- ELSE:       
+    - I said, "Please give me your member ID."
+# SendActivity_GRepeatPromptMEMID()
+[Activity
+    Text = ${GRepeatPromptMEMIDTemplate()}
+    Speak = ${GRepeatPromptMEMIDTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: true,
+            sttProvider: settings.midSTTProvider,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfInterDigitTimeoutThreeSec,
+            dtmfCollectMaxDigits: 13,
+            userNoInputTimeoutMS: settings.MIDUserNoInputMS
+            }
+        }
+    }
+]
+
+# GRepeatPromptLast4SSNTemplate()
+- IF: ${conversation.callerType=="provider"}      
+    - I said, "Please give the last four digits of the member's social security number."
+- ELSE:     
+    - I said, "Can you please tell me the last four digits of your social security number?"
+# SendActivity_GRepeatPromptLast4SSN()
+[Activity
+    Text = ${GRepeatPromptLast4SSNTemplate()}
+    Speak = ${GRepeatPromptLast4SSNTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            dtmfCollectMaxDigits: 4,
+            sttDisablePunctuation: true,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfInterDigitTimeoutThreeSec
+            }
+        }
+    }
+]
+
+# GRepeatPromptFirstNameTemplate()
+- IF: ${conversation.callerType=="provider"}      
+    - I said, "I'll need the member's first name, please."
+- ELSE:
+    - I said, "And can you tell me your first name?"
+# SendActivity_GRepeatPromptFirstName()
+[Activity
+    Text = ${GRepeatPromptFirstNameTemplate()}
+    Speak = ${GRepeatPromptFirstNameTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: false,
+            bargeIn: true,
+            bargeInOnDTMF: false,
+            dtmfCollect: false,
+            sttDisablePunctuation: true,
+            sttSpeechContexts:conversation.firstNamePhraseList
+            }
+        }
+    }
+]
+
+# GRepeatPromptPhoneNumberTemplate()
+- I said, "What is your primary phone number in the account?"
+# SendActivity_GRepeatPromptPhoneNumber()
+[Activity
+    Text = ${GRepeatPromptPhoneNumberTemplate()}
+    Speak = ${GRepeatPromptPhoneNumberTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: true,
+            sttProvider: settings.phoneSTTProvider,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfInterDigitTimeoutThreeSec,
+            dtmfCollectMaxDigits: 10
+            }
+        }
+    }  
+]
+
+# GRepeatPromptZIPCodeTemplate()
+- IF: ${conversation.callerType=="provider"}     
+    - I said, "What's the ZIP code, please?"
+- ELSE:    
+    - I said, "Please tell me your ZIP code."
+# SendActivity_GRepeatPromptZIPCode()
+[Activity
+    Text = ${GRepeatPromptZIPCodeTemplate()}
+    Speak = ${GRepeatPromptZIPCodeTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: true,
+            dtmfCollectMaxDigits: 6,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfInterDigitTimeoutThreeSec
+            }
+        }
+    }
+]
+    
+# GRepeatConfirmDOBTemplate()
+- IF: ${conversation.callerType=="provider"}         
+    - I said, "I heard you say that the member's date of birth is ${conversation.iDOB}, is that right?"
+- ELSE:        
+    - I said, "I heard you say your date of birth was ${conversation.iDOB}. Is that right?"
+# SendActivity_GRepeatConfirmDOB()
+[Activity
+    Text = ${GRepeatConfirmDOBTemplate()}
+    Speak = ${GRepeatConfirmDOBTemplate()}
+    InputHint = expectingInput
+        ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: false,
+            dtmfCollectMaxDigits: 1,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfCollectInterDigitTimeoutMS
+        }
+    }
+}
+]
+
+# GRepeatConfirmLast4SSNTemplate()
+- IF: ${conversation.callerType=="provider"}           
+    - I said, "That's last four digits of member SSN being <say-as interpret-as="number_digit">${conversation.i4SSN}</say-as>, correct?"
+- ELSE:         
+    - I said, "Did you say <say-as interpret-as="number_digit">${conversation.i4SSN}</say-as>. Is that right?"
+# SendActivity_GRepeatConfirmLast4SSN()
+[Activity
+    Text = ${GRepeatConfirmLast4SSNTemplate()}
+    Speak = ${GRepeatConfirmLast4SSNTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: false,
+            dtmfCollectMaxDigits: 1,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfCollectInterDigitTimeoutMS
+        }
+    }
+}
+]
+
+# GRepeatConfirmZIPCodeTemplate()
+- IF: ${conversation.callerType=="provider"}          
+    - I said, "Member's ZIP code is <say-as interpret-as="number_digit">${conversation.iZIP}</say-as>, is that right?"
+- ELSE:         
+    - I said, "Did you say <say-as interpret-as="number_digit">${conversation.iZIP}</say-as>?"
+# SendActivity_GRepeatConfirmZIPCode()
+[Activity
+    Text = ${GRepeatConfirmZIPCodeTemplate()}
+    Speak = ${GRepeatConfirmZIPCodeTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: false,
+            dtmfCollectMaxDigits: 1,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfCollectInterDigitTimeoutMS
+        }
+    }
+}
+]
+
+# GRepeatConfirmMIDTemplate()
+- I said, "I heard you say <say-as interpret-as="number_digit">${conversation.iMemberID}</say-as>, is that right?"
+
+# SendActivity_GRepeatConfirmMID()
+[Activity
+    Text = ${GRepeatConfirmMIDTemplate()}
+    Speak = ${GRepeatConfirmMIDTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: false,
+            dtmfCollectMaxDigits: 1,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfCollectInterDigitTimeoutMS
+        }
+    }
+}
+]
+
+
+# GRepeatPromptMIDAARPTemplate()
+- IF: ${conversation.callerType=="provider"}        
+    - I said, "What's the AARP member's ID number?"
+- ELSE:       
+    - I said, "Please give me your AARP membership number."
+# SendActivity_GRepeatPromptMIDAARP()
+[Activity
+    Text = ${GRepeatPromptMIDAARPTemplate()}
+    Speak = ${GRepeatPromptMIDAARPTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: true,
+            sttProvider: settings.midSTTProvider,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfInterDigitTimeoutThreeSec,
+            dtmfCollectMaxDigits: 13,
+            userNoInputTimeoutMS: settings.MIDUserNoInputMS
+            }
+        }
+    }
+]

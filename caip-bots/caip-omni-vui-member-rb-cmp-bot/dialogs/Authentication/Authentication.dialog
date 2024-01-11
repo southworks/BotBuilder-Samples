@@ -1,0 +1,181 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "iXrzTJ",
+    "name": "Authentication",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "hqXqGW"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "otsoDy"
+          },
+          "condition": "=equals(conversation.tfnConfig.Root_uhcMember_Authentication_Toggle,\"OFF\")",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "Nq8hgF",
+                "name": "Telemetry for AuthSkill Input Params"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "memberRoot_MemberAuthentication_SetInputs",
+                "pegType": "General",
+                "request": "=Authentication.AuthSkill_Activity_Params()",
+                "response": "",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MemberRootBot_MemberAuthentication_SetInputs_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.BeginSkill",
+              "$designer": {
+                "id": "NEI3Zb",
+                "name": "Connect to Auth Skill"
+              },
+              "activityProcessed": true,
+              "botId": "=settings.MicrosoftAppId",
+              "skillHostEndpoint": "=settings.skillHostEndpoint",
+              "connectionName": "=settings.connectionName",
+              "allowInterruptions": false,
+              "skillEndpoint": "=settings.skill['caipOmniVuiMemberauthenticationSbCmpBot'].endpointUrl",
+              "skillAppId": "=settings.skill['caipOmniVuiMemberauthenticationSbCmpBot'].msAppId",
+              "activity": "${AuthSkill_Activity_Params()}",
+              "resultProperty": "dialog.authResponse"
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "CrvUkI",
+                "name": "Telemetry for AuthSkill Response"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "memberRoot_MemberAuthentication_SetOutputs",
+                "pegType": "General",
+                "request": "=Authentication.AuthSkill_Activity_Params()",
+                "response": "=turn.activity.value",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MemberRootBot_MemberAuthentication_SetOutputs_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "dBXH5X"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.authFlag",
+                  "value": "=turn.activity.value.parameters.authFlag"
+                },
+                {
+                  "property": "conversation.member.memberInfo",
+                  "value": "=if(turn.activity.value.parameters.member,turn.activity.value.parameters.member,\"\")"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "5QNjiI"
+              },
+              "condition": "=equals(conversation.authFlag,true)",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "kcyX3F"
+                  },
+                  "property": "conversation.currentTrigger",
+                  "value": "='policySelection'"
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "tGP7ow"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.ENT_IVRAppTransferReason",
+                      "value": "=turn.activity.value.transferReasonCode"
+                    },
+                    {
+                      "property": "conversation.transferReason",
+                      "value": "=turn.activity.value.transferReason"
+                    },
+                    {
+                      "property": "conversation.transferPegVal",
+                      "value": "=turn.activity.value.transferPeg"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "tyQHOm"
+                  },
+                  "assignments": [
+                    {
+                      "property": " conversation.currentTrigger",
+                      "value": "defaultTransfer"
+                    },
+                    {
+                      "property": "conversation.silentTransfer",
+                      "value": "=if(equals(dialog.authResponse.silentTransfer ,true),true,false)"
+                    },
+                    {
+                      "property": "conversation.ENT_BotAction",
+                      "value": "ROUTE2AGENT"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "bCLgjZ",
+                "name": "Telemetry for AuthenticationToggle"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "memberRoot_MemberAuthentication_OFFToggle",
+                "pegType": "General",
+                "request": "",
+                "response": "",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MemberRootBot_MemberAuthentication_OFFToggle_Peg"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "Authentication.lg",
+  "recognizer": "Authentication.lu.qna",
+  "id": "Authentication"
+}

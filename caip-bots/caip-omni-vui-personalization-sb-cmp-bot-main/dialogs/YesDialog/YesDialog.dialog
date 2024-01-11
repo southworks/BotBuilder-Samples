@@ -1,0 +1,472 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "u9NfKV",
+    "name": "YesDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "C7e3VS"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "HqFgjC"
+          },
+          "property": "conversation.startDate",
+          "value": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "DnxxbZ"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "00812",
+            "pegType": "General",
+            "startDTM": "=conversation.startDate",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "ConversationManagerSkill_YesDialog_Peg",
+            "request": "Yes Response",
+            "response": "=turn.recognized"
+          }
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "eNkAn2"
+          },
+          "condition": "=string(conversation.inputVal)==string(\"cmReturnedMenu\")",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "gLrn4b"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.QuestionType",
+                  "value": "=if(conversation.cmResponse.GateResult.CM_Response.QuestionType,conversation.cmResponse.GateResult.CM_Response.QuestionType,\"\")"
+                },
+                {
+                  "property": "conversation.ProductType",
+                  "value": "=if(conversation.cmResponse.GateResult.CM_Response.ProductType,conversation.cmResponse.GateResult.CM_Response.ProductType,\"\")"
+                },
+                {
+                  "property": "conversation.CampaignCode",
+                  "value": "=if(conversation.cmResponse.GateResult.CM_Response.CampaignCode,conversation.cmResponse.GateResult.CM_Response.CampaignCode,\"\")"
+                },
+                {
+                  "property": "conversation.ProgramCode",
+                  "value": "=if(conversation.cmResponse.GateResult.CM_Response.ProgramCode,conversation.cmResponse.GateResult.CM_Response.ProgramCode,\"\")"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SwitchCondition",
+              "$designer": {
+                "id": "u8781b"
+              },
+              "condition": "=conversation.cmResponse.GateResult.CM_Response.MenuType",
+              "cases": [
+                {
+                  "value": "1",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "pCTRFD"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.IVRTransferReason",
+                          "value": "X"
+                        },
+                        {
+                          "property": "conversation.setEvent",
+                          "value": "transfer"
+                        },
+                        {
+                          "property": "conversation.menuType",
+                          "value": "=conversation.cmResponse.GateResult.CM_Response.MenuType"
+                        },
+                        {
+                          "property": "conversation.silentTransfer",
+                          "value": "false"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "y5tOxE"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.transferReason",
+                          "value": "MenuType_1_YesDialog"
+                        },
+                        {
+                          "property": "conversation.transferPeg",
+                          "value": "00815"
+                        },
+                        {
+                          "property": "conversation.skillResponseParams",
+                          "value": "=addProperty(conversation.skillResponseParams,\"transferReason\",conversation.transferReason)"
+                        },
+                        {
+                          "property": "conversation.skillResponseParams",
+                          "value": "=addProperty(conversation.skillResponseParams,\"transferPeg\",conversation.transferPeg)"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "L7mmfI"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.skillResponseParams",
+                          "value": "=addProperty(conversation.skillResponseParams,\"setEvent\",conversation.setEvent)"
+                        },
+                        {
+                          "property": "conversation.skillResponseParams",
+                          "value": "=addProperty(conversation.skillResponseParams,\"QuestionType\",conversation.QuestionType)"
+                        },
+                        {
+                          "property": "conversation.skillResponseParams",
+                          "value": "=addProperty(conversation.skillResponseParams,\"ProductType\",conversation.ProductType)"
+                        },
+                        {
+                          "property": "conversation.skillResponseParams",
+                          "value": "=addProperty(conversation.skillResponseParams,\"CampaignCode\",conversation.CampaignCode)"
+                        },
+                        {
+                          "property": "conversation.skillResponseParams",
+                          "value": "=addProperty(conversation.skillResponseParams,\"ProgramCode\",conversation.ProgramCode)"
+                        },
+                        {
+                          "property": "conversation.skillResponse",
+                          "value": "=setProperty(conversation.skillResponse,\"transferReasonCode\",conversation.IVRTransferReason)"
+                        },
+                        {
+                          "property": "conversation.skillResponse",
+                          "value": "=setProperty(conversation.skillResponse,\"menuType\",conversation.menuType)"
+                        },
+                        {
+                          "property": "conversation.skillResponse",
+                          "value": "=addProperty(conversation.skillResponse,\"parameters\",conversation.skillResponseParams)"
+                        },
+                        {
+                          "value": "=setProperty(conversation.skillResponse,\"silentTransfer\",conversation.silentTransfer)",
+                          "property": "conversation.skillResponse"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "ck9PRa"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "00815",
+                        "pegType": "General",
+                        "startDTM": "=conversation.startDate",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "ConversationManagerSkill_YesDialog_1_Peg",
+                        "request": "Yes Dialog Menu Type 1",
+                        "response": "=conversation.skillResponse"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.CancelAllDialogs",
+                      "$designer": {
+                        "id": "MEzj5o"
+                      },
+                      "activityProcessed": true,
+                      "eventName": "endSkill",
+                      "eventValue": "=conversation.skillResponse"
+                    }
+                  ]
+                },
+                {
+                  "value": "2",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "LmTIRZ"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.IVRTransferReason",
+                          "value": "X"
+                        },
+                        {
+                          "property": "conversation.setEvent",
+                          "value": "transfer"
+                        },
+                        {
+                          "property": "conversation.menuType",
+                          "value": "=conversation.cmResponse.GateResult.CM_Response.MenuType"
+                        },
+                        {
+                          "property": "conversation.silentTransfer",
+                          "value": "false"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "yuBNVm"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.transferReason",
+                          "value": "MenuType_2_YesDialog"
+                        },
+                        {
+                          "property": "conversation.transferPeg",
+                          "value": "00815"
+                        },
+                        {
+                          "property": "conversation.skillResponseParams",
+                          "value": "=addProperty(conversation.skillResponseParams,\"transferReason\",conversation.transferReason)"
+                        },
+                        {
+                          "property": "conversation.skillResponseParams",
+                          "value": "=addProperty(conversation.skillResponseParams,\"transferPeg\",conversation.transferPeg)"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "J2Rvw6"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.skillResponseParams",
+                          "value": "=addProperty(conversation.skillResponseParams,\"setEvent\",conversation.setEvent)"
+                        },
+                        {
+                          "property": "conversation.skillResponseParams",
+                          "value": "=addProperty(conversation.skillResponseParams,\"QuestionType\",conversation.QuestionType)"
+                        },
+                        {
+                          "property": "conversation.skillResponseParams",
+                          "value": "=addProperty(conversation.skillResponseParams,\"ProductType\",conversation.ProductType)"
+                        },
+                        {
+                          "property": "conversation.skillResponseParams",
+                          "value": "=addProperty(conversation.skillResponseParams,\"CampaignCode\",conversation.CampaignCode)"
+                        },
+                        {
+                          "property": "conversation.skillResponseParams",
+                          "value": "=addProperty(conversation.skillResponseParams,\"ProgramCode\",conversation.ProgramCode)"
+                        },
+                        {
+                          "property": "conversation.skillResponse",
+                          "value": "=setProperty(conversation.skillResponse,\"transferReasonCode\",conversation.IVRTransferReason)"
+                        },
+                        {
+                          "property": "conversation.skillResponse",
+                          "value": "=setProperty(conversation.skillResponse,\"menuType\",conversation.menuType)"
+                        },
+                        {
+                          "property": "conversation.skillResponse",
+                          "value": "=addProperty(conversation.skillResponse,\"parameters\",conversation.skillResponseParams)"
+                        },
+                        {
+                          "value": "=setProperty(conversation.skillResponse,\"silentTransfer\",conversation.silentTransfer)",
+                          "property": "conversation.skillResponse"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "1bJJnZ"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "00815",
+                        "pegType": "General",
+                        "startDTM": "=conversation.startDate",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "ConversationManagerSkill_YesDialog_2_Peg",
+                        "request": "Yes Dialog Menu Type 2",
+                        "response": "=conversation.skillResponse"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.CancelAllDialogs",
+                      "$designer": {
+                        "id": "TzZBwN"
+                      },
+                      "activityProcessed": true,
+                      "eventName": "endSkill",
+                      "eventValue": "=conversation.skillResponse"
+                    }
+                  ]
+                },
+                {
+                  "value": "5",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "wagjuh"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.IVRTransferReason",
+                          "value": "X"
+                        },
+                        {
+                          "property": "conversation.setEvent",
+                          "value": "transfer"
+                        },
+                        {
+                          "property": "conversation.menuType",
+                          "value": "=conversation.cmResponse.GateResult.CM_Response.MenuType"
+                        },
+                        {
+                          "property": "conversation.silentTransfer",
+                          "value": "false"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "0iJWiE"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.transferReason",
+                          "value": "MenuType_5_YesDialog"
+                        },
+                        {
+                          "property": "conversation.transferPeg",
+                          "value": "00816"
+                        },
+                        {
+                          "property": "conversation.skillResponseParams",
+                          "value": "=addProperty(conversation.skillResponseParams,\"transferReason\",conversation.transferReason)"
+                        },
+                        {
+                          "property": "conversation.skillResponseParams",
+                          "value": "=addProperty(conversation.skillResponseParams,\"transferPeg\",conversation.transferPeg)"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "w9o7Ss"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.skillResponseParams",
+                          "value": "=addProperty(conversation.skillResponseParams,\"setEvent\",conversation.setEvent)"
+                        },
+                        {
+                          "property": "conversation.skillResponseParams",
+                          "value": "=addProperty(conversation.skillResponseParams,\"QuestionType\",conversation.QuestionType)"
+                        },
+                        {
+                          "property": "conversation.skillResponseParams",
+                          "value": "=addProperty(conversation.skillResponseParams,\"ProductType\",conversation.ProductType)"
+                        },
+                        {
+                          "property": "conversation.skillResponseParams",
+                          "value": "=addProperty(conversation.skillResponseParams,\"CampaignCode\",conversation.CampaignCode)"
+                        },
+                        {
+                          "property": "conversation.skillResponseParams",
+                          "value": "=addProperty(conversation.skillResponseParams,\"ProgramCode\",conversation.ProgramCode)"
+                        },
+                        {
+                          "property": "conversation.skillResponse",
+                          "value": "=setProperty(conversation.skillResponse,\"transferReasonCode\",conversation.IVRTransferReason)"
+                        },
+                        {
+                          "property": "conversation.skillResponse",
+                          "value": "=setProperty(conversation.skillResponse,\"silentTransfer\",conversation.silentTransfer)"
+                        },
+                        {
+                          "property": "conversation.skillResponse",
+                          "value": "=setProperty(conversation.skillResponse,\"menuType\",conversation.menuType)"
+                        },
+                        {
+                          "property": "conversation.skillResponse",
+                          "value": "=addProperty(conversation.skillResponse,\"parameters\",conversation.skillResponseParams)"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "iJez02"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "00816",
+                        "pegType": "General",
+                        "startDTM": "=conversation.startDate",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "ConversationManagerSkill_YesDialog_5_Peg",
+                        "request": "Yes Dialog Menu Type 5",
+                        "response": "=conversation.skillResponse"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.CancelAllDialogs",
+                      "$designer": {
+                        "id": "grYtHb"
+                      },
+                      "activityProcessed": true,
+                      "eventName": "endSkill",
+                      "eventValue": "=conversation.skillResponse"
+                    }
+                  ]
+                }
+              ],
+              "default": []
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "O8Cx9R"
+              },
+              "activityProcessed": true,
+              "dialog": "NoMatchInput"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "YesDialog.lg",
+  "recognizer": "YesDialog.lu.qna",
+  "id": "YesDialog"
+}

@@ -1,0 +1,74 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "enPTcU",
+    "name": "Error1Event",
+    "comment": "Called when the 1st error event is triggered"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "jSlOC8"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "VQs0qt"
+          },
+          "property": "conversation.error",
+          "value": true
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "RM8eCS"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "endDTM": "=formatDateTime(utcNow())",
+            "peg": "Error_Event",
+            "pegName": "MemberRootBot_ErrorEvent_Peg",
+            "pegType": "General",
+            "request": "Error",
+            "response": "=dialog.turnVal",
+            "startDTM": "=formatDateTime(utcNow())",
+            "eventName": "MemberRootBot_ErrorEvent_Peg"
+          }
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "BSYhkp"
+          },
+          "assignments": [
+            {
+              "property": "conversation.transferPegVal",
+              "value": "Error_Event"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "iFHIiL"
+          },
+          "activityProcessed": true,
+          "dialog": "GlobalBehavior",
+          "options": {
+            "behavior": "SystemError"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "Error1Event.lg",
+  "recognizer": "Error1Event.lu.qna",
+  "id": "Error1Event"
+}

@@ -1,0 +1,53 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "DiP7HE",
+    "name": "GetMatchedIndicies",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "yKIbtF"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "wpwpD2"
+          },
+          "value": "=createArray()",
+          "property": "conversation.matchedIndicies"
+        },
+        {
+          "$kind": "Microsoft.Foreach",
+          "$designer": {
+            "id": "NYGNWV"
+          },
+          "index": "dialog.foreach.index",
+          "value": "dialog.foreach.value",
+          "itemsProperty": "dialog.matchedArray",
+          "actions": [
+            {
+              "$kind": "Microsoft.EditArray",
+              "$designer": {
+                "id": "y0oCpY"
+              },
+              "changeType": "push",
+              "itemsProperty": "conversation.matchedIndicies",
+              "value": "=dialog.foreach.value.index"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "GetMatchedIndicies.lg",
+  "recognizer": "GetMatchedIndicies.lu.qna",
+  "id": "GetMatchedIndicies"
+}

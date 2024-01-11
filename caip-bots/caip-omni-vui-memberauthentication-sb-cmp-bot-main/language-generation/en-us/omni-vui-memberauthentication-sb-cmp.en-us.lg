@@ -1,0 +1,178 @@
+> !# @Namespace=MainDialog
+> !# @Exports = PegVal,PegName,SendActivity_spkAuthStartMsg,SendActivity_MoreTimeRequestMsg
+[import](common.lg)
+
+# SendActivity_spkAuthStartMsg()
+[Activity
+    Text = ${spkAuthStartTemplate()}
+    Speak = ${spkAuthStartTemplate()}
+    InputHint = ignoringInput
+    ChannelData = ${
+	{
+        activityParams:{
+            sendDTMF: false,
+            bargeIn: false,
+            bargeInOnDTMF: false,
+            dtmfCollect: false
+        },
+        sessionParams:{
+            continuousASR: true,
+            continuousASRTimeoutInMS: settings.continuousASRTimeoutInMS,
+            continuousASRDigits: "#",
+			userNoInputTimeoutMS: settings.userNoInputTimeoutMS,
+            userNoInputRetries: 3,
+            sendEventsToBot: ["noUserInput"]
+        }
+	}
+}
+]
+
+# spkAuthStartTemplate()
+- Okay, I just need to verify a few things first...
+
+# SendActivity_MoreTimeRequestMsg()
+[Activity
+    Text = ${MoreTimeRequestTemplate()}
+    Speak = ${MoreTimeRequestTemplate()}
+    InputHint = ignoringInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: false,
+            bargeIn: false,
+            bargeInOnDTMF: false,
+            dtmfCollect: false
+        }
+      } 
+    }
+]
+
+# MoreTimeRequestTemplate()
+- That's Ok. Get what you need and let me know when you have your information available.
+
+# PegVal(param1)
+ - IF: ${toLower(param1) == 'promptdob'}
+    - ${conversation.tfnConfig.dob_IncludeDateExample_Toggle == 'OFF' ? "00133" : "00033" }
+- ELSEIF: ${toLower(param1) == 'promptlast4ssn'}
+    - 00024 
+- ELSEIF: ${toLower(param1) == 'promptfirstname'}
+    - 00045
+- ELSEIF: ${toLower(param1) == 'promptphonenumber'}
+    - 00009
+- ELSEIF: ${toLower(param1) == 'promptzipcode'}
+    - 00050
+- ELSEIF: ${toLower(param1) == 'promptssn'}
+    - 00010
+- ELSEIF: ${toLower(param1) == 'promptmidssn'}
+    - 00011
+- ELSEIF: ${toLower(param1) == 'promptmemid'}
+    - 00012
+- ELSEIF: ${toLower(param1) == 'promptmidaarp'}
+    - 00013 
+- ELSEIF: ${toLower(param1) == 'confirmdob'}
+    - 00037
+- ELSEIF: ${toLower(param1) == 'confirmlast4ssn'}
+    - 00030
+- ELSEIF: ${toLower(param1) == 'confirmmid'}
+    - 00016
+- ELSEIF: ${toLower(param1) == 'confirmzipcode'}
+    - 00055
+- ELSEIF: ${toLower(param1) == 'memberphonesearchdialogtrue'}
+    - 00064
+- ELSEIF: ${toLower(param1) == 'memberphonesearchdialogfalse'}
+    - 00063
+- ELSEIF: ${toLower(param1) == 'memberindividualssearchdialogtrue'}
+    - 00068
+- ELSEIF: ${toLower(param1) == 'memberindividualssearchdialogfalse'}
+    - 00067
+- ELSEIF: ${toLower(param1) == 'memberindividualreaddialogtrue'}
+    - 00020
+- ELSEIF: ${toLower(param1) == 'memberindividualreaddialogfalse'}
+    - 00019
+- ELSEIF: ${toLower(param1) == 'confirmlast4ssnnoconfirmation'}
+    - 00032
+- ELSEIF: ${toLower(param1) == 'confirmzipcodenoconfirmation'}
+    - 00056
+- ELSEIF: ${toLower(param1) == 'confirmmidnoconfirmation'}
+    - 00017
+- ELSEIF: ${toLower(param1) == 'confirmdobnoconfirmation'}
+    - 00039
+- ELSEIF: ${toLower(param1) == 'confirmlast4ssnyesconfirmation'}
+    - 00031
+- ELSEIF: ${toLower(param1) == 'confirmzipcodeyesconfirmation'}
+    - 00057
+- ELSEIF: ${toLower(param1) == 'confirmmidyesconfirmation'}
+    - 00018
+- ELSEIF: ${toLower(param1) == 'confirmdobyesconfirmation'}
+    - 00038
+- ELSEIF: ${toLower(param1) == 'confirmdobyesconfirmationmidneeded'}
+    - 00046
+- ELSEIF: ${toLower(param1) == 'confirmlast4ssnyesconfirmationmidneeded'}
+    - 00047
+- ELSE:
+    - ''
+
+# PegName(param1,param2)
+- IF: ${toLower(param1) == 'promptdob'}
+    - MembAuthSkill_askMemberDOB_${param2}_Peg
+- ELSEIF: ${toLower(param1) == 'promptlast4ssn'}
+    - MembAuthSkill_askMemberLast4SSN_${param2}_Peg
+- ELSEIF: ${toLower(param1) == 'promptfirstname'}
+    - MembAuthSkill_askMemberFirstName_${param2}_Peg 
+- ELSEIF: ${toLower(param1) == 'promptphonenumber'}
+    - MembAuthSkill_askPhoneNumber_${param2}_Peg
+- ELSEIF: ${toLower(param1) == 'promptzipcode'}
+    - MembAuthSkill_askMemberZIP_${param2}_Peg
+- ELSEIF: ${toLower(param1) == 'promptssn'}
+    - MembAuthSkill_askMemberSSN_${param2}_Peg
+- ELSEIF: ${toLower(param1) == 'promptmidssn'}
+    - MembAuthSkill_askMemberMIDSSN_${param2}_Peg
+- ELSEIF: ${toLower(param1) == 'promptmemid'}
+    - MembAuthSkill_askMemberMID_${param2}_Peg
+- ELSEIF: ${toLower(param1) == 'promptmidaarp'}
+    - MembAuthSkill_askMemberMIDAARP_${param2}_Peg
+- ELSEIF: ${toLower(param1) == 'confirmdob'}
+    - MembAuthSkill_askDOBConfirm_${param2}_Peg
+- ELSEIF: ${toLower(param1) == 'confirmlast4ssn'}
+    - MembAuthSkill_ask4SSNConfirm_${param2}_Peg
+- ELSEIF: ${toLower(param1) == 'confirmmid'}
+    - MembAuthSkill_askIDConfirm_${param2}_Peg
+- ELSEIF: ${toLower(param1) == 'confirmzipcode'}
+    - MembAuthSkill_askMemberZIPConfirm_${param2}_Peg
+- ELSEIF: ${toLower(param1) == 'memberphonesearchdialogtrue'}
+    - MembAuthSkill_MWAuth05_${param2}_Peg
+- ELSEIF: ${toLower(param1) == 'memberphonesearchdialogfalse'}
+    - MembAuthSkill_MWAuth05_${param2}_Peg
+- ELSEIF: ${toLower(param1) == 'memberindividualssearchdialogtrue'}
+    - MembAuthSkill_MWAuth06_${param2}_Peg
+- ELSEIF: ${toLower(param1) == 'memberindividualssearchdialogfalse'}
+    - MembAuthSkill_MWAuth06_${param2}_Peg
+- ELSEIF: ${toLower(param1) == 'memberindividualreaddialogtrue'}
+    - MembAuthSkill_MWAuth02_${param2}_Peg
+- ELSEIF: ${toLower(param1) == 'memberindividualreaddialogfalse'}
+    -MembAuthSkill_MWAuth02_${param2}_Peg
+- ELSE:
+    - ''
+
+# TestEventTemplate()
+- Bot is connected and working.
+
+# TestEventMsg()
+[Activity
+    Text = ${TestEventTemplate()}
+    Speak = ${TestEventTemplate()}
+    InputHint = ignoringInput
+    ChannelData = ${
+        {
+            sessionParams:{
+                sendDTMF: false,
+                bargeIn: false,
+                bargeInOnDTMF: false,
+                dtmfCollect: false,
+                userNoInputTimeoutMS: settings.userNoInputTimeoutMS,
+                userNoInputRetries: 3,
+                sendEventsToBot: ["noUserInput"]
+            }
+        }
+    }
+]

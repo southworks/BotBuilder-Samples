@@ -1,0 +1,176 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "S6ezEc",
+    "name": "TriggerFlow",
+    "comment": "The common flow for all the triggers"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "Id4EXq"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "vbXyuJ"
+          },
+          "property": "conversation.flowState.lastUtterance",
+          "value": "=turn.recognized.text"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "ys53bE"
+          },
+          "activityProcessed": true,
+          "dialog": "ValidateInput",
+          "resultProperty": "dialog.inputValidated"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "ij5oFB"
+          },
+          "assignments": [
+            {
+              "value": "=MainDialog.GetCallerTypeEntity(conversation.turnRecognized)",
+              "property": "conversation.callerEntityResult"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "wwqIF7"
+          },
+          "cases": [
+            {
+              "value": "callerTypeMemberChild",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "T9cxkK"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.callerType.entityFound",
+                      "value": "=\"Yes\""
+                    },
+                    {
+                      "property": "conversation.callerIntentconfig.CT_NLTagCallerType",
+                      "value": "=if(conversation.enrollmentIntentSet, conversation.callerIntentconfig.CT_NLTagCallerType, 'MM')"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "callerTypeProviderChild",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "osME2F"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.callerType.entityFound",
+                      "value": "=\"Yes\""
+                    },
+                    {
+                      "property": "conversation.callerIntentconfig.CT_NLTagCallerType",
+                      "value": "='PV'"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "condition": "=conversation.callerEntityResult",
+          "default": []
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "kKYkGB"
+          },
+          "condition": "=dialog.inputValidated",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "DTSemF"
+              },
+              "property": "conversation.enrollmentIntentSet",
+              "value": "=if(equals(conversation.flowState.lastIntent, 'enrollment'), true, false)"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "64aWdL"
+              },
+              "condition": "=or(contains(conversation.startPromptLists, conversation.flowState.flowPreviousPrompt),conversation.flowState.flowPreviousPrompt==\"to_validate_intent\")",
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "VLT7De"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=equals(conversation.currentAsk, '') ? MainDialog.PegVal('UserInput') : MainDialog.PegVal(concat(conversation.currentAsk,'_Mnu_UserInput'))",
+                    "pegType": "UserInput",
+                    "request": "User Input",
+                    "response": "=turn.recognized",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=equals(conversation.currentAsk, '') ? MainDialog.PegName(conversation.flowState.flowPreviousPrompt, '_UserInput')  : MainDialog.PegName(conversation.currentAsk, '_UserInput')"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "nhHAYN",
+                    "comment": "Reset currentAsk"
+                  },
+                  "property": "conversation.currentAsk",
+                  "value": "=''"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "eRu0KV"
+              },
+              "activityProcessed": true,
+              "dialog": "HandleContext"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "WtiqWf"
+              },
+              "activityProcessed": true,
+              "dialog": "NoMatchInput"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "TriggerFlow.lg",
+  "recognizer": "TriggerFlow.lu.qna",
+  "id": "TriggerFlow"
+}

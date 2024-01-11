@@ -1,0 +1,32 @@
+> !# @Namespace=GetDetailsDialog
+> !# @Exports = SendActivity_holdOnGetDetails
+[import](common.lg)
+
+# SendActivity_holdOnGetDetails()
+[Activity
+    Text = ${holdOnGetDetailsTemplate()}
+    Speak = ${holdOnGetDetailsTemplate()}
+    InputHint = ignoringInput
+    ChannelData = ${
+	{
+        activityParams:{
+            sendDTMF: false,
+            bargeIn: false,
+            bargeInOnDTMF: false,
+            dtmfCollect: false
+        },
+        sessionParams:{
+            continuousASR: true,
+            continuousASRTimeoutInMS: settings.continuousASRTimeoutInMS,
+            continuousASRDigits: "#",
+			userNoInputTimeoutMS: settings.userNoInputTimeoutMS,
+            userNoInputRetries: 3,
+            sendEventsToBot: ["noUserInput"]
+        }
+    }
+}
+]
+
+# holdOnGetDetailsTemplate()
+- One moment, I’m pulling that up now...
+

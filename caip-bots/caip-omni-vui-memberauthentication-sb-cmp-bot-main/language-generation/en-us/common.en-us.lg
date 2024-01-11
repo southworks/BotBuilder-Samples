@@ -1,0 +1,445 @@
+> To learn more about the LG file format, read the documentation at
+> https://aka.ms/lg-file-format
+> !# @Namespace=Common
+> !# @Exports = SendActivity_PromptDOB,SendActivity_PromptZIPCode,SendActivity_PromptLast4SSN,SendActivity_PromptPhoneNumber,SendActivity_PromptFirstName,SendActivity_PromptSSN,SendActivity_PromptSSNMID,SendActivity_PromptMEMID,SendActivity_ConfirmDOB,SendActivity_ConfirmZIPCode,SendActivity_ConfirmLast4SSN,SendActivity_ConfirmMID,SendActivity_GlobalTimeOutFirstMsg,SendActivity_GlobalTimeOutSecondMsg,SendActivity_TimeOutXferMsg,SendActivity_GoodByeMsg,SendActivity_DisableSpeechEvent,SendActivity_PromptMIDAARP,SendActivity_AuthMIDNoConfirmationMsg
+
+# PromptDOBTemplate()
+- IF: ${conversation.callerType == "provider"}
+    - ${conversation.tfnConfig.dob_IncludeDateExample_Toggle == 'OFF' ? "What is the member's Date of Birth, including the four digit year?" : "What's the member's Date of Birth (including the four digit year). For example... June nineteenth...1967." }
+- ELSEIF: ${conversation.i4SSN && conversation.i4SSN != ""}
+    - ${conversation.tfnConfig.dob_IncludeDateExample_Toggle == 'OFF' ? "And can you tell me your birthday, including the four digit year?" : "And can you tell me your birthday (including the four digit year). For example... June nineteenth...1967." }
+- ELSE:
+    - ${conversation.tfnConfig.dob_IncludeDateExample_Toggle == 'OFF' ? "Can you please share your birthday with me, including the four digit year?" : "Can you please share your birthday with me (including the four digit year). For example... June nineteenth...1967. Or. Zero Six. Nineteen. 19 67." }
+# SendActivity_PromptDOB()
+[Activity
+    Text = ${PromptDOBTemplate()}
+    Speak = ${PromptDOBTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: true,
+            sttProvider: settings.dobSTTProvider,
+            dtmfCollectMaxDigits: 8,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfInterDigitTimeoutThreeSec
+            }
+        }
+    }
+]
+
+# PromptZIPCodeTemplate()
+- IF: ${conversation.callerType == "provider"}     
+    - Please tell me the member's ZIP code? 
+- ELSE:     
+    - And what's your ZIP code?
+# SendActivity_PromptZIPCode()
+[Activity
+    Text = ${PromptZIPCodeTemplate()}
+    Speak = ${PromptZIPCodeTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: true,
+            dtmfCollectMaxDigits: 6,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfInterDigitTimeoutThreeSec
+            }
+        }
+    }
+]
+# PromptLast4SSNTemplate()
+- IF: ${conversation.callerType == "provider"}         
+    - The last four digits of the member's Social Security Number are needed for verification. 
+- ELSE:         
+    - I'll need the last four digits of your Social Security Number for your verification.
+# SendActivity_PromptLast4SSN()
+[Activity
+    Text = ${PromptLast4SSNTemplate()}
+    Speak = ${PromptLast4SSNTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            dtmfCollectMaxDigits: 4,
+            sttDisablePunctuation: true,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfInterDigitTimeoutThreeSec
+            }
+        }
+    }
+]
+# PromptPhoneNumberTemplate()
+- Please tell me your primary phone number in the account?
+# SendActivity_PromptPhoneNumber()
+[Activity
+    Text = ${PromptPhoneNumberTemplate()}
+    Speak = ${PromptPhoneNumberTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: true,
+            sttProvider: settings.phoneSTTProvider,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfInterDigitTimeoutThreeSec,
+            dtmfCollectMaxDigits: 10
+            }
+        }
+    }
+]
+# PromptFirstNameTemplate()
+- IF: ${conversation.callerType=="provider"}
+    - What is the member's first name?
+- ELSE:
+    - And what is your first name?
+# SendActivity_PromptFirstName()
+[Activity
+    Text = ${PromptFirstNameTemplate()}
+    Speak = ${PromptFirstNameTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: false,
+            bargeIn: true,
+            bargeInOnDTMF: false,
+            dtmfCollect: false,
+            sttDisablePunctuation: true,
+            sttSpeechContexts:conversation.firstNamePhraseList
+            }
+        }
+    }
+]
+# PromptSSNTemplate()
+- IF: ${conversation.callerType == "provider"}         
+    - What's the member's Social Security Number?   
+- ELSE:        
+    - What's your Social Security Number?
+# SendActivity_PromptSSN()
+[Activity
+    Text = ${PromptSSNTemplate()}
+    Speak = ${PromptSSNTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: true,
+            sttProvider: settings.ssnSTTProvider,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfInterDigitTimeoutThreeSec,
+            dtmfCollectMaxDigits: 13
+            }
+        }
+    }
+]
+
+# PromptSSNMIDTemplate()
+- IF: ${conversation.callerType == "provider"}              
+    - What's the member ID or Social Security Number?     
+- ELSE:            
+    - Please tell me your member ID or Social Security Number?
+# SendActivity_PromptSSNMID()
+[Activity
+    Text = ${PromptSSNMIDTemplate()}
+    Speak = ${PromptSSNMIDTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: true,
+            sttProvider: settings.midSTTProvider,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfInterDigitTimeoutThreeSec,
+            dtmfCollectMaxDigits: 13
+            }
+        }
+    }
+]
+# PromptMEMIDTemplate()
+- IF: ${conversation.callerType=="provider"}
+    - And what is the member ID?
+- ELSE:
+    - Please tell me your member ID?
+# SendActivity_PromptMEMID()
+[Activity
+    Text = ${PromptMEMIDTemplate()}
+    Speak = ${PromptMEMIDTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+	{
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: true,
+            sttProvider: settings.midSTTProvider,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfInterDigitTimeoutThreeSec,
+            dtmfCollectMaxDigits: 13,
+            userNoInputTimeoutMS: settings.MIDUserNoInputMS
+        },
+        sessionParams:{
+            continuousASR: true,
+            continuousASRTimeoutInMS: settings.continuousASRTimeoutInMS,
+            continuousASRDigits: "#",		
+			userNoInputTimeoutMS: settings.userNoInputTimeoutMS,
+            userNoInputRetries: 3,
+            sendEventsToBot: ["noUserInput"]
+        }
+	}
+}
+]
+# ConfirmDOBTemplate()
+- IF: ${conversation.callerType=="provider"}
+    - To confirm, the member's date of birth is ${conversation.iDOB}, correct?
+- ELSE: 
+    - Did you say the date of birth was ${conversation.iDOB}?
+# SendActivity_ConfirmDOB()
+[Activity
+    Text = ${ConfirmDOBTemplate()}
+    Speak = ${ConfirmDOBTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: false,
+            dtmfCollectMaxDigits: 1,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfCollectInterDigitTimeoutMS
+        }
+    }
+}
+]
+# ConfirmZIPCodeTemplate()
+- IF: ${conversation.callerType=="provider"}    
+    - To confirm, member's ZIP is <say-as interpret-as="number_digit">${conversation.iZIP}</say-as>, correct? 
+- ELSE:     
+    - I heard you say <say-as interpret-as="number_digit">${conversation.iZIP}</say-as>. Is that correct?
+# SendActivity_ConfirmZIPCode()
+[Activity
+    Text = ${ConfirmZIPCodeTemplate()}
+    Speak = ${ConfirmZIPCodeTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: false,
+            dtmfCollectMaxDigits: 1,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfCollectInterDigitTimeoutMS
+        }
+    }
+}
+]
+# ConfirmLast4SSNTemplate()
+- IF: ${conversation.callerType=="provider"}     
+    - I heard <say-as interpret-as="number_digit">${conversation.i4SSN}</say-as>, can you confirm for me, please? 
+- ELSE:      
+    - I heard <say-as interpret-as="number_digit">${conversation.i4SSN}</say-as>. Is that correct?
+# SendActivity_ConfirmLast4SSN()
+[Activity
+    Text = ${ConfirmLast4SSNTemplate()}
+    Speak = ${ConfirmLast4SSNTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: false,
+            dtmfCollectMaxDigits: 1,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfCollectInterDigitTimeoutMS  
+        }
+    }
+}
+]
+# ConfirmMIDTemplate()
+- I heard <say-as interpret-as="number_digit">${conversation.iMemberID}</say-as>, correct?
+# SendActivity_ConfirmMID()
+[Activity
+    Text = ${ConfirmMIDTemplate()}
+    Speak = ${ConfirmMIDTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: false,
+            dtmfCollectMaxDigits: 1,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfCollectInterDigitTimeoutMS
+        }
+    }
+}
+]
+# SendActivity_GlobalTimeOutFirstMsg()
+[Activity
+    Text = ${conversation.globalTimeOutFirstTemplate}
+    Speak = ${conversation.globalTimeOutFirstTemplate}
+    InputHint = ignoringInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: false,
+            bargeIn: false,
+            bargeInOnDTMF: false,
+            dtmfCollect: false,
+            enableSpeechInput: false
+            }
+        }
+    }
+]
+# SendActivity_GlobalTimeOutSecondMsg()
+[Activity
+    Text = ${conversation.globalTimeOutSecondTemplate}
+    Speak = ${conversation.globalTimeOutSecondTemplate}
+    InputHint = ignoringInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: false,
+            bargeIn: false,
+            bargeInOnDTMF: false,
+            dtmfCollect: false,
+            enableSpeechInput: false
+            }
+        }
+    }
+]
+# SendActivity_TimeOutXferMsg()
+[Activity
+    Text = ${conversation.timeOutXferTemplate}
+    Speak = ${conversation.timeOutXferTemplate}
+    InputHint = ignoringInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: false,
+            bargeIn: false,
+            bargeInOnDTMF: false,
+            dtmfCollect: false,
+            enableSpeechInput: false
+            }
+        }
+    }
+]
+
+# GoodByeTemplate()
+- Alright, I will be ending this call. We are here when you need us, so be sure to call again with any other questions.
+# SendActivity_GoodByeMsg()
+[Activity
+    Text = ${GoodByeTemplate()}
+    Speak = ${GoodByeTemplate()}
+    InputHint = ignoringInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: false,
+            bargeIn: false,
+            bargeInOnDTMF: false,
+            dtmfCollect: false,
+            enableSpeechInput: false
+            }
+        }
+    }
+]
+
+# SendActivity_DisableSpeechEvent()
+[Activity
+    Type = event
+    Name = config
+    channelData = ${
+        {
+            activityParams:{
+                enableSpeechInput: false
+            }
+        }
+    }
+]
+
+
+# PromptMIDAARPTemplate()
+- IF: ${conversation.callerType=="provider"}
+    - Please say the insured's AARP membership number?
+- ELSE:
+    - Please tell me your AARP membership number?
+# SendActivity_PromptMIDAARP()
+[Activity
+    Text = ${PromptMIDAARPTemplate()}
+    Speak = ${PromptMIDAARPTemplate()}
+    InputHint = expectingInput
+    ChannelData = ${
+	{
+        activityParams:{
+            sendDTMF: true,
+            bargeIn: true,
+            bargeInOnDTMF: true,
+            dtmfCollect: true,
+            sttDisablePunctuation: true,
+            sttProvider: settings.midSTTProvider,
+            dtmfCollectInterDigitTimeoutMS: settings.dtmfInterDigitTimeoutThreeSec,
+            dtmfCollectMaxDigits: 13,
+            userNoInputTimeoutMS: settings.MIDUserNoInputMS
+        },
+        sessionParams:{
+            continuousASR: true,
+            continuousASRTimeoutInMS: settings.continuousASRTimeoutInMS,
+            continuousASRDigits: "#",		
+			userNoInputTimeoutMS: settings.userNoInputTimeoutMS,
+            userNoInputRetries: 3,
+            sendEventsToBot: ["noUserInput"]
+        }
+	}
+}
+]
+
+
+# SendActivity_AuthMIDNoConfirmationMsg()
+[Activity
+    Text = ${AuthMIDNoConfirmationTemplate()}
+    Speak = ${AuthMIDNoConfirmationTemplate()}
+    InputHint = ignoringInput
+    ChannelData = ${
+    {
+        activityParams:{
+            sendDTMF: false,
+            bargeIn: false,
+            bargeInOnDTMF: false,
+            dtmfCollect: false
+        }
+      } 
+    }
+]
+
+# AuthMIDNoConfirmationTemplate()
+- I have misunderstood you.

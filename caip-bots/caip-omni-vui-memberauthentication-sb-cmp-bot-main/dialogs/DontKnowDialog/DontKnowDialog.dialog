@@ -1,0 +1,109 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "mrfcRZ",
+    "name": "DontKnowDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "oJp1Xf"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "aPkCor"
+          },
+          "condition": "or(!conversation.tfnConfig.IDAuthSkill_RetryDontKnow_Toggle, conversation.tfnConfig.IDAuthSkill_RetryDontKnow_Toggle ==\"ON\")",
+          "actions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "R0Pwkb"
+              },
+              "condition": "=!conversation.dontknow",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "Kk3u2V"
+                  },
+                  "property": "conversation.dontknow",
+                  "value": true
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "H5eCMu"
+                  },
+                  "activity": "${SendActivity_AuthDontHaveKnowItRequestMsg()}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "iCLT0v"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "01007",
+                    "pegType": "General",
+                    "request": "=DontKnowDialog.SendActivity_AuthDontHaveKnowItRequestMsg()",
+                    "response": "",
+                    "startDTM": "=conversation.startDate",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "MembAuthSkill_AuthDontHaveKnowItRequest_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "5CgSiR"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "RepeatMessages"
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "lYWtW1"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "GlobalContainer",
+                  "options": {
+                    "globalParam": "dontknow"
+                  }
+                }
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "PrVOAR"
+              },
+              "activityProcessed": true,
+              "dialog": "GlobalContainer",
+              "options": {
+                "globalParam": "dontknow"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "DontKnowDialog.lg",
+  "recognizer": "DontKnowDialog.lu.qna",
+  "id": "DontKnowDialog"
+}

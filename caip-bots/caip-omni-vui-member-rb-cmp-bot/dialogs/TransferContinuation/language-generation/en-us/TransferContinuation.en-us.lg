@@ -1,0 +1,78 @@
+> !# @Namespace = TransferCall
+> !# @Exports =SendActivity_TransferEvent, SendActivity_ConfigEvent, XferMessage, ClosedMsg,getDefaultTelNumber
+[import](common.lg)
+
+#getDefaultTelNumber()
+-IF :${equals(conversation.botDnFromTelephony,settings.csBotDN)}
+-  ${settings.defaultTelCSTransfer}
+-ELSE IF:${equals(conversation.botDnFromTelephony,settings.mrBotDN)}
+ -  ${settings.defaultTelMRTransfer}
+ -ELSE:
+ - ${settings.defaultTelEITransfer}
+
+# SendActivity_ConfigEvent()
+[Activity
+    Type = event
+    Name = config
+    channelData = ${
+        {
+            sessionParams:{
+                bargeIn: false,
+                bargeInOnDTMF: false,
+                enableSpeechInput: false
+            }
+        }
+    }
+]
+
+# SendActivity_TransferEvent()
+[Activity
+   Type = event
+    Name = transfer
+    ChannelData = ${
+    {
+        activityParams:
+        {
+            handoverReason: conversation.transferReason,
+            transferTarget: dialog.telTransfer,
+            enableSpeechInput: false
+        }
+    }
+    }
+]
+
+
+# XferMessage()
+[Activity
+    Text = ${Xfer_text()}
+    Speak = ${Xfer_text()}
+    ChannelData = ${
+        {
+            activityParams:{
+                enableSpeechInput: false,
+                sendDTMF: false,
+                bargeIn: false,
+                bargeInOnDTMF: false,
+                dtmfCollect: false
+            }
+        }
+    }
+]
+
+
+# ClosedMsg()
+[Activity
+    Text = ${ClosedMsg_text()}
+    Speak = ${ClosedMsg_text()}
+    ChannelData = ${
+        {
+            activityParams:{
+                enableSpeechInput: false,
+                sendDTMF: false,
+                bargeIn: false,
+                bargeInOnDTMF: false,
+                dtmfCollect: false
+            }
+        }
+    }
+]

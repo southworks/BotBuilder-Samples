@@ -1,0 +1,744 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "L3wxek",
+    "name": "PersonalizationDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "A4czli"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "mVn0NL"
+          },
+          "property": "conversation.reqBody",
+          "value": "=conversation.request"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "iXfOBJ"
+          },
+          "property": "dialog.verbiageToggle",
+          "value": "=conversation.tfnConfig.AI_Suppress_Global_Verbiage_Toggle == \"ON\"?false:true"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "gHHbjd"
+          },
+          "assignments": [
+            {
+              "property": "conversation.telemetryProps",
+              "value": "={}"
+            },
+            {
+              "property": "conversation.customMetrics",
+              "value": "={}"
+            },
+            {
+              "property": "conversation.telemetryProps",
+              "value": "=addProperty(conversation.telemetryProps,\"appName\", \"ConversationManagerSkill\")"
+            },
+            {
+              "property": "conversation.telemetryProps",
+              "value": "=addProperty(conversation.telemetryProps,\"peg\",\"01121\")"
+            },
+            {
+              "property": "conversation.telemetryProps",
+              "value": "=addProperty(conversation.telemetryProps,\"pegType\",\"General\")"
+            },
+            {
+              "property": "conversation.telemetryProps",
+              "value": "=addProperty(conversation.telemetryProps,\"request\",GlobalContainer.GlobalTimeoutFirstMsg())"
+            },
+            {
+              "property": "conversation.telemetryProps",
+              "value": "=addProperty(conversation.telemetryProps,\"response\",\"\")"
+            },
+            {
+              "property": "conversation.telemetryProps",
+              "value": "=addProperty(conversation.telemetryProps,\"startDTM\",utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\"))"
+            },
+            {
+              "property": "conversation.telemetryProps",
+              "value": "=addProperty(conversation.telemetryProps,\"endDTM\",utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\"))"
+            },
+            {
+              "value": "=addProperty(conversation.telemetryProps,\"conversationId\",conversation.conversationId ? conversation.conversationId : \"\")",
+              "property": "conversation.telemetryProps"
+            },
+            {
+              "value": "=addProperty(conversation.telemetryProps,\"callId\",conversation.callId ? conversation.callId : \"\")",
+              "property": "conversation.telemetryProps"
+            },
+            {
+              "property": "conversation.telemetryProps",
+              "value": "=addProperty(conversation.telemetryProps,\"pegName\", \"ConversationManagerSkill_SPKGlobalTimeoutFirst_Peg\")"
+            },
+            {
+              "property": "conversation.telemetryProps",
+              "value": "=addProperty(conversation.telemetryProps,\"TFN\",conversation.tfn ? conversation.tfn : \"\")"
+            },
+            {
+              "property": "conversation.customMetrics",
+              "value": "=addProperty(conversation.customMetrics,\"Peg\",\"01121\")"
+            },
+            {
+              "property": "conversation.customMetrics",
+              "value": "=addProperty(conversation.customMetrics,\"PegType\",\"General\")"
+            },
+            {
+              "property": "conversation.customMetrics",
+              "value": "=addProperty(conversation.customMetrics,\"Request\",GlobalContainer.GlobalTimeoutFirstMsg())"
+            },
+            {
+              "property": "conversation.customMetrics",
+              "value": "=addProperty(conversation.customMetrics,\"Response\",\"\")"
+            },
+            {
+              "property": "conversation.customMetrics",
+              "value": "=addProperty(conversation.customMetrics,\"EndDTM\",utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\"))"
+            },
+            {
+              "property": "conversation.customMetrics",
+              "value": "=addProperty(conversation.customMetrics,\"StartDTM\",utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\"))"
+            },
+            {
+              "value": "=addProperty(conversation.customMetrics,\"ConversationId\",conversation.conversationId ? conversation.conversationId : \"\")",
+              "property": "conversation.customMetrics"
+            },
+            {
+              "value": "=addProperty(conversation.customMetrics,\"CallId\",conversation.callId ? conversation.callId : \"\")",
+              "property": "conversation.customMetrics"
+            },
+            {
+              "property": "conversation.customMetrics",
+              "value": "=addProperty(conversation.customMetrics,\"PegName\", \"ConversationManagerSkilll_SPKGlobalTimeoutFirst_Peg\")"
+            },
+            {
+              "property": "conversation.customMetrics",
+              "value": "=addProperty(conversation.customMetrics,\"AppName\", \"ConversationManagerSkill\")"
+            },
+            {
+              "property": "conversation.customMetricsArr",
+              "value": "=[]"
+            },
+            {
+              "property": "conversation.fpTelemetryProps",
+              "value": "={}"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EditArray",
+          "$designer": {
+            "id": "lOCXkl"
+          },
+          "changeType": "push",
+          "resultProperty": "conversation.newCustomMetricsArr",
+          "itemsProperty": "conversation.customMetricsArr",
+          "value": "=conversation.customMetrics"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "Q00uMc"
+          },
+          "assignments": [
+            {
+              "property": "conversation.telemetryProps",
+              "value": "=addProperty(conversation.telemetryProps,\"customMetrics\",conversation.customMetricsArr)"
+            },
+            {
+              "value": "=addProperty(conversation.fpTelemetryProps,\"properties\", conversation.telemetryProps)",
+              "property": "conversation.fpTelemetryProps"
+            },
+            {
+              "property": "conversation.fpTelemetryProps",
+              "value": "=addProperty(conversation.fpTelemetryProps,\"name\", \"ConversationManagerSkill_SPKGlobalTimeoutFirst_Peg\")"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "R1PcV3"
+          },
+          "assignments": [
+            {
+              "property": "conversation.telemetryProps",
+              "value": "={}"
+            },
+            {
+              "property": "conversation.customMetrics",
+              "value": "={}"
+            },
+            {
+              "property": "conversation.telemetryProps",
+              "value": "=addProperty(conversation.telemetryProps,\"appName\", \"ConversationManagerSkill\")"
+            },
+            {
+              "property": "conversation.telemetryProps",
+              "value": "=addProperty(conversation.telemetryProps,\"peg\",\"01122\")"
+            },
+            {
+              "property": "conversation.telemetryProps",
+              "value": "=addProperty(conversation.telemetryProps,\"pegType\",\"General\")"
+            },
+            {
+              "property": "conversation.telemetryProps",
+              "value": "=addProperty(conversation.telemetryProps,\"request\",GlobalContainer.GlobalTimeoutSecondMsg())"
+            },
+            {
+              "property": "conversation.telemetryProps",
+              "value": "=addProperty(conversation.telemetryProps,\"response\",\"\")"
+            },
+            {
+              "property": "conversation.telemetryProps",
+              "value": "=addProperty(conversation.telemetryProps,\"startDTM\",utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\"))"
+            },
+            {
+              "property": "conversation.telemetryProps",
+              "value": "=addProperty(conversation.telemetryProps,\"endDTM\",utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\"))"
+            },
+            {
+              "value": "=addProperty(conversation.telemetryProps,\"conversationId\",conversation.conversationId ? conversation.conversationId : \"\")",
+              "property": "conversation.telemetryProps"
+            },
+            {
+              "value": "=addProperty(conversation.telemetryProps,\"callId\",conversation.callId ? conversation.callId : \"\")",
+              "property": "conversation.telemetryProps"
+            },
+            {
+              "property": "conversation.telemetryProps",
+              "value": "=addProperty(conversation.telemetryProps,\"TFN\",conversation.tfn ? conversation.tfn : \"\")"
+            },
+            {
+              "property": "conversation.telemetryProps",
+              "value": "=addProperty(conversation.telemetryProps,\"pegName\", \"ConversationManagerSkill_SPKGlobalTimeoutSecond_Peg\")"
+            },
+            {
+              "property": "conversation.customMetrics",
+              "value": "=addProperty(conversation.customMetrics,\"Peg\",\"01122\")"
+            },
+            {
+              "property": "conversation.customMetrics",
+              "value": "=addProperty(conversation.customMetrics,\"PegType\",\"General\")"
+            },
+            {
+              "property": "conversation.customMetrics",
+              "value": "=addProperty(conversation.customMetrics,\"Request\",GlobalContainer.GlobalTimeoutSecondMsg())"
+            },
+            {
+              "property": "conversation.customMetrics",
+              "value": "=addProperty(conversation.customMetrics,\"Response\",\"\")"
+            },
+            {
+              "property": "conversation.customMetrics",
+              "value": "=addProperty(conversation.customMetrics,\"StartDTM\",utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\"))"
+            },
+            {
+              "property": "conversation.customMetrics",
+              "value": "=addProperty(conversation.customMetrics,\"EndDTM\",utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\"))"
+            },
+            {
+              "value": "=addProperty(conversation.customMetrics,\"ConversationId\",conversation.conversationId ? conversation.conversationId : \"\")",
+              "property": "conversation.customMetrics"
+            },
+            {
+              "value": "=addProperty(conversation.customMetrics,\"CallId\",conversation.callId ? conversation.callId : \"\")",
+              "property": "conversation.customMetrics"
+            },
+            {
+              "property": "conversation.customMetrics",
+              "value": "=addProperty(conversation.customMetrics,\"PegName\", \"ConversationManagerSkill_SPKGlobalTimeoutSecond_Peg\")"
+            },
+            {
+              "property": "conversation.customMetrics",
+              "value": "=addProperty(conversation.customMetrics,\"AppName\", \"ConversationManagerSkill\")"
+            },
+            {
+              "property": "conversation.customMetricsArr",
+              "value": "=[]"
+            },
+            {
+              "property": "conversation.rpTelemetryProps",
+              "value": "={}"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EditArray",
+          "$designer": {
+            "id": "QlrCUj"
+          },
+          "changeType": "push",
+          "resultProperty": "conversation.newCustomMetricsArr",
+          "itemsProperty": "conversation.customMetricsArr",
+          "value": "=conversation.customMetrics"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "7AkJVk"
+          },
+          "assignments": [
+            {
+              "property": "conversation.telemetryProps",
+              "value": "=addProperty(conversation.telemetryProps,\"customMetrics\",conversation.customMetricsArr)"
+            },
+            {
+              "value": "=addProperty(conversation.rpTelemetryProps,\"properties\", conversation.telemetryProps)",
+              "property": "conversation.rpTelemetryProps"
+            },
+            {
+              "property": "conversation.rpTelemetryProps",
+              "value": "=addProperty(conversation.rpTelemetryProps,\"name\", \"ConversationManagerSkill_SPKGlobalTimeoutSecond_Peg\")"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "BRwFgo"
+          },
+          "property": "conversation.startDate",
+          "value": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "3xztek"
+          },
+          "assignments": [
+            {
+              "value": "=settings.cmGateEndpoint",
+              "property": "conversation.cmUrl"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "pDYwa1"
+          },
+          "activity": "${DisableSpeechEvent()}"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "nuHteU"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "DisableSpeechInput",
+            "pegType": "General",
+            "request": "=PersonalizationDialog.DisableSpeechEvent()",
+            "response": "speech input ignored",
+            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "ConversationManager_DisableSpeechInput_Peg"
+          }
+        },
+        {
+          "$kind": "Optum.HttpRequestDialog",
+          "$designer": {
+            "id": "8YyIrH"
+          },
+          "verbiageToggleVal": "=dialog.verbiageToggle",
+          "tokenurl": "=settings.accessTokenEndPoint",
+          "clientid": "=settings.accessTokenClientId",
+          "clientsecret": "=settings.accessTokenClientSecret",
+          "tokencontentType": "application/json",
+          "tokenTimeout": "=settings.accessTokenTimeout",
+          "method": "POST",
+          "url": "=conversation.cmUrl",
+          "contentType": "application/json",
+          "timeout": "=settings.cmResponseTimeoutInMS",
+          "promptTime": "=conversation.tfnConfig.Personalization_GlobalTimeout_InterPromptTimeout",
+          "body": "=conversation.reqBody",
+          "resultProperty": "dialog.cmResponse",
+          "firstPrompt": "=GlobalContainer.GlobalTimeoutFirstMsg()",
+          "repeatPrompt": "=GlobalContainer.GlobalTimeoutSecondMsg()",
+          "fstpmtteleval": "=conversation.fpTelemetryProps",
+          "rptpmtteleval": "=conversation.rpTelemetryProps",
+          "retryCount": 0,
+          "retryInterval": 0,
+          "connectionString": "=settings.connectionString",
+          "containerName": "=settings.containerName"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "P1uXdG"
+          },
+          "property": "conversation.cmmwresponse",
+          "value": "=dialog.cmResponse"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "HnnQAs"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "GMS02",
+            "pegType": "DataInterface",
+            "request": "{\"URL\":\"${conversation.cmUrl}\",\"RequestBody\":${conversation.reqBody}}",
+            "response": "=conversation.cmmwresponse",
+            "eventName": "ConversationManagerSkill_GMS02_Peg",
+            "startDTM": "=conversation.startDate",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")"
+          }
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "jIKHhw"
+          },
+          "cases": [
+            {
+              "value": "200",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "d2gPR7"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "00800",
+                    "pegType": "General",
+                    "startDTM": "=conversation.startDate",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "ConversationManagerSkill_GMS02_Success_Peg",
+                    "request": "200",
+                    "response": "=conversation.cmmwresponse"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "eF6R3h"
+                  },
+                  "property": "conversation.campaignCode",
+                  "value": "=dialog.cmResponse.output.GateResult.CM_Response.CampaignCode"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "qbpCFg"
+                  },
+                  "condition": "=and(string(conversation.campaignCode)!=\"\",contains(conversation.tfnConfig.CMSkill_Disabled_Campaigns, conversation.campaignCode))",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "WrxXq5"
+                      },
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "ibUs8j"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "00803",
+                            "startDTM": "=conversation.startDate",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "ConversationManagerSkill_GMS02_EmptyCampaignCode_Peg",
+                            "request": "Empty Campaign Code",
+                            "response": "=conversation.skillResponse",
+                            "pegType": "General"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "tU634f"
+                          },
+                          "assignments": [
+                            {
+                              "property": "conversation.transferReason",
+                              "value": "GMS02_200_EmptyCampaignCode"
+                            },
+                            {
+                              "property": "conversation.transferPeg",
+                              "value": "00803"
+                            },
+                            {
+                              "property": "conversation.skillResponseParams",
+                              "value": "=addProperty(conversation.skillResponseParams,\"transferReason\",conversation.transferReason)"
+                            },
+                            {
+                              "property": "conversation.skillResponseParams",
+                              "value": "=addProperty(conversation.skillResponseParams,\"transferPeg\",conversation.transferPeg)"
+                            }
+                          ]
+                        }
+                      ],
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "p6jcvS"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "00803",
+                            "startDTM": "=conversation.startDate",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "ConversationManagerSkill_GMS02_DisabledCampaignTrue_Peg",
+                            "request": "=concat(conversation.campaignCode, \" is Disabled Campaign\")",
+                            "response": "=conversation.skillResponse",
+                            "pegType": "General"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "igFaz2"
+                          },
+                          "assignments": [
+                            {
+                              "property": "conversation.transferReason",
+                              "value": "GMS02_200_DisabledCampaignCode"
+                            },
+                            {
+                              "property": "conversation.transferPeg",
+                              "value": "00803"
+                            },
+                            {
+                              "property": "conversation.skillResponseParams",
+                              "value": "=addProperty(conversation.skillResponseParams,\"transferReason\",conversation.transferReason)"
+                            },
+                            {
+                              "property": "conversation.skillResponseParams",
+                              "value": "=addProperty(conversation.skillResponseParams,\"transferPeg\",conversation.transferPeg)"
+                            }
+                          ]
+                        }
+                      ],
+                      "condition": "=string(conversation.campaignCode)==\"\""
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "AUmlrD"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.skillResponse",
+                          "value": "=addProperty(conversation.skillResponse,\"parameters\",conversation.skillResponseParams)"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.CancelAllDialogs",
+                      "$designer": {
+                        "id": "MRUc0W"
+                      },
+                      "activityProcessed": true,
+                      "eventName": "endSkill",
+                      "eventValue": "=conversation.skillResponse"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "IGOmn9"
+                      },
+                      "property": "conversation.cmResponse",
+                      "value": "=dialog.cmResponse.output"
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "toaAwO"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "MenuType",
+                      "options": {
+                        "conversation.cmResponse": ""
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "404",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "CnmNir"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "00801",
+                    "pegType": "General",
+                    "startDTM": "=conversation.startDate",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "ConversationManagerSkill_GMS02_NoData_Peg",
+                    "request": "404",
+                    "response": "=conversation.cmmwresponse"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "wqlhFQ"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.transferReason",
+                      "value": "GMS02_404"
+                    },
+                    {
+                      "property": "conversation.transferPeg",
+                      "value": "00801"
+                    },
+                    {
+                      "property": "conversation.skillResponseParams",
+                      "value": "=addProperty(conversation.skillResponseParams,\"transferReason\",conversation.transferReason)"
+                    },
+                    {
+                      "property": "conversation.skillResponseParams",
+                      "value": "=addProperty(conversation.skillResponseParams,\"transferPeg\",conversation.transferPeg)"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "vgGeFC"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.skillResponse",
+                      "value": "=addProperty(conversation.skillResponse,\"parameters\",conversation.skillResponseParams)"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.CancelAllDialogs",
+                  "$designer": {
+                    "id": "jwlCOp"
+                  },
+                  "activityProcessed": true,
+                  "eventName": "endSkill",
+                  "eventValue": "=conversation.skillResponse"
+                }
+              ]
+            },
+            {
+              "value": "408",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "vN7Vxj"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "GlobalContainer",
+                  "options": {
+                    "globalParam": "timeout"
+                  }
+                }
+              ]
+            }
+          ],
+          "condition": "=string(dialog.cmResponse.status_code)",
+          "default": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "wEKWkh"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "00802",
+                "pegType": "General",
+                "startDTM": "=conversation.startDate",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "ConversationManagerSkill_GMS02_Default_Peg",
+                "request": "Default",
+                "response": "=conversation.cmmwresponse"
+              }
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "58vvKa"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.transferReason",
+                  "value": "GMS02_Default"
+                },
+                {
+                  "property": "conversation.transferPeg",
+                  "value": "00802"
+                },
+                {
+                  "property": "conversation.skillResponseParams",
+                  "value": "=addProperty(conversation.skillResponseParams,\"transferReason\",conversation.transferReason)"
+                },
+                {
+                  "property": "conversation.skillResponseParams",
+                  "value": "=addProperty(conversation.skillResponseParams,\"transferPeg\",conversation.transferPeg)"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "Q3kDh1"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.skillResponse",
+                  "value": "=addProperty(conversation.skillResponse,\"parameters\",conversation.skillResponseParams)"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.CancelAllDialogs",
+              "$designer": {
+                "id": "gHbqzG"
+              },
+              "activityProcessed": true,
+              "eventName": "endSkill",
+              "eventValue": "=conversation.skillResponse"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "PersonalizationDialog.lg",
+  "recognizer": "PersonalizationDialog.lu.qna",
+  "id": "PersonalizationDialog",
+  "triggers[\"A4czli\"]": []
+}

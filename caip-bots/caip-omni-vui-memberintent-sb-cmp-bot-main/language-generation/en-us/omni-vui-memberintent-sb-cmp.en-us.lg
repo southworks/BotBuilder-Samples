@@ -1,0 +1,212 @@
+> !# @Namespace=MainDialog
+> !# @Exports = TestEventMsg, PegVal, PegName, TestEventTemplate, getEntity, GetEntityFromAnyIntent, GetCallerTypeEntity
+[import](common.lg)
+
+# TestEventMsg()
+[Activity
+    Text = ${TestEventTemplate()}
+    Speak = ${TestEventTemplate()}
+    InputHint = ignoringInput
+    ChannelData = ${
+        {
+            sessionParams:{
+                voiceName: "UHGOmniAshtonTTSBetaNeural",
+                sendDTMF: false,
+                bargeIn: false,
+                bargeInOnDTMF: false,
+                dtmfCollect: false,
+                dtmfCollectInterDigitTimeoutMS: 2000,
+                dtmfCollectSubmitDigit: "#",
+                dtmfCollectMaxDigits: 10,
+                userNoInputTimeoutMS: 5000,
+                userNoInputRetries: 2,
+                sendEventsToBot: ["noUserInput"]
+            }
+        }
+    }
+]
+
+# PegVal(param)
+- IF: ${conversation.flowState.flowPreviousPrompt == 'AgentTransferCapture'}
+    - memberIntent_Start_agentTransferMnu${!empty(param) ? '_' + param : ''}
+- ELSEIF: ${conversation.flowState.flowPreviousPrompt == 'IntentCapture'}
+    - memberIntent_Start_CaptureMnu${!empty(param) ? '_' + param : ''}
+- ELSEIF: ${conversation.flowState.flowPreviousPrompt == 'IntentCaptureRepeatVerbiage'}
+    - memberIntent_Start_CaptureMnu${!empty(param) ? '_' + param : ''}
+- ELSEIF: ${conversation.flowState.flowPreviousPrompt == 'IntentCaptureRetry'}
+    - memberIntent_Start_RetryMnu${!empty(param) ? '_' + param : ''}
+- ELSEIF: ${conversation.flowState.flowPreviousPrompt == 'ConfirmIntent'}
+    - memberIntent_Start_ConfirmMnu${!empty(param) ? '_' + param : ''}
+- ELSEIF: ${!empty(conversation.currentAsk)}
+    - memberIntent_${!empty(param) ? param : ''}
+- ELSEIF: ${conversation.flowState.flowPreviousPrompt == 'disambigBenefits'}
+    - memberIntent_DisambigBenefits_Mnu${!empty(param) ? '_' + param : ''}
+- ELSEIF: ${conversation.flowState.flowPreviousPrompt == 'nurselineDisambig'}
+    - memberIntent_NurseLineDisambig_Mnu${!empty(param) ? '_' + param : ''}
+- ELSEIF: ${conversation.flowState.flowPreviousPrompt == 'CrisisDisambig'}
+    - memberIntent_CrisisDisambig_Mnu${!empty(param) ? '_' + param : ''}
+- ELSEIF: ${conversation.flowState.flowPreviousPrompt == 'claimsGeneral'}
+    - memberIntent_ClaimsGeneral_Mnu${!empty(param) ? '_' + param : ''}
+- ELSEIF: ${conversation.flowState.flowPreviousPrompt == 'disambigGeneral'}
+    - memberIntent_DisambigGeneral_Mnu${!empty(param) ? '_' + param : ''}
+- ELSEIF: ${conversation.flowState.flowPreviousPrompt == 'accountUpdate'}
+    - memberIntent_AccountUpdate_Prmt${!empty(param) ? '_' + param : ''}
+- ELSEIF: ${conversation.flowState.flowPreviousPrompt == 'pharmacyGeneral'}
+    - memberIntent_PharmacyGeneral_Mnu${!empty(param) ? '_' + param : ''}
+- ELSEIF: ${conversation.flowState.flowPreviousPrompt == 'callerTypeGeneral'}
+    - memberIntent_CallerTypeGeneral_Mnu${!empty(param) ? '_' + param : ''}
+- ELSEIF: ${conversation.flowState.flowPreviousPrompt == 'mentalHealthGeneral'}
+    - memberIntent_MentalHealthGeneral_Mnu${!empty(param) ? '_' + param : ''}
+- ELSEIF: ${conversation.flowState.flowPreviousPrompt == 'preApprovalRx'}
+    - memberIntent_PreApprovalRx_Mnu${!empty(param) ? '_' + param : ''}
+- ELSEIF: ${conversation.flowState.flowPreviousPrompt == 'financialAccountsGeneral'}
+    - memberIntent_FinancialAccountsGeneral_Mnu${!empty(param) ? '_' + param : ''}
+- ELSEIF: ${conversation.flowState.flowPreviousPrompt == 'billingDisambig'}
+    - memberIntent_BillingDisambig_Mnu${!empty(param) ? '_' + param : ''}
+- ELSEIF: ${conversation.flowState.flowPreviousPrompt == 'CrisisDisambig'}
+    - memberIntent_CrisisDisambig_Mnu${!empty(param) ? '_' + param : ''}
+- ELSEIF: ${conversation.flowState.flowPreviousPrompt == 'openEnrollment'}
+    - memberIntent_OpenEnrollment_Mnu${!empty(param) ? '_' + param : ''}
+- ELSEIF: ${conversation.flowState.flowPreviousPrompt == 'balanceDisambig'}
+    - memberIntent_BalanceDisambig_Mnu${!empty(param) ? '_' + param : ''}
+- ELSEIF: ${conversation.flowState.flowPreviousPrompt == 'solutranDisambig'}
+    - memberIntent_SolutranDisambig_Mnu${!empty(param) ? '_' + param : ''}
+- ELSEIF: ${conversation.flowState.flowPreviousPrompt == 'solutranUpfront'}
+    - memberIntent_SolutranUpfront_Mnu${!empty(param) ? '_' + param : ''}
+- ELSEIF: ${conversation.flowState.flowPreviousPrompt == 'paymentDisambig'}
+    - memberIntent_PaymentDisambig_Mnu${!empty(param) ? '_' + param : ''}
+- ELSEIF: ${conversation.flowState.flowPreviousPrompt == 'openEnrollmentUpfront'}
+    - memberIntent_UpfrontOpenEnrollment_Mnu${!empty(param) ? '_' + param : ''}
+- ELSEIF: ${conversation.flowState.flowPreviousPrompt == 'Enrollment_CaptureMnu'}
+    - memberIntent_Enrollment_Capture_Mnu${!empty(param) ? '_' + param : ''}
+- ELSE:
+    - memberIntent${!empty(param) ? '_' + param : ''}
+
+# PegName(param1, param2)
+- MemberIntentSkill_${contains(createArray('IntentCapture', 'Enrollment_CaptureMnu', 'IntentCaptureRepeatVerbiage', 'IntentCaptureRetry', 'ConfirmIntent', 'AgentTransferCapture'), param1) ? concat('Start_', param1, param2, '_Peg') : concat(param1, param2, '_Peg')}
+
+
+# SendActivity_pqLrhX()
+[Activity
+    Text = Sorry, I didn't get that.
+]
+
+# SendActivity_fwjSCF()
+[Activity
+    Text = ${conversation.languageServiceResponse.content.answers[0].answer}
+]
+
+# getEntity(intent, recognized, parentEntity)
+- IF : ${and(not(isArray(getProperty(getProperty(recognized, "entities"), parentEntity)[0])), isObject(getProperty(getProperty(recognized, "entities"), parentEntity)[0]), not(empty(getProperty(getProperty(recognized, "entities"), parentEntity)[0])))}
+	- ${split(split(string(getProperty(getProperty(recognized, "entities"), parentEntity)[0]), '":')[0], '"')[1]}
+- ELSE:
+   - ${parentEntity}
+
+# GetEntityFromAnyIntent(lastIntent, recognized)
+- IF: ${and(lastIntent == 'cardReplacement', and(getProperty(getProperty(getProperty(recognized, "entities"), "cardReplacementML")[0], "cardGeneralChild") != undefined, getProperty(getProperty(recognized, "entities"), "dentalClassifierList") != undefined))}
+   - cardGeneralChild-dentalClassifierList
+- ELSEIF: ${and(lastIntent == 'cardReplacement', and(getProperty(getProperty(getProperty(recognized, "entities"), "cardReplacementML")[0], "cardGeneralChild") != undefined, getProperty(getProperty(recognized, "entities"), "visionML") != undefined))}
+   - cardGeneralChild-visionML
+- ELSEIF: ${and(lastIntent == 'pharmacy', and(getProperty(getProperty(recognized, "entities"), "billingClassifierML") != undefined, getProperty(getProperty(getProperty(recognized, "entities"), "pharmacyML")[0], "pharmacyGeneralChild") != undefined))}
+   - billingClassifierML-pharmacyGeneralChild
+- ELSEIF: ${and(lastIntent == 'benefits', getProperty(getProperty(recognized, "entities"), "benefits1ML") != undefined)}
+   - ${getEntity(lastIntent, recognized, 'benefits1ML')}
+- ELSEIF: ${and(lastIntent == 'benefits', getProperty(getProperty(recognized, "entities"), "benefits2ML") != undefined)}
+   - ${getEntity(lastIntent, recognized, 'benefits2ML')}
+- ELSEIF: ${and(lastIntent == 'benefits', getProperty(getProperty(recognized, "entities"), "benefits3ML") != undefined)}
+   - ${getEntity(lastIntent, recognized, 'benefits3ML')}
+- ELSEIF: ${and(lastIntent == 'benefits', getProperty(getProperty(recognized, "entities"), "financialML") != undefined)}
+   - ${getEntity(lastIntent, recognized, 'financialML')}
+- ELSEIF: ${and(lastIntent == 'benefits', getProperty(getProperty(recognized, "entities"), "eapML") != undefined)}
+   - ${getEntity(lastIntent, recognized, 'eapML')}
+- ELSEIF: ${and(lastIntent == 'benefits', getProperty(getProperty(recognized, "entities"), "benefitsGeneralChild") != undefined)}
+   - ${getEntity(lastIntent, recognized, 'benefitsGeneralChild')}
+- ELSEIF: ${and(lastIntent == 'claims', getProperty(getProperty(recognized, "entities"), "claimsML") != undefined)}
+   - ${getEntity(lastIntent, recognized, 'claimsML')}
+- ELSEIF: ${and(lastIntent == 'claims', getProperty(getProperty(recognized, "entities"), "behavioralHealthML") != undefined)}
+   - ${getEntity(lastIntent, recognized, 'behavioralHealthML')}
+- ELSEIF: ${and(lastIntent == 'pharmacy', getProperty(getProperty(recognized, "entities"), "pharmacyML") != undefined)}
+   - ${getEntity(lastIntent, recognized, 'pharmacyML')}
+- ELSEIF: ${and(lastIntent == 'pharmacy', getProperty(getProperty(recognized, "entities"), "pharmacy2ML") != undefined)}
+   - ${getEntity(lastIntent, recognized, 'pharmacy2ML')}
+- ELSEIF: ${and(lastIntent == 'mentalHealth', getProperty(getProperty(recognized, "entities"), "mentalHealthGeneralML") != undefined)}
+   - ${getEntity(lastIntent, recognized, 'mentalHealthGeneralML')}
+- ELSEIF: ${and(lastIntent == 'onlineQuestions', getProperty(getProperty(recognized, "entities"), "onlineQuestionML") != undefined)}
+   - ${getEntity(lastIntent, recognized, 'onlineQuestionML')}
+- ELSEIF: ${and(lastIntent == 'agentGeneral', getProperty(getProperty(recognized, "entities"), "agentGeneralML") != undefined)}
+   - ${getEntity(lastIntent, recognized, 'agentGeneralML')}
+- ELSEIF: ${and(lastIntent == 'memberID', getProperty(getProperty(recognized, "entities"), "memberIDML") != undefined)}
+   - ${getEntity(lastIntent, recognized, 'memberIDML')}
+- ELSEIF: ${and(lastIntent == 'policyGroupNumber', getProperty(getProperty(recognized, "entities"), "policyGroupNumberML") != undefined)}
+   - ${getEntity(lastIntent, recognized, 'policyGroupNumberML')}
+- ELSEIF: ${and(lastIntent == 'pulmonaryDisease', getProperty(getProperty(recognized, "entities"), "copdML") != undefined)}
+   - ${getEntity(lastIntent, recognized, 'copdML')}
+- ELSEIF: ${and(lastIntent == 'subrogationGeneral', getProperty(getProperty(recognized, "entities"), "subrogationGeneralML") != undefined)}
+   - ${getEntity(lastIntent, recognized, 'subrogationGeneralML')}
+- ELSEIF: ${and(lastIntent == 'transportation', getProperty(getProperty(recognized, "entities"), "transportationML") != undefined)}
+   - ${getEntity(lastIntent, recognized, 'transportationML')}
+- ELSEIF: ${and(lastIntent == 'behavioralHealth', getProperty(getProperty(recognized, "entities"), "behavioralHealthML") != undefined)}
+   - ${getEntity(lastIntent, recognized, 'behavioralHealthML')}
+- ELSEIF: ${and(lastIntent == 'cardReplacement', getProperty(getProperty(recognized, "entities"), "cardReplacementML") != undefined)}
+   - ${getEntity(lastIntent, recognized, 'cardReplacementML')}
+- ELSEIF: ${and(lastIntent == 'doctor', getProperty(getProperty(recognized, "entities"), "doctorML") != undefined)}
+   - ${getEntity(lastIntent, recognized, 'doctorML')}
+- ELSEIF: ${and(lastIntent == 'financial', getProperty(getProperty(recognized, "entities"), "financialML") != undefined)}
+   - ${getEntity(lastIntent, recognized, 'financialML')}
+- ELSEIF: ${and(lastIntent == 'health', getProperty(getProperty(recognized, "entities"), "healthML") != undefined)}
+   - ${getEntity(lastIntent, recognized, 'healthML')}
+- ELSEIF: ${and(lastIntent == 'heart', getProperty(getProperty(recognized, "entities"), "heartML") != undefined)}
+   - ${getEntity(lastIntent, recognized, 'heartML')}
+- ELSEIF: ${and(lastIntent == 'letter', getProperty(getProperty(recognized, "entities"), "letterML") != undefined)}
+   - ${getEntity(lastIntent, recognized, 'letterML')}
+- ELSEIF: ${and(lastIntent == 'authorization', getProperty(getProperty(recognized, "entities"), "authorizationML") != undefined)}
+   - ${getEntity(lastIntent, recognized, 'authorizationML')}
+- ELSEIF: ${and(lastIntent == 'prevention', getProperty(getProperty(recognized, "entities"), "preventionML") != undefined)}
+   - ${getEntity(lastIntent, recognized, 'preventionML')}
+- ELSEIF: ${and(lastIntent == 'report', getProperty(getProperty(recognized, "entities"), "reportML") != undefined)}
+   - ${getEntity(lastIntent, recognized, 'reportML')}
+- ELSEIF: ${and(lastIntent == 'resources', getProperty(getProperty(recognized, "entities"), "resourcesML") != undefined)}
+   - ${getEntity(lastIntent, recognized, 'resourcesML')}
+- ELSEIF: ${and(lastIntent == 'dentalGeneral', getProperty(getProperty(recognized, "entities"), "dentalGeneralML") != undefined)}
+   - ${getEntity(lastIntent, recognized, 'dentalGeneralML')}   
+- ELSEIF: ${and(lastIntent == 'accountUpdate', getProperty(getProperty(recognized, "entities"), "accountUpdateML") != undefined)}
+   - ${getEntity(lastIntent, recognized, 'accountUpdateML')}
+- ELSEIF: ${and(lastIntent == 'enrollment', getProperty(getProperty(recognized, "entities"), "enrollmentML") != undefined)}
+   - ${getEntity(lastIntent, recognized, 'enrollmentML')}
+- ELSEIF: ${and(lastIntent == 'planType', getProperty(getProperty(recognized, "entities"), "planTypeML") != undefined)}
+   - ${getEntity(lastIntent, recognized, 'planTypeML')}
+- ELSEIF: ${and(lastIntent == 'callerTypeGeneral', getProperty(getProperty(recognized, "entities"), "callerTypeML") != undefined)}
+   - ${getEntity(lastIntent, recognized, 'callerTypeML')}
+- ELSEIF: ${and(lastIntent == 'couponBook', getProperty(getProperty(recognized, "entities"), "couponBookML") != undefined)}
+   - ${getEntity(lastIntent, recognized, 'couponBookML')}
+- ELSEIF: ${and(lastIntent == 'EFT', getProperty(getProperty(recognized, "entities"), "EFTML") != undefined)}
+   - ${getEntity(lastIntent, recognized, 'EFTML')}
+- ELSEIF: ${and(lastIntent == 'FOBT', getProperty(getProperty(recognized, "entities"), "FOBTML") != undefined)}
+   - ${getEntity(lastIntent, recognized, 'FOBTML')}
+- ELSEIF: ${and(lastIntent == 'fosterCare', getProperty(getProperty(recognized, "entities"), "fosterML") != undefined)}
+   - ${getEntity(lastIntent, recognized, 'fosterML')}
+- ELSEIF: ${and(lastIntent == 'handbook', getProperty(getProperty(recognized, "entities"), "handbookML") != undefined)}
+   - ${getEntity(lastIntent, recognized, 'handbookML')}
+- ELSEIF: ${and(lastIntent == 'hospitalStay', getProperty(getProperty(recognized, "entities"), "hospitalStayML") != undefined)}
+   - ${getEntity(lastIntent, recognized, 'hospitalStayML')}
+- ELSEIF: ${and(lastIntent == 'membersMatter', getProperty(getProperty(recognized, "entities"), "membersMatterML") != undefined)}
+   - ${getEntity(lastIntent, recognized, 'membersMatterML')}
+- ELSEIF: ${and(lastIntent == 'passport', getProperty(getProperty(recognized, "entities"), "passportML") != undefined)}
+   - ${getEntity(lastIntent, recognized, 'passportML')}
+- ELSEIF: ${and(lastIntent == 'caseManagement', getProperty(getProperty(recognized, "entities"), "caseManagementML") != undefined)}
+   - ${getEntity(lastIntent, recognized, 'caseManagementML')}
+- ELSEIF: ${and(lastIntent == 'form', getProperty(getProperty(recognized, "entities"), "formML") != undefined)}
+   - ${getEntity(lastIntent, recognized, 'formML')}
+- ELSE:
+   - ${''}
+
+# GetCallerTypeEntity(recognized)
+- IF:${and(getProperty(getProperty(recognized, "entities"), "callerTypeML") != undefined, contains(getProperty(getProperty(recognized, "entities"), "callerTypeML")[0], "callerTypeMemberChild"))}
+    - callerTypeMemberChild
+- ELSEIF:${and(getProperty(getProperty(recognized, "entities"), "callerTypeML") != undefined, contains(getProperty(getProperty(recognized, "entities"), "callerTypeML")[0], "callerTypeProviderChild"))}
+    - callerTypeProviderChild
+- ELSEIF:${getProperty(getProperty(recognized, "entities"), "callerTypeProviderList") != undefined}
+    - callerTypeProviderList
+- ELSE:
+    - ''
+   

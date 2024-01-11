@@ -1,0 +1,164 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "BCleU6",
+    "name": "YesDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "TRYmwH"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "ewILgl"
+          },
+          "actions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "r9a6U2"
+              },
+              "condition": "=or(equals(conversation.inputval,'confirmDOB'),equals(conversation.inputval,'confirmLast4SSN'))",
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "JtMakv"
+                  },
+                  "condition": "=!equals(conversation.IDType,\"MEMID\")",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "aEx1dy"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "=MainDialog.PegVal(conversation.inputVal)",
+                        "pegType": "UserInput",
+                        "request": "User Input",
+                        "response": "=if(dialog.fromDialogName==\"DTMF\",turn.activity,turn.recognized)",
+                        "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "=if(dialog.fromDialogName==\"DTMF\",MainDialog.PegName(conversation.inputVal,\"DTMFInput\"),MainDialog.PegName(conversation.inputVal,\"LuisResult\"))"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "5v3dHy"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "=MainDialog.PegVal(concat(conversation.inputVal,\"YesConfirmationMIDNeeded\"))",
+                        "pegType": "General",
+                        "request": "",
+                        "response": "",
+                        "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "=MainDialog.PegName(conversation.inputVal,\"YesConfirmationMIDNeeded\")"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "yyFZkb"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "MemberIDInputDialog"
+                    },
+                    {
+                      "$kind": "Microsoft.EndDialog",
+                      "$designer": {
+                        "id": "bG8iH6"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "k2W7gs"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "=MainDialog.PegVal(conversation.inputVal)",
+                "pegType": "UserInput",
+                "request": "User Input",
+                "response": "=if(dialog.fromDialogName==\"DTMF\",turn.activity,turn.recognized)",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "=if(dialog.fromDialogName==\"DTMF\",MainDialog.PegName(conversation.inputVal,\"DTMFInput\"),MainDialog.PegName(conversation.inputVal,\"LuisResult\"))"
+              }
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "rRn554"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "=MainDialog.PegVal(concat(conversation.inputVal,\"YesConfirmation\"))",
+                "pegType": "General",
+                "request": "",
+                "response": "",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "=MainDialog.PegName(conversation.inputVal,\"YesConfirmation\")"
+              }
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "5uNE5Z"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.authFlag",
+                  "value": false
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "6ybY4a"
+              },
+              "activityProcessed": true,
+              "dialog": "AuthInCompleteDialog"
+            }
+          ],
+          "condition": "=or(equals(conversation.inputval,'confirmDOB'),equals(conversation.inputval,'confirmLast4SSN'),equals(conversation.inputval,'confirmZIPCode'),equals(conversation.inputval,'confirmMID'))",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "dl92n3"
+              },
+              "activityProcessed": true,
+              "dialog": "NoMatchInput"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "YesDialog.lg",
+  "recognizer": "YesDialog.lu.qna",
+  "id": "YesDialog"
+}

@@ -1,0 +1,107 @@
+> LUIS application information
+> !# @app.name = caip-omni-vui-member-rb-cmp-bot-SMS
+> !# @app.versionId = UHC_SMS_Yes_No_V1.0
+> !# @app.culture = en-us
+> !# @app.luis_schema_version = 7.0.0
+> !# @app.settings.NormalizePunctuation = True
+> !# @app.settings.UseAllTrainingData = True
+> !# @app.tokenizerVersion = 1.0.0
+
+> # Intent definitions
+
+# dontKnow
+- can't remember
+- cant remember
+- do not have
+- do not have it
+- do not know
+- do not remember
+- don't have
+- don't have it
+- don't know
+- don't really know
+- don't remember
+- dont know
+- dont remember
+- i do not know
+- {@dontKnowML}
+
+
+@ intent dontKnow usesFeature dontKnowML
+
+# no
+- {@noML=incorrect}
+- {@noML=negative}
+- {@noML=no}
+- {@noML=no}, not this
+- {@noML=nope}
+- {@noML=not correct}
+- {@noML=not that}
+- that's {@noML=not correct}
+- that's {@noML=not right}
+- the answer is {@noML=no}
+- {@noML=wrong}
+- {@noML=wrong} one
+- {@noML}
+
+
+@ intent no usesFeatures noFeature,noML
+
+# None
+- none
+- none of those
+
+
+# yes
+- {@yesML=correct}
+- {@yesML=it is right}
+- {@yesML=it's correct}
+- {@yesML=right}
+- {@yesML=right that is it}
+- {@yesML=right that’s it}
+- {@yesML=sure}
+- {@yesML=that's correct}
+- that's {@yesML=perfect}
+- {@yesML=that's right}
+- {@yesML=yea}
+- {@yesML=yeah}
+- {@yesML=yeah}, that’s it
+- {@yesML=yep}
+- {@yesML=yes}
+- {@yesML=yes}, i said that
+- {@yesML=yes}, it is
+- {@yesML=yup}
+- {@yesML}
+
+
+@ intent yes usesFeatures yesFeature,yesML
+
+> # Entity definitions
+
+@ ml dontKnowML usesFeature dontKnowFeature
+
+@ ml noML usesFeature noFeature
+
+@ ml yesML usesFeature yesFeature
+
+
+> # PREBUILT Entity definitions
+
+
+> # Phrase list definitions
+
+@ phraselist yesFeature(interchangeable) disabledForAllModels = 
+	- yes,yeah,yup,correct,right,sure,yep,that's right,that's correct,yea,yah,perfect
+
+@ phraselist noFeature(interchangeable) disabledForAllModels = 
+	- no,nope,I'm not,wrong,negative
+
+@ phraselist dontKnowFeature(interchangeable) disabledForAllModels = 
+	- dont know,don't know,dont remember,don't remember,cant remember,can't remember,dont have it,don't have it,don't really know,i do not know,do not remember,do not have it,don't have,do not know,do not have
+
+
+> # List entities
+
+> # RegEx entities
+
+

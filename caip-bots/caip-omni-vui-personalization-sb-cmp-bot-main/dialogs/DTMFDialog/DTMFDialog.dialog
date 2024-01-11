@@ -1,0 +1,225 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "FZpfhn",
+    "name": "DTMFDialog",
+    "comment": "DTMFDialog"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "bBjPtw"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "BQSfnW"
+          },
+          "condition": "=dialog.dtmfVal",
+          "cases": [
+            {
+              "value": "0",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "oserDC"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal(conversation.inputVal)",
+                    "pegType": "UserInput",
+                    "request": "User Input",
+                    "response": "=turn.activity.value",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=MainDialog.DTMFName(conversation.inputVal,\"Agent\")"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "SGg2BP"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "GlobalContainer",
+                  "options": {
+                    "globalParam": "agent"
+                  }
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.SwitchCondition",
+              "$designer": {
+                "id": "Y96AWa"
+              },
+              "condition": "=conversation.inputVal",
+              "cases": [
+                {
+                  "value": "cmReturnedMenu",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "gcmD4W"
+                      },
+                      "property": "conversation.cmReturnedMenu",
+                      "value": "=dialog.dtmfVal"
+                    },
+                    {
+                      "$kind": "Microsoft.SwitchCondition",
+                      "$designer": {
+                        "id": "q5MT4N"
+                      },
+                      "condition": "=string(conversation.cmReturnedMenu)",
+                      "cases": [
+                        {
+                          "value": "1",
+                          "actions": [
+                            {
+                              "$kind": "Microsoft.BeginDialog",
+                              "$designer": {
+                                "id": "H1E3CH"
+                              },
+                              "activityProcessed": true,
+                              "dialog": "TelemetryDialog",
+                              "options": {
+                                "peg": "=MainDialog.PegVal(conversation.inputVal)",
+                                "pegType": "UserInput",
+                                "request": "User Input",
+                                "response": "=dialog.dtmfVal",
+                                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                                "eventName": "=MainDialog.DTMFName(conversation.inputVal,\"UserInput\")"
+                              }
+                            },
+                            {
+                              "$kind": "Microsoft.BeginDialog",
+                              "$designer": {
+                                "id": "xnRs9z"
+                              },
+                              "activityProcessed": true,
+                              "dialog": "YesDialog",
+                              "options": {}
+                            }
+                          ]
+                        },
+                        {
+                          "value": "2",
+                          "actions": [
+                            {
+                              "$kind": "Microsoft.BeginDialog",
+                              "$designer": {
+                                "id": "MnziM0"
+                              },
+                              "activityProcessed": true,
+                              "dialog": "TelemetryDialog",
+                              "options": {
+                                "peg": "=MainDialog.PegVal(conversation.inputVal)",
+                                "pegType": "UserInput",
+                                "request": "User Input",
+                                "response": "=dialog.dtmfVal",
+                                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                                "eventName": "=MainDialog.DTMFName(conversation.inputVal,\"UserInput\")"
+                              }
+                            },
+                            {
+                              "$kind": "Microsoft.BeginDialog",
+                              "$designer": {
+                                "id": "8uTBOL"
+                              },
+                              "activityProcessed": true,
+                              "dialog": "NoDialog"
+                            }
+                          ]
+                        }
+                      ],
+                      "default": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "fIzSEU"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "=MainDialog.PegVal(conversation.inputVal)",
+                            "pegType": "UserInput",
+                            "request": "User Input",
+                            "response": "=dialog.dtmfVal",
+                            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "=MainDialog.DTMFName(conversation.inputVal,\"UserInput\")"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "gWtlqh"
+                          },
+                          "activityProcessed": true,
+                          "options": {
+                            "input": "dtmf"
+                          },
+                          "dialog": "NoMatchInput"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "default": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "MNvpGj"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal(conversation.inputVal)",
+                    "pegType": "UserInput",
+                    "request": "User Input",
+                    "response": "=dialog.dtmfVal",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=MainDialog.DTMFName(conversation.inputVal,\"UserInput\")"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "QWxwoT"
+                  },
+                  "activityProcessed": true,
+                  "options": {},
+                  "dialog": "NoMatchInput"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "oHYcdC"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "DTMFDialog.lg",
+  "recognizer": "DTMFDialog.lu.qna",
+  "id": "DTMFDialog"
+}

@@ -1,0 +1,269 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "YdX0Du",
+    "name": "MemberPhoneSearchDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "rl5Z1h"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "i7mdJn"
+          },
+          "value": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+          "property": "conversation.startDate"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "kghsSB"
+          },
+          "assignments": [
+            {
+              "value": "=conversation.IDType==\"ANI\"?conversation.ani:conversation.iPhoneNumber",
+              "property": "conversation.aniValue"
+            },
+            {
+              "property": "dialog.body",
+              "value": "{\"logLevel\":\"INFO\",  \"additionalRequestParams\":{\"businessUnit\":\"${conversation.businessUnit}\"},  \"sessionId\":\"${conversation.callGUID}\",  \"ani\":\"${conversation.aniValue}\",  \"dob\":\"${conversation.member.auth.dob}\", \"firstName\":\"${conversation.member.auth.firstName}\", \"last4DigitsSSN\":\"${conversation.member.auth.last4SSN}\", \"zipCode\":\"${conversation.member.auth.zip}\",  \"consumerApp\":\"${conversation.consumerAppName}\"  }"
+            },
+            {
+              "value": "=concat(settings.memberPhoneSearchEndpoint,\"?ver=\",settings.botVersion,\"&botname=\",settings.botName,\"&env=\",settings.botEnvironment)",
+              "property": "conversation.memberPhoneSearchUrl"
+            },
+            {
+              "property": "dialog.verbiageToggle",
+              "value": "=conversation.tfnConfig.AI_Suppress_Global_Verbiage_Toggle == \"ON\"?false:true"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "L1VGTN"
+          },
+          "activity": "${SendActivity_DisableSpeechEvent()}"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "xtM7rP"
+          },
+          "activityProcessed": true,
+          "dialog": "GetPromptTelemetryProps"
+        },
+        {
+          "$kind": "Optum.HttpRequestDialog",
+          "$designer": {
+            "id": "6eD7UR"
+          },
+          "verbiageToggleVal": "=dialog.verbiageToggle",
+          "tokenurl": "=settings.accessTokenEndPoint",
+          "clientid": "=settings.accessTokenClientId",
+          "clientsecret": "=settings.accessTokenClientSecret",
+          "url": "=conversation.memberPhoneSearchUrl",
+          "method": "POST",
+          "body": "=dialog.body",
+          "tokencontentType": "application/json",
+          "contentType": "application/json",
+          "timeout": "=settings.mwResponseTimeoutInMS",
+          "retryCount": 0,
+          "retryInterval": 0,
+          "firstPrompt": "=Common.SendActivity_GlobalTimeOutFirstMsg()",
+          "repeatPrompt": "=Common.SendActivity_GlobalTimeOutSecondMsg()",
+          "fstpmtteleval": "=conversation.firstPromptTelemetryProps",
+          "rptpmtteleval": "=conversation.repeatPromptTelemetryProps",
+          "tokenTimeout": "=settings.accessTokenTimeout",
+          "resultProperty": "dialog.memberPhoneSearchData",
+          "promptTime": "=conversation.promptTimeInMS",
+          "connectionString": "=settings.connectionString",
+          "containerName": "=settings.containerName"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "pFc1Rq"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "MWAUTH05",
+            "pegType": "DataInterface",
+            "request": "{\"URL\":\"${conversation.memberPhoneSearchUrl}\",\"RequestBody\":${dialog.body}}",
+            "response": "=dialog.memberPhoneSearchData",
+            "startDTM": "=conversation.startDate",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "MembAuthSkill_MWAUTH05_Peg"
+          }
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "ZAI8bZ"
+          },
+          "condition": "dialog.memberPhoneSearchData.status_code",
+          "cases": [
+            {
+              "value": "200",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "6Yb2b0"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "00061",
+                    "pegType": "General",
+                    "request": "",
+                    "response": "",
+                    "startDTM": "=conversation.startDate",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "MembAuthSkill_MWAUTH05_Success_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "KBqROB"
+                  },
+                  "condition": "=dialog.memberPhoneSearchData.output.memberSingleEntity == \"S\"",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "iFoE86"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.mwFailure",
+                          "value": false
+                        },
+                        {
+                          "property": "conversation.authFlag",
+                          "value": true
+                        },
+                        {
+                          "property": "conversation.member.individual",
+                          "value": "=dialog.memberPhoneSearchData.output.members[0]"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "Fp66mr"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "AuthCompleteDialog"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "J1dlEc"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.mwFailure",
+                          "value": false
+                        },
+                        {
+                          "property": "conversation.identificationResponse",
+                          "value": "=dialog.memberPhoneSearchData.output"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "4Ol3th"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "CheckDOBMatches"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "404",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "YQrnYg"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "00062",
+                    "pegType": "General",
+                    "request": "",
+                    "response": "",
+                    "startDTM": "=conversation.startDate",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "MembAuthSkill_MWAUTH05_Failure_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "K90z8O"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "MemberIDInputDialog"
+                }
+              ]
+            },
+            {
+              "value": "408",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "IQv3hm"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "GlobalContainer",
+                  "options": {
+                    "globalParam": "timeoutxfer"
+                  }
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "XAAA7U"
+              },
+              "activityProcessed": true,
+              "dialog": "RetryMWService",
+              "options": {
+                "tobeCalledDialogName": "MemberPhoneSearchDialog"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "MemberPhoneSearchDialog.lg",
+  "recognizer": "MemberPhoneSearchDialog.lu.qna",
+  "id": "MemberPhoneSearchDialog"
+}

@@ -1,0 +1,77 @@
+{
+  "omni-vui-policyselection-sb-cmp.en-us": {
+    "rootDialog": true,
+    "triggers": {
+      "": [
+        "NoMatchInput.en-us",
+        "TelemetryDialog.en-us",
+        "ValidateInputParams.en-us",
+        "GetDetailsDialog.en-us",
+        "DTMFDialog.en-us",
+        "NoUserInput.en-us",
+        "GlobalContainer.en-us"
+      ],
+      "agent": [
+        "AgentDialog.en-us"
+      ],
+      "policySelection": [
+        "NoMatchInput.en-us",
+        "TelemetryDialog.en-us",
+        "NoMatchInput.en-us",
+        "TelemetryDialog.en-us",
+        "MembershipSearchDialog.en-us",
+        "NoMatchInput.en-us"
+      ],
+      "yesResponse": [
+        "NoMatchInput.en-us",
+        "TelemetryDialog.en-us",
+        "MembershipSearchDialog.en-us"
+      ],
+      "noResponse": [
+        "NoMatchInput.en-us",
+        "TelemetryDialog.en-us",
+        "DualCoverageLookup.en-us"
+      ],
+      "dateRange": [
+        "NoMatchInput.en-us",
+        "NoMatchInput.en-us",
+        "NoMatchInput.en-us",
+        "TelemetryDialog.en-us",
+        "CoverageLookup.en-us"
+      ],
+      "dateOfService": [
+        "NoMatchInput.en-us",
+        "DateFormat.en-us",
+        "ValidateDOS.en-us"
+      ],
+      "somethingElse": [
+        "NoMatchInput.en-us",
+        "TelemetryDialog.en-us",
+        "DualCoverageLookup.en-us"
+      ],
+      "supplementalPlan": [
+        "NoMatchInput.en-us",
+        "TelemetryDialog.en-us",
+        "MembershipSearchDialog.en-us"
+      ],
+      "prescriptionDrug": [
+        "NoMatchInput.en-us",
+        "TelemetryDialog.en-us",
+        "MembershipSearchDialog.en-us"
+      ],
+      "goodbye": [
+        "TelemetryDialog.en-us",
+        "GlobalContainer.en-us"
+      ],
+      "pause": [
+        "TelemetryDialog.en-us",
+        "TelemetryDialog.en-us",
+        "RepeatMessages.en-us"
+      ],
+      "repeat": [
+        "TelemetryDialog.en-us",
+        "RepeatMessages.en-us"
+      ]
+    }
+  }
+}

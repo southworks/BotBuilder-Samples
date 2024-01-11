@@ -1,0 +1,17 @@
+> !# @Namespace=PersonalizationDialog
+> !# @Exports = DisableSpeechEvent
+[import](common.lg)
+
+#DisableSpeechEvent()
+[Activity
+    Type = event
+    Name = config
+    channelData = ${
+        {
+            activityParams:{
+                enableSpeechInput: false
+            }
+        }
+    }
+]
+

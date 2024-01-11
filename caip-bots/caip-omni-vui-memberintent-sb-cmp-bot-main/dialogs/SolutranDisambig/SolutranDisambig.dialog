@@ -1,0 +1,106 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "pQMczU",
+    "name": "SolutranDisambig",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "lUD7H3"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "fGRSih",
+            "name": "Toggle Solutran?"
+          },
+          "condition": "=conversation.tfnConfig.CallerIntent_SolutranDisambig_Toggle == 'ON'",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "lfCopJ"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.flowState.flowPreviousPrompt",
+                  "value": "='solutranDisambig'"
+                },
+                {
+                  "value": "=conversation.flowState.flowPreviousPrompt",
+                  "property": "conversation.flowState.flowNextPrompt"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "ExxXSM"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.flowState.noMatchCount",
+                  "value": 0
+                },
+                {
+                  "property": "conversation.flowState.noUserInputCount",
+                  "value": 0
+                },
+                {
+                  "property": "conversation.flowState.failedCount",
+                  "value": 0
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "qAwc70"
+              },
+              "activity": "${UHCMember_SolutramDisambig_Msg()}"
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "7Pqljj"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "=MainDialog.PegVal('')",
+                "pegType": "InputAsk",
+                "request": "=SolutranDisambig.UHCMember_SolutramDisambig_Msg()",
+                "response": "",
+                "startDTM": "=conversation.startDate",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt,'_Prmt')"
+              }
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "ZYfrbn",
+                "name": "Go to OpenEnrollment"
+              },
+              "activityProcessed": true,
+              "dialog": "OpenEnrollment"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "SolutranDisambig.lg",
+  "recognizer": "SolutranDisambig.lu.qna",
+  "id": "SolutranDisambig"
+}

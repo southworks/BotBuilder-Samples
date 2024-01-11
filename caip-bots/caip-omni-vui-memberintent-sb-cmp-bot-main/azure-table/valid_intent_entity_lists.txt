@@ -1,0 +1,55 @@
+@(
+  @{
+    PartitionKey = "disambigBenefits"
+    RowKey = "disambigBenefits"
+    ValidIntents = "benefits,mentalHealth,dentalGeneral,vision,somethingElse,pharmacy"
+    InvalidEntities = "benefitsGeneralChild,pharmacyMailOrderChild,pharmacySpecialtyChild,benefits1099Child,benefitsSpendingChild,eapML,benefits1ML"
+    IntentsWithContext = "vision,somethingElse"
+    EntitiesWithContext = ",mentalHealthGeneralML,substanceAbuseChild,dentalGeneralML"
+  },
+  @{
+    PartitionKey = "claimsGeneral"
+    RowKey = "claimsGeneral"
+    ValidIntents = "benefits,claims,mentalHealth,behavioralHealth,pharmacy,dentalGeneral,vision,somethingElse,billingGeneral,letter,HIPAA,makePayment,rewardsForActionGeneral"
+    ValidEntities = "behavioralHealthChild,claimsPharmacyChild,claimsDentalChild,claimsVisionChild,claimsMedicalChild,pharmacyGeneralChild,pharmacySpecialtyChild,pharmacyDeniedPrescriptionChild,pharmacyPrescriptionRefillChild,benefitsTreatmentChild,claimsBehavioralChild"
+    InvalidEntities = "pharmacyMailOrderChild"
+    intentsWithoutEntities = "billingGeneral,letter,HIPAA,makePayment,rewardsForActionGeneral"
+    IntentsWithContext = "vision,somethingElse"
+    EntitiesWithContext = ",mentalHealthGeneralML,substanceAbuseChild,dentalGeneralML,benefitsHearingAidsChild,benefitsShinglesChild,benefitsFluShotChild,benefitsHomeHealthChild"
+  },
+  @{
+    PartitionKey = "pharmacyGeneral"
+    RowKey = "pharmacyGeneral"
+    ValidIntentsEntities = "enrollment@,pharmacy@pharmacyDeniedPrescriptionChild,pharmacy@pharmacyPrescriptionRefillChild,pharmacy@pharmacyMailOrderChild,somethingElse@"
+  },
+  @{
+    PartitionKey = "mentalHealthGeneral"
+    RowKey = "mentalHealthGeneral"
+    ValidIntentsEntities = "benefits@,claims@,somethingElse@"
+  },
+  @{
+    PartitionKey = "financialAccountsGeneral"
+    RowKey = "financialAccountsGeneral"
+    ValidIntentsEntities = "financial@FSAChild,HRA@,HSA@,somethingElse@"
+  },
+  @{
+    PartitionKey = "preApprovalRx"
+    RowKey = "preApprovalRx"
+    ValidIntentsEntities = "pharmacy@pharmacySpecialtyChild,somethingElse@"
+  },
+  @{
+    PartitionKey = "solutranDisambig"
+    RowKey = "solutranDisambig"
+    ValidIntentsEntities = "pharmacy@pharmacyOTCChild, solutran@"
+  },
+  @{
+    PartitionKey = "openEnrollment"
+    RowKey = "openEnrollment"
+    ValidIntentsEntities = "enrollment@enrollmentML"
+  },
+  @{
+    PartitionKey = "balanceDisambig"
+    RowKey = "balanceDisambig"
+    ValidIntentsEntities = "billingGeneral@,rewardsForHealthGeneral@,uCard@,cardReplacement@cardGeneralChild,pharmacy@pharmacyOTCChild,balance@,solutran@"
+  }
+)

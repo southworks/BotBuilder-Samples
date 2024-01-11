@@ -1,0 +1,6210 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "name": "omni-vui-memberintent-sb-cmp",
+    "description": "",
+    "id": "A79tBe"
+  },
+  "autoEndDialog": false,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnConversationUpdateActivity",
+      "$designer": {
+        "id": "376720",
+        "comment": "This trigger runs when a conversation update activity is sent to the bot. This indicates a user or bot being added or removed from a conversation."
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.Foreach",
+          "$designer": {
+            "id": "518944",
+            "name": "Loop: for each item",
+            "comment": "For each member added to the conversation."
+          },
+          "itemsProperty": "turn.Activity.membersAdded",
+          "actions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "641773",
+                "name": "Branch: if/else",
+                "comment": "Checks that that member added ID does not match the bot ID. This prevents the greeting message from being sent when the bot is added to a conversation."
+              },
+              "condition": "=string(dialog.foreach.value.id) != string(turn.Activity.Recipient.id)",
+              "actions": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnUnknownIntent",
+      "$designer": {
+        "id": "mb2n1u"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "aXuJq4"
+          },
+          "activityProcessed": true,
+          "options": {
+            "endDTM": "=formatDateTime(utcNow())",
+            "peg": "=MainDialog.PegVal('UnknownTrigger')",
+            "pegType": "General",
+            "request": "Turn",
+            "response": "=turn",
+            "startDTM": "=formatDateTime(utcNow())",
+            "eventName": "MemberIntentSkill_UnknownTrigger_Peg"
+          },
+          "dialog": "TelemetryDialog"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "3P7F5O"
+          },
+          "condition": "=settings.languageService  && settings.languageService.endpoint && settings.languageService.endpoint != \"\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.HttpRequest",
+              "$designer": {
+                "id": "JBKMmw"
+              },
+              "resultProperty": "conversation.languageServiceResponse",
+              "method": "POST",
+              "body": {
+                "top": 3,
+                "question": "+${turn.activity.text}+",
+                "includeUnstructuredSources": true,
+                "confidenceScoreThreshold": "0.5"
+              },
+              "headers": {
+                "Ocp-Apim-Subscription-Key": "${settings.languageService.apiKey}",
+                "Content-Type": "application/json"
+              },
+              "contentType": "application/json",
+              "url": "${settings.languageService.endpoint}/language/:query-knowledgebases?projectName=${settings.languageService.questionAnsweringProject}&api-version=${settings.languageService.apiVersion}&deploymentName=\"production\"",
+              "disabled": true
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "aM5nMX"
+              },
+              "condition": "conversation.languageServiceResponse.statusCode == 200",
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "pqLrhX"
+                  },
+                  "activity": "${SendActivity_pqLrhX()}",
+                  "disabled": true
+                }
+              ],
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "fwjSCF"
+                  },
+                  "activity": "${SendActivity_fwjSCF()}",
+                  "disabled": true
+                }
+              ],
+              "disabled": true
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "mtSUUx"
+              },
+              "activity": "${SendActivity_pqLrhX()}",
+              "disabled": true
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "qLEFql"
+              },
+              "activityProcessed": true,
+              "dialog": "NoMatchInput",
+              "disabled": true
+            }
+          ],
+          "disabled": true
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "zwtcnc"
+          },
+          "assignments": [
+            {
+              "property": "conversation.langProperty",
+              "value": "=turn.activity.channelData.recognitionOutput.PrimaryLanguage.Language"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "yRyulw"
+          },
+          "assignments": [
+            {
+              "property": "conversation.langProperty",
+              "value": "es-US"
+            }
+          ],
+          "disabled": true
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "yAOxUz"
+          },
+          "condition": "=equals(conversation.langProperty, \"es-US\")",
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "z2NbTq"
+              },
+              "activityProcessed": true,
+              "dialog": "LoadEntityConfig",
+              "options": {
+                "luisIntent": "spanish",
+                "luisEntity": "=MainDialog.GetEntityFromAnyIntent(\"spanish\", conversation.turnRecognized)"
+              }
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "HlQXPu"
+              },
+              "activityProcessed": true,
+              "dialog": "GlobalBehavior",
+              "options": {
+                "behavior": "Spanish"
+              }
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "lNNln6"
+              },
+              "activityProcessed": true,
+              "dialog": "NoMatchInput"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "Pg1kkp"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "1sPJmK"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "ipFrnS",
+        "name": "yes"
+      },
+      "intent": "yes",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "EbdSF1"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "gIrnad"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "=MainDialog.PegVal('UserInput')",
+            "pegType": "UserInput",
+            "request": "User Input",
+            "response": "=turn.recognized",
+            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, '_UserInput')"
+          },
+          "disabled": true
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "9wCwSQ"
+          },
+          "condition": "=conversation.flowState.flowPreviousPrompt",
+          "cases": [
+            {
+              "value": "ConfirmIntent",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "5U77jS"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal('UserInput')",
+                    "pegType": "UserInput",
+                    "request": "User Input",
+                    "response": "=turn.recognized",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, '_UserInput')"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "ojiW7b"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "HandleContext"
+                }
+              ]
+            },
+            {
+              "value": "callerTypeGeneral",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "gSBfmz"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal('UserInput')",
+                    "pegType": "UserInput",
+                    "request": "User Input",
+                    "response": "=turn.recognized",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, '_UserInput')"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "tg8NnL"
+                  },
+                  "property": "conversation.callerIntentconfig.CT_NLTagCallerType",
+                  "value": "='PV'"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "28r3zS"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "Transfer",
+                  "options": {
+                    "behavior": "EndSkill"
+                  }
+                }
+              ]
+            },
+            {
+              "value": "preApprovalRx",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "xDiwbw"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal('UserInput')",
+                    "pegType": "UserInput",
+                    "request": "User Input",
+                    "response": "=turn.recognized",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, '_UserInput')"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "c1IY62"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "LoadEntityConfig",
+                  "options": {
+                    "luisIntent": "pharmacy",
+                    "context": "preApprovalRx",
+                    "luisEntity": "pharmacySpecialtyChild"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "voSn3N"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "CallerType"
+                }
+              ]
+            },
+            {
+              "value": "billingDisambig",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "RsNVAZ"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal('UserInput')",
+                    "pegType": "UserInput",
+                    "request": "User Input",
+                    "response": "=turn.recognized",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, '_UserInput')"
+                  },
+                  "disabled": true
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "dVnlbP"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.callerIntentconfig.QT_NLTagQuestionType",
+                      "value": "NA"
+                    },
+                    {
+                      "property": "conversation.callerIntentconfig.PT_NLTagProductType",
+                      "value": "PI"
+                    }
+                  ],
+                  "disabled": true
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "AuteeL"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "CallerType",
+                  "disabled": true
+                }
+              ]
+            },
+            {
+              "value": "solutranDisambig",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "iXwzJh"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal('UserInput')",
+                    "pegType": "UserInput",
+                    "request": "User Input",
+                    "response": "=turn.recognized",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, '_UserInput')"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "gzOVXL"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "LoadEntityConfig",
+                  "options": {
+                    "luisIntent": "solutran",
+                    "context": "=''",
+                    "luisEntity": "=''"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "3hcKKm"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "CallerType"
+                }
+              ]
+            },
+            {
+              "value": "openEnrollment",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "PChNpZ"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal('UserInput')",
+                    "pegType": "UserInput",
+                    "request": "User Input",
+                    "response": "=turn.recognized",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, '_UserInput')"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "58QPnj"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "LoadEntityConfig",
+                  "options": {
+                    "luisIntent": "enrollment",
+                    "context": "openEnrollment",
+                    "luisEntity": "enrollmentML"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "6hvMHq"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "CallerType"
+                }
+              ]
+            },
+            {
+              "value": "nurselineDisambig",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "cLPuSZ"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "memberIntent_NurseLineDisambig_Mnu_UserInput",
+                    "pegType": "UserInput",
+                    "request": "User Input",
+                    "response": "=turn.recognized",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "MemberIntent_NurseLineDisambig_Mnu_UserInput_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "7mKupO"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "LoadEntityConfig",
+                  "options": {
+                    "luisIntent": "prevention",
+                    "luisEntity": "preventionNurseLineChild",
+                    "context": "nurselineDisambig"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "9ILQuP"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "CallerType"
+                }
+              ]
+            },
+            {
+              "value": "crisisDisambig",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "jGy4qz"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal('UserInput')",
+                    "pegType": "UserInput",
+                    "request": "User Input",
+                    "response": "=turn.recognized",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, '_UserInput')"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "435K6D"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "LoadEntityConfig",
+                  "options": {
+                    "luisIntent": "behavioralHealth",
+                    "context": "crisisDisambig",
+                    "luisEntity": "behavioralHealthCrisisChild"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "bm1WY9"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "Transfer",
+                  "options": {
+                    "behavior": "EndSkill"
+                  }
+                }
+              ]
+            },
+            {
+              "value": "paymentDisambig",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "VS01gb"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal('UserInput')",
+                    "pegType": "UserInput",
+                    "request": "User Input",
+                    "response": "=turn.recognized",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, '_UserInput')"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "78Zklw"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "LoadEntityConfig",
+                  "options": {
+                    "luisIntent": "yes",
+                    "context": "=conversation.flowState.flowPreviousPrompt",
+                    "luisEntity": "=''"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "F4fW65"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "Transfer",
+                  "options": {
+                    "behavior": "EndSkill"
+                  }
+                }
+              ]
+            },
+            {
+              "value": "solutranUpfront",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "dV5ybY"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal('UserInput')",
+                    "pegType": "UserInput",
+                    "request": "User Input",
+                    "response": "=turn.recognized",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, '_UserInput')"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "LXNks4"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "LoadEntityConfig",
+                  "options": {
+                    "luisIntent": "solutran",
+                    "context": "=''",
+                    "luisEntity": "=''"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "PYZS2D"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "Transfer",
+                  "options": {
+                    "behavior": "EndSkill"
+                  }
+                }
+              ]
+            },
+            {
+              "value": "openEnrollmentUpfront",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "9Fbnef"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal('UserInput')",
+                    "pegType": "UserInput",
+                    "request": "User Input",
+                    "response": "=turn.recognized",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, '_UserInput')"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "VFVCyv"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "LoadEntityConfig",
+                  "options": {
+                    "luisIntent": "enrollment",
+                    "context": "=''",
+                    "luisEntity": "enrollmentML"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "J5U14Z"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "Transfer",
+                  "options": {
+                    "behavior": "EndSkill"
+                  }
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "V2W85R"
+              },
+              "activityProcessed": true,
+              "dialog": "NoMatchInput"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "YZ0er3"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "k4Cpnh"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#yes.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "EkVjQk",
+        "name": "no"
+      },
+      "intent": "no",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "vJQOmh"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "VxOYAT"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "=MainDialog.PegVal('UserInput')",
+            "pegType": "UserInput",
+            "request": "User Input",
+            "response": "=turn.recognized",
+            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, '_UserInput')"
+          },
+          "disabled": true
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "XMU95r"
+          },
+          "condition": "=conversation.flowState.flowPreviousPrompt",
+          "cases": [
+            {
+              "value": "ConfirmIntent",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "XjK1jr"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal('UserInput')",
+                    "pegType": "UserInput",
+                    "request": "User Input",
+                    "response": "=turn.recognized",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, '_UserInput')"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "Fwnrh7"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "HandleContext"
+                }
+              ]
+            },
+            {
+              "value": "callerTypeGeneral",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "HDPCGl"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal('UserInput')",
+                    "pegType": "UserInput",
+                    "request": "User Input",
+                    "response": "=turn.recognized",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, '_UserInput')"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "XnkzZK"
+                  },
+                  "property": "conversation.callerIntentconfig.CT_NLTagCallerType",
+                  "value": "=if(equals(conversation.flowState.lastIntent, 'enrollment'), conversation.callerIntentconfig.CT_NLTagCallerType, 'MM')"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "jpbeYa"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "Transfer",
+                  "options": {
+                    "behavior": "EndSkill"
+                  }
+                }
+              ]
+            },
+            {
+              "value": "preApprovalRx",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "yY61hr"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal('UserInput')",
+                    "pegType": "UserInput",
+                    "request": "User Input",
+                    "response": "=turn.recognized",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, '_UserInput')"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "L1lstZ"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "LoadEntityConfig",
+                  "options": {
+                    "luisIntent": "somethingElse",
+                    "context": "preApprovalRx",
+                    "luisEntity": "=''"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "807yxJ"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "CallerType"
+                }
+              ]
+            },
+            {
+              "value": "billingDisambig",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "JSJm4f"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal('UserInput')",
+                    "pegType": "UserInput",
+                    "request": "User Input",
+                    "response": "=turn.recognized",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, '_UserInput')"
+                  },
+                  "disabled": true
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "mT6ZHC"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.callerIntentconfig.QT_NLTagQuestionType",
+                      "value": "NA"
+                    },
+                    {
+                      "property": "conversation.callerIntentconfig.PT_NLTagProductType",
+                      "value": "BL"
+                    }
+                  ],
+                  "disabled": true
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "40wOc0"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "CallerType",
+                  "disabled": true
+                }
+              ]
+            },
+            {
+              "value": "solutranDisambig",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "cQAcqA"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal('UserInput')",
+                    "pegType": "UserInput",
+                    "request": "User Input",
+                    "response": "=turn.recognized",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, '_UserInput')"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "5Uken0"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "OpenEnrollment"
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "LXFKKO"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal('UserInput')",
+                    "pegType": "UserInput",
+                    "request": "User Input",
+                    "response": "=turn.recognized",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, '_UserInput')"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "JrOtyE"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "LoadEntityConfig",
+                  "options": {
+                    "luisIntent": "agentGeneral",
+                    "context": "openEnrollment",
+                    "luisEntity": "agentGeneralML"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "uErerm"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "CallerType"
+                }
+              ],
+              "value": "openEnrollment"
+            },
+            {
+              "value": "nurselineDisambig",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "CpDZb3"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal('UserInput')",
+                    "pegType": "UserInput",
+                    "request": "User Input",
+                    "response": "=turn.recognized",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, '_UserInput')"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "IJ6pVe"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "LoadEntityConfig",
+                  "options": {
+                    "luisIntent": "agentGeneral",
+                    "context": "nurselineDisambig",
+                    "luisEntity": "agentGeneralML"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "J8hyUH"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "CallerType"
+                }
+              ]
+            },
+            {
+              "value": "crisisDisambig",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "DHJdhk"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal('UserInput')",
+                    "pegType": "UserInput",
+                    "request": "User Input",
+                    "response": "=turn.recognized",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, '_UserInput')"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "fxHDIl"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "LoadEntityConfig",
+                  "options": {
+                    "luisIntent": "agentGeneral",
+                    "context": "crisisDisambig",
+                    "luisEntity": "agentGeneralML"
+                  },
+                  "disabled": true
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "gx1EVB"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "Transfer",
+                  "options": {
+                    "behavior": "EndSkill"
+                  }
+                }
+              ]
+            },
+            {
+              "value": "paymentDisambig",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "VS01gb"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal('UserInput')",
+                    "pegType": "UserInput",
+                    "request": "User Input",
+                    "response": "=turn.recognized",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, '_UserInput')"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "78Zklw"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "LoadEntityConfig",
+                  "options": {
+                    "luisIntent": "makePayment",
+                    "context": "=conversation.flowState.flowPreviousPrompt",
+                    "luisEntity": "=''"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "F4fW65"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "Transfer",
+                  "options": {
+                    "behavior": "EndSkill"
+                  }
+                }
+              ]
+            },
+            {
+              "value": "solutranUpfront",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "wtk6tJ"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal('UserInput')",
+                    "pegType": "UserInput",
+                    "request": "User Input",
+                    "response": "=turn.recognized",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, '_UserInput')"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "s7HxJj"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "OpenEnrollmentUpfront"
+                }
+              ]
+            },
+            {
+              "value": "openEnrollmentUpfront",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "clU3GD"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal('UserInput')",
+                    "pegType": "UserInput",
+                    "request": "User Input",
+                    "response": "=turn.recognized",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, '_UserInput')"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "lLBVRW"
+                  },
+                  "property": "conversation.flowState.flowNextPrompt",
+                  "value": "Enrollment_CaptureMnu"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "9FaHKX"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "Flow-Start"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "uckvmh"
+                  },
+                  "property": "dialog.inputValidated",
+                  "value": true,
+                  "disabled": true
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "2P4GvH"
+                  },
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "tEfzUp"
+                      },
+                      "property": "conversation.flowState.flowNextPrompt",
+                      "value": "Enrollment_CaptureMnu",
+                      "disabled": true
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "8am4ZT"
+                      },
+                      "property": "dialog.inputValidated",
+                      "value": true,
+                      "disabled": true
+                    }
+                  ],
+                  "condition": "=conversation.turnRecognized.score >= 0.7",
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "hzr9Fs"
+                      },
+                      "property": "dialog.inputValidated",
+                      "value": false,
+                      "disabled": true
+                    }
+                  ],
+                  "disabled": true
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "oqM7oI"
+              },
+              "activityProcessed": true,
+              "dialog": "NoMatchInput"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "EbKpEG"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "HvaU6b"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#no.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnEventActivity",
+      "$designer": {
+        "id": "r59Cxt",
+        "name": "Event received (Event activity)",
+        "comment": "Handle events coming from the gateway."
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "XKVDJz"
+          },
+          "property": "conversation.startDate",
+          "value": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-US\")"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "zETPQM"
+          },
+          "condition": "=turn.activity.name",
+          "cases": [
+            {
+              "value": "noUserInput",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "jEsK4E"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "NoUserInput",
+                  "options": {
+                    "activityName": "=turn.activity.name",
+                    "activityValue": "=turn.activity.value",
+                    "turnVal": "=turn"
+                  }
+                }
+              ]
+            },
+            {
+              "value": "DTMF",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "6r735s"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal('DTMF')",
+                    "pegType": "UserInput",
+                    "request": "User Input DTMF Event",
+                    "response": "=turn.activity.value",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, '_DTMF')"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "FhpVpU"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "DTMFDialog",
+                  "options": {
+                    "activityValue": "=turn.activity.value"
+                  }
+                }
+              ]
+            },
+            {
+              "value": "startSkill",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "Zt7Sv6"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "StartSkill"
+                }
+              ]
+            },
+            {
+              "value": "testEvent",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "y6uBiG"
+                  },
+                  "activity": "${TestEventMsg()}"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "g7JtIn"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "0JJ2Ia"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=or(turn.activity.name == 'startSkill', turn.activity.name == 'EOC', conversation.endDialogParams == 'NA')"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "BZCSVU",
+        "name": "agentGeneral"
+      },
+      "intent": "agentGeneral",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "l2GmoW"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "PLsV3T"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "=MainDialog.PegVal('UserInput')",
+            "pegType": "UserInput",
+            "request": "User Input",
+            "response": "=turn.recognized",
+            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, '_UserInput')"
+          }
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "dqObxO"
+          },
+          "condition": "=and(or(contains(conversation.startPromptLists, conversation.flowState.flowNextPrompt), conversation.flowState.flowPreviousPrompt==\"disambigGeneral\"), conversation.flowState.flowPreviousPrompt!=\"callerTypeGeneral\")",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "IousEm",
+                "comment": ""
+              },
+              "value": "=add(conversation.flowState.intentAgentCount, 1)",
+              "property": "conversation.flowState.intentAgentCount"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "sDa740"
+              },
+              "condition": "=conversation.flowState.intentAgentCount == 2",
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "YktnuG"
+                  },
+                  "condition": "=or(equals(conversation.tfnLOB, 'MR'), equals(conversation.tfnLOB, 'CS'), equals(conversation.solutranGreetingMessage,true))",
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "22GOoD"
+                      },
+                      "property": "conversation.flowState.flowNextPrompt",
+                      "value": "to_validate_intent"
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "V4vuQV"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "Flow-Start"
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "edvc1o"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "LoadEntityConfig",
+                      "options": {
+                        "luisEntity": "=MainDialog.GetEntityFromAnyIntent(conversation.flowState.lastIntent, conversation.turnRecognized)",
+                        "luisIntent": "=conversation.flowState.lastIntent",
+                        "context": "=''"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "9j8JT8"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "SolutranDisambig"
+                    }
+                  ]
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "2lK2iZ"
+                  },
+                  "property": "conversation.flowState.flowNextPrompt",
+                  "value": "AgentTransferCapture"
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "xtHF1W"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.flowState.flowNextPrompt",
+                      "value": "AgentTransferCapture"
+                    },
+                    {
+                      "property": "conversation.flowState.flowPreviousPrompt",
+                      "value": "=conversation.flowState.flowNextPrompt"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "ypd7ky"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "Flow-Start"
+                }
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "Fyjsbf"
+              },
+              "condition": "=contains(conversation.agentDisambigPromptListNM, conversation.flowState.flowPreviousPrompt)",
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "0jAZOG"
+                  },
+                  "cases": [
+                    {
+                      "value": "solutranDisambig",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "gVFwVw"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "OpenEnrollment"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "openEnrollment",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "giVqBf"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LoadEntityConfig",
+                          "options": {
+                            "luisIntent": "agentGeneral",
+                            "context": "openEnrollment",
+                            "luisEntity": "agentGeneralML"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "iNmw5F"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "CallerType"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "nurselineDisambig",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "SeiVFZ"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LoadEntityConfig",
+                          "options": {
+                            "luisIntent": "agentGeneral",
+                            "context": "nurselineDisambig",
+                            "luisEntity": "agentGeneralML"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "oDiQGq"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "CallerType"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "crisisDisambig",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "x6cs19"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LoadEntityConfig",
+                          "options": {
+                            "luisIntent": "agentGeneral",
+                            "context": "crisisDisambig",
+                            "luisEntity": "agentGeneralML"
+                          },
+                          "disabled": true
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "g6xMJZ"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "Transfer",
+                          "options": {
+                            "behavior": "EndSkill"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "value": "mentalHealthGeneral",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "0j2Vtk"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LoadEntityConfig",
+                          "options": {
+                            "luisIntent": "mentalHealth",
+                            "context": "=conversation.flowState.flowPreviousPrompt",
+                            "luisEntity": "=''"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "hroXzl"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "Transfer",
+                          "options": {
+                            "behavior": "EndSkill"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "value": "paymentDisambig",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "9Ezi4r"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LoadEntityConfig",
+                          "options": {
+                            "luisIntent": "makePayment",
+                            "context": "=conversation.flowState.flowPreviousPrompt",
+                            "luisEntity": "=''"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "pjQOm7"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "Transfer",
+                          "options": {
+                            "behavior": "EndSkill"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "value": "solutranUpfront",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "alM6V7"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "OpenEnrollmentUpfront"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "openEnrollmentUpfront",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "QGnt45"
+                          },
+                          "property": "conversation.flowState.flowNextPrompt",
+                          "value": "Enrollment_CaptureMnu"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "MyCKeY"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "Flow-Start"
+                        }
+                      ]
+                    }
+                  ],
+                  "condition": "conversation.flowState.flowPreviousPrompt",
+                  "default": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "YW3Wl6"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "GlobalBehavior",
+                      "options": {
+                        "behavior": "Agent"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "sWgH7e"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "NoMatchInput"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "Bxd080"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "VFWQEA"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#agentGeneral.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnError",
+      "$designer": {
+        "id": "pJRUK9",
+        "name": "Error occurred (Error event)"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "WmyGKe"
+          },
+          "property": "conversation.error",
+          "value": true
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "pPrWmJ"
+          },
+          "activityProcessed": true,
+          "options": {
+            "endDTM": "=formatDateTime(utcNow())",
+            "peg": "=MainDialog.PegVal('ErrorEvent')",
+            "pegName": "=concat(\"MemberIntentSkill\",conversation.nextPrompt,\"_ErrorEvent_Peg\")",
+            "pegType": "General",
+            "request": "Error",
+            "response": "=turn",
+            "startDTM": "=formatDateTime(utcNow())",
+            "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, '_ErrorEvent')"
+          },
+          "dialog": "TelemetryDialog"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "ScvouM"
+          },
+          "activityProcessed": true,
+          "dialog": "GlobalBehavior",
+          "options": {
+            "behavior": "SystemError"
+          }
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "aZ7Xl7"
+          },
+          "value": "=conversation.endDialogParams"
+        }
+      ],
+      "runOnce": false,
+      "condition": "=!conversation.error"
+    },
+    {
+      "$kind": "Microsoft.OnError",
+      "$designer": {
+        "id": "APyL0v",
+        "name": "Error occurred (Error event)"
+      },
+      "condition": "=conversation.error",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "Wpo5Ln"
+          },
+          "activityProcessed": true,
+          "dialog": "GlobalBehavior",
+          "options": {
+            "behavior": "ErrorEvent"
+          }
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "8yLz9q"
+          },
+          "value": "=conversation.endDialogParams"
+        }
+      ],
+      "runOnce": true
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "l4WlAQ",
+        "name": "claims"
+      },
+      "intent": "claims",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "DWChlV"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "8EmXNj"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "Ya0E7a"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "GhBPQC"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#claims.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "yyShbl",
+        "name": "benefits"
+      },
+      "intent": "benefits",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "93VZAg"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "Pc9k1m"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "8UF6hA"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "gnGE8W"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#benefits.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "1bc0Da",
+        "name": "vision"
+      },
+      "intent": "vision",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "L72Ayh"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "8txkDT"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "Ao4gQ0"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "kHVdO9"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#vision.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "EoPgbi",
+        "name": "dentalGeneral"
+      },
+      "intent": "dentalGeneral",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "Hcuk32"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "Fso6B8"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "jYbLiF"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "VfJhZp"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#dentalGeneral.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "J6CBzB",
+        "name": "doctor"
+      },
+      "intent": "doctor",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "AMQ7aI"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "ESgrLz"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "Xg7RPJ"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "xOIVGO"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#doctor.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "b9mShT",
+        "name": "accountUpdate"
+      },
+      "intent": "accountUpdate",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "OtMVC6"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "D00eSk"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "O9GrXY"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "Yy7YLO"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#accountUpdate.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "VCdjcB",
+        "name": "behavioralHealth"
+      },
+      "intent": "behavioralHealth",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "K4L48r"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "VaTA7U"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "wE2jWW"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "onsGg3"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#behavioralHealth.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "in3YgC",
+        "name": "billingGeneral"
+      },
+      "intent": "billingGeneral",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "LkXGFL"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "3TEYNN"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "zvGIu2"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "wkkHws"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#billingGeneral.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "bZxKnX",
+        "name": "cardReplacement"
+      },
+      "intent": "cardReplacement",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "CLlPNY"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "bl4ZJi"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "qhaoUv"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "ypCls8"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#cardReplacement.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "emb3Xc",
+        "name": "chronicPain"
+      },
+      "intent": "chronicPain",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "X9JtmY"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "XZF2tg"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "r1hGV0"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "nrm8lS"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#chronicPain.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "IcL5bA",
+        "name": "covid"
+      },
+      "intent": "covid",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "lED9w7"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "BkM8Kv"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "Tjm5ay"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "WLGuhu"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#covid.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "83jF0g",
+        "name": "employeeAssistance"
+      },
+      "intent": "employeeAssistance",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "rcBZV7"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "YmHQLS"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "WL0AwC"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "zQJQhC"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#employeeAssistance.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "mq4DrB",
+        "name": "enrollment"
+      },
+      "intent": "enrollment",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "aJW8my"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "1F0eGm"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "GcRuAD"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "uxolQg"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#enrollment.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "ZwGVAs",
+        "name": "fax"
+      },
+      "intent": "fax",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "jVGPsL"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "hkoYfk"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "uGNnIR"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "0d50F9"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#fax.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "CCFBdH",
+        "name": "fertility"
+      },
+      "intent": "fertility",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "m4zfmt"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "TEaAw9"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "HneWOt"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "bjHIeW"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#fertility.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "33KEq1",
+        "name": "financial"
+      },
+      "intent": "financial",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "Rm5YpJ"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "zvfop9"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "NCnVuW"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "rU0goF"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#financial.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "WEM24L",
+        "name": "fraud"
+      },
+      "intent": "fraud",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "6FdcIP"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "I5MflU"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "q5MoTQ"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "cX1fPV"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#fraud.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "TZcW4G",
+        "name": "health"
+      },
+      "intent": "health",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "tHbNQY"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "y9SbGG"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "cPY3y4"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "vi0Iz4"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#health.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "KmEfH8",
+        "name": "heart"
+      },
+      "intent": "heart",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "KHmJ6b"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "ZQAaj5"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "cyMtpj"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "xiltir"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#heart.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "hfTcm6",
+        "name": "HRA"
+      },
+      "intent": "HRA",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "tZqQEv"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "2Y2B76"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "CR3E2x"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "v8lhJe"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#HRA.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "Ig1xRB",
+        "name": "letter"
+      },
+      "intent": "letter",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "7w7G9B"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "EEUWV9"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "biOC9r"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "XjTKrB"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#letter.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "5SnjyD",
+        "name": "makePayment"
+      },
+      "intent": "makePayment",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "WDW6X2"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "JPg5Lf"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "2xgnWH"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "DtvqX3"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#makePayment.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "aWe7C3",
+        "name": "memberID"
+      },
+      "intent": "memberID",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "B6ECj6"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "QHIbMd"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "vjNRXI"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "B9HoWb"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#memberID.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "CJM5aQ",
+        "name": "mentalHealth"
+      },
+      "intent": "mentalHealth",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "rGVx3v"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "ii6Nr2"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow",
+          "disabled": true
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "DuYpOO"
+          },
+          "condition": "=conversation.flowState.flowPreviousPrompt",
+          "cases": [
+            {
+              "value": "mentalHealthGeneral",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "PNzvd9"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "NoMatchInput"
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "tLg1ni"
+              },
+              "activityProcessed": true,
+              "dialog": "TriggerFlow"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "b04MKs"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "K4Y2aB"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#mentalHealth.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "LtWMeC",
+        "name": "NICU"
+      },
+      "intent": "NICU",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "bJDebI"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "Vq7eiM"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "xBeITo"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "u2P9Cl"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#NICU.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "2wnyMl",
+        "name": "None"
+      },
+      "intent": "None",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "bGvEfN"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "9yNWFU"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "=MainDialog.PegVal('NoneTrigger')",
+            "pegType": "UserInput",
+            "request": "User Input",
+            "response": "=conversation.turnRecognized",
+            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, '_NoneIntent')"
+          }
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "yvIecO"
+          },
+          "activityProcessed": true,
+          "dialog": "NoMatchInput"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "baSxqB"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "2e1Fg8"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "DKFAWc",
+        "name": "onlineQuestions"
+      },
+      "intent": "onlineQuestions",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "k8qkFu"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "r2VXCo"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "O6xB1R"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "UZKdt6"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#onlineQuestions.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "atZMrC",
+        "name": "orthopedic"
+      },
+      "intent": "orthopedic",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "N0c55V"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "fjDrdZ"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "5NyV1n"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "OJfQ2v"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#orthopedic.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "0Y89Og",
+        "name": "pharmacy"
+      },
+      "intent": "pharmacy",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "NhRVuP"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "CKPxed"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "fwU6fy"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "MD2AQh"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#pharmacy.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "4bGUpV",
+        "name": "policyGroupNumber"
+      },
+      "intent": "policyGroupNumber",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "dj3g5T"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "TOScAz"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "linNgY"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "viXJPt"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#policyGroupNumber.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "0n8Iuc",
+        "name": "prevention"
+      },
+      "intent": "prevention",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "6vJ7zF"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "iyhsC9"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "Qo61xF"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "X1CNje"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#prevention.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "xZtRAb",
+        "name": "report"
+      },
+      "intent": "report",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "a1r4nV"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "kSYAU2"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "g1JzZv"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "lxOEDk"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#report.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "9U1Osn",
+        "name": "resources"
+      },
+      "intent": "resources",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "ghwhb3"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "WdNuJV"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "IIbxmI"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "jCofHm"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#resources.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "G4sepp",
+        "name": "returnCall"
+      },
+      "intent": "returnCall",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "31dRSh"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "X7XuCs"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "c8XuKL"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "Itcsv7"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#returnCall.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "ZcXAp5",
+        "name": "rewardsForHealthGeneral"
+      },
+      "intent": "rewardsForHealthGeneral",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "uiaSXO"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "lqBUu3"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "np0hSQ"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "xy3UDZ"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#rewardsForHealthGeneral.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "ecZ5xf",
+        "name": "smokingCessation"
+      },
+      "intent": "smokingCessation",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "9Jrb6v"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "PO6T7p"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "OP556r"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "ZzRCt0"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#smokingCessation.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "TOjDFQ",
+        "name": "subrogationGeneral"
+      },
+      "intent": "subrogationGeneral",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "PKqSIs"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "FvzeEZ"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "nFXliS"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "9YTWPg"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#subrogationGeneral.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "9BCIQq",
+        "name": "transportation"
+      },
+      "intent": "transportation",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "E09OG4"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "Hcng2F"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "B4elMI"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "fZ37E8"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#transportation.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "sxkKXe",
+        "name": "treatmentDecision"
+      },
+      "intent": "treatmentDecision",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "aWMLJk"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "pJfzgh"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "kTrFcu"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "NKj4ZM"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#treatmentDecision.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "6AmAjv",
+        "name": "treatmentDiabetes"
+      },
+      "intent": "treatmentDiabetes",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "rTPk1S"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "aMoJbz"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "5M3oCk"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "KLKVsM"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#treatmentDiabetes.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "O4ulHT",
+        "name": "callerTypeGeneral"
+      },
+      "intent": "callerTypeGeneral",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "F2mPfp"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "uzoYGr"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "jrMxh4"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "qXeMHz"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#callerTypeGeneral.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "oHPjet",
+        "name": "somethingElse"
+      },
+      "intent": "somethingElse",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "AXPewV"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "VMFXTf"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "9TWjq2"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "NZH7eA"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#somethingElse.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "bcr2U4",
+        "name": "appointmentReschedule"
+      },
+      "intent": "appointmentReschedule",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "9dEnXS"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "tqCXAs"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "yb7cs6"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "VWdOYO"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#appointmentReschedule.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "CFCIjL",
+        "name": "complaint"
+      },
+      "intent": "complaint",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "41WvmJ"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "y2RmIF"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "kFkMf2"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "Z59eEp"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#complaint.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "10gRI5",
+        "name": "disambigGeneral"
+      },
+      "intent": "disambigGeneral",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "Lpx8SQ"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "7pzEFe"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "9ncmvt"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "wrUIC8"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#disambigGeneral.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "kFncBU",
+        "name": "HSA"
+      },
+      "intent": "HSA",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "mqpnGB"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "6rwEDS"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "kFcx2k"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "k3RWje"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#HSA.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "CbhcE3",
+        "name": "mainMenu"
+      },
+      "intent": "mainMenu",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "8Rr2iL"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "0ZF6tQ"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "=MainDialog.PegVal('_MainMenuTrigger')",
+            "pegType": "UserInput",
+            "request": "User Input",
+            "response": "=conversation.turnRecognized",
+            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, '_MainMenu')"
+          }
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "fe9LQM"
+          },
+          "property": "conversation.flowState.flowNextPrompt",
+          "value": "IntentCaptureRetry"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "54nTna"
+          },
+          "activityProcessed": true,
+          "dialog": "Flow-Start"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "72tevJ"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow",
+          "disabled": true
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "ee5BPq"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "ciRDor"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#mainMenu.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "yJixUn",
+        "name": "preAuthorization"
+      },
+      "intent": "preAuthorization",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "DFITlx"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "5JxDk5"
+          },
+          "condition": "=conversation.flowState.flowPreviousPrompt",
+          "cases": [
+            {
+              "value": "preApprovalRx",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "6WhEtq"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "NoMatchInput"
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "qUqzj3"
+              },
+              "activityProcessed": true,
+              "dialog": "TriggerFlow"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "0CVZm2"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "okcPVQ"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#preAuthorization.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "OJBKbn",
+        "name": "pulmonaryDisease"
+      },
+      "intent": "pulmonaryDisease",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "AiImLz"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "pBQfXW"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "hD7uLt"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "IcGyfC"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#pulmonaryDisease.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "tKmIU0",
+        "name": "rewardsForActionGeneral"
+      },
+      "intent": "rewardsForActionGeneral",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "1Jdb3M"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "oxarLu"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "trqg9f"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "8wtp1v"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#rewardsForActionGeneral.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "bV2e7a",
+        "name": "treatmentEmergencyRoom"
+      },
+      "intent": "treatmentEmergencyRoom",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "4ydPS9"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "0QSIHA"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "mOoht8"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "iHhGbs"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#treatmentEmergencyRoom.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "l695Zs",
+        "name": "treatmentTransplant"
+      },
+      "intent": "treatmentTransplant",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "xCOMyM"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "yNya2n"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "pZZ4bq"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "Xm0jYu"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#treatmentTransplant.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "UPzm0K",
+        "name": "virtualVisit"
+      },
+      "intent": "virtualVisit",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "208owq"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "svpNnH"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "djow82"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "Shbtsk"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#virtualVisit.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "wOk7k9",
+        "name": "translator"
+      },
+      "intent": "translator",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "VqbxBN"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "QLjM90"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "=MainDialog.PegVal('_TranslatorTrigger')",
+            "pegType": "UserInput",
+            "request": "User Input",
+            "response": "=conversation.turnRecognized",
+            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, '_Translator')"
+          }
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "Xd9Wn2",
+            "name": "Without context"
+          },
+          "activityProcessed": true,
+          "dialog": "LoadEntityConfig",
+          "options": {
+            "luisIntent": "=conversation.flowState.lastIntent",
+            "luisEntity": "=''"
+          }
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "thH0EB"
+          },
+          "activityProcessed": true,
+          "dialog": "GlobalBehavior",
+          "options": {
+            "behavior": "Translator"
+          }
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "FNR2i0"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "ZV0vOl"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "==#translator.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "HKkJaj",
+        "name": "spanish"
+      },
+      "intent": "spanish",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "tZxmyL"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.intent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "2Tjehh"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "=MainDialog.PegVal('_SpanishTrigger')",
+            "pegType": "UserInput",
+            "request": "User Input",
+            "response": "=conversation.turnRecognized",
+            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, '_Spanish')"
+          }
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "4UzZXQ"
+          },
+          "activityProcessed": true,
+          "dialog": "LoadEntityConfig",
+          "options": {
+            "luisIntent": "spanish",
+            "luisEntity": "=MainDialog.GetEntityFromAnyIntent(\"spanish\", conversation.turnRecognized)"
+          }
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "2nSMeP"
+          },
+          "activityProcessed": true,
+          "dialog": "GlobalBehavior",
+          "options": {
+            "behavior": "Spanish"
+          }
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "6sis8C"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "NjrI33"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#spanish.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "MY44Jh",
+        "name": "silverSneakers"
+      },
+      "intent": "silverSneakers",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "Ey6Q78"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "UBVeLt"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "Bcsy9B"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "4wpKRr"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#silverSneakers.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "cGb8TL",
+        "name": "caseManagement"
+      },
+      "intent": "caseManagement",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "DV1fIh"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "UsfFmh"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "T3dCda"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "jmauki"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#caseManagement.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "89vtaQ",
+        "name": "couponBook"
+      },
+      "intent": "couponBook",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "i14TP1"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "2QNYBQ"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "WlyQ5E"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "5g3Bu6"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#couponBook.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "SF23Ae",
+        "name": "EFT"
+      },
+      "intent": "EFT",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "z2Ropb"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "mVHSYc"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "ojjnhe"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "Pqex2c"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#EFT.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "c8DbbA",
+        "name": "extension"
+      },
+      "intent": "extension",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "e4tFVW"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "3OK3NO"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "Z0leRf"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "jUgExa"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#extension.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "clD0fm",
+        "name": "FOBT"
+      },
+      "intent": "FOBT",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "Yw66ru"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "xnXXpE"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "9MQvig"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "aYUL4I"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#FOBT.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "Tq8rsu",
+        "name": "form"
+      },
+      "intent": "form",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "gCbKMj"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "V2zQXA"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "KB0jl5"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "05cT8y"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#form.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "ngxJtU",
+        "name": "fosterCare"
+      },
+      "intent": "fosterCare",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "EOkgjN"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "p403QD"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "uGhpUb"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "ROQWvV"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#fosterCare.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "9o9hNQ",
+        "name": "handbook"
+      },
+      "intent": "handbook",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "VqJFXK"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "ZR3O0B"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "aY3s53"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "K2hTNx"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#handbook.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "hz0hvH",
+        "name": "healthAssessment"
+      },
+      "intent": "healthAssessment",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "XqRolt"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "0TKgjy"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "P7veDo"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "xWnRXf"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#healthAssessment.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "kvvScT",
+        "name": "hospitalStay"
+      },
+      "intent": "hospitalStay",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "FInQyy"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "IAfWCE"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "Ve0NE0"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "6KVVhz"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#hospitalStay.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "wdnXAg",
+        "name": "membersMatter"
+      },
+      "intent": "membersMatter",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "yS1vyu"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "ELsCsj"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "pd623t"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "DMmmCF"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#membersMatter.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "SbmWkc",
+        "name": "navigator"
+      },
+      "intent": "navigator",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "QN4kK1"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "sUstJn"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "WOt6jm"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "HdBQSJ"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#navigator.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "HTvAwX",
+        "name": "orderSupplies"
+      },
+      "intent": "orderSupplies",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "txjqk1"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "midsa0"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "eD5aik"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "9qR9AV"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#orderSupplies.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "zrkzfN",
+        "name": "passport"
+      },
+      "intent": "passport",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "gTK41E"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "WqRCKK"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "rqSkpJ"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "o5ugRV"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#passport.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "CVOIuV",
+        "name": "planType"
+      },
+      "intent": "planType",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "ixQkIe"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "3FOwpX"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "cklMPn"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "gXKkmJ"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#planType.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "ilUmf2",
+        "name": "uCard"
+      },
+      "intent": "uCard",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "k4nPVK"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "F9Sxye"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "rkjeak"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "VHZtbl"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#uCard.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "i4KQoZ",
+        "name": "upsetCaller"
+      },
+      "intent": "upsetCaller",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "2yefwO"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "6k19Z6"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow",
+          "disabled": true
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "wBDvqo"
+          },
+          "condition": "=conversation.flowState.flowPreviousPrompt",
+          "cases": [
+            {
+              "value": "mentalHealthGeneral",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "Rnsl98"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "LoadEntityConfig",
+                  "options": {
+                    "luisIntent": "mentalHealth",
+                    "context": "=conversation.flowState.flowPreviousPrompt",
+                    "luisEntity": "=''"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "Vv1eVK"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "Transfer",
+                  "options": {
+                    "behavior": "EndSkill"
+                  }
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "Ep3pZD"
+              },
+              "activityProcessed": true,
+              "dialog": "NoMatchInput"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "pelOyu"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "W9aHMj"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#upsetCaller.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "mWGwxG",
+        "name": "balance"
+      },
+      "intent": "balance",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "VLEVZz"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "JC0Hdf"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "J4zRFf"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "m3DWFo"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#balance.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "fipDdY",
+        "name": "solutran"
+      },
+      "intent": "solutran",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "dcxbrR"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "uDjkeN"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "8vk3TP"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "jUKS6z"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "zJu6Dv",
+        "name": "HIPAA"
+      },
+      "intent": "HIPAA",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "ONTxLf"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "Yw0tbh"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "Vvs1kl"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "gj9nYw"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#HIPAA.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "B9Ov0d",
+        "name": "noEmployer"
+      },
+      "intent": "noEmployer",
+      "condition": "=#noEmployer.score>=0.5",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "34Cuvc"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "ogn4MP"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "avDDYj"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "5LjpQx"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "XFWA9k",
+        "name": "dontKnow"
+      },
+      "intent": "dontKnow",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "tVdCjn"
+          },
+          "assignments": [
+            {
+              "property": "conversation.turnRecognized",
+              "value": "=turn.recognized"
+            },
+            {
+              "property": "conversation.flowState.lastIntent",
+              "value": "=dialog.lastIntent"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "PMIULN"
+          },
+          "activityProcessed": true,
+          "dialog": "TriggerFlow",
+          "disabled": true
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "ukUwVg"
+          },
+          "condition": "=conversation.flowState.flowPreviousPrompt",
+          "cases": [
+            {
+              "value": "preApprovalRx",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "azuf3d"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "NoMatchInput"
+                }
+              ]
+            },
+            {
+              "value": "mentalHealthGeneral",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "I3GeGy"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "LoadEntityConfig",
+                  "options": {
+                    "luisIntent": "mentalHealth",
+                    "context": "=conversation.flowState.flowPreviousPrompt",
+                    "luisEntity": "=''"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "fFEgJT"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "Transfer",
+                  "options": {
+                    "behavior": "EndSkill"
+                  }
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "MOLVxy"
+              },
+              "activityProcessed": true,
+              "dialog": "NoMatchInput"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "gJC61V"
+          },
+          "condition": "=conversation.endDialogParams != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "klDKnf"
+              },
+              "value": "=conversation.endDialogParams"
+            }
+          ]
+        }
+      ],
+      "condition": "=#dontKnow.score>=0.5"
+    }
+  ],
+  "generator": "omni-vui-memberintent-sb-cmp.lg",
+  "id": "omni-vui-memberintent-sb-cmp",
+  "recognizer": "omni-vui-memberintent-sb-cmp.lu.qna"
+}

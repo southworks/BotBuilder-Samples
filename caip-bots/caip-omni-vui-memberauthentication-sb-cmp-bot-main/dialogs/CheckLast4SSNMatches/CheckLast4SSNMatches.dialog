@@ -1,0 +1,310 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "da06w8",
+    "name": "CheckLast4SSNMatches",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "gIBQ28"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "FPbCk6"
+          },
+          "property": "conversation.startDate",
+          "value": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "PE8IE4"
+          },
+          "condition": "=contains(conversation.identificationResponse.last4SSNList,conversation.i4SSN)",
+          "actions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "S5vdaG"
+              },
+              "condition": "=count(conversation.matchedIndicies)>0",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "ReYYBa"
+                  },
+                  "property": "conversation.newElements",
+                  "value": "=createArray()"
+                },
+                {
+                  "$kind": "Microsoft.Foreach",
+                  "$designer": {
+                    "id": "ttpAif"
+                  },
+                  "index": "dialog.foreach.index",
+                  "value": "dialog.foreach.value",
+                  "itemsProperty": "conversation.matchedIndicies",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "2uWs7r"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.newElementList",
+                          "value": {}
+                        },
+                        {
+                          "property": "conversation.newElementList",
+                          "value": "=addProperty(conversation.newElementList,\"index\", dialog.foreach.value)"
+                        },
+                        {
+                          "property": "conversation.newElementList",
+                          "value": "=addProperty(conversation.newElementList,\"value\",conversation.identificationResponse.last4SSNList[dialog.foreach.value])"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.EditArray",
+                      "$designer": {
+                        "id": "xRvjRH"
+                      },
+                      "changeType": "push",
+                      "itemsProperty": "conversation.newElements",
+                      "value": "=conversation.newElementList"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "WdJX1m"
+                  },
+                  "value": "=where(conversation.newElements, ssn, ssn.value ==conversation.i4SSN)",
+                  "property": "conversation.matchedlast4SSN"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "mtXyqA"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "GetMatchedIndicies",
+                  "options": {
+                    "matchedArray": "=conversation.matchedlast4SSN"
+                  }
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "UaqGTq"
+                  },
+                  "value": "=where(indicesAndValues(conversation.identificationResponse.last4SSNList), ssn, ssn.value ==conversation.i4SSN)",
+                  "property": "conversation.matchedlast4SSN"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "ASVQRr"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "GetMatchedIndicies",
+                  "options": {
+                    "matchedArray": "=conversation.matchedlast4SSN"
+                  }
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "pWRQB4"
+              },
+              "condition": "=count(conversation.matchedlast4SSN)>1",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "gFz5fo"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "ReadMatchingFirstNames",
+                  "options": {
+                    "matchedArray": "=conversation.matchedlast4SSN"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "AQhNZC"
+                  },
+                  "condition": "=conversation.isAllFirstNamesMatching",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "q1P3Rg"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "00027",
+                        "pegType": "General",
+                        "request": "",
+                        "response": "",
+                        "startDTM": "=conversation.startDate",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "MembAuthSkill_SSNMatch_FirstNamesMatch_Peg"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "lCllOj"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.authType",
+                          "value": "=\"SSN\""
+                        },
+                        {
+                          "property": "conversation.member.auth.last4SSN",
+                          "value": "=conversation.matchedlast4SSN[0].value"
+                        },
+                        {
+                          "property": "conversation.member.auth.firstName",
+                          "value": "=conversation.matchedFirstName"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "JEdMmu"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "CheckZIPAuthToggle"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "hUO7Ot"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "00028",
+                        "pegType": "General",
+                        "request": "",
+                        "response": "",
+                        "startDTM": "=conversation.startDate",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "MembAuthSkill_SSNMatch_FirstNamesNoMatch_Peg"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "LdjKBc"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "CheckDOBAuthToggle"
+                    }
+                  ]
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "Swa4TS"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "00026",
+                    "pegType": "General",
+                    "request": "",
+                    "response": "",
+                    "startDTM": "=conversation.startDate",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "MembAuthSkill_SingleSSNMatch_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "5cFuBx"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.authType",
+                      "value": "=\"SSN\""
+                    },
+                    {
+                      "property": "conversation.member.auth.last4SSN",
+                      "value": "=conversation.matchedlast4SSN[0].value"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "Ri9qGx"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "CheckZIPAuthToggle"
+                }
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "XZL6OB"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "00025",
+                "pegType": "General",
+                "request": "",
+                "response": "",
+                "startDTM": "=conversation.startDate",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MembAuthSkill_NoSSNMatch_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "smWR2H"
+              },
+              "activityProcessed": true,
+              "dialog": "CheckDOBAuthToggle"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "CheckLast4SSNMatches.lg",
+  "recognizer": "CheckLast4SSNMatches.lu.qna",
+  "id": "CheckLast4SSNMatches"
+}

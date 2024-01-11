@@ -1,0 +1,41 @@
+> !# @Namespace=SelfService
+> !# @Exports = MemberIVRXferMsg,getIntentSelfServicePeg,getEntitySelfServicePeg,getIntentSelfServiceEventName,getEntitySelfServiceEventName
+[import](common.lg)
+
+# MemberIVRXferMsg()
+[Activity
+    Text = ${MemberIVRXfer_text()}
+    Speak = ${MemberIVRXfer_text()}
+    InputHint = ignoringInput
+    channelData = ${
+        {
+            activityParams: {
+                enableSpeechInput: false
+            }
+        }
+    }
+]
+
+# getIntentSelfServiceEventName(selfServiceType)
+- IF:  ${equals(selfServiceType,'BOT')}
+   -MemberRootBot_SelfService_CI_BOTSelfService_Peg
+-ELSE:
+  - MemberRootBot_SelfService_CI_IVRSelfService_Peg
+
+# getIntentSelfServicePeg(selfServiceType)
+- IF:  ${equals(selfServiceType,'BOT')}
+   -memberRootBot_SelfService_CI_BOTSelfService
+-ELSE:
+  - memberRootBot_SelfService_CI_IVRSelfService
+
+ # getEntitySelfServiceEventName(selfServiceType)
+- IF:  ${equals(selfServiceType,'BOT')}
+   -MemberRootBot_SelfService_CIEntity_BOTSelfService_Peg
+-ELSE:
+  - MemberRootBot_SelfService_CIEntity_IVRSelfService_Peg
+
+  # getEntitySelfServicePeg(selfServiceType)
+- IF:  ${equals(selfServiceType,'BOT')}
+   -MemberRootBot_SelfService_CIEntity_BOTSelfService
+-ELSE:
+  - MemberRootBot_SelfService_CIEntity_IVRSelfService

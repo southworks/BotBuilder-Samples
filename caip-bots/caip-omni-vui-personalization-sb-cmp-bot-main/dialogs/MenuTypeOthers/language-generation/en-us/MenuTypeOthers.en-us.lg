@@ -1,0 +1,32 @@
+> !# @Namespace=MenuTypeOthers
+> !# @Exports = ConversationManagerReturnedMenuMsg
+[import](common.lg)
+# ConversationManagerReturnedMenuMsg()
+[Activity
+    Text = ${conversation.tts}
+    Speak = ${conversation.tts}
+    InputHint = expectingInput
+    ChannelData = ${
+        {
+            sessionParams:{
+                voiceName: "UHGAshtonV1Neural",
+                continuousASR: true,
+                sendEventsToBot: ["noUserInput"],
+                continuousASR: true,
+                continuousASRTimeoutInMS: settings.continuousASRTimeoutInMS,
+                continuousASRDigits: "#",
+                sendDTMF: true,
+                bargeIn: true,
+                bargeInOnDTMF: true,
+                dtmfCollect: true,
+                dtmfCollectInterDigitTimeoutMS: settings.dtmfCollectInterDigitTimeoutMS,
+                dtmfCollectMaxDigits: 1,
+                dtmfCollectSubmitDigit: "#",
+                userNoInputTimeoutMS: settings.userNoInputTimeoutMS,
+                userNoInputRetries: 1,
+                enableSpeechInput: true,
+                sttDisablePunctuation: true
+            }
+        }
+    }
+]
