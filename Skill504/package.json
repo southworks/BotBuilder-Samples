@@ -1,0 +1,14 @@
+{
+  "name": "SkillEcho504Error",
+  "private": true,
+  "scripts": {
+    "dev": "cross-env NODE_ENV=dev PORT=3980 node index.js"
+  },
+  "dependencies": {
+    "cross-env": "latest",
+    "botbuilder-ai-luis": "4.21.4-preview",
+    "botbuilder-ai-qna": "4.21.4-preview",
+    "botbuilder-dialogs-adaptive-runtime-integration-express": "4.21.4-preview",
+    "botbuilder-dialogs-adaptive-runtime-integration-restify": "4.21.4-preview"
+  }
+}

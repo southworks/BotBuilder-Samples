@@ -1,0 +1,69 @@
+[import](common.lg)
+
+# SendActivity_IgAlNh()
+[Activity
+    Text = ${SendActivity_IgAlNh_text()}
+]
+
+# SendActivity_IgAlNh_text()
+- 'Manx' has joined the Chat. You can now begin the conversation.
+# SendActivity_b5rEk8()
+[Activity
+    Text = ${SendActivity_b5rEk8_text()}
+]
+
+# SendActivity_b5rEk8_text()
+- Echo: ${turn.activity.text}
+# SendActivity_DOrazO()
+[Activity
+    Text = ${SendActivity_DOrazO_text()}
+]
+
+# SendActivity_DOrazO_text()
+- 'Manx' has joined the Chat. You can now begin the conversation.
+# SendActivity_fKd1Tm()
+[Activity
+    Type = endOfConversation
+]
+
+# SendActivity_fKd1Tm_text()
+- t
+# SendActivity_z2hUH5()
+[Activity
+    Text = ${SendActivity_z2hUH5_text()}
+]
+
+# SendActivity_z2hUH5_text()
+- skill: hi host
+# SendActivity_399VIM()
+[Activity
+    Text = ${SendActivity_399VIM_text()}
+    Speak = ${SendActivity_399VIM_text()}
+    InputHint = expectingInput
+    ChannelData = ${SendActivity_399VIM_text()}
+]
+
+# SendActivity_399VIM_text()
+- skill event: 1
+# SendActivity_SUpbxv()
+[Activity
+    Text = ${SendActivity_SUpbxv_text()}
+]
+
+# SendActivity_SUpbxv_text()
+- skill event: 2
+# TextInput_Prompt_DDAMAF()
+[Activity
+    Text = ${TextInput_Prompt_DDAMAF_text()}
+]
+
+# TextInput_Prompt_DDAMAF_text()
+- skill event: input
+# SendActivity_K65Ygq()
+[Activity
+    Type = trace
+    Text = ${SendActivity_K65Ygq_text()}
+]
+
+# SendActivity_K65Ygq_text()
+- test

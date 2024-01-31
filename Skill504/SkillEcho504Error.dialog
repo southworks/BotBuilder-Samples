@@ -1,0 +1,236 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "name": "SkillEcho504Error",
+    "description": "",
+    "id": "A79tBe"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnEventActivity",
+      "$designer": {
+        "id": "vXN5NL",
+        "name": "Event received (Event activity)"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "lB0O5K"
+          },
+          "condition": "turn.activity.name == 'connectToLiveAgent'",
+          "actions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "IgAlNh"
+              },
+              "activity": "${SendActivity_IgAlNh()}"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.HttpRequest",
+              "$designer": {
+                "id": "2YyNwB"
+              },
+              "method": "GET",
+              "url": "http://www.google.com:81",
+              "disabled": true
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "xRd1hA"
+              },
+              "property": "=turn.value.text",
+              "value": "${turn.randomvalue}",
+              "disabled": true
+            },
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "399VIM"
+              },
+              "activity": "${SendActivity_399VIM()}",
+              "disabled": true
+            },
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "SUpbxv"
+              },
+              "activity": "${SendActivity_SUpbxv()}",
+              "disabled": true
+            },
+            {
+              "$kind": "Microsoft.TextInput",
+              "$designer": {
+                "id": "DDAMAF"
+              },
+              "maxTurnCount": 3,
+              "alwaysPrompt": false,
+              "allowInterruptions": false,
+              "unrecognizedPrompt": "",
+              "invalidPrompt": "",
+              "defaultValueResponse": "",
+              "prompt": "${TextInput_Prompt_DDAMAF()}"
+            },
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "GoxjUM"
+              }
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndTurn",
+          "$designer": {
+            "id": "CAuf4A"
+          }
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnMessageActivity",
+      "$designer": {
+        "id": "ZImb7Q",
+        "name": "Message received (Message received activity)"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "DBRvQy"
+          },
+          "condition": "turn.activity.name == 'connectToLiveAgent'",
+          "actions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "DOrazO"
+              },
+              "activity": "${SendActivity_DOrazO()}"
+            },
+            {
+              "$kind": "Microsoft.EndTurn",
+              "$designer": {
+                "id": "GzTR77"
+              }
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "o6LIR3"
+          },
+          "condition": "=turn.activity.text == 'quit'",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "b5rEk8"
+              },
+              "activity": "${SendActivity_b5rEk8()}",
+              "disabled": true
+            },
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "z2hUH5"
+              },
+              "activity": "${SendActivity_z2hUH5()}"
+            },
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "r3GXEQ"
+              }
+            },
+            {
+              "$kind": "Microsoft.EndTurn",
+              "$designer": {
+                "id": "ZK134Q"
+              },
+              "disabled": true
+            }
+          ],
+          "actions": [
+            {
+              "$kind": "Microsoft.EndTurn",
+              "$designer": {
+                "id": "O3AKUc"
+              },
+              "disabled": true
+            },
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "fKd1Tm"
+              },
+              "disabled": true,
+              "activity": "${SendActivity_fKd1Tm()}"
+            },
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "IVXkyq"
+              },
+              "value": "dialog.result"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnError",
+      "$designer": {
+        "id": "BUkTvP",
+        "name": "Error occurred (Error event)"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "PD5Ykt"
+          },
+          "property": "conversation.error",
+          "value": true
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "K65Ygq"
+          },
+          "activity": "${SendActivity_K65Ygq()}"
+        }
+      ],
+      "runOnce": false,
+      "condition": "=!conversation.error"
+    },
+    {
+      "$kind": "Microsoft.OnUnknownIntent",
+      "$designer": {
+        "id": "HY459O",
+        "name": "Unknown intent"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "RsM4HU"
+          },
+          "property": "turn.value.text3",
+          "value": "${turn.randomvalue}"
+        }
+      ]
+    }
+  ],
+  "generator": "SkillEcho504Error.lg",
+  "id": "SkillEcho504Error",
+  "recognizer": "SkillEcho504Error.lu.qna"
+}

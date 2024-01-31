@@ -1,0 +1,5 @@
+{
+  "$kind": "Microsoft.MultiLanguageRecognizer",
+  "id": "LUIS_SkillEcho504Error",
+  "recognizers": {}
+}
