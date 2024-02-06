@@ -135,28 +135,28 @@
               "$designer": {
                 "id": "b5rEk8"
               },
-              "activity": "${SendActivity_b5rEk8()}",
-              "disabled": true
+              "activity": "${SendActivity_b5rEk8()}"
             },
             {
               "$kind": "Microsoft.SendActivity",
               "$designer": {
                 "id": "z2hUH5"
               },
-              "activity": "${SendActivity_z2hUH5()}"
+              "activity": "${SendActivity_z2hUH5()}",
+              "disabled": true
             },
             {
               "$kind": "Microsoft.EndDialog",
               "$designer": {
                 "id": "r3GXEQ"
-              }
+              },
+              "disabled": true
             },
             {
               "$kind": "Microsoft.EndTurn",
               "$designer": {
                 "id": "ZK134Q"
-              },
-              "disabled": true
+              }
             }
           ],
           "actions": [

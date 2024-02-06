@@ -1,0 +1,37 @@
+[import](common.lg)
+
+# TextInput_Prompt_vSsUwO()
+[Activity
+    Text = ${TextInput_Prompt_vSsUwO_text()}
+]
+
+# TextInput_Prompt_vSsUwO_text()
+- hallo
+# BeginSkill_Activity_dQqzMa()
+[Activity
+    Text = ${BeginSkill_Activity_dQqzMa_text()}
+]
+
+# BeginSkill_Activity_dQqzMa_text()
+- ${turn.recognized.text}
+# TextInput_Prompt_IZ9rWr()
+[Activity
+    Text = ${TextInput_Prompt_IZ9rWr_text()}
+]
+
+# TextInput_Prompt_IZ9rWr_text()
+- host: back from skill
+# SendActivity_rhKSKy()
+[Activity
+    Text = ${SendActivity_rhKSKy_text()}
+]
+
+# SendActivity_rhKSKy_text()
+- error before this message
+# SendActivity_SvlUXi()
+[Activity
+    Text = ${SendActivity_SvlUXi_text()}
+]
+
+# SendActivity_SvlUXi_text()
+- host: hi skill
