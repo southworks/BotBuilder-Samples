@@ -20,18 +20,8 @@
           "$designer": {
             "id": "SvlUXi"
           },
-          "activity": "${SendActivity_SvlUXi()}"
-        },
-        {
-          "$kind": "Microsoft.BeginSkill",
-          "$designer": {
-            "id": "hzk57c"
-          },
-          "activityProcessed": true,
-          "botId": "=settings.MicrosoftAppId",
-          "skillHostEndpoint": "=settings.skillHostEndpoint",
-          "connectionName": "=settings.connectionName",
-          "allowInterruptions": false
+          "activity": "${SendActivity_SvlUXi()}",
+          "disabled": true
         },
         {
           "$kind": "Microsoft.TextInput",
@@ -58,7 +48,8 @@
           "unrecognizedPrompt": "",
           "invalidPrompt": "",
           "defaultValueResponse": "",
-          "prompt": "${TextInput_Prompt_IZ9rWr()}"
+          "prompt": "${TextInput_Prompt_IZ9rWr()}",
+          "disabled": true
         },
         {
           "$kind": "Microsoft.TextInput",
@@ -71,7 +62,8 @@
           "unrecognizedPrompt": "",
           "invalidPrompt": "",
           "defaultValueResponse": "",
-          "prompt": "${TextInput_Prompt_IZ9rWr()}"
+          "prompt": "${TextInput_Prompt_IZ9rWr()}",
+          "disabled": true
         },
         {
           "$kind": "Microsoft.TextInput",
@@ -84,7 +76,8 @@
           "unrecognizedPrompt": "",
           "invalidPrompt": "",
           "defaultValueResponse": "",
-          "prompt": "${TextInput_Prompt_IZ9rWr()}"
+          "prompt": "${TextInput_Prompt_IZ9rWr()}",
+          "disabled": true
         },
         {
           "$kind": "Microsoft.TextInput",
@@ -97,7 +90,8 @@
           "unrecognizedPrompt": "",
           "invalidPrompt": "",
           "defaultValueResponse": "",
-          "prompt": "${TextInput_Prompt_IZ9rWr()}"
+          "prompt": "${TextInput_Prompt_IZ9rWr()}",
+          "disabled": true
         },
         {
           "$kind": "Microsoft.TextInput",
@@ -110,7 +104,8 @@
           "unrecognizedPrompt": "",
           "invalidPrompt": "",
           "defaultValueResponse": "",
-          "prompt": "${TextInput_Prompt_IZ9rWr()}"
+          "prompt": "${TextInput_Prompt_IZ9rWr()}",
+          "disabled": true
         },
         {
           "$kind": "Microsoft.TextInput",
@@ -123,7 +118,8 @@
           "unrecognizedPrompt": "",
           "invalidPrompt": "",
           "defaultValueResponse": "",
-          "prompt": "${TextInput_Prompt_IZ9rWr()}"
+          "prompt": "${TextInput_Prompt_IZ9rWr()}",
+          "disabled": true
         },
         {
           "$kind": "Microsoft.TextInput",
@@ -136,7 +132,8 @@
           "unrecognizedPrompt": "",
           "invalidPrompt": "",
           "defaultValueResponse": "",
-          "prompt": "${TextInput_Prompt_IZ9rWr()}"
+          "prompt": "${TextInput_Prompt_IZ9rWr()}",
+          "disabled": true
         },
         {
           "$kind": "Microsoft.TextInput",
@@ -149,7 +146,8 @@
           "unrecognizedPrompt": "",
           "invalidPrompt": "",
           "defaultValueResponse": "",
-          "prompt": "${TextInput_Prompt_IZ9rWr()}"
+          "prompt": "${TextInput_Prompt_IZ9rWr()}",
+          "disabled": true
         },
         {
           "$kind": "Microsoft.TextInput",
@@ -162,7 +160,8 @@
           "unrecognizedPrompt": "",
           "invalidPrompt": "",
           "defaultValueResponse": "",
-          "prompt": "${TextInput_Prompt_IZ9rWr()}"
+          "prompt": "${TextInput_Prompt_IZ9rWr()}",
+          "disabled": true
         },
         {
           "$kind": "Microsoft.TextInput",
@@ -175,15 +174,39 @@
           "unrecognizedPrompt": "",
           "invalidPrompt": "",
           "defaultValueResponse": "",
-          "prompt": "${TextInput_Prompt_IZ9rWr()}"
+          "prompt": "${TextInput_Prompt_IZ9rWr()}",
+          "disabled": true
         },
         {
           "$kind": "Microsoft.SendActivity",
           "$designer": {
             "id": "rhKSKy"
           },
-          "activity": "${SendActivity_rhKSKy()}"
+          "activity": "${SendActivity_rhKSKy()}",
+          "disabled": true
         }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnMessageActivity",
+      "$designer": {
+        "id": "ZImb7Q",
+        "name": "Message received (Message received activity)"
+      },
+      "actions": [
+          {
+            "$kind": "Microsoft.SendActivity",
+            "$designer": {
+              "id": "SvlUXi"
+            },
+            "activity": "Echo: ${turn.activity.text}"
+          },
+          {
+            "$kind": "Microsoft.EndTurn",
+            "$designer": {
+              "id": "ZK134Q"
+            }
+          } 
       ]
     }
   ],

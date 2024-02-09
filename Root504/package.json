@@ -9,7 +9,6 @@
     "botbuilder-ai-qna": "4.21.4-preview",
     "botbuilder-dialogs-adaptive-runtime-integration-express": "4.21.4-preview",
     "botbuilder-dialogs-adaptive-runtime-integration-restify": "4.21.4-preview",
-    "cross-env": "latest",
-    "restify": "~10.0.0"
+    "cross-env": "latest"
   }
 }
