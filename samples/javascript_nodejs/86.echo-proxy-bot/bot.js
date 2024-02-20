@@ -3,7 +3,7 @@
 
 const { ActivityHandler, MessageFactory } = require('botbuilder');
 
-class EchoBotProxy extends ActivityHandler {
+class EchoProxyBot extends ActivityHandler {
     constructor() {
         super();
         // See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
@@ -28,4 +28,4 @@ class EchoBotProxy extends ActivityHandler {
     }
 }
 
-module.exports.EchoBotProxy = EchoBotProxy;
+module.exports.EchoProxyBot = EchoProxyBot;

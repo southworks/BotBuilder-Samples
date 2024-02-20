@@ -1,6 +1,6 @@
-# echo-bot-proxy
+# echo-proxy-bot
 
-Bot Framework v4 echo bot sample
+Bot Framework v4 echo-proxy bot sample
 
 This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to configure the bot to use it behind a corporative proxy.
 
@@ -21,10 +21,10 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
 
-- In a terminal, navigate to `samples/javascript_nodejs/86.echo-bot-proxy`
+- In a terminal, navigate to `samples/javascript_nodejs/86.echo-proxy-bot`
 
     ```bash
-    cd samples/javascript_nodejs/86.echo-bot-proxy
+    cd samples/javascript_nodejs/86.echo-proxy-bot
     ```
 
 - Install modules

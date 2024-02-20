@@ -1,7 +1,7 @@
 {
-    "name": "echobotproxy",
+    "name": "echoproxybot",
     "version": "1.0.0",
-    "description": "Bot Builder v4 echo bot proxy sample",
+    "description": "Bot Builder v4 echo proxy bot sample",
     "author": "Microsoft",
     "license": "MIT",
     "main": "index.js",
@@ -16,7 +16,7 @@
         "url": "https://github.com"
     },
     "dependencies": {
-        "botbuilder": "~4.22.0",
+        "botbuilder": "~4.22.1",
         "dotenv": "^8.2.0",
         "node-global-proxy": "^1.0.1",
         "restify": "~10.0.0"
@@ -29,5 +29,5 @@
         "eslint-plugin-promise": "^4.2.1",
         "eslint-plugin-standard": "^4.0.1",
         "nodemon": "~2.0.4"
-    }
+    }    
 }
