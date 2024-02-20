@@ -45,9 +45,9 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
         HTTPS_PROXY=http://127.0.0.1:8080
     ```
     - Make sure the code marked as option #1 is enabled in **index.js**.
-    It will use the `node-global-proxy` package to configure and start the proxy with the provided env variables.
+    It will use the `node-global-proxy` package to configure and start the global proxy with the provided env variables.
 
-    > This option will route all the requests the bot make through the proxy.
+    > This option will route all the requests the bot makes through the proxy.
 
     **Option #2: Setting up the proxy in the Connector Client Options**
     - Make sure the code marked as option #2 is enabled in **index.js**.
@@ -55,7 +55,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
     ```JavaScript
         { proxySettings: { host: '127.0.0.1', port: 8080 } }
     ```
-    > This option will route the authentication requests that botbuilder make through the proxy. Other requests like calls to intranet APIs, will go out directly. 
+    > This option will route the authentication requests that botbuilder makes through the proxy. Other requests, like calls to intranet APIs, will go out directly. 
 
     You can verify the routed requests with a tool like [straightforward](https://github.com/berstend/straightforward).
 

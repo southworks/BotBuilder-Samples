@@ -16,7 +16,7 @@
         "url": "https://github.com"
     },
     "dependencies": {
-        "botbuilder": "~4.21.5-rc",
+        "botbuilder": "~4.22.0",
         "dotenv": "^8.2.0",
         "node-global-proxy": "^1.0.1",
         "restify": "~10.0.0"
