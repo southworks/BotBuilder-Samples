@@ -5,10 +5,9 @@
     "dev": "cross-env NODE_ENV=dev PORT=3981 node index.js"
   },
   "dependencies": {
-    "botbuilder-ai-luis": "4.21.4-preview",
-    "botbuilder-ai-qna": "4.21.4-preview",
-    "botbuilder-dialogs-adaptive-runtime-integration-express": "4.21.4-preview",
-    "botbuilder-dialogs-adaptive-runtime-integration-restify": "4.21.4-preview",
+    "botbuilder-ai-luis": "4.14.1-preview.dev7",
+    "botbuilder-ai-qna": "4.14.1-preview.dev7",
+    "botbuilder-dialogs-adaptive-runtime-integration-express": "4.14.1-preview.dev7",
     "cross-env": "latest"
   }
 }
