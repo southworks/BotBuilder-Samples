@@ -1,24 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// const { makeApp } = require('botbuilder-dialogs-adaptive-runtime-integration-express');
-const { start } = require('botbuilder-dialogs-adaptive-runtime-integration-restify');
-// const { getRuntimeServices } = require('botbuilder-dialogs-adaptive-runtime');
-// const restify = require('restify');
+const {
+  start,
+} = require("botbuilder-dialogs-adaptive-runtime-integration-express");
+const Agent = require("agentkeepalive");
 
 (async function () {
   try {
-    await start(process.cwd(), "settings");
-    // const applicationRoot = process.cwd();
-    // const settingsDirectory = "settings";
-
-    // const [services, configuration] = await getRuntimeServices(applicationRoot, settingsDirectory);
-    // const [, listen] = await makeApp(services, configuration, applicationRoot, {}, restify.createServer());
-
-    // listen();
+    await start(process.cwd(), "settings", {
+      connectorClientOptions: {
+        agentSettings: {
+          http: new Agent({
+            maxSockets: 128,
+            maxFreeSockets: 128,
+            timeout: 60000,
+            freeSocketTimeout: 30000,
+          }),
+          https: new Agent.HttpsAgent({
+            maxSockets: 128,
+            maxFreeSockets: 128,
+            timeout: 60000,
+            freeSocketTimeout: 30000,
+          }),
+        },
+      },
+    });
   } catch (err) {
     console.error(err);
     process.exit(1);
   }
 })();
-

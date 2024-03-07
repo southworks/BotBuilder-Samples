@@ -5,6 +5,7 @@
     "dev": "cross-env NODE_ENV=dev PORT=3981 node index.js"
   },
   "dependencies": {
+    "agentkeepalive": "^4.5.0",
     "botbuilder-ai-luis": "4.14.1-preview.dev7",
     "botbuilder-ai-qna": "4.14.1-preview.dev7",
     "botbuilder-dialogs-adaptive-runtime-integration-express": "4.14.1-preview.dev7",
