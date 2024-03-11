@@ -10,6 +10,7 @@ using System.Web.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Integration.AspNet.WebApi;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.BotBuilderSamples.Bots;
 using Microsoft.BotBuilderSamples.Dialogs;
 using Microsoft.Extensions.Configuration;
@@ -38,18 +39,19 @@ namespace Microsoft.BotBuilderSamples
             _conversationState = new ConversationState(storage);
             _userState = new UserState(storage);
 
-            // create the BotAdapter we will be using
-            var credentialProvider = new ConfigurationCredentialProvider();
-            _adapter = new AdapterWithErrorHandler(credentialProvider, _loggerFactory.CreateLogger<BotFrameworkHttpAdapter>(), _conversationState);
-
             // read the old style Web.Config settings and construct a new style dot net core IConfiguration object
             var appsettings = ConfigurationManager.AppSettings.AllKeys.SelectMany(
                 ConfigurationManager.AppSettings.GetValues,
                 (k, v) => new KeyValuePair<string, string>(k, v));
 
-            var configuration = new ConfigurationBuilder()
+            var configuration = new Extensions.Configuration.ConfigurationBuilder()
                 .AddInMemoryCollection(appsettings)
                 .Build();
+
+            // create the BotAdapter we will be using
+            // var credentialProvider = new ConfigurationCredentialProvider();
+            var botFrameworkAuthentication = new ConfigurationBotFrameworkAuthentication(configuration);
+            _adapter = new AdapterWithErrorHandler(botFrameworkAuthentication, _loggerFactory.CreateLogger<BotFrameworkHttpAdapter>(), _conversationState);
 
             // LUIS recognizer and BookingDialog are used by the MainDialog
             var bookingRecognizer = new FlightBookingRecognizer(configuration);
