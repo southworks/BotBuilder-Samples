@@ -195,11 +195,26 @@
       },
       "actions": [
           {
+            "$kind": "Microsoft.BeginSkill",
+            "$designer": {
+              "id": "dQqzMa"
+            },
+            "activityProcessed": true,
+            "botId": "=settings.MicrosoftAppId",
+            "skillHostEndpoint": "=settings.skillHostEndpoint",
+            "connectionName": "=settings.connectionName",
+            "allowInterruptions": false,
+            "skillEndpoint": "=settings.skill['echoSkill'].endpointUrl",
+            "skillAppId": "=settings.skill['echoSkill'].msAppId",
+            "activity": "${BeginSkill_Activity_dQqzMa()}"
+          },
+          {
             "$kind": "Microsoft.SendActivity",
             "$designer": {
               "id": "SvlUXi"
             },
-            "activity": "Echo: ${turn.activity.text}"
+            "activity": "Echo: ${turn.activity.text}",
+            "disabled": true
           },
           {
             "$kind": "Microsoft.EndTurn",
