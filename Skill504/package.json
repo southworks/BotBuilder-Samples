@@ -7,8 +7,8 @@
   "dependencies": {
     "agentkeepalive": "^4.5.0",
     "cross-env": "latest",
-    "botbuilder-ai-luis": "4.17.0-preview",
-    "botbuilder-ai-qna": "4.17.0-preview",
-    "botbuilder-dialogs-adaptive-runtime-integration-express": "4.17.0-preview"
+    "botbuilder-ai-luis": "4.22.0-preview",
+    "botbuilder-ai-qna": "4.22.0-preview",
+    "botbuilder-dialogs-adaptive-runtime-integration-express": "4.22.0-preview"
   }
 }
