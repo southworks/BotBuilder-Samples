@@ -1,0 +1,155 @@
+{
+    "$schema": "https://raw.githubusercontent.com/microsoft/botframework-sdk/master/schemas/component/component.schema",
+    "$role": "implements(Microsoft.IDialog)",
+    "title": "Omni-Http Request",
+    "description": "This will Configuration Loader Package for BOT Composer Project",
+    "type": "object",
+    "properties": {
+        "disabled": {
+            "$ref": "schema:#/definitions/booleanExpression",
+            "title": "Disabled",
+            "description": "Optional condition which if true will disable this action.",
+            "examples": [
+                "user.age > 3"
+            ]
+        },
+        "tokenurl": {
+            "$ref": "schema:#/definitions/stringExpression",
+            "title": "Token Url",
+            "description": "Url for getting access Token"
+        },
+        "clientid": {
+            "$ref": "schema:#/definitions/stringExpression",
+            "title": "Client Id",
+            "description": "Client Id for getting access Token"
+        },
+        "clientsecret": {
+            "$ref": "schema:#/definitions/stringExpression",
+            "title": "Client Secret",
+            "description": "Client Secret for getting access Token"
+        },
+        "tokencontentType": {
+            "$ref": "schema:#/definitions/stringExpression",
+            "title": "Access Token Request content Type",
+            "description": "Content media type for the Access Token Request.",
+            "examples": [
+                "application/json",
+                "text/plain"
+            ]
+        },
+        "tokenTimeout": {
+            "$ref": "schema:#/definitions/numberExpression",
+            "title": "Access Token Timeout",
+            "description": "Access Time out in milliseconds.",
+            "examples": [
+                1000
+            ]
+        },
+        "authorizationHeader": {
+            "$ref": "schema:#/definitions/stringExpression",
+            "title": "Authorization Header",
+            "description": "Authorization Header for the Request.",
+            "examples": [
+                "EndpointKey asdfghjkl123456789qwertyuiop"
+            ]
+        },
+        "connectionString": {
+          "$ref": "schema:#/definitions/stringExpression",
+          "title": "Connection String",
+          "description": "Azure Blob Storage Connection String"
+      },
+      "containerName": {
+          "$ref": "schema:#/definitions/stringExpression",
+          "title": "Container Name",
+          "description": "Azure Blob Storage Container Name"
+      },
+        "retryCount": {
+          "$ref": "schema:#/definitions/integerExpression",
+          "title": "Retry Count",
+          "description": "Retry attempts (default: 0)"
+      },
+       "retryInterval": {
+          "$ref": "schema:#/definitions/numberExpression",
+          "title": "Retry Interval",
+          "description": "Time delay Interval between Retry attempts in milliseconds."
+      },
+        "url": {
+            "$ref": "schema:#/definitions/stringExpression",
+            "title": "Url",
+            "description": "URL to call."
+        },
+        "method": {
+            "type": "string",
+            "title": "HTTP method to use.",
+            "description": "Source to be use get configuration data.",
+            "enum": [
+                "GET",
+                "POST"
+            ]
+        },
+        "contentType": {
+            "$ref": "schema:#/definitions/stringExpression",
+            "title": "Content type",
+            "description": "Content media type for the body.",
+            "examples": [
+                "application/json",
+                "text/plain"
+            ]
+        },
+        "timeout": {
+            "$ref": "schema:#/definitions/numberExpression",
+            "title": "Time out",
+            "description": "Time out for HTTP call in milliseconds.",
+            "examples": [
+                2000
+            ]
+        },
+        "body": {
+            "$ref": "schema:#/definitions/valueExpression",
+            "title": "Body",
+            "description": "Body to include in the HTTP call."
+        },
+         "verbiageToggleVal": {
+          "$ref": "schema:#/definitions/booleanExpression",
+          "title": "Verbiage Toggle",
+          "description": "indicates whether need to prompt message during the Http call in progress",
+          "default": false,
+          "examples": [
+            false
+          ]
+        },
+        "promptTime": {
+            "$ref": "schema:#/definitions/numberExpression",
+            "title": "Prompt Time",
+            "description": "Time in which we should prompt message in milliseconds.",
+            "examples": [
+                2000
+            ]
+        },
+        "firstPrompt": {
+            "$ref": "schema:#/definitions/valueExpression",
+            "title": "First Prompt",
+            "description": "First Prompt message to play while we get data."            
+        },
+        "fstpmtteleval": {
+            "$ref": "schema:#/definitions/valueExpression",
+            "title": "First Prompt Telemetry Values",
+            "description": "Telemetry values needs to be added to app Insights for First Prompt."
+        },
+        "repeatPrompt": {
+            "$ref": "schema:#/definitions/valueExpression",
+            "title": "Repeat Prompt",
+            "description": "Repeat Prompt message to play while we get data."
+        },
+        "rptpmtteleval": {
+            "$ref": "schema:#/definitions/valueExpression",
+            "title": "Repeat Prompt Telemetry Values",
+            "description": "Telemetry values needs to be added to app Insights for Repeat Prompt."
+        },
+        "resultProperty": {
+            "$ref": "schema:#/definitions/stringExpression",
+            "title": "Result",
+            "description": "Value from callers memory to store the result"
+        }
+    }
+}

@@ -1,0 +1,38 @@
+{
+    "$schema": "https://raw.githubusercontent.com/microsoft/botframework-sdk/master/schemas/component/component.schema",
+    "$role": "implements(Microsoft.IDialog)",
+    "title": "Omni-Object Cache",
+    "description": "This will Caching Object to Azure Storage Package for BOT Composer Project",
+    "type": "object",
+    "properties": {       
+        "disabled": {
+            "$ref": "schema:#/definitions/booleanExpression",
+            "title": "Disabled",
+            "description": "Optional condition which if true will disable this action."
+        },
+        "action": {
+            "type": "string",
+            "title": "Action",
+            "description": "Action to be perform Get or Set.",
+            "enum": [
+                "GET",
+                "SET"
+            ]
+        },
+        "cacheObjectKey": {
+            "$ref": "schema:#/definitions/stringExpression",
+            "title": "Cache Object Key",
+            "description": "Cache Object Key Name."
+        },
+        "cacheObject": {
+            "$ref": "schema:#/definitions/valueExpression",
+            "title": "Cache Object",
+            "description": "Cache Object Key Value."
+        },
+        "resultProperty": {
+            "$ref": "schema:#/definitions/stringExpression",
+            "title": "Result",
+            "description": "Value from callers memory to store the result"
+        }
+    }
+}
