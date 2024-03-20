@@ -1,0 +1,505 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "2XoXsc",
+    "name": "CallerIntent",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "58NBES"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "XzjBED"
+          },
+          "condition": "=conversation.tfnConfig.Root_uhcMember_CallerIntent_Toggle == 'ON'",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "mFWlr0"
+              },
+              "property": "conversation.CallerIntentCounter",
+              "value": "=add(conversation.CallerIntentCounter,1)"
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "wz5acQ"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "memberRoot_CallerIntent_SetInputs",
+                "pegType": "General",
+                "request": "Skill Event",
+                "response": "=MainMenu.BeginSkill_Activity_mainMenu()",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MemberRootBot_CallerIntent_SetInputs_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.BeginSkill",
+              "$designer": {
+                "id": "qfigsj"
+              },
+              "activityProcessed": true,
+              "botId": "=settings.MicrosoftAppId",
+              "skillHostEndpoint": "=settings.skillHostEndpoint",
+              "connectionName": "=settings.connectionName",
+              "allowInterruptions": false,
+              "skillEndpoint": "=settings.skill['caipOmniVuiMemberintentSbCmpBot'].endpointUrl",
+              "skillAppId": "=settings.skill['caipOmniVuiMemberintentSbCmpBot'].msAppId",
+              "activity": "${BeginSkill_Activity_mainMenu()}"
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "10mr2f"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "memberRoot_CallerIntent_SetOutputs",
+                "pegType": "General",
+                "request": "Skill Event",
+                "response": "=turn.activity.value",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MemberRootBot_CallerIntent_SetOutputs_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "gPxi2Q"
+              },
+              "activity": "${SendActivity_ConfigAfterSkill()}"
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "FYpKdq"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.iCallerIntent",
+                  "value": "=turn.activity.value.parameters.callerIntent"
+                },
+                {
+                  "property": "conversation.iCallerIntentEntity",
+                  "value": "=turn.activity.value.parameters.callerIntentEntity"
+                },
+                {
+                  "property": "conversation.ciTransferReasonCode",
+                  "value": "=turn.activity.value.transferReasonCode"
+                },
+                {
+                  "property": "conversation.IntentRequiresAuthentication",
+                  "value": "=turn.activity.value.parameters.requiresAuthentication"
+                },
+                {
+                  "property": "conversation.ciEvent",
+                  "value": "=turn.activity.value.parameters.setEvent"
+                },
+                {
+                  "property": "conversation.callerLanguage",
+                  "value": "=if(turn.activity.value.parameters.transferType == 'Spanish', 'Spanish', 'English')"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "zdY0Xo"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.callerType",
+                  "value": "=if(turn.activity.value.parameters.transferType == 'Spanish', 'SP', if(equals(length(trim(turn.activity.value.parameters.ciCallerType)),0),conversation.callerType,trim(turn.activity.value.parameters.ciCallerType)))"
+                },
+                {
+                  "property": "conversation.questionType",
+                  "value": "=turn.activity.value.parameters.ciQuestionType"
+                },
+                {
+                  "value": "=turn.activity.value.parameters.ciProductType",
+                  "property": "conversation.productType"
+                },
+                {
+                  "property": "conversation.subFunction",
+                  "value": "=turn.activity.value.parameters.ciSubFunction"
+                },
+                {
+                  "property": "conversation.subFunctionDetail",
+                  "value": "=turn.activity.value.parameters.ciSubFunctionDetail"
+                },
+                {
+                  "property": "conversation.product",
+                  "value": "=turn.activity.value.parameters.ciProduct"
+                },
+                {
+                  "property": "conversation.callerIntentUtterance",
+                  "value": "=turn.activity.value.parameters.ciUtterance"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "Fv8Zke"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.skillKvps",
+                  "value": "=json(turn.activity.value.parameters.KVPs)"
+                },
+                {
+                  "property": "conversation.ENT_IVRAppTransferReason",
+                  "value": "=dialog.skillKvps.ENT_IVRAppTransferReason"
+                },
+                {
+                  "property": "conversation.ENT_BotAction",
+                  "value": "=dialog.skillKvps.ENT_BotAction"
+                },
+                {
+                  "value": "=dialog.skillKvps.silentTransfer",
+                  "property": "conversation.silentTransfer"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "zbBBuy"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.transferReason",
+                  "value": "=turn.activity.value.parameters.transferReason"
+                },
+                {
+                  "property": "conversation.transferPegVal",
+                  "value": "=turn.activity.value.parameters.transferPegVal"
+                },
+                {
+                  "property": "turn.activity.value",
+                  "value": "=addProperty(turn.activity.value, 'backToRootBotDuration', dateTimeDiff(formatDateTime(utcNow()), turn.activity.value.parameters.backToRootStartDate))"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "F39Kt3"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.skillError",
+                  "value": "=turn.activity.value.parameters.skillError"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "RngBib"
+              },
+              "condition": "=dialog.skillError == 'true'",
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "H8GvM7"
+                  },
+                  "condition": "=or(conversation.callerType== 'MM', conversation.callerType== 'NM')",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "RQtqUf"
+                      },
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.IfCondition",
+                          "$designer": {
+                            "id": "lSsXBu"
+                          },
+                          "condition": "=equals(conversation.authFlag,true)",
+                          "elseActions": [
+                            {
+                              "$kind": "Microsoft.SetProperty",
+                              "$designer": {
+                                "id": "2rxRGz"
+                              },
+                              "property": "conversation.currentTrigger",
+                              "value": "memberAuth"
+                            },
+                            {
+                              "$kind": "Microsoft.BeginDialog",
+                              "$designer": {
+                                "id": "1VqQHK"
+                              },
+                              "activityProcessed": true,
+                              "dialog": "TelemetryDialog",
+                              "options": {
+                                "peg": "memberRoot_CallerIntent_MemberAuthTrigger",
+                                "pegType": "General",
+                                "request": "Current Trigger",
+                                "response": "=conversation.currentTrigger",
+                                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                                "eventName": "MemberRootBot_CallerIntent_MemberAuthTrigger_Peg"
+                              }
+                            }
+                          ],
+                          "actions": [
+                            {
+                              "$kind": "Microsoft.SetProperty",
+                              "$designer": {
+                                "id": "yLqv6S"
+                              },
+                              "property": "conversation.currentTrigger",
+                              "value": "memberAuth"
+                            },
+                            {
+                              "$kind": "Microsoft.BeginDialog",
+                              "$designer": {
+                                "id": "O9VUJF"
+                              },
+                              "activityProcessed": true,
+                              "dialog": "TelemetryDialog",
+                              "options": {
+                                "peg": "memberRoot_CallerIntent_SelfServiceAgainTrigger",
+                                "pegType": "General",
+                                "request": "Current Trigger",
+                                "response": "=conversation.currentTrigger",
+                                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                                "eventName": "MemberRootBot_CallerIntent_SelfServiceAgainTrigger_Peg"
+                              }
+                            }
+                          ]
+                        }
+                      ],
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.IfCondition",
+                          "$designer": {
+                            "id": "JizV92"
+                          },
+                          "condition": "=equals(conversation.iCallerIntent,'MultiLang')",
+                          "elseActions": [
+                            {
+                              "$kind": "Microsoft.SetProperty",
+                              "$designer": {
+                                "id": "BkIafs"
+                              },
+                              "property": "conversation.ENT_BotAction",
+                              "value": "ROUTE2AGENT"
+                            }
+                          ],
+                          "actions": [
+                            {
+                              "$kind": "Microsoft.SetProperty",
+                              "$designer": {
+                                "id": "tEdTRI"
+                              },
+                              "property": "conversation.ENT_BotAction",
+                              "value": "ROUTE2IVR"
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "N4ZaLz"
+                          },
+                          "property": "conversation.currentTrigger",
+                          "value": "memberAuth"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "Vluag6"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "memberRoot_CallerIntent_TransferTrigger",
+                            "pegType": "General",
+                            "request": "Current Trigger",
+                            "response": "=conversation.currentTrigger",
+                            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "MemberRootBot_CallerIntent_TransferTrigger_Peg"
+                          }
+                        }
+                      ],
+                      "condition": "=and(not(equals(conversation.ciEvent,'defaultTransfer')),not(conversation.CallerIntentCounter>int(conversation.tfnConfig.Root_uhcMember_CallerIntent_MaxIntents)))"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "jzwu0V"
+                      },
+                      "condition": "=conversation.callerType== 'PV'",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "KytCBJ"
+                          },
+                          "assignments": [
+                            {
+                              "property": "conversation.ENT_BotAction",
+                              "value": "ROUTE2IVR"
+                            },
+                            {
+                              "property": "conversation.silentTransfer",
+                              "value": true
+                            },
+                            {
+                              "property": "conversation.ENT_ContactConstituentType",
+                              "value": "Provider"
+                            }
+                          ]
+                        }
+                      ],
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "c7I8Md"
+                          },
+                          "assignments": [
+                            {
+                              "property": "conversation.ENT_BotAction",
+                              "value": "ROUTE2IVR"
+                            },
+                            {
+                              "property": "conversation.silentTransfer",
+                              "value": true
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "6irF4u"
+                      },
+                      "property": "conversation.currentTrigger",
+                      "value": "memberAuth"
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "7SygoH"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "memberRoot_CallerIntent_TransferTrigger",
+                        "pegType": "General",
+                        "request": "Current Trigger",
+                        "response": "=conversation.currentTrigger",
+                        "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "MemberRootBot_CallerIntent_TransferTrigger_Peg"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "IvUZMy"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "SendKVPsOut"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "k6puFh"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "ErrorTransfer"
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "IESCbx"
+                  }
+                }
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "xnIFrH"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "memberRoot_CallerIntent_OFFToggle",
+                "pegType": "General",
+                "request": "=conversation.tfnConfig.Root_uhcMember_CallerIntent_Toggle",
+                "response": "OFF",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MemberRootBot_CallerIntent_OFFToggle_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "tqB94l"
+              },
+              "property": "conversation.currentTrigger",
+              "value": "memberAuth"
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "ugCqop"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "memberRoot_CallerIntent_MemberAuthTrigger",
+                "pegType": "General",
+                "request": "Current Trigger",
+                "response": "=conversation.currentTrigger",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MemberRootBot_CallerIntent_MemberAuthTrigger_Peg"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "CallerIntent.lg",
+  "recognizer": "CallerIntent.lu.qna",
+  "id": "callerIntent"
+}

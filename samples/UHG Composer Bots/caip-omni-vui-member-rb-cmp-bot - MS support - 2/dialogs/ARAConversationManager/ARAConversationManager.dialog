@@ -1,0 +1,153 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "sJ5Za3",
+    "name": "ARAConversationManager",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "qglfxa"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "fmiksG",
+            "comment": ""
+          },
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "k2zg5w"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "memberRoot_ARACM_OFFToggle",
+                "pegType": "General",
+                "request": "",
+                "response": "",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MemberRootBot_ARACM_OFFToggle_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "d8vvcU"
+              },
+              "property": "conversation.currentTrigger",
+              "value": "language"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "ML9UyH"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.aniCMRequest",
+                  "value": {
+                    "_Request": "script:CM_ANI",
+                    "_ENT_CallUUID": "${conversation.KVPs.ENT_CallUUID}",
+                    "_ENT_FromAddress": "${conversation.ani}",
+                    "_ENT_ToAddress": "${conversation.KVPs.ENT_ToAddress}",
+                    "_Cisco-Gucid": "${conversation.storageKey}",
+                    "_AppName": "CM_ANI"
+                  }
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "nYyfep"
+              },
+              "activityProcessed": true,
+              "dialog": "ConversationManagerConnectionSkillBot",
+              "options": {
+                "cmRequest": "=conversation.aniCMRequest"
+              },
+              "resultProperty": "dialog.CMResponse"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "InLuVl"
+              },
+              "condition": "=equals(toLower(conversation.setEvent),\"transfer\")",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "xcp7Je",
+                    "comment": "TransferReason is for Callog peg  & ENT_IVRAppTransferReason is for KVP out"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.silentTransfer",
+                      "value": "=if(equals(dialog.CMResponse.silentTransfer ,\"true\"),true,false)"
+                    },
+                    {
+                      "property": "conversation.ENT_IVRAppTransferReason",
+                      "value": "=dialog.CMResponse.transferReasonCode"
+                    },
+                    {
+                      "property": "conversation.transferReason",
+                      "value": "=getProperty(dialog.CMResponse.parameters,\"transferReason\") ? concat(conversation.currentTrigger,\"_\",dialog.CMResponse.parameters.transferReason) : conversation.transferReason"
+                    },
+                    {
+                      "property": "conversation.transferPegVal",
+                      "value": "=getProperty(dialog.CMResponse.parameters,\"transferPeg\") ? dialog.CMResponse.parameters.transferPeg: conversation.transferPeg"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "63k7Ou"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.currentTrigger",
+                      "value": "='defaultTransfer'"
+                    },
+                    {
+                      "property": "conversation.ENT_BotAction",
+                      "value": "ROUTE2AGENT"
+                    }
+                  ]
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "oOy0NP"
+                  },
+                  "property": "conversation.currentTrigger",
+                  "value": "language"
+                }
+              ]
+            }
+          ],
+          "condition": "=equals(conversation.tfnConfig.Root_araConversationManager_Toggle,\"OFF\")"
+        }
+      ]
+    }
+  ],
+  "generator": "ARAConversationManager.lg",
+  "recognizer": "ARAConversationManager.lu.qna",
+  "id": "ARAConversationManager"
+}

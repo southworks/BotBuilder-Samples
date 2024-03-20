@@ -1,0 +1,35 @@
+> !# @Namespace = Transfer
+> !# @Exports = AskPolicyLOBMenu, getEntity
+[import](common.lg)
+
+# getEntity(entities)
+- IF : ${and(isObject(getProperty(entities, 'planTypeML')[0]), not(empty(getProperty(entities, 'planTypeML')[0])))}
+	- ${split(split(string(getProperty(entities, 'planTypeML')[0]), '":')[0], '"')[1]}
+- ELSE:
+   - ${'none'}
+
+
+# AskPolicyLOBMenu()
+[Activity
+    Text = ${AskPolicyLOBMenu_text()}
+    Speak = ${AskPolicyLOBMenu_text()}
+    InputHint = expectingInput
+    channelData = ${
+        {
+            activityParams: {
+                sttDisablePunctuation: true, 
+                continuousASR: true, 
+                continuousASRTimeoutInMS: 1000, 
+                continuousASRDigits: "#", 
+                sendDTMF: true, 
+                bargeIn: true, 
+                bargeInOnDTMF: true, 
+                dtmfCollect: true, 
+                dtmfCollectSubmitDigit: "#", 
+                dtmfCollectMaxDigits: 1,
+                userNoInputTimeoutMS: 7000,
+                userNoInputRetries:0
+            }
+        }
+    }
+]

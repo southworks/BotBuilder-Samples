@@ -1,0 +1,81 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "SdCzrg",
+    "name": "FinancialAccountsGeneral",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "xSCeDc"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "rUAAhL"
+          },
+          "assignments": [
+            {
+              "property": "conversation.flowState.flowPreviousPrompt",
+              "value": "='financialAccountsGeneral'"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "o57wpK"
+          },
+          "assignments": [
+            {
+              "property": "conversation.flowState.noMatchCount",
+              "value": 0
+            },
+            {
+              "property": "conversation.flowState.noUserInputCount",
+              "value": 0
+            },
+            {
+              "property": "conversation.flowState.failedCount",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "fUzJEb"
+          },
+          "activity": "${UHCMember_FinancialAccounth_General_Msg()}"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "b7bBSQ"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "=MainDialog.PegVal('')",
+            "pegType": "InputAsk",
+            "request": "=FinancialAccountGeneral.UHCMember_FinancialAccounth_General_Msg()",
+            "response": "",
+            "startDTM": "=conversation.startDate",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt,'Prmt')"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "FinancialAccountsGeneral.lg",
+  "recognizer": "FinancialAccountsGeneral.lu.qna",
+  "id": "FinancialAccountsGeneral"
+}

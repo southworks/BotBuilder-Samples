@@ -1,0 +1,157 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "P1Y1Mt",
+    "name": "GlobalBehavior",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "sA9IdF"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "OsSzaF"
+          },
+          "assignments": [
+            {
+              "property": "conversation.transferReason",
+              "value": "=empty(conversation.transferReason) ? dialog.behavior : conversation.transferReason"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "2fbigH"
+          },
+          "condition": "dialog.behavior",
+          "cases": [
+            {
+              "value": "SystemError",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "feuJ2V"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.transferMessage",
+                      "value": "I'm sorry, but something isn't working right on my end. Let's connect you with someone who can help."
+                    },
+                    {
+                      "property": "dialog.pegVal",
+                      "value": "MemberRoot_GlobalSysErrorXferPrmt"
+                    },
+                    {
+                      "property": "conversation.ENT_IVRAppTransferReason",
+                      "value": "4"
+                    },
+                    {
+                      "property": "conversation.silentTransfer",
+                      "value": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "ErrorEvent",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "fqEQon"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.transferMessage",
+                      "value": "NA"
+                    },
+                    {
+                      "property": "dialog.pegVal",
+                      "value": "memberRoot_GlobalErrorEventXferPrmt"
+                    },
+                    {
+                      "property": "conversation.ENT_IVRAppTransferReason",
+                      "value": "4"
+                    },
+                    {
+                      "property": "conversation.silentTransfer",
+                      "value": false
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "am7GQr"
+          },
+          "condition": "=dialog.transferMessage != 'NA'",
+          "actions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "4ICjv9"
+              },
+              "activity": "${TransferMessage()}"
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "YgOZpG"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "=dialog.pegVal",
+                "pegType": " General",
+                "request": "=GlobalBehavior.TransferMessage()",
+                "response": "",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "=concat(\"MemberRootBot_\", conversation.transferReason, \"_Peg\")"
+              }
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "gUa0vF"
+          },
+          "assignments": [
+            {
+              "property": "conversation.ENT_BotAction",
+              "value": "ROUTE2AGENT"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "5jtRlr"
+          },
+          "activityProcessed": true,
+          "dialog": "TransferCalltoAgent"
+        }
+      ]
+    }
+  ],
+  "generator": "GlobalBehavior.lg",
+  "recognizer": "GlobalBehavior.lu.qna",
+  "id": "GlobalBehavior"
+}

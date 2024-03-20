@@ -1,0 +1,9 @@
+[import](common.lg)
+
+# SendActivity_nWEOAu()
+[Activity
+    Text = ${SendActivity_nWEOAu_text()}
+]
+
+# SendActivity_nWEOAu_text()
+- customMetricsArr: ${string(conversation.customMetricsArr)}

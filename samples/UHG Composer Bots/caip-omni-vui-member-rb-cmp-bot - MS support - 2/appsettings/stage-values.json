@@ -1,0 +1,17 @@
+[
+    {
+        "name": "DT_LOGLEVELCON",
+        "slotSetting": false,
+        "value": "info"
+    },
+    {
+        "name": "DT_LOGSTREAM",
+        "slotSetting": false,
+        "value": "stdout"
+    },
+    {
+        "name": "DT_TENANT",
+        "slotSetting": false,
+        "value": "6dd37170-3609-43aa-9955-2fa7dc5927ad"
+    }
+]

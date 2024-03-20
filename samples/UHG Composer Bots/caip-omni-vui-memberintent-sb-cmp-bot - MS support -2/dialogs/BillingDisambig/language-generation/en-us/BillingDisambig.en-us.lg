@@ -1,0 +1,12 @@
+> !# @Namespace = BillingDisambig
+> !# @Exports = UHCMember_BillingDisambig_Msg
+
+[import](common.lg)
+
+# UHCMember_BillingDisambig_Msg()
+[Activity
+    Text = ${UHCMember_BillingDisambig_text()}
+    Speak = ${UHCMember_BillingDisambig_text()}
+    InputHint = expectingInput
+    ChannelData = ${ExpectingPrompts_ActivityParams(1500)}
+]

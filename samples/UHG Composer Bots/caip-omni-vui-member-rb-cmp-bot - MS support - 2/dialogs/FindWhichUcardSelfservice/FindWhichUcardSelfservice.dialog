@@ -1,0 +1,181 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "mRQumV",
+    "name": "FindUcardSelfservice",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.uCardSelfService",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "2h62TQ"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "nlvpfO"
+          },
+          "condition": "dialog.entityAction",
+          "cases": [
+            {
+              "value": "uCardActivateChild",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "EQZtpu"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "memberRoot_SelfService_BOT_SS_UcardActivate",
+                    "pegType": "General",
+                    "request": "{\"Intent\":\"${conversation.iCallerIntent}\", \"Entity\":\"${conversation.iCallerIntentEntity}\"}",
+                    "response": "Intent and Entity present in BOT Self-Service List",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "MemberRootBot_SelfService_BOT_SS_UcardActivate_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "F88UdL"
+                  },
+                  "property": "conversation.currentTrigger",
+                  "value": "uCardActivate"
+                }
+              ]
+            },
+            {
+              "value": "uCardBalanceChild",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "lAjwds"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "memberRoot_SelfService_BOT_SS_UcardBalance",
+                    "pegType": "General",
+                    "request": "{\"Intent\":\"${conversation.iCallerIntent}\", \"Entity\":\"${conversation.iCallerIntentEntity}\"}",
+                    "response": "Intent and Entity present in BOT Self-Service List",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "MemberRootBot_SelfService_BOT_SS_UcardBalance_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "RR7Vb3"
+                  },
+                  "property": "conversation.currentTrigger",
+                  "value": "uCardBalance"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "HKBHNT"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "setRoute2Agent",
+                  "options": {
+                    "transferReason": "memberRoot_No_BotSelfService_Available_For_UcardBalance"
+                  },
+                  "disabled": true
+                }
+              ]
+            },
+            {
+              "value": "uCardOrderStatusChild",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "iiYH8M"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "memberRoot_SelfService_BOT_SS_UcardOrderStatus",
+                    "pegType": "General",
+                    "request": "{\"Intent\":\"${conversation.iCallerIntent}\", \"Entity\":\"${conversation.iCallerIntentEntity}\"}",
+                    "response": "Intent and Entity present in BOT Self-Service List",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "MemberRootBot_SelfService_BOT_SS_UcardOrderStatus_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "yM8Cef"
+                  },
+                  "property": "conversation.currentTrigger",
+                  "value": "uCardOrderStatus"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "DxzowB"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "setRoute2Agent",
+                  "options": {
+                    "transferReason": "memberRoot_No_BotSelfService_Available_For_UcardOrderStatus"
+                  },
+                  "disabled": true
+                }
+              ]
+            },
+            {
+              "value": "uCardReplaceCardChild",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "VFUr3x"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "memberRoot_SelfService_BOT_SS_UcardReplace",
+                    "pegType": "General",
+                    "request": "{\"Intent\":\"${conversation.iCallerIntent}\", \"Entity\":\"${conversation.iCallerIntentEntity}\"}",
+                    "response": "Intent and Entity present in BOT Self-Service List",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "MemberRootBot_SelfService_BOT_SS_UcardReplace_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "mKhsIR"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "setRoute2Agent",
+                  "options": {
+                    "transferReason": "memberRoot_No_BotSelfService_Available_For_UcardReplace"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "FindWhichUcardSelfservice.lg",
+  "recognizer": "FindWhichUcardSelfservice.lu.qna",
+  "id": "FindWhichUcardSelfservice"
+}

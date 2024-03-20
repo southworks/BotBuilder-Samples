@@ -1,0 +1,155 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "86qeeP",
+    "name": "GreetingDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "7aKnAk"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "YZunke"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "memberRoot_GreetingStart",
+            "pegType": "General",
+            "request": "Greeting Module Starts ",
+            "response": "",
+            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "MemberRootBot_GreetingStart_Peg"
+          }
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "PicC9H"
+          },
+          "condition": "=equals(conversation.tfnConfig.Root_Greeting_Toggle ,\"OFF\")",
+          "actions": [],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "ry7a2q"
+              },
+              "condition": "=equals(conversation.tfnConfig.Root_Greeting_WAV ,\"true\")",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "QzFMt2",
+                    "name": "UHCMember_DynamicGreeting"
+                  },
+                  "activity": "${DynamicGreetingMsg()}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "s3clLh"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "memberRoot_Greeting_DynamicPrmt",
+                    "pegType": "General",
+                    "request": "=Greeting.DynamicGreetingMsg()",
+                    "response": "",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "MemberRootBot_Greeting_DynamicPrmt_Peg"
+                  }
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "J2rYPx",
+                    "name": "UHCMember_DefaultGreeting"
+                  },
+                  "activity": "${DefaultGreetingMsg()}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "A0YdRt"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "memberRoot_Greeting_DefaultPrmt",
+                    "pegType": "General",
+                    "request": "=Greeting.DefaultGreetingMsg()",
+                    "response": "",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "MemberRootBot_Greeting_DefaultPrmt_Peg"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "hIwwYz"
+          },
+          "condition": "=equals(conversation.tfnConfig.Root_callRecordingPrompt_Toggle ,\"OFF\")",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "Mq2hDO",
+                "name": "UHCMember_spkRecordingPrompt"
+              },
+              "activity": "${spkRecordingMsg()}"
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "cAZ3ni"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "memberRoot_Greeting_RecordingPrmt",
+                "pegType": "General",
+                "request": "=Greeting.spkRecordingMsg()",
+                "response": "",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MemberRootBot_Greeting_RecordingPrmt_Peg"
+              }
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "VKOy1P"
+          },
+          "property": "conversation.currentTrigger",
+          "value": "language"
+        }
+      ]
+    }
+  ],
+  "generator": "GreetingDialog.lg",
+  "recognizer": "GreetingDialog.lu.qna",
+  "id": "GreetingDialog"
+}

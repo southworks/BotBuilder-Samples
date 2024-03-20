@@ -1,0 +1,8 @@
+{
+  "$kind": "Microsoft.LuisRecognizer",
+  "id": "LUIS_Flow-Start",
+  "applicationId": "=settings.luis.Flow_Start_en_us_lu.appId",
+  "version": "=settings.luis.Flow_Start_en_us_lu.version",
+  "endpoint": "=settings.luis.endpoint",
+  "endpointKey": "=settings.luis.endpointKey"
+}

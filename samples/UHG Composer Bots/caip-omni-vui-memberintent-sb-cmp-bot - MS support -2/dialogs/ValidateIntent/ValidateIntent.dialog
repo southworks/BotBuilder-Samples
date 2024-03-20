@@ -1,0 +1,244 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "dcFMqz",
+    "name": "ValidateIntent",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "qYrjQt"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "R3A0aX"
+          },
+          "condition": "=and(conversation.callerIntentconfig.CT_NLTagCallerType !='PV', conversation.flowState.flowPreviousPrompt != 'confirm_intent_options')",
+          "elseActions": [],
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "s0H7nB"
+              },
+              "activityProcessed": true,
+              "dialog": "LoadEntityConfig",
+              "options": {
+                "luisEntity": "=MainDialog.GetEntityFromAnyIntent(conversation.flowState.lastIntent, conversation.turnRecognized)",
+                "luisIntent": "=conversation.flowState.lastIntent",
+                "context": "=''"
+              }
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "LFlx2g"
+              },
+              "condition": "=and(count(conversation.results) == 0, conversation.flowState.failedCount < 3)",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "1jaRKH"
+                  },
+                  "property": "conversation.flowState.flowNextPrompt",
+                  "value": "=conversation.flowState.flowPreviousPrompt"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "5FaMp5"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "NoMatchInput"
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "OydVXz"
+                  }
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "kTdEqT"
+                  },
+                  "condition": "=and(equals(conversation.lastNMorNI, 'NM3'), equals (conversation.flowState.lastIntent, 'accountUpdate'))",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "q5712w"
+                      },
+                      "property": "conversation.callerIntentconfig.extraMessage",
+                      "value": "callerType"
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "ZeZCVS"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "ExtraMessagingDialog"
+                    },
+                    {
+                      "$kind": "Microsoft.EndDialog",
+                      "$designer": {
+                        "id": "RpnNMr"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "Vk3bPf"
+          },
+          "condition": "=not(contains(conversation.capturePromptsList, conversation.flowState.flowPreviousPrompt))",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "sdVVIl"
+              },
+              "condition": "=conversation.tfnConfig.CallerIntent_NLUOverride_Toggle == 'ON'",
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "Th7Oqe"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "memberIntent_No_NLUOverrides",
+                    "pegType": "General",
+                    "request": "",
+                    "response": "",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "MemberIntent_No_NLUOverrides_Toggle"
+                  }
+                }
+              ],
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "Ap4UYb"
+                  },
+                  "condition": "=conversation.tfnConfig.CallerIntent_NLUOverride_List",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "siPGlr"
+                      },
+                      "value": "[{\"intent\": \"uCard\", \"entity\": \"uCardBalanceChild\", \"lob\": \"MAPS\", \"reqiresAuth\": \"Yes\"}, {\"intent\": \"uCard\", \"entity\": \"uCardBalanceChild\", \"lob\": \"CS\", \"reqiresAuth\": \"Yes\"}]",
+                      "property": "conversation.tfnConfig.CallerIntent_NLUOverride_List",
+                      "disabled": true
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "oUXRd6"
+                      },
+                      "property": "dialog.NLUOverride_object",
+                      "value": "=where(json(conversation.tfnConfig.CallerIntent_NLUOverride_List), el, and(equals(el.intent, conversation.intent), equals(el.entity, conversation.entity), contains(el.lob, conversation.appName)))"
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "Rgu33b"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.callerIntentconfig.QT_NLTagQuestionType",
+                          "value": "=if(dialog.NLUOverride_object[0].nlTagQuestionType, dialog.NLUOverride_object[0].nlTagQuestionType, conversation.callerIntentconfig.QT_NLTagQuestionType)"
+                        },
+                        {
+                          "property": "conversation.callerIntentconfig.PT_NLTagProductType",
+                          "value": "=if(dialog.NLUOverride_object[0].nlTagProductType, dialog.NLUOverride_object[0].nlTagProductType, conversation.callerIntentconfig.PT_NLTagProductType)"
+                        },
+                        {
+                          "property": "conversation.callerIntentconfig.CT_NLTagCallerType",
+                          "value": "=if(dialog.NLUOverride_object[0].nlTagCallerType, dialog.NLUOverride_object[0].nlTagCallerType, conversation.callerIntentconfig.CT_NLTagCallerType)"
+                        },
+                        {
+                          "property": "conversation.callerIntentconfig.NLTagSubFunction",
+                          "value": "=if(dialog.NLUOverride_object[0].nlTagSubFunction, dialog.NLUOverride_object[0].nlTagSubFunction, conversation.callerIntentconfig.NLTagSubFunction)"
+                        },
+                        {
+                          "property": "conversation.callerIntentconfig.NLTagSubFunctionDetail",
+                          "value": "=if(dialog.NLUOverride_object[0].nlTagSubFunctionDetail, dialog.NLUOverride_object[0].nlTagSubFunctionDetail, conversation.callerIntentconfig.NLTagSubFunctionDetail)"
+                        },
+                        {
+                          "property": "conversation.callerIntentconfig.NLTagProduct",
+                          "value": "=if(dialog.NLUOverride_object[0].nlTagProduct, dialog.NLUOverride_object[0].nlTagProduct, conversation.callerIntentconfig.NLTagProduct)"
+                        },
+                        {
+                          "property": "conversation.callerIntentconfig.reqiresAuth",
+                          "value": "=if(dialog.NLUOverride_object[0].reqiresAuth, dialog.NLUOverride_object[0].reqiresAuth, conversation.callerIntentconfig.reqiresAuth)"
+                        },
+                        {
+                          "property": "conversation.callerIntentconfig.extraMessage",
+                          "value": "=if(dialog.NLUOverride_object[0].extraMessage, dialog.NLUOverride_object[0].extraMessage, conversation.callerIntentconfig.extraMessage)"
+                        },
+                        {
+                          "property": "conversation.callerIntentconfig",
+                          "value": "=if(dialog.NLUOverride_object[0].transferWav, setProperty(conversation.callerIntentconfig, 'transferWav', dialog.NLUOverride_object[0].transferWav), conversation.callerIntentconfig)"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "YkZdhr"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "memberIntent_Set_NLUOverrides",
+                        "pegType": "General",
+                        "request": "={\"intent\":conversation.intent, \"entity\": conversation.entity, \"lob\": conversation.appName}",
+                        "response": "${string(conversation.callerIntentconfig)}",
+                        "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "MemberIntent_Set_NLUOverrides"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "A2zctA"
+          },
+          "activityProcessed": true,
+          "dialog": "ExtraMessagingDialog"
+        }
+      ]
+    }
+  ],
+  "generator": "ValidateIntent.lg",
+  "recognizer": "ValidateIntent.lu.qna",
+  "id": "ValidateIntent"
+}

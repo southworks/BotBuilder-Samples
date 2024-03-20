@@ -1,0 +1,49 @@
+> !# @Namespace=UCardOrderStatus
+> !# @Exports =UCardOrderStatusSkill_Activity_Params, SendActivity_ConfigAfterSkill
+[import](common.lg)
+
+# UCardOrderStatusSkill_Activity_Params()
+[Activity
+    Type = message
+    Name = triggerSkill
+    value = ${
+		{
+			appName: conversation.botName,
+			businessUnit:concat("Member",conversation.tfnLOB),
+			conversationId:conversation.conversationId,
+			callId: conversation.KVPs.ENT_CallUUID,
+			tfn: conversation.tfn,
+			callGUID: conversation.storageKey,			
+			channel: "voice",
+      mbi: if(conversation.member.memberInfo.medicareBeneficiaryId,conversation.member.memberInfo.medicareBeneficiaryId ,''),
+      memberInformation: {
+            firstName: if(conversation.member.memberInfo.name.firstName,conversation.member.memberInfo.name.firstName,''),
+            lastName: if(conversation.member.memberInfo.name.lastName,conversation.member.memberInfo.name.lastName,''),
+            memberId: if(conversation.member.coverageInfo[0].subscriberId,conversation.member.coverageInfo[0].subscriberId,''),
+            zipCode: if(getProperty(first(where(conversation.member.memberInfo.address, a, a["typeCode"]=="Primary Residence")), "first5PostalCode"), getProperty(first(where(conversation.member.memberInfo.address, a, a["typeCode"]=="Primary Residence")), "first5PostalCode"), ""),
+            dateOfBirth: if(conversation.member.memberInfo.dob,concat(substring(conversation.member.memberInfo.dob,0,4),'-',substring(conversation.member.memberInfo.dob,4,2),'-',substring(conversation.member.memberInfo.dob,6,2)),'')
+        }
+      }
+    }
+]
+
+
+# SendActivity_ConfigAfterSkill()
+[Activity
+    Type = event
+    Name = config
+    channelData = ${
+        {
+            activityParams:{
+                bargeIn: false,
+                bargeInOnDTMF: false,
+                enableSpeechInput: false
+            },
+            sessionParams:{
+                userNoInputTimeoutMS:settings.defaultUserNoInputInMS
+            }
+        }
+    }
+]
+
+

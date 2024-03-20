@@ -1,0 +1,12 @@
+> !# @Namespace=PharmacyGeneralDialog
+> !# @Exports = UHCMember_PharmacyGeneralMsg
+
+[import](common.lg)
+
+# UHCMember_PharmacyGeneralMsg()
+[Activity
+    Text = ${UHCMember_PharmacyGeneral_text()}
+    Speak = ${UHCMember_PharmacyGeneral_text()}
+    InputHint = expectingInput
+    ChannelData = ${ExpectingPrompts_ActivityParams(1500)}
+]

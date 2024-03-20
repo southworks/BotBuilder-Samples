@@ -1,0 +1,79 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "VrQvvU",
+    "name": "Error2Event",
+    "comment": "Called when the 2nd error is triggered"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "vmFzbC"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.TelemetryTrackEventAction",
+          "$designer": {
+            "id": "YcAQq6"
+          },
+          "eventName": "Error_Trace_Peg",
+          "properties": {
+            "Error_Trace": "=dialog.turnVal"
+          }
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "hVVbhX"
+          },
+          "assignments": [
+            {
+              "property": "dialog.telTransfer",
+              "value": "=concat(\"tel:\",conversation.defaultTransfer)"
+            },
+            {
+              "property": "dialog.transferReason",
+              "value": "memberRoot_ErrorOccurred"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "TVR1JX"
+          },
+          "activity": "${SendActivity_TransferEvent()}"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "S7N1RJ"
+          },
+          "activity": "${SendActivity_ConfigEvent()}"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "bbucP6"
+          },
+          "property": "conversation.transferEventRequest",
+          "value": "{\"BargeIn\":${ErrorTransfer.SendActivity_ConfigEvent()},\"TransferEvent\":${ErrorTransfer.SendActivity_TransferEvent()}}"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "Glqtru"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "ErrorTransfer.lg",
+  "recognizer": "ErrorTransfer.lu.qna",
+  "id": "ErrorTransfer"
+}

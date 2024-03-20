@@ -1,0 +1,128 @@
+> !# @Namespace = GlobalBehavior
+> !# @Exports = UHCMember_MaxNIStillThere_Msg, GlobalTimeoutFirstMsg, GlobalTimeoutRepeatMsg, GlobalSystemErrorMsg, GlobalRepeatXferMsg, TransferMessage, SpanishTransferMessage
+
+[import](common.lg)
+
+# GlobalTimeoutFirstMsg()
+[Activity
+    Text = ${GlobalTimeoutFirstTemplate()}
+    Speak = ${GlobalTimeoutFirstTemplate()}
+    InputHint = ignoringInput
+    ChannelData = ${
+        {
+            activityParams:{
+                sendDTMF: false,
+                bargeIn: false,
+                bargeInOnDTMF: false,
+                dtmfCollect: false,
+                dtmfCollectInterDigitTimeoutMS: 1000,
+                dtmfCollectSubmitDigit: "#",
+                dtmfCollectMaxDigits: 10,
+                enableSpeechInput: false
+            }
+        }
+    }
+]
+
+# GlobalTimeoutRepeatMsg()
+[Activity
+    Text = ${GlobalTimeoutRepeatTemplate()}
+    Speak = ${GlobalTimeoutRepeatTemplate()}
+    InputHint = ignoringInput
+    ChannelData = ${
+        {
+            activityParams:{
+                sendDTMF: false,
+                bargeIn: false,
+                bargeInOnDTMF: false,
+                dtmfCollect: false,
+                dtmfCollectInterDigitTimeoutMS: 2000,
+                dtmfCollectSubmitDigit: "#",
+                dtmfCollectMaxDigits: 10,
+                enableSpeechInput: false
+            }
+        }
+    }
+]
+
+# GlobalSystemErrorMsg()
+[Activity
+    Text = ${GlobalSystemErrorTemplate()}
+    Speak = ${GlobalSystemErrorTemplate()}
+    InputHint = ignoringInput
+    ChannelData = ${
+        {
+            activityParams:{
+                sendDTMF: false,
+                bargeIn: false,
+                bargeInOnDTMF: false,
+                dtmfCollect: false,
+                dtmfCollectInterDigitTimeoutMS: 2000,
+                dtmfCollectSubmitDigit: "#",
+                dtmfCollectMaxDigits: 10,
+                enableSpeechInput: false
+            }
+        }
+    }
+]
+
+# UHCMember_MaxNIStillThere_Msg()
+[Activity
+    Text = ${UHCMember_MaxNIStillThere_text()}
+    Speak = ${UHCMember_MaxNIStillThere_text()}
+    InputHint = expectingInput
+    ChannelData = ${
+        {
+            activityParams: { 
+                sttDisablePunctuation: bool(1), 
+                continuousASR: bool(1), 
+                continuousASRTimeoutInMS: 1500,
+                userNoInputTimeoutMS: settings.userNoInputTimeoutMS,
+                userNoInputRetries: 1,
+                continuousASRDigits: "#", 
+                sendDTMF: bool(1), 
+                bargeIn: bool(1), 
+                bargeInOnDTMF: bool(1), 
+                dtmfCollect: bool(1), 
+                dtmfCollectSubmitDigit: "#", 
+                dtmfCollectMaxDigits: 1
+            } 
+        }
+    }
+]
+
+# SpanishTransferMessage()
+[Activity
+    Text = ${dialog.transferMessage}
+    Speak = ${dialog.transferMessage}
+    InputHint = ignoringInput
+    channelData = ${
+        {
+            activityParams: {                
+                sendDTMF: false, 
+                bargeIn: false, 
+                bargeInOnDTMF: false,                
+                enableSpeechInput: false,
+                ttsProvider: settings.spanishTTSProvider,
+                voiceName: "es-US-AlonsoNeural"
+            }
+        }
+    }
+]
+
+# TransferMessage(transferMessage)
+[Activity
+    Text = ${transferMessage}
+    Speak = ${transferMessage}
+    InputHint = ignoringInput
+    channelData = ${
+        {
+            activityParams: {
+                sendDTMF: false, 
+                bargeIn: false,
+                bargeInOnDTMF: false,
+                enableSpeechInput: false
+            }
+        }
+    }
+]

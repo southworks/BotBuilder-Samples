@@ -1,0 +1,91 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "WQTKsi",
+    "name": "LoadValidIntentEntities",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "7pqcIZ"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "GgfUq1"
+          },
+          "property": "dialog.tableQuery",
+          "value": "=concat(\"RowKey eq '\",  conversation.flowState.flowPreviousPrompt, \"'\")"
+        },
+        {
+          "$kind": "Optum.GetAzureTableDataDialog",
+          "$designer": {
+            "id": "11Do7Y"
+          },
+          "accountName": "=settings.azureTableAccountName",
+          "key": "=settings.azureTableKey",
+          "resultProperty": "dialog.results",
+          "tableQuery": "=dialog.tableQuery",
+          "tableName": "=settings.validIntentsTableName"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "ZoWDBt"
+          },
+          "activity": "${SendActivity_ZoWDBt()}"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "qoch1H"
+          },
+          "assignments": [
+            {
+              "value": "=split(replace(trim(dialog.results.data[0].ValidIntentsEntities), '\\r\\n', ''), ',')",
+              "property": "conversation.validIntentsEntities"
+            },
+            {
+              "property": "conversation.entitiesToStartList",
+              "value": "=split(replace(trim(dialog.results.data[0].EntitiesToStartList), '\\r\\n', ''), ',')"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "iJIaxd"
+          },
+          "activity": "${SendActivity_iJIaxd()}"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "qNIXxw"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "CFG",
+            "pegType": "General",
+            "request": "=dialog.tableQuery",
+            "response": "${string(dialog.results.data)}",
+            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "MemberIntentSkill_LoadValidIntentEntities_Peg"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "LoadValidIntentEntities.lg",
+  "recognizer": "LoadValidIntentEntities.lu.qna",
+  "id": "LoadValidIntentEntities"
+}

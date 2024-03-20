@@ -1,0 +1,81 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "oXbcCO",
+    "name": "PharmacyGeneral",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "VU2MwE"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "0HjQpV"
+          },
+          "assignments": [
+            {
+              "property": "conversation.flowState.flowPreviousPrompt",
+              "value": "='pharmacyGeneral'"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "bQz4Qf"
+          },
+          "assignments": [
+            {
+              "property": "conversation.flowState.noMatchCount",
+              "value": 0
+            },
+            {
+              "property": "conversation.flowState.noUserInputCount",
+              "value": 0
+            },
+            {
+              "property": "conversation.flowState.failedCount",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "f1R5vk"
+          },
+          "activity": "${UHCMember_PharmacyGeneralMsg()}"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "hyF1ei"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "=MainDialog.PegVal('')",
+            "pegType": "InputAsk",
+            "request": "=PharmacyGeneralDialog.UHCMember_PharmacyGeneralMsg()",
+            "response": "",
+            "startDTM": "=conversation.startDate",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt,'Prmt')"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "PharmacyGeneral.lg",
+  "recognizer": "PharmacyGeneral.lu.qna",
+  "id": "PharmacyGeneral"
+}

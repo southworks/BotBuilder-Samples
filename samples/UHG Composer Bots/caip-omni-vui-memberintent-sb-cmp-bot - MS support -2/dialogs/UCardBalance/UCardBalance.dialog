@@ -1,0 +1,72 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "dridbg",
+    "name": "UCardBalance",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "yl2MQ8"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "M7qzMi"
+          },
+          "assignments": [
+            {
+              "property": "conversation.flowState.flowPreviousPrompt",
+              "value": "=if(contains(conversation.flowState.flowPreviousPrompt, 'solutranUpfront'), 'uCardBalanceUpfront', 'uCardBalance')"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "eEfcJ4"
+          },
+          "activity": "${UHCMember_uCardBalance_Msg()}"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "xwNJVn"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "=MainDialog.PegVal('')",
+            "pegType": "InputAsk",
+            "request": "=uCardBalance.UHCMember_uCardBalance_Msg()",
+            "response": "",
+            "startDTM": "=conversation.startDate",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt,'_Prmt')"
+          }
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "4kL8vj"
+          },
+          "activityProcessed": true,
+          "dialog": "Transfer",
+          "options": {
+            "behavior": "EndSkill"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "UCardBalance.lg",
+  "recognizer": "UCardBalance.lu.qna",
+  "id": "UCardBalance"
+}

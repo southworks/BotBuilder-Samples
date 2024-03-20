@@ -1,0 +1,195 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "oAOANL",
+    "name": "RapidMessageDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "sDolhp"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "MlNrXC"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "memberRoot_StartRapidMessage",
+            "pegType": "General",
+            "request": "=turn",
+            "response": "",
+            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "MemberRootBot_StartRapidMessage_Peg"
+          }
+        },
+        {
+          "$kind": "Optum.RapidMessageDialog",
+          "$designer": {
+            "id": "5WiGeF"
+          },
+          "env": "=settings.rmEnviroment",
+          "lineOfBusiness": "=dialog.LOB",
+          "resultProperty": "dialog.dmresponse",
+          "location": "=dialog.LOC",
+          "callId": "=conversation.KVPs.ENT_CallUUID"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "LPruCe"
+          },
+          "condition": "=dialog.dmresponse.status==\"success\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "mjqPIl"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.DMData",
+                  "value": "=json(dialog.dmresponse.data)"
+                },
+                {
+                  "property": "conversation.DMsg",
+                  "value": "=conversation.DMData.OPM"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "cNDGYR"
+              },
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "sGqdxV"
+                  },
+                  "assignments": [
+                    {
+                      "value": "=foreach(conversation.DMsg, x, json(string(x)))",
+                      "property": "conversation.DMArray"
+                    },
+                    {
+                      "property": "conversation.DMSelArr",
+                      "value": "=where(conversation.DMArray, x, startsWith(x.key,'TTS_Prompt' ))"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.Foreach",
+                  "$designer": {
+                    "id": "Vbpgxd"
+                  },
+                  "index": "dialog.foreach.index",
+                  "value": "dialog.foreach.value",
+                  "itemsProperty": "conversation.DMSelArr",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "SDzG9H"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.DMPromptToggle",
+                          "value": "=getProperty(conversation.DMsg,concat(\"Toggle_Prompt\",string(dialog.foreach.index+1)))"
+                        },
+                        {
+                          "property": "conversation.DMText",
+                          "value": "=getProperty(conversation.DMData.OPM, concat(\"TTS_Prompt\",string(dialog.foreach.index+1)))"
+                        },
+                        {
+                          "property": "conversation.DMbargeIn",
+                          "value": "=getProperty(conversation.DMData.OPM, concat(\"Bargein_Prompt\",string(dialog.foreach.index+1)))==\"true\""
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "gLchQL"
+                      },
+                      "condition": "=conversation.DMPromptToggle==\"true\"",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.IfCondition",
+                          "$designer": {
+                            "id": "e4M354"
+                          },
+                          "condition": "=length(conversation.DMText)>0",
+                          "actions": [
+                            {
+                              "$kind": "Microsoft.SendActivity",
+                              "$designer": {
+                                "id": "mg5MGw"
+                              },
+                              "activity": "${SendActivity_RapidMsg()}"
+                            },
+                            {
+                              "$kind": "Microsoft.BeginDialog",
+                              "$designer": {
+                                "id": "q1oFI5"
+                              },
+                              "activityProcessed": true,
+                              "dialog": "TelemetryDialog",
+                              "options": {
+                                "peg": "memberRoot_RapidIMessage_Prmpt",
+                                "pegType": "Info",
+                                "request": "Rapid IVR Message",
+                                "response": "=RapidMessage.SendActivity_RapidMsg()",
+                                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                                "eventName": "MemberRoot_RapidIMessage_Prmpt_Peg"
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "condition": "=conversation.DMsg.Toggle_Master==\"true\""
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "h8QZlD"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "memberRoot_RapidMessage_ErrorResponse",
+                "pegType": "General",
+                "request": "",
+                "response": "=dialog.dmresponse",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MemberRootBot_RapidMessage_ErrorResponse_Peg"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "RapidMessageDialog.lg",
+  "recognizer": "RapidMessageDialog.lu.qna",
+  "id": "RapidMessageDialog"
+}

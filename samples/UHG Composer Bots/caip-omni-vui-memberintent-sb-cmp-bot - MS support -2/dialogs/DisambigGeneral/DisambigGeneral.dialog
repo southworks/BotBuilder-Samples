@@ -1,0 +1,81 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "a59qm4",
+    "name": "DisambigGeneral",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "k5kJi2"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "8TZcDZ"
+          },
+          "assignments": [
+            {
+              "property": "conversation.flowState.flowPreviousPrompt",
+              "value": "='disambigGeneral'"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "AxiQiy"
+          },
+          "assignments": [
+            {
+              "property": "conversation.flowState.noMatchCount",
+              "value": 0
+            },
+            {
+              "property": "conversation.flowState.failedCount",
+              "value": 0
+            },
+            {
+              "property": "conversation.flowState.noUserInputCount",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "rmeq2X"
+          },
+          "activity": "${UHCMember_Intent_DisambigGeneralMsg()}"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "bRrAHq"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "=MainDialog.PegVal('')",
+            "pegType": "InputAsk",
+            "request": "=DisambigGeneralDialog.UHCMember_Intent_DisambigGeneralMsg()",
+            "response": "",
+            "startDTM": "=conversation.startDate",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt,'Prmt')"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "DisambigGeneral.lg",
+  "recognizer": "DisambigGeneral.lu.qna",
+  "id": "DisambigGeneral"
+}

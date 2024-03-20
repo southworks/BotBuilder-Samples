@@ -1,0 +1,100 @@
+{
+  "customFunctions": [],
+  "defaultLanguage": "en-us",
+  "defaultLocale": "en-us",
+  "importedLibraries": [],
+  "languages": ["en-us"],
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft": "Warning",
+      "Microsoft.Hosting.Lifetime": "Information"
+    }
+  },
+  "luFeatures": {
+    "enableCompositeEntities": true,
+    "enableListEntities": true,
+    "enableMLEntities": true,
+    "enablePattern": true,
+    "enablePhraseLists": true,
+    "enablePrebuiltEntities": true,
+    "enableRegexEntities": true
+  },
+  "luis": {
+    "authoringKey": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/luis-authoring-key",
+    "authoringEndpoint": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/luis-authoring-endpoint",
+    "endpointKey": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/luis-endpoint-key",
+    "endpoint": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/luis-endpoint",
+    "authoringRegion": "westus",
+    "defaultLanguage": "en-us",
+    "environment": "composer",
+    "name": "[LUIS_APP_NAME_BASE]"
+  },
+  "languageService": {
+    "endpoint": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/language-service-endpoint",
+    "questionAnsweringProject": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/question-answering-project",
+    "apiKey": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/language-service-api-key",
+    "apiVersion": "2021-10-01"
+  },
+  "publishTargets": [],
+  "BlobsStorage": {
+    "connectionString": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/storage-connection-string",
+    "containerName": "statelogs"
+  },
+  "runtime": {
+    "command": "npm run dev --",
+    "customRuntime": true,
+    "key": "adaptive-runtime-js-webapp",
+    "path": "../"
+  },
+  "runtimeSettings": {
+    "adapters": [],
+    "features": {
+      "removeRecipientMentions": false,
+      "showTyping": false,
+      "traceTranscript": false,
+      "blobTranscript": {
+        "connectionString": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/storage-connection-string",
+        "containerName": "transcriptlogs"
+      },
+      "useInspection": false,
+      "setSpeak": {
+        "voiceFontName": "en-US-AriaNeural",
+        "fallbackToTextForSpeechIfEmpty": true
+      }
+    },
+    "components": [
+      {
+        "name": "@advanceddevelopment/omni-vui-custom-actions"
+      }
+    ],
+    "skills": {
+      "allowedCallers": ["*"]
+    },
+    "storage": "BlobsStorage",
+    "telemetry": {
+      "logActivities": true,
+      "logPersonalInformation": true,
+      "options": {
+        "instrumentationKey": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/appinsights-instrument-key"
+      }
+    }
+  },
+  "downsampling": {
+    "maxImbalanceRatio": -1
+  },
+  "skillConfiguration": {},
+  "connectionString": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/storage-connection-string",
+  "containerName":"https://[KEY_VAULT_NAME].vault.azure.net/secrets/blob-token-cache-container-name",
+  "midSTTProvider": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/mid-stt-provider",
+  "ENVIRONMENT": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/environment",
+  "ENCRYPTION_KEY": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/encryption-key",
+  "botName":"https://[KEY_VAULT_NAME].vault.azure.net/secrets/bot-name",
+  "botVersion":"https://[KEY_VAULT_NAME].vault.azure.net/secrets/bot-version",
+  "botEnvironment":"https://[KEY_VAULT_NAME].vault.azure.net/secrets/bot-environment",
+  "spanishTTSProvider": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/spanish-tts-provider",
+  "azureTableAccountName": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/azure-table-account-name",
+  "azureTableKey": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/azure-table-key",
+  "azureTableName": "https://[KEY_VAULT_NAME].vault.azure.net/secrets/azure-table-name",
+  "userNoInputTimeoutMS": https://[KEY_VAULT_NAME].vault.azure.net/secrets/userNoInputTimeoutMS
+}

@@ -1,0 +1,137 @@
+ @(
+        @{
+            PartitionKey = "ProviderInterceptExclusion"
+            RowKey = "2168107159"
+            Value = "Exclude"
+        },
+        @{
+            PartitionKey = "ProviderInterceptExclusion"
+            RowKey = "2192375170"
+            Value = "Exclude"
+        },
+       @{
+            PartitionKey = "ProviderInterceptExclusion"
+            RowKey = "2512717017"
+            Value = "Exclude"
+        },
+		 @{
+            PartitionKey = "ProviderInterceptExclusion"
+            RowKey = "3057796070"
+            Value = "Exclude"
+        },
+        @{
+            PartitionKey = "ProviderInterceptExclusion"
+            RowKey = "3239165145"
+            Value = "Exclude"
+        },
+       @{
+            PartitionKey = "ProviderInterceptExclusion"
+            RowKey = "3372103971"
+            Value = "Exclude"
+        },
+		@{
+            PartitionKey = "ProviderInterceptExclusion"
+            RowKey = "4806847070"
+            Value = "Exclude"
+        },
+        @{
+            PartitionKey = "ProviderInterceptExclusion"
+            RowKey = "5045445600"
+            Value = "Exclude"
+        },
+       @{
+            PartitionKey = "ProviderInterceptExclusion"
+            RowKey = "5047024800"
+            Value = "Exclude"
+        },
+		 @{
+            PartitionKey = "ProviderInterceptExclusion"
+            RowKey = "5048962950"
+            Value = "Exclude"
+        },
+        @{
+            PartitionKey = "ProviderInterceptExclusion"
+            RowKey = "6026072361"
+            Value = "Exclude"
+        },
+       @{
+            PartitionKey = "ProviderInterceptExclusion"
+            RowKey = "8338628271"
+            Value = "Exclude"
+        },
+		@{
+            PartitionKey = "ProviderInterceptExclusion"
+            RowKey = "8447529443"
+            Value = "Exclude"
+        },
+        @{
+            PartitionKey = "ProviderInterceptExclusion"
+            RowKey = "8448630611"
+            Value = "Exclude"
+        },
+       @{
+            PartitionKey = "ProviderInterceptExclusion"
+            RowKey = "8554274682"
+            Value = "Exclude"
+        },
+		 @{
+            PartitionKey = "ProviderInterceptExclusion"
+            RowKey = "8555239355"
+            Value = "Exclude"
+        },
+        @{
+            PartitionKey = "ProviderInterceptExclusion"
+            RowKey = "8662332148"
+            Value = "Exclude"
+        },
+       @{
+            PartitionKey = "ProviderInterceptExclusion"
+            RowKey = "8664448016"
+            Value = "Exclude"
+        },
+		@{
+            PartitionKey = "ProviderInterceptExclusion"
+            RowKey = "8666862504"
+            Value = "Exclude"
+        },
+       @{
+            PartitionKey = "ProviderInterceptExclusion"
+            RowKey = "8772373786"
+            Value = "Exclude"
+        },
+		 @{
+            PartitionKey = "ProviderInterceptExclusion"
+            RowKey = "9189353240"
+            Value = "Exclude"
+        },
+        @{
+            PartitionKey = "ProviderInterceptExclusion"
+            RowKey = "9499233200"
+            Value = "Exclude"
+        },
+       @{
+            PartitionKey = "ProviderInterceptExclusion"
+            RowKey = "9529361300"
+            Value = "Exclude"
+        },
+		@{
+            PartitionKey = "ProviderInterceptExclusion"
+            RowKey = "9727153800"
+            Value = "Exclude"
+        },
+		 @{
+            PartitionKey = "ProviderInterceptExclusion"
+            RowKey = "9733689700"
+            Value = "Exclude"
+        },
+        @{
+            PartitionKey = "ProviderInterceptExclusion"
+            RowKey = "wlssuser"
+            Value = "Exclude"
+        },
+       @{
+            PartitionKey = "ProviderInterceptExclusion"
+            RowKey = "8778423210"
+            Value = "Exclude"
+        }
+ )

@@ -1,0 +1,431 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "OhnwWj",
+    "name": "SelfService",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "nNHsaZ"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "jbZbq2"
+          },
+          "condition": "=equals(conversation.tfnConfig.Root_selfService_Toggle,\"OFF\")",
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "TiMHDx"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "memberRoot_SelfService_OFFToggle",
+                "pegType": "General",
+                "request": "",
+                "response": "",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MemberRootBot_SelfService_OFFToggle_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "RHozsD"
+              },
+              "activityProcessed": true,
+              "dialog": "setRoute2Agent",
+              "options": {
+                "transferReason": "memberRoot_selfService_OFFToggle"
+              }
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "9dX45X",
+                "name": "Checking Whether selfService avalaible in Bot"
+              },
+              "activityProcessed": true,
+              "dialog": "isSelfServiceAvailable",
+              "options": {
+                "intentSelfServiceList": "=conversation.tfnConfig.Root_callerIntent_BOTSelfService_List",
+                "entitySelfServiceList": "=conversation.tfnConfig.Root_callerIntentEntity_BOTSelfService_List",
+                "selfServiceType": "BOT",
+                "entityBypassList": "=conversation.tfnConfig.Root_callerIntent_IVRSelfService_EntityCheckBypass_List"
+              },
+              "resultProperty": "dialog.isBotSelfServiceAvailable"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "u3gLWQ"
+              },
+              "condition": "=dialog.isBotSelfServiceAvailable",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "wErwrg"
+                  },
+                  "condition": "conversation.iCallerIntent",
+                  "cases": [
+                    {
+                      "value": "benefits",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "Yfo4mq"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "memberRoot_SelfService_BOT_Benefits",
+                            "pegType": "General",
+                            "request": "{\"Intent\":\"${conversation.iCallerIntent}\", \"Entity\":\"${conversation.iCallerIntentEntity}\"}",
+                            "response": "Intent and Entity present in BOT Self-Service List",
+                            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "MemberRootBot_SelfService_BOT_Benefits_Peg"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "QIWoL9"
+                          },
+                          "property": "conversation.currentTrigger",
+                          "value": "benefitAndEligibility"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "doctor",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "AQ45Um"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "isValidSourceSystemForSelfService",
+                          "resultProperty": "dialog.isSourceSystemValid",
+                          "options": {
+                            "validSourceSystemList": "=conversation.tfnConfig.Root_BOT_SS_FindProvider_ValidSourceSystems_List"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.IfCondition",
+                          "$designer": {
+                            "id": "DNIm7e"
+                          },
+                          "actions": [
+                            {
+                              "$kind": "Microsoft.BeginDialog",
+                              "$designer": {
+                                "id": "prgSbW"
+                              },
+                              "activityProcessed": true,
+                              "dialog": "TelemetryDialog",
+                              "options": {
+                                "peg": "memberRoot_SelfService_BOT_SS_FindProvider",
+                                "pegType": "General",
+                                "request": "{\"Intent\":\"${conversation.iCallerIntent}\", \"Entity\":\"${conversation.iCallerIntentEntity}\"}",
+                                "response": "Intent and Entity present in BOT Self-Service List",
+                                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                                "eventName": "MemberRootBot_SelfService_BOT_SS_FindProvider_Peg"
+                              }
+                            },
+                            {
+                              "$kind": "Microsoft.SetProperty",
+                              "$designer": {
+                                "id": "sHhjBX"
+                              },
+                              "property": "conversation.currentTrigger",
+                              "value": "findProvider"
+                            }
+                          ],
+                          "elseActions": [
+                            {
+                              "$kind": "Microsoft.BeginDialog",
+                              "$designer": {
+                                "id": "QNg8kh"
+                              },
+                              "activityProcessed": true,
+                              "dialog": "setRoute2Agent",
+                              "options": {
+                                "transferReason": "memberRoot_No_BotSelfService_Available_For_SourceSystem"
+                              }
+                            }
+                          ],
+                          "condition": "=dialog.isSourceSystemValid"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "uCard",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "noPakv"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "isValidSourceSystemForSelfService",
+                          "resultProperty": "dialog.isSourceSystemValid",
+                          "options": {
+                            "validSourceSystemList": "=conversation.tfnConfig.Root_BOT_SS_UCard_ValidSourceSystems_List"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.IfCondition",
+                          "$designer": {
+                            "id": "w7q5Us",
+                            "name": "checking whether source system is valid and MBI is available"
+                          },
+                          "condition": "=and(not(empty(conversation.member.memberInfo.medicareBeneficiaryId)),dialog.isSourceSystemValid)",
+                          "actions": [
+                            {
+                              "$kind": "Microsoft.BeginDialog",
+                              "$designer": {
+                                "id": "DuXU27"
+                              },
+                              "activityProcessed": true,
+                              "dialog": "FindWhichUcardSelfservice",
+                              "resultProperty": "dialog.uCardSelfService",
+                              "options": {
+                                "entityAction": "=conversation.iCallerIntentEntity"
+                              }
+                            }
+                          ],
+                          "elseActions": [
+                            {
+                              "$kind": "Microsoft.BeginDialog",
+                              "$designer": {
+                                "id": "WfkB3k"
+                              },
+                              "activityProcessed": true,
+                              "dialog": "TelemetryDialog",
+                              "options": {
+                                "peg": "memberRoot_SelfService_UCard_Source_MBI_NotValid",
+                                "pegType": "General",
+                                "request": "{\"MBI\":\"${conversation.member.memberInfo.medicareBeneficiaryId}\", \"SourceSystem\":\"${conversation.sourceSysCode}\"}",
+                                "response": "MBI is Not exists OR Source System is not Valid",
+                                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                                "eventName": "MemberRootBot_SelfService_Ucard_Source_MBI_NotValid_Peg"
+                              }
+                            },
+                            {
+                              "$kind": "Microsoft.BeginDialog",
+                              "$designer": {
+                                "id": "5MFgNc"
+                              },
+                              "activityProcessed": true,
+                              "dialog": "setRoute2Agent",
+                              "options": {
+                                "transferReason": "memberRoot_No_BotSelfService_Available_For_SourceSystem"
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "default": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "jnSh00"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "memberRoot_SelfService_CI_NoBOTSelfService",
+                        "pegType": "General",
+                        "request": "{\"Intent\":\"${conversation.iCallerIntent}\", \"Entity\":\"${conversation.iCallerIntentEntity}\"}",
+                        "response": "Intent and Entity is not present in BOT Self-Service List",
+                        "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "MemberRootBot_SelfService_CI_NoBOTSelfService_Peg"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "hSM6EP"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "setRoute2Agent",
+                      "options": {
+                        "transferReason": "memberRoot_No_BOTSelfService_Available"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "BQ7f3G"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "memberRoot_SelfService_CI_NoBOTSelfService",
+                    "pegType": "General",
+                    "request": "{\"Intent\":\"${conversation.iCallerIntent}\", \"Entity\":\"${conversation.iCallerIntentEntity}\"}",
+                    "response": "Intent and Entity is not present in BOTSelf-Service List",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "MemberRootBot_SelfService_CI_NoBOTSelfService_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "lYJCny",
+                    "name": "Checking Whether selfService avalaible in IVR"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "isSelfServiceAvailable",
+                  "options": {
+                    "intentSelfServiceList": "=conversation.tfnConfig.Root_callerIntent_selfService_List",
+                    "selfServiceType": "IVR",
+                    "entitySelfServiceList": "=conversation.tfnConfig.Root_callerIntentEntity_IVRSelfService_List",
+                    "entityByPassList": "=conversation.tfnConfig.Root_callerIntent_IVRSelfService_EntityCheckBypass_List"
+                  },
+                  "resultProperty": "dialog.isIVRSelfServiceAvailable"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "OSd62X"
+                  },
+                  "condition": "=dialog.isIVRSelfServiceAvailable",
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "EVAhyZ"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "memberRoot_SelfService_NoIVRSelfService",
+                        "pegType": "General",
+                        "request": "{\"Intent\":\"${conversation.iCallerIntent}\", \"Entity\":\"${conversation.iCallerIntentEntity}\"}",
+                        "response": "Intent and Entity is not present in IVR Self-Service List",
+                        "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "MemberRootBot_SelfService_NoIVRSelfService_Peg"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "LWkPlK"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "setRoute2Agent",
+                      "options": {
+                        "transferReason": "memberRoot_No_IVRSelfService_Available"
+                      }
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "c5HLXZ"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "memberRoot_SelfService_IVR_SS",
+                        "pegType": "General",
+                        "request": "{\"Intent\":\"${conversation.iCallerIntent}\", \"Entity\":\"${conversation.iCallerIntentEntity}\"}",
+                        "response": "Intent and Entity present in IVR Self-Service List",
+                        "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "MemberRootBot_SelfService_IVR_SS_Peg"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "IgyBMe"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.ENT_BotAction",
+                          "value": "ROUTE2IVR"
+                        },
+                        {
+                          "property": "conversation.silentTransfer",
+                          "value": true
+                        },
+                        {
+                          "property": "conversation.transferReason",
+                          "value": "memberRoot_Route_IVR"
+                        },
+                        {
+                          "property": "conversation.currentTrigger",
+                          "value": "defaultTransfer"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "4apWMJ",
+                        "name": "UHCMember_IVRXfer"
+                      },
+                      "activity": "${MemberIVRXferMsg()}"
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "0q4Y7x"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "memberRoot_IVR_XferPrmt",
+                        "pegType": "General",
+                        "request": "=SelfService.MemberIVRXferMsg()",
+                        "response": "",
+                        "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "MemberRootBot_IVRXfer_Peg"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "SelfService.lg",
+  "recognizer": "SelfService.lu.qna",
+  "id": "SelfService"
+}

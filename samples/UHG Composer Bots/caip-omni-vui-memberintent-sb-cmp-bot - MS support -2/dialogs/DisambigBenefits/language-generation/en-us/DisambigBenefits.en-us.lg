@@ -1,0 +1,12 @@
+> !# @Namespace=DisambigBenefitsDialog
+> !# @Exports = UHCMember_DisambigBenefitsMsg
+
+[import](common.lg)
+
+# UHCMember_DisambigBenefitsMsg()
+[Activity
+    Text = ${UHCMember_DisambigBenefits_text()}
+    Speak = ${UHCMember_DisambigBenefits_text()}
+    InputHint = expectingInput
+    ChannelData = ${ExpectingPrompts_ActivityParams(1000)}
+]

@@ -1,0 +1,802 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "name": "omni-vui-member-rb-cmp",
+    "description": "",
+    "id": "A79tBe"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnConversationUpdateActivity",
+      "$designer": {
+        "id": "376720"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.Foreach",
+          "$designer": {
+            "id": "518944",
+            "name": "Loop: for each item"
+          },
+          "itemsProperty": "turn.Activity.membersAdded",
+          "actions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "641773",
+                "name": "Branch: if/else"
+              },
+              "condition": "string(dialog.foreach.value.id) != string(turn.Activity.Recipient.id)",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "qAV6m2"
+                  },
+                  "value": "caip-omni-vui-member-rb-cmp",
+                  "property": "conversation.botName"
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "x2y0dH",
+                    "comment": "Initializing Telemetry props."
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.pegCount",
+                      "value": 0
+                    },
+                    {
+                      "property": "conversation.allPegNames",
+                      "value": {
+                        "Peg": "AllPegNames"
+                      }
+                    },
+                    {
+                      "property": "conversation.error",
+                      "value": false
+                    },
+                    {
+                      "property": "conversation.hcpFlag",
+                      "value": true
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "yDpHyH"
+                  },
+                  "property": "conversation.currentBot",
+                  "value": "root"
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "Pz9fD4"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.KVPs",
+                      "value": "={}"
+                    },
+                    {
+                      "property": "conversation.ENT_BotAction",
+                      "value": "ROUTE2AGENT"
+                    },
+                    {
+                      "property": "conversation.ENT_IVRAppTransferReason",
+                      "value": "?"
+                    },
+                    {
+                      "property": "conversation.IntentRequiresAuthentication",
+                      "value": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnUnknownIntent",
+      "$designer": {
+        "id": "mb2n1u"
+      },
+      "actions": []
+    },
+    {
+      "$kind": "Microsoft.OnEndOfConversationActivity",
+      "$designer": {
+        "id": "eMnq3f",
+        "name": "Conversation ended (EndOfConversation activity)"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "6P9d82"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "EOC",
+            "pegType": "General",
+            "request": "=turn.activity",
+            "response": "",
+            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "MemberRootBot_EndOfConversation_Peg"
+          }
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "VTWoDf"
+          },
+          "assignments": [
+            {
+              "property": "conversation.transferReason",
+              "value": "memberRoot_EndOfConversation"
+            },
+            {
+              "property": "conversation.transferPegVal",
+              "value": "EOC"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "ByQ4O5"
+          },
+          "condition": "=string(turn.activity.channelData.reasonCode) == 'client-disconnected'",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "K7qkt4"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.ENT_IVRAppTransferReason",
+                  "value": "?"
+                },
+                {
+                  "property": "conversation.ENT_BotAction",
+                  "value": "ROUTE2AGENT"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "O2cNOD"
+              },
+              "activityProcessed": true,
+              "dialog": "SendKVPsOut",
+              "disabled": true
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "MIza4F"
+              },
+              "activityProcessed": true,
+              "dialog": "CallLog",
+              "disabled": true
+            }
+          ]
+        }
+      ],
+      "condition": "=turn.activity.value.continueTheFlow != true"
+    },
+    {
+      "$kind": "Microsoft.OnEventActivity",
+      "$designer": {
+        "id": "VNKNCR",
+        "name": "Event received (Event activity)"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "LC830G"
+          },
+          "condition": "=turn.activity.name",
+          "cases": [
+            {
+              "value": "testEvent",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "sm5rqu"
+                  },
+                  "activity": "${SendActivity_sm5rqu()}"
+                }
+              ]
+            },
+            {
+              "value": "config",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "4maQN1"
+                  },
+                  "activity": "${skillEvents()}"
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "p0h00D"
+              },
+              "activityProcessed": true,
+              "dialog": "Main"
+            }
+          ]
+        }
+      ],
+      "condition": "=and(turn.activity.name != 'noUserInput', turn.activity.name != 'DTMF',turn.activity.name!='paramChanged')"
+    },
+    {
+      "$kind": "Microsoft.OnDialogEvent",
+      "$designer": {
+        "id": "PUmrCZ",
+        "name": "transfer"
+      },
+      "event": "transfer",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "azqkjT"
+          },
+          "activityProcessed": true,
+          "dialog": "TransferCalltoAgent"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnError",
+      "$designer": {
+        "id": "4OUAzQ",
+        "name": "Error occurred (Error event)"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "ZB3NZX"
+          },
+          "property": "conversation.error",
+          "value": true
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "VYadeN"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "endDTM": "=formatDateTime(utcNow())",
+            "peg": "Error_Event",
+            "pegName": "MemberRootBot_ErrorEvent_Peg",
+            "pegType": "General",
+            "request": "Error",
+            "response": "=turn",
+            "startDTM": "=formatDateTime(utcNow())",
+            "eventName": "MemberRootBot_ErrorEvent_Peg"
+          }
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "HsKvUt"
+          },
+          "assignments": [
+            {
+              "property": "conversation.transferPegVal",
+              "value": "Error_Event"
+            },
+            {
+              "property": "conversation.transferReason",
+              "value": "SystemError"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "8f6Vup"
+          },
+          "activityProcessed": true,
+          "dialog": "GlobalBehavior",
+          "options": {
+            "behavior": "SystemError"
+          }
+        }
+      ],
+      "runOnce": false,
+      "condition": "=!conversation.error"
+    },
+    {
+      "$kind": "Microsoft.OnError",
+      "$designer": {
+        "id": "VcPAHb",
+        "name": "Error occurred (Error event)"
+      },
+      "condition": "=conversation.error",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "JORkfa"
+          },
+          "activityProcessed": true,
+          "dialog": "ErrorTransfer",
+          "options": {
+            "turnVal": "=turn"
+          }
+        }
+      ],
+      "runOnce": true
+    },
+    {
+      "$kind": "Microsoft.OnDialogEvent",
+      "$designer": {
+        "id": "1RvV3A",
+        "name": "playGreeting"
+      },
+      "event": "playGreeting",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "DyNDaN"
+          },
+          "activityProcessed": true,
+          "dialog": "GreetingDialog"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "Qf6Ff7"
+          },
+          "activityProcessed": true,
+          "dialog": "FSMDialog"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnDialogEvent",
+      "$designer": {
+        "id": "f6KDUx",
+        "name": "providerExclusion"
+      },
+      "event": "providerExclusion",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "z9esA2"
+          },
+          "activityProcessed": true,
+          "dialog": "ProviderInterceptDialog"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "MpZcA4"
+          },
+          "activityProcessed": true,
+          "dialog": "FSMDialog"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnDialogEvent",
+      "$designer": {
+        "id": "7nuvBk",
+        "name": "directMessage"
+      },
+      "event": "directMessage",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "Yuy2Ok"
+          },
+          "activityProcessed": true,
+          "dialog": "DirectMessageDialog"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "aUdc1J"
+          },
+          "activityProcessed": true,
+          "dialog": "FSMDialog"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnDialogEvent",
+      "$designer": {
+        "id": "6qog1L",
+        "name": "callerIntent"
+      },
+      "event": "callerIntent",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "GXPEvN"
+          },
+          "activityProcessed": true,
+          "dialog": "CallerIntent"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "wjTihi"
+          },
+          "activityProcessed": true,
+          "dialog": "FSMDialog"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnDialogEvent",
+      "$designer": {
+        "id": "ZGYHoI",
+        "name": "aniExclusion"
+      },
+      "event": "aniExclusion",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "70ZMOh"
+          },
+          "activityProcessed": true,
+          "dialog": "ANIExclusion"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "DaLmTl"
+          },
+          "activityProcessed": true,
+          "dialog": "FSMDialog"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnDialogEvent",
+      "$designer": {
+        "id": "SLnzJm",
+        "name": "language"
+      },
+      "event": "language",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "zYIdCY"
+          },
+          "activityProcessed": true,
+          "dialog": "Language"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "PUy1yx"
+          },
+          "activityProcessed": true,
+          "dialog": "FSMDialog"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnDialogEvent",
+      "$designer": {
+        "id": "C3HMOh",
+        "name": "authentication"
+      },
+      "event": "authentication",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "pUNmM5"
+          },
+          "activityProcessed": true,
+          "dialog": "Authentication"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "ZSY0fb"
+          },
+          "activityProcessed": true,
+          "dialog": "FSMDialog"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnDialogEvent",
+      "$designer": {
+        "id": "E67Sb9",
+        "name": "araConversationManager"
+      },
+      "event": "araConversationManager",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "sLQScb"
+          },
+          "activityProcessed": true,
+          "dialog": "ARAConversationManager"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "jW3XJ0"
+          },
+          "activityProcessed": true,
+          "dialog": "FSMDialog"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnDialogEvent",
+      "$designer": {
+        "id": "3H1V8Y",
+        "name": "policySelection"
+      },
+      "event": "policySelection",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "k8T4vE"
+          },
+          "activityProcessed": true,
+          "dialog": "PolicySelection"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "zusFgs"
+          },
+          "activityProcessed": true,
+          "dialog": "FSMDialog"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnDialogEvent",
+      "$designer": {
+        "id": "tX2qpH",
+        "name": "scrConversationManager"
+      },
+      "event": "scrConversationManager",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "WW9OA6"
+          },
+          "activityProcessed": true,
+          "dialog": "SRCConversationManager"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "p5VtKS"
+          },
+          "activityProcessed": true,
+          "dialog": "FSMDialog"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnDialogEvent",
+      "$designer": {
+        "id": "OEqWrP",
+        "name": "selfService"
+      },
+      "event": "selfService",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "t3YkkZ"
+          },
+          "activityProcessed": true,
+          "dialog": "SelfService"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "3ZuJNE"
+          },
+          "activityProcessed": true,
+          "dialog": "FSMDialog"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnDialogEvent",
+      "$designer": {
+        "id": "TPPtdK",
+        "name": "sms"
+      },
+      "event": "sms",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "DjiqKk"
+          },
+          "activityProcessed": true,
+          "dialog": "SMS"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "WKyu78"
+          },
+          "activityProcessed": true,
+          "dialog": "FSMDialog"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnDialogEvent",
+      "$designer": {
+        "id": "E062ys",
+        "name": "benefitAndEligibility"
+      },
+      "event": "benefitAndEligibility",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "h2qdhh"
+          },
+          "activityProcessed": true,
+          "dialog": "BenefitsAndEligibility"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "kt1PfZ"
+          },
+          "activityProcessed": true,
+          "dialog": "FSMDialog"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnDialogEvent",
+      "$designer": {
+        "id": "GFWOvu",
+        "name": "findProvider"
+      },
+      "event": "findProvider",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "C5d1lX"
+          },
+          "activityProcessed": true,
+          "dialog": "FindProvider"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "kXvzVB"
+          },
+          "activityProcessed": true,
+          "dialog": "FSMDialog"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnDialogEvent",
+      "$designer": {
+        "id": "ZbNUB4",
+        "name": "uCardActivate"
+      },
+      "event": "uCardActivate",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "S738S8"
+          },
+          "activityProcessed": true,
+          "dialog": "Ucard_Activate"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "lvVHJv"
+          },
+          "activityProcessed": true,
+          "dialog": "FSMDialog"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnDialogEvent",
+      "$designer": {
+        "id": "b68bCV",
+        "name": "uCardBalance"
+      },
+      "event": "uCardBalance",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "vBti92"
+          },
+          "activityProcessed": true,
+          "dialog": "uCardBalance"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "r4N4KO"
+          },
+          "activityProcessed": true,
+          "dialog": "FSMDialog"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnDialogEvent",
+      "$designer": {
+        "id": "wrzsdH",
+        "name": "uCardOrderStatus"
+      },
+      "event": "uCardOrderStatus",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "PVopUG"
+          },
+          "activityProcessed": true,
+          "dialog": "UcardOrderStatus"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "ka784B"
+          },
+          "activityProcessed": true,
+          "dialog": "FSMDialog"
+        }
+      ]
+    }
+  ],
+  "generator": "omni-vui-member-rb-cmp.lg",
+  "id": "omni-vui-member-rb-cmp",
+  "recognizer": "omni-vui-member-rb-cmp.lu.qna"
+}

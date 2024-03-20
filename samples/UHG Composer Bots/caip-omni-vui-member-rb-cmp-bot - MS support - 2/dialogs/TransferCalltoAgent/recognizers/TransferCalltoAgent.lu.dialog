@@ -1,0 +1,8 @@
+{
+  "$kind": "Microsoft.MultiLanguageRecognizer",
+  "id": "LUIS_TransferCalltoAgent",
+  "recognizers": {
+    "en-us": "TransferCalltoAgent.en-us.lu",
+    "": "TransferCalltoAgent.en-us.lu"
+  }
+}

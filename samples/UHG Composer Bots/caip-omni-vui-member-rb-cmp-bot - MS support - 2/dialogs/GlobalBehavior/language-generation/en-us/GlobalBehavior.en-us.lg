@@ -1,0 +1,84 @@
+> !# @Namespace = GlobalBehavior
+> !# @Exports = GlobalTimeoutFirstMsg, GlobalTimeoutRepeatMsg, GlobalSystemErrorMsg, GlobalRepeatXferMsg, TransferMessage
+
+[import](common.lg)
+
+# GlobalTimeoutFirstMsg()
+[Activity
+    Text = ${GlobalTimeoutFirst_text()}
+    Speak = ${GlobalTimeoutFirst_text()}
+    InputHint = ignoringInput
+    ChannelData = ${
+        {
+            activityParams:{
+                sendDTMF: false,
+                bargeIn: false,
+                bargeInOnDTMF: false,
+                dtmfCollect: false,
+                dtmfCollectInterDigitTimeoutMS: 1000,
+                dtmfCollectSubmitDigit: "#",
+                dtmfCollectMaxDigits: 10,
+                enableSpeechInput: false
+            }
+        }
+    }
+]
+
+# GlobalTimeoutRepeatMsg()
+[Activity
+    Text = ${GlobalTimeoutRepeat_text()}
+    Speak = ${GlobalTimeoutRepeat_text()}
+    InputHint = ignoringInput
+    ChannelData = ${
+        {
+            activityParams:{
+                sendDTMF: false,
+                bargeIn: false,
+                bargeInOnDTMF: false,
+                dtmfCollect: false,
+                dtmfCollectInterDigitTimeoutMS: 2000,
+                dtmfCollectSubmitDigit: "#",
+                dtmfCollectMaxDigits: 10,
+                enableSpeechInput: false
+            }
+        }
+    }
+]
+
+# GlobalSystemErrorMsg()
+[Activity
+    Text = ${GlobalSystemError_text()}
+    Speak = ${GlobalSystemError_text()}
+    InputHint = ignoringInput
+    ChannelData = ${
+        {
+            activityParams:{
+                sendDTMF: false,
+                bargeIn: false,
+                bargeInOnDTMF: false,
+                dtmfCollect: false,
+                dtmfCollectInterDigitTimeoutMS: 2000,
+                dtmfCollectSubmitDigit: "#",
+                dtmfCollectMaxDigits: 10,
+                enableSpeechInput: false
+            }
+        }
+    }
+]
+
+# TransferMessage()
+[Activity
+    Text = ${dialog.transferMessage}
+    Speak = ${dialog.transferMessage}
+    InputHint = ignoringInput
+    channelData = ${
+        {
+            activityParams: {
+                sendDTMF: false, 
+                bargeIn: false,
+                bargeInOnDTMF: false,
+                enableSpeechInput: false
+            }
+        }
+    }
+]

@@ -1,0 +1,37 @@
+> !# @Namespace = MainMenu
+> !# @Exports = BeginSkill_Activity_mainMenu,SendActivity_ConfigAfterSkill
+
+[import](common.lg)
+
+
+# BeginSkill_Activity_mainMenu()
+[Activity
+Type = event
+Name = startSkill
+value = ${
+{
+  appName: conversation.botName,
+  businessUnit: concat("Member",conversation.tfnLOB),
+  callId: conversation.KVPs.ENT_CallUUID,
+  callGUID: conversation.KVPs.ENT_CallUUID,
+  conversationId: conversation.conversationId,
+  ENT_ToAddress: conversation.KVPs.ENT_ToAddress,
+  parameters: { 
+  skillConnectionStartDate: formatDateTime(utcNow()),
+  tfnConfig: conversation.tfnConfig,
+  tfnLob: conversation.tfnLOB,
+  tfnAppName :getProperty(conversation.KVPs, "ENT_IVRAppNm"),
+  silentTransfer: conversation.silentTransfer,
+  callerIntentCounter: conversation.CallerIntentCounter,
+  previousCallerIntent: conversation.PreviousCallerIntent,
+  previousCallerIntentEntity: conversation.PreviousCallerIntentEntity,
+  skillWrap: conversation.SkillWrap,
+  skillWrapIntent: conversation.SkillWrapNMUtterance
+  }
+}
+}
+]
+
+
+# SendActivity_ConfigAfterSkill()
+-

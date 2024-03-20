@@ -1,0 +1,230 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "qeIp1A",
+    "name": "BenefitsAndEligibility",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "IxqF2J"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "sApjka"
+          },
+          "condition": "=equals(conversation.tfnConfig.Root_BenefitEligibility_Toggle,\"OFF\")",
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "jCus83"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "memberRoot_BenefitEligibility_OFFToggle",
+                "pegType": "General",
+                "request": "",
+                "response": "",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MemberRoot_BenefitEligibility_OFFToggle_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "jp5awx"
+              },
+              "activityProcessed": true,
+              "dialog": "setRoute2Agent",
+              "options": {
+                "transferReason": "memberRoot_BenefitEligibility_OFFToggle"
+              }
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "yJcBKE",
+                "name": "Telemetry for BnE Skill Input Params"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "memberRoot_BenefitAndEligibility_SetInputs",
+                "pegType": "General",
+                "request": "=BenefitsAndEligibility.BnESkill_Activity_Params()",
+                "response": "",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MemberRootBot_BenefitAndEligibility_SetInputs_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.BeginSkill",
+              "$designer": {
+                "id": "bexCQ7",
+                "name": "Connect to a BnEskill"
+              },
+              "activityProcessed": true,
+              "botId": "=settings.MicrosoftAppId",
+              "skillHostEndpoint": "=settings.skillHostEndpoint",
+              "connectionName": "=settings.connectionName",
+              "allowInterruptions": false,
+              "skillEndpoint": "=settings.skill['caipOmniVuiMemberbneSbCmpBot'].endpointUrl",
+              "skillAppId": "=settings.skill['caipOmniVuiMemberbneSbCmpBot'].msAppId",
+              "activity": "${BnESkill_Activity_Params()}"
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "fMCRIY",
+                "name": "Telemetry for BnE Skill Response"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "memberRoot_BenefitAndEligiblity_SetOutputs",
+                "pegType": "General",
+                "request": "=BenefitAndEligibility.BnESkill_Activity_Params()",
+                "response": "=turn.activity.value",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MemberRootBot_BenefitAndEligibility_SetOutputs_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "RKIZ31"
+              },
+              "assignments": [
+                {
+                  "value": "=turn.activity.value.parameters.medicalBEVisitCount",
+                  "property": "conversation.medicalBEVisitCount"
+                },
+                {
+                  "value": "=turn.activity.value.parameters.medicalEligibilityVisitCount",
+                  "property": "conversation.medicalEligibilityVisitCount"
+                },
+                {
+                  "value": "=turn.activity.value.parameters.transferReasonCode",
+                  "property": "conversation.ENT_IVRAppTransferReason"
+                },
+                {
+                  "property": "conversation.beEvent",
+                  "value": "=turn.activity.value.parameters.setEvent"
+                },
+                {
+                  "property": "conversation.silentTransfer",
+                  "value": "=turn.activity.value.parameters.silentTransfer ? turn.activity.value.parameters.silentTransfer :conversation.silentTransfer"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "wnLLpg"
+              },
+              "property": "conversation.currentTrigger",
+              "value": "=conversation.beEvent"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "thJhed"
+              },
+              "condition": "=equals(conversation.beEvent,\"continue\")",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "N6itLF"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.currentTrigger",
+                      "value": "callerIntent"
+                    },
+                    {
+                      "property": "conversation.PreviousCallerIntent",
+                      "value": "=conversation.iCallerIntent"
+                    },
+                    {
+                      "value": "=conversation.iCallerIntentEntity",
+                      "property": "conversation.PreviousCallerntentEntity"
+                    },
+                    {
+                      "property": "conversation.SkillWrap",
+                      "value": "N"
+                    },
+                    {
+                      "property": "conversation.SkillWrapNMUtterance",
+                      "value": "=''"
+                    }
+                  ]
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "YrB4UF"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.ENT_BotAction",
+                      "value": "ROUTE2AGENT"
+                    },
+                    {
+                      "property": "conversation.currentTrigger",
+                      "value": "defaultTransfer"
+                    },
+                    {
+                      "property": "conversation.silentTransfer",
+                      "value": true
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "YTve5X"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.transferReason",
+                      "value": "concat(\"FindProvider_\",turn.activity.value.parameters.transferReason)"
+                    },
+                    {
+                      "property": "conversation.transferPegVal",
+                      "value": "MemberRootBot_FindProvider_SetOutputs_Peg"
+                    },
+                    {
+                      "property": "conversation.ENT_IVRAppTransferReason",
+                      "value": "=conversation.prvsResponse_transferReasonCode"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "BenefitsAndEligibility.lg",
+  "recognizer": "BenefitsAndEligibility.lu.qna",
+  "id": "BenefitsAndEligibility"
+}

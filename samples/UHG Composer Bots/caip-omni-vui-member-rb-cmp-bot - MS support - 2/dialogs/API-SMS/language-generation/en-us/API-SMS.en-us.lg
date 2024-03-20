@@ -1,0 +1,56 @@
+> !# @Namespace = APISMSDialog
+> !# @Exports = MessageSent, SMSErrorMessage, SendActivity_ConfigEvent
+[import](common.lg)
+
+
+
+# SMSErrorMessage()
+[Activity
+    Text = ${SMSErrorMessage_text()}
+    Speak = ${SMSErrorMessage_text()}
+    InputHint = ignoringInput
+    channelData = ${
+        {
+            activityParams: {
+                sendDTMF: false,
+                bargeIn: false,
+                bargeInOnDTMF: false,
+                dtmfCollect: false,
+                enableSpeechInput: false
+            }
+        }
+    }
+]
+
+# MessageSent()
+[Activity
+    Text = ${MessageSent_text()}
+    Speak = ${MessageSent_text()}
+    InputHint = ignoringInput
+    channelData = ${
+        {
+            activityParams: {
+                sendDTMF: false,
+                bargeIn: false,
+                bargeInOnDTMF: false,
+                dtmfCollect: false,
+                enableSpeechInput: false
+            }
+        }
+    }
+]
+
+# SendActivity_ConfigEvent()
+[Activity
+    Type = event
+    Name = config
+    channelData = ${
+        {
+            activityParams:{
+                bargeIn: false,
+                bargeInOnDTMF: false,
+                enableSpeechInput: false
+            }
+        }
+    }
+]

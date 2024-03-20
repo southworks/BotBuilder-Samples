@@ -1,0 +1,13 @@
+> !# @Namespace = FinancialAccountGeneral
+> !# @Exports = UHCMember_FinancialAccounth_General_Msg
+
+[import](common.lg)
+
+# UHCMember_FinancialAccounth_General_Msg()
+[Activity
+    Text = ${UHCMember_FinancialAccount_General_text()}
+    Speak = ${UHCMember_FinancialAccount_General_text()}
+    InputHint = expectingInput
+    ChannelData = ${ExpectingPrompts_ActivityParams(1500)}
+]
+

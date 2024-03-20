@@ -1,0 +1,9 @@
+---
+apiVersion: v1
+metadata: 
+  askId: AIDE_0075847
+  caAgileId: poc
+  projectKey: com.optum.omni-vui-custom-actions.operations
+  projectFriendlyName: optum-omnichannel-omni-vui-custom-actions
+  componentType: code
+  targetQG: GATE_00

@@ -1,0 +1,65 @@
+> !# @Namespace=ConversationManager
+> !# @Exports=SendActivity_ConfigAfterSkill,ConversationManager_SkillBot_Params,getConversationManagerRequestPeg,getConversationManagerResponsePeg,getConversationManagerRequestPegName,getConversationManagerResponsePegName,SendActivity_ConfigAfterSkill
+[import](common.lg)
+
+# ConversationManager_SkillBot_Params()
+[Activity
+Type = event
+Name = triggerSkill
+value = ${
+{
+  appName: conversation.botName,
+  conversationId: conversation.conversationId,
+  callGUID:conversation.storageKey,
+  callId: conversation.KVPs.ENT_CallUUID,
+  businessUnit:concat("Member",conversation.tfnLOB),
+  parameters: { 
+  tfnConfig: conversation.tfnConfig,
+  ani: conversation.ani,
+  tfn: conversation.KVPs.ENT_ToAddress,
+  request:dialog.cmRequest
+  }
+}
+}
+]
+# getConversationManagerRequestPeg()
+- IF: ${conversation.currentTrigger != "scrConversationManager"}
+    - memberRoot_ARACM_SetInputs
+-ELSE:
+    - memberRoot_SCRCM_SetInputs
+
+# getConversationManagerResponsePeg()
+- IF: ${conversation.currentTrigger != "scrConversationManager"}
+    - memberRoot_ARACM_SetOutputs
+-ELSE:
+    - memberRoot_SCRCM_SetOutputs
+
+# getConversationManagerResponsePegName()
+- IF: ${conversation.currentTrigger != "scrConversationManager"}
+    - MemberRootBot_ARACM_SetOutputs_Peg
+-ELSE:
+    - MemberRootBot_SCRCM_SetOutputs_Peg
+
+# getConversationManagerRequestPegName()
+- IF: ${conversation.currentTrigger != "scrConversationManager"}
+    - MemberRootBot_ARACM_SetInputs_Peg
+-ELSE:
+    - MemberRootBot_SCRCM_SetInputs_Peg
+
+# SendActivity_ConfigAfterSkill()
+[Activity
+    Type = event
+    Name = config
+    channelData = ${
+        {
+            activityParams:{
+                bargeIn: false,
+                bargeInOnDTMF: false,
+                enableSpeechInput: false
+            },
+            sessionParams:{
+                userNoInputTimeoutMS:settings.defaultUserNoInputInMS
+            }
+        }
+    }
+]

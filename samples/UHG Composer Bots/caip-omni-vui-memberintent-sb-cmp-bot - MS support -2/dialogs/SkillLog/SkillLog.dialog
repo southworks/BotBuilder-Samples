@@ -1,0 +1,188 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "rbU9Ee",
+    "name": "SkillLog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "2aa5pD"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "Afh7ce"
+          },
+          "property": "conversation.callEndDate",
+          "value": "=formatDateTime(utcNow())"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "1g2y1x"
+          },
+          "property": "conversation.callLogCustomMetrics",
+          "value": {
+            "AppName": "MemberIntentSkillBot"
+          }
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "rDvNVN"
+          },
+          "assignments": [
+            {
+              "property": "conversation.callLogCustomMetrics",
+              "value": "=addProperty(conversation.callLogCustomMetrics, \"CallGUID\", conversation.callGUID ? conversation.callGUID : '')"
+            },
+            {
+              "property": "conversation.callLogCustomMetrics",
+              "value": "=addProperty(conversation.callLogCustomMetrics, \"CallUUID\", getProperty(conversation.KVPs, \"ENT_CallUUID\") ? getProperty(conversation.KVPs, \"ENT_CallUUID\") : \"\")"
+            },
+            {
+              "property": "conversation.callLogCustomMetrics",
+              "value": "=addProperty(conversation.callLogCustomMetrics, \"ConversationId\", conversation.conversationId ? conversation.conversationId : \"\")"
+            },
+            {
+              "property": "conversation.callLogCustomMetrics",
+              "value": "=addProperty(conversation.callLogCustomMetrics, \"StartDTM\", conversation.skillStartDate)"
+            },
+            {
+              "property": "conversation.callLogCustomMetrics",
+              "value": "=addProperty(conversation.callLogCustomMetrics, \"EndDTM\", formatDateTime(utcNow()))"
+            },
+            {
+              "value": "=addProperty(conversation.callLogCustomMetrics, \"SkillDuration\", dateTimeDiff(formatDateTime(utcNow()), conversation.skillStartDate))",
+              "property": "conversation.callLogCustomMetrics"
+            },
+            {
+              "value": "=addProperty(conversation.callLogCustomMetrics, \"TFN\", getProperty(conversation.KVPs, \"ENT_ToAddress\") ? getProperty(conversation.KVPs, \"ENT_ToAddress\") : \"\")",
+              "property": "conversation.callLogCustomMetrics"
+            },
+            {
+              "value": "=addProperty(conversation.callLogCustomMetrics, \"XferReasonCode\", conversation.endDialogParams.transferReasonCode)",
+              "property": "conversation.callLogCustomMetrics"
+            },
+            {
+              "property": "conversation.callLogCustomMetrics",
+              "value": "=addProperty(conversation.callLogCustomMetrics, \"XferReason\", dialog.transferReason)"
+            },
+            {
+              "property": "conversation.callLogCustomMetrics",
+              "value": "=addProperty(conversation.callLogCustomMetrics, \"XferPeg\", dialog.transferPegVal)"
+            },
+            {
+              "property": "conversation.callLogCustomMetrics",
+              "value": "=addProperty(conversation.callLogCustomMetrics, \"XferType\", conversation.endDialogParams.parameters.transferType)"
+            },
+            {
+              "property": "conversation.callLogCustomMetrics",
+              "value": "=addProperty(conversation.callLogCustomMetrics, \"PegName\", \"MemberIntentSkill_SkillLog_Peg\")"
+            },
+            {
+              "property": "conversation.callLogCustomMetrics",
+              "value": "=addProperty(conversation.callLogCustomMetrics, \"AllPegNames\", conversation.allPegNames)"
+            },
+            {
+              "property": "conversation.callLogCustomMetrics",
+              "value": "=addProperty(conversation.callLogCustomMetrics, \"KVPs\", conversation.KVPs)"
+            },
+            {
+              "property": "conversation.callLogCustomMetrics",
+              "value": "=addProperty(conversation.callLogCustomMetrics, \"botId\", settings.botName)"
+            },
+            {
+              "property": "conversation.callLogCustomMetrics",
+              "value": "=addProperty(conversation.callLogCustomMetrics, \"botEnvironment\", settings.botEnvironment)"
+            },
+            {
+              "property": "conversation.callLogCustomMetrics",
+              "value": "=addProperty(conversation.callLogCustomMetrics, 'callerIntent', conversation.intent)"
+            },
+            {
+              "property": "conversation.callLogCustomMetrics",
+              "value": "=addProperty(conversation.callLogCustomMetrics, 'callerIntentEntity', conversation.entity)"
+            },
+            {
+              "property": "conversation.callLogCustomMetrics",
+              "value": "=addProperty(conversation.callLogCustomMetrics, 'ciCallerType', conversation.endDialogParams.parameters.ciCallerType)"
+            },
+            {
+              "property": "conversation.callLogCustomMetrics",
+              "value": "=addProperty(conversation.callLogCustomMetrics, 'ciQuestionType', conversation.callerIntentconfig.QT_NLTagQuestionType)"
+            },
+            {
+              "property": "conversation.callLogCustomMetrics",
+              "value": "=addProperty(conversation.callLogCustomMetrics, 'ciProductType', conversation.callerIntentconfig.PT_NLTagProductType)"
+            },
+            {
+              "property": "conversation.callLogCustomMetrics",
+              "value": "=addProperty(conversation.callLogCustomMetrics, 'ciSubFunction', conversation.callerIntentconfig.NLTagSubFunction)"
+            },
+            {
+              "property": "conversation.callLogCustomMetrics",
+              "value": "=addProperty(conversation.callLogCustomMetrics, 'ciSubFunctionDetail', conversation.callerIntentconfig.NLTagSubFunctionDetail)"
+            },
+            {
+              "property": "conversation.callLogCustomMetrics",
+              "value": "=addProperty(conversation.callLogCustomMetrics, 'ciProduct', conversation.callerIntentconfig.NLTagProduct)"
+            },
+            {
+              "property": "conversation.customMetricsArr",
+              "value": "=[]"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EditArray",
+          "$designer": {
+            "id": "EVcPPE"
+          },
+          "changeType": "push",
+          "resultProperty": "conversation.newCustomMetricsArr",
+          "itemsProperty": "conversation.customMetricsArr",
+          "value": "=conversation.callLogCustomMetrics"
+        },
+        {
+          "$kind": "Microsoft.TelemetryTrackEventAction",
+          "$designer": {
+            "id": "BCvKRK"
+          },
+          "eventName": "MemberIntentSkill_SkillLog_Peg",
+          "properties": {
+            "customMetrics": "=conversation.customMetricsArr"
+          }
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "nWEOAu"
+          },
+          "activity": "${SendActivity_nWEOAu()}",
+          "disabled": true
+        },
+        {
+          "$kind": "LoggerDialog",
+          "$designer": {
+            "id": "v20B2q"
+          },
+          "message": "=concat(\"CustomMetrics : \",conversation.customMetricsArr)",
+          "logType": "plaintext",
+          "disabled": true
+        }
+      ]
+    }
+  ],
+  "generator": "SkillLog.lg",
+  "recognizer": "SkillLog.lu.qna",
+  "id": "SkillLog"
+}

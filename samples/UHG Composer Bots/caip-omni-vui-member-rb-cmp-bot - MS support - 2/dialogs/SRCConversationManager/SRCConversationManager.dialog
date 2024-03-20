@@ -1,0 +1,198 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "IrhhnF",
+    "name": "SCRConversationManager",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "xypTjn"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "1CyWEP"
+          },
+          "condition": "=equals(conversation.tfnConfig.Root_scrConversationManager_Toggle,\"OFF\")",
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "CTfvsC"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "memberRoot_SCRCM_OFFToggle",
+                "pegType": "General",
+                "request": "",
+                "response": "",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MemberRootBot_SCRCM_OFFToggle_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "Xen3tD"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.currentTrigger",
+                  "value": "defaultTransfer"
+                },
+                {
+                  "property": "conversation.transferReason",
+                  "value": "memberRoot_SCRCM_OFFToggle"
+                },
+                {
+                  "property": "conversation.transferPegVal",
+                  "value": "memberRoot_SCRCM_OFFToggle"
+                }
+              ],
+              "disabled": true
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "CP6fmt"
+              },
+              "property": "conversation.currentTrigger",
+              "value": "='selfService'"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "WmeqLq"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.CDBXferId",
+                  "value": "=RootDialog.getCDBXferID()"
+                },
+                {
+                  "property": "conversation.CDBPartitionNbr",
+                  "value": "=RootDialog.getCDBPartionNbr()"
+                },
+                {
+                  "property": "conversation.scrCMRequest",
+                  "value": {
+                    "_Request": "${conversation.tfnConfig.Root_scrCM_Script}",
+                    "_ENT_CallUUID": "${conversation.KVPs.ENT_CallUUID}",
+                    "_ENT_ContactConstituentID": "${if(conversation.member.coverageInfo[0].subscriberId,conversation.member.coverageInfo[0].subscriberId,'')}",
+                    "_ENT_ContactConstituentType": "${conversation.KVPs.ENT_ContactConstituentType}",
+                    "_ENT_ContactDOB": "${if(conversation.member.memberInfo.dob,conversation.member.memberInfo.dob,'')}",
+                    "_ENT_ContactFirstNm": "${if(conversation.member.memberInfo.name.firstName,conversation.member.memberInfo.name.firstName,'')}",
+                    "_ENT_ContactGroupID": "${if(conversation.member.coverageInfo[0].policyNumber,conversation.member.coverageInfo[0].policyNumber,'')}",
+                    "_ENT_ContactLastNm": "${if(conversation.member.memberInfo.name.lastName,conversation.member.memberInfo.name.lastName,'')}",
+                    "_ENT_ContactZip": "${if(conversation.member.memberInfo.address[0].first5PostalCode,conversation.member.memberInfo.address[0].first5PostalCode,'')}",
+                    "_ENT_FromAddress": "${conversation.ani}",
+                    "_ENT_Function": "${conversation.KVPs.ENT_Function}",
+                    "_ENT_MDMID": "${if(conversation.member.memberInfo.individualIdentifier,conversation.member.memberInfo.individualIdentifier,'')}",
+                    "_ENT_Segment": "${conversation.KVPs.ENT_Segment}",
+                    "_ENT_SubFunction": "${conversation.subFunction}",
+                    "_ENT_SubFunctionDetail": "${conversation.subFunctionDetail}",
+                    "_ENT_ToAddress": "${conversation.KVPs.ENT_ToAddress}",
+                    "_ENT_UCID": "${conversation.storageKey}",
+                    "_ENT_Unit": "${conversation.KVPs.ENT_Unit}",
+                    "_ENT_CDBXrefID": "${conversation.CDBXferId}",
+                    "_ENT_CDBPartitionNbr": "${conversation.CDBPartitionNbr}",
+                    "_ENT_BotIntent": "${conversation.iCallerIntent}",
+                    "_ENT_ICMProductType": "${conversation.productType}",
+                    "_AppName": "CM_GET_MID"
+                  }
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "NwFwNJ"
+              },
+              "activityProcessed": true,
+              "dialog": "ConversationManagerConnectionSkillBot",
+              "options": {
+                "cmRequest": "=conversation.scrCMRequest"
+              },
+              "resultProperty": "dialog.CMResponse"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "7C6WDt"
+              },
+              "condition": "=equals(toLower(conversation.setEvent),\"transfer\")",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "614bcV",
+                    "comment": "TransferReason is for Callog peg  & ENT_IVRAppTransferReason is for KVP out"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.silentTransfer",
+                      "value": "=if(equals(dialog.CMResponse.silentTransfer ,\"true\"),true,false)"
+                    },
+                    {
+                      "property": "conversation.ENT_IVRAppTransferReason",
+                      "value": "=dialog.CMResponse.transferReasonCode"
+                    },
+                    {
+                      "property": "conversation.transferReason",
+                      "value": "=getProperty(dialog.CMResponse.parameters,\"transferReason\") ? concat(conversation.currentTrigger,\"_\",dialog.CMResponse.parameters.transferReason) : conversation.transferReason"
+                    },
+                    {
+                      "property": "conversation.transferPegVal",
+                      "value": "=getProperty(dialog.CMResponse.parameters,\"transferPeg\") ? dialog.CMResponse.parameters.transferPeg: conversation.transferPeg"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "MDgsjv"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.currentTrigger",
+                      "value": "='defaultTransfer'"
+                    },
+                    {
+                      "property": "conversation.ENT_BotAction",
+                      "value": "ROUTE2AGENT"
+                    }
+                  ]
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "2Qfc2x"
+                  },
+                  "property": "conversation.currentTrigger",
+                  "value": "='selfService'"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "SRCConversationManager.lg",
+  "recognizer": "SRCConversationManager.lu.qna",
+  "id": "SRCConversationManager"
+}

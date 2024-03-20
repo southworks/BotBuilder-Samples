@@ -1,0 +1,11 @@
+.nyc_output/
+botium-report/
+botiumwork/
+coverage/
+node_modules/
+
+# files generated during the lubuild process
+generated/
+
+# settings file containing secrets
+settings/appsettings.json

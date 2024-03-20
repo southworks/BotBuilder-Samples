@@ -1,0 +1,16 @@
+.nyc_output/
+botium-report/
+botiumwork/
+coverage/
+node_modules/
+bak/
+
+# files generated during the lubuild process
+generated/
+
+# settings file containing secrets
+settings/appsettings.json
+
+# luis import file
+LUISconfig*
+ImportLUIS*

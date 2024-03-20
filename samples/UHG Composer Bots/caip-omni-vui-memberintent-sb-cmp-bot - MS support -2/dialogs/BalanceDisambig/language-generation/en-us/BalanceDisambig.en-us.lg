@@ -1,0 +1,20 @@
+> !# @Namespace = BalanceDisambig
+> !# @Exports = UHCMember_BalanceDisambig_Msg
+
+[import](common.lg)
+
+# UHCMember_BalanceDisambig_Msg()
+[Activity
+    Text = ${UHCMember_BalanceDisambig_text()}
+    Speak = ${UHCMember_BalanceDisambig_text()}
+    InputHint = expectingInput
+    ChannelData = ${ExpectingPrompts_ActivityParams(1500)}
+]
+
+# SendActivity_1yBtSI()
+[Activity
+    Text = ${UHCMember_BillingDisambig_text()}
+    Speak = ${UHCMember_BillingDisambig_text()}
+    InputHint = expectingInput
+    ChannelData = ${ExpectingPrompts_ActivityParams(1500)}
+]

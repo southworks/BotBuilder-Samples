@@ -1,0 +1,303 @@
+> !# @Namespace = NoUserInput
+> !# @Exports = IntentCapture_ForeignLanguages_NI2, IntentCapture_ForeignLanguages_NI1, UHCMember_uCardDisambig_NI1_Msg, UHCMember_SolutranUpfrontML_NI1_Msg, UHCMember_PaymentDisambig_NI1_Msg, CrisisDisambig_NI1_Msg, UHCMember_Max_NI_Disconnect_Msg, UHCMember_BalanceDisambig_NI1_Msg, UHCMember_OpenEnrollment_NI1_Msg, UHCMember_SolutranDisambig_NI1_Msg, NurseLingDisambig_NI1_Msg, IntentCaptureInitial_NI1, IntentCaptureInitial_NI2, IntentCaptureRetry_NI1, IntentCaptureRetry_NI2, AgentTransferCapture_NI1, AgentTransferCapture_NI2, ConfirmIntent_NI1, ConfirmIntent_NI2, UHCMember_ClaimsGeneral_NI1, UHCMember_DisambigBenefits_NI1, UHCMember_PharmacyGeneral_NI1, UHCMember_Intent_DisambigGeneral_NI1, UHCMember_Intent_DisambigGeneral_NI2, UHCMember_MentalHealth_General_NI1_Msg, UHCMember_FinancialAccount_General_NI1_Msg, UHCMember_PreApproval_Rx_NI1_Msg, UHCMember_BillingDisambig_NI1_Msg, UHCMember_Intent_AnythingElse_Capture_NI1, UHCMember_Intent_AnythingElse_Capture_NI2, UHCMember_Intent_ReturnNoWrap_Capture_NI1, UHCMember_Intent_ReturnNoWrap_Capture_NI2
+[import](common.lg)
+
+
+# IntentCaptureInitial_NI1()
+[Activity
+    Text = ${IntentCaptureInitial_NI1_text()}
+    Speak = ${IntentCaptureInitial_NI1_text()}
+    InputHint = expectingInput
+    ChannelData = ${StartPrompts_ActivityParams(1500)}
+]
+
+# IntentCaptureInitial_NI2()
+[Activity
+    Text = ${IntentCaptureInitial_NI2_text()}
+    Speak = ${IntentCaptureInitial_NI2_text()}
+    InputHint = expectingInput
+    ChannelData = ${StartPrompts_ActivityParams(1500)}
+]
+# IntentCaptureRetry_NI1()
+[Activity
+    Text = ${IntentCaptureRetry_NI1_text()}
+    Speak = ${IntentCaptureRetry_NI1_text()}
+    InputHint = expectingInput
+    ChannelData = ${StartPrompts_ActivityParams(1500)}
+]
+
+# IntentCaptureRetry_NI2()
+[Activity
+    Text = ${IntentCaptureRetry_NI2_text()}
+    Speak = ${IntentCaptureRetry_NI2_text()}
+    InputHint = expectingInput
+    ChannelData = ${StartPrompts_ActivityParams(1500)}
+]
+
+# AgentTransferCapture_NI1()
+[Activity
+    Text = ${AgentTransferCapture_NI1_text()}
+    Speak = ${AgentTransferCapture_NI1_text()}
+    InputHint = expectingInput
+    ChannelData = ${StartPrompts_ActivityParams(1500)}
+]
+
+# AgentTransferCapture_NI2()
+[Activity
+    Text = ${AgentTransferCapture_NI2_text()}
+    Speak = ${AgentTransferCapture_NI2_text()}
+    InputHint = expectingInput
+    ChannelData = ${StartPrompts_ActivityParams(1500)}
+]
+
+# ConfirmIntent_NI1()
+[Activity
+    Text = ${ConfirmIntent_NI1_text()}
+    Speak = ${ConfirmIntent_NI1_text()}
+    InputHint = expectingInput
+    ChannelData = ${StartPrompts_ActivityParams(1500)}
+]
+
+# ConfirmIntent_NI2()
+[Activity
+    Text = ${ConfirmIntent_NI2_text()}
+    Speak = ${ConfirmIntent_NI2_text()}
+    InputHint = expectingInput
+    ChannelData = ${StartPrompts_ActivityParams(1500)}
+]
+
+# UHCMember_DisambigBenefits_NI1()
+[Activity
+    Text = ${UHCMember_DisambigBenefits_NI1_text()}
+    Speak = ${UHCMember_DisambigBenefits_NI1_text()}
+    InputHint = expectingInput
+    ChannelData = ${ExpectingPrompts_ActivityParams(1500)}
+]
+
+# UHCMember_ClaimsGeneral_NI1()
+[Activity
+    Text = ${UHCMember_ClaimsGeneral_NI1_text()}
+    Speak = ${UHCMember_ClaimsGeneral_NI1_text()}
+    InputHint = expectingInput
+    ChannelData = ${ExpectingPrompts_ActivityParams(1500)}
+]
+
+# UHCMember_PharmacyGeneral_NI1()
+[Activity
+    Text = ${UHCMember_PharmacyGeneral_NI1_text()}
+    Speak = ${UHCMember_PharmacyGeneral_NI1_text()}
+    InputHint = expectingInput
+    ChannelData = ${ExpectingPrompts_ActivityParams(1500)}
+]
+
+# UHCMember_Intent_DisambigGeneral_NI1()
+[Activity
+    Text = ${UHCMember_Intent_DisambigGeneral_NI1_text()}
+    Speak = ${UHCMember_Intent_DisambigGeneral_NI1_text()}
+    InputHint = expectingInput
+    ChannelData = ${ExpectingPrompts_ActivityParams(1500)}
+]
+
+
+# UHCMember_Intent_DisambigGeneral_NI2()
+[Activity
+    Text = ${UHCMember_Intent_DisambigGeneral_NI2_text()}
+    Speak = ${UHCMember_Intent_DisambigGeneral_NI2_text()}
+    InputHint = expectingInput
+    ChannelData = ${ExpectingPrompts_ActivityParams(1500)}
+]
+
+# UHCMember_MentalHealth_General_NI1_Msg
+[Activity
+    Text = ${UHCMember_MentalHealth_General_NI1_text()}
+    Speak = ${UHCMember_MentalHealth_General_NI1_text()}
+    InputHint = expectingInput
+    ChannelData = ${ExpectingPrompts_ActivityParams(1500)}
+]
+
+# UHCMember_FinancialAccount_General_NI1_Msg()
+[Activity
+    Text = ${UHCMember_FinancialAccount_General_NI1_text()}
+    Speak = ${UHCMember_FinancialAccount_General_NI1_text()}
+    InputHint = expectingInput
+    ChannelData = ${ExpectingPrompts_ActivityParams(1500)}
+]
+
+# UHCMember_PreApproval_Rx_NI1_Msg()
+[Activity
+    Text = ${UHCMember_PreApproval_Rx_NI1_text()}
+    Speak = ${UHCMember_PreApproval_Rx_NI1_text()}
+    InputHint = expectingInput
+    ChannelData = ${ExpectingPrompts_ActivityParams(1500)}
+]
+
+# UHCMember_BillingDisambig_NI1_Msg()
+[Activity
+    Text = ${UHCMember_BillingDisambig_NI1_text()}
+    Speak = ${UHCMember_BillingDisambig_NI1_text()}
+    InputHint = expectingInput
+    ChannelData = ${ExpectingPrompts_ActivityParams(1500)}
+]
+
+# UHCMember_SolutranDisambig_NI1_Msg()
+[Activity
+    Text = ${dialog.solutranDisambigNI1Text}
+    Speak = ${dialog.solutranDisambigNI1Text}
+    InputHint = expectingInput
+    ChannelData = ${ExpectingPrompts_ActivityParams(1500)}
+]
+
+
+# NurseLingDisambig_NI1_Msg()
+[Activity
+    Text = ${NurseLineDisambig_NI1_text()}
+    Speak = ${NurseLineDisambig_NI1_text()}
+    InputHint = expectingInput
+    ChannelData = ${ExpectingPrompts_ActivityParams(1500)}
+]
+
+# UHCMember_OpenEnrollment_NI1_Msg()
+[Activity
+    Text = ${UHCMember_OpenEnrollment_NI1_text()}
+    Speak = ${UHCMember_OpenEnrollment_NI1_text()}
+    InputHint = expectingInput
+    ChannelData = ${ExpectingPrompts_ActivityParams(1500)}
+]
+
+# CrisisDisambig_NI1_Msg()
+[Activity
+    Text = ${CrisisDisambig_NI1_text()}
+    Speak = ${CrisisDisambig_NI1_text()}
+    InputHint = expectingInput
+    ChannelData = ${ExpectingPrompts_ActivityParams(1500)}
+]
+
+# SendActivity_ttpovH()
+[Activity
+    Text = ${UHCMember_SolutranDisambig_NI1_text()}
+    Speak = ${UHCMember_SolutranDisambig_NI1_text()}
+    InputHint = expectingInput
+    ChannelData = ${ExpectingPrompts_ActivityParams(1500)}
+]
+
+# UHCMember_BalanceDisambig_NI1_Msg()
+[Activity
+    Text = ${UHCMember_BalanceDisambig_NI1_text()}
+    Speak = ${UHCMember_BalanceDisambig_NI1_text()}
+    InputHint = expectingInput
+    ChannelData = ${ExpectingPrompts_ActivityParams(1500)}
+]
+
+# UHCMember_Max_NI_Disconnect_Msg()
+[Activity
+    Text = ${UHCMember_Max_NI_Disconnect_text()}
+    Speak = ${UHCMember_Max_NI_Disconnect_text()}
+    InputHint = ignoringInput
+    channelData = ${
+        {
+            activityParams: {
+                sendDTMF: false, 
+                bargeIn: false,
+                bargeInOnDTMF: false,
+                enableSpeechInput: false
+            }
+        }
+    }
+]
+
+# SendActivity_oVn5It()
+[Activity
+    Text = ${NurseLineDisambig_NI1_text()}
+    Speak = ${NurseLineDisambig_NI1_text()}
+    InputHint = expectingInput
+    ChannelData = ${ExpectingPrompts_ActivityParams(1500)}
+]
+
+# UHCMember_PaymentDisambig_NI1_Msg()
+[Activity
+    Text = ${UHCMember_PaymentDisambig_NI1_text()}
+    Speak = ${UHCMember_PaymentDisambig_NI1_text()}
+    InputHint = expectingInput
+    ChannelData = ${ExpectingPrompts_ActivityParams(1500)}
+]
+
+# SendActivity_XP401O()
+[Activity
+    Text = ${IntentCaptureInitial_NI1_text()}
+    Speak = ${IntentCaptureInitial_NI1_text()}
+    InputHint = expectingInput
+    ChannelData = ${StartPrompts_ActivityParams(1500)}
+]
+
+# SendActivity_oXgaEm()
+[Activity
+    Text = ${IntentCaptureInitial_NI2_text()}
+    Speak = ${IntentCaptureInitial_NI2_text()}
+    InputHint = expectingInput
+    ChannelData = ${StartPrompts_ActivityParams(1500)}
+]
+
+# UHCMember_SolutranUpfrontML_NI1_Msg()
+[Activity
+    Text = ${dialog.solutranUpfrontMLNI1Text}
+    Speak = ${dialog.solutranUpfrontMLNI1Text}
+    InputHint = expectingInput
+    ChannelData = ${ExpectingPrompts_ActivityParams(1500)}
+]
+
+# UHCMember_uCardDisambig_NI1_Msg()
+[Activity
+    Text = ${UHCMember_uCardDisambig_NI1_text()}
+    Speak = ${UHCMember_uCardDisambig_NI1_text()}
+    InputHint = expectingInput
+    ChannelData = ${StartPrompts_ActivityParams(1500)}
+]
+
+
+# UHCMember_Intent_AnythingElse_Capture_NI1()
+[Activity
+    Text = ${UHCMember_Intent_AnythingElse_Capture_NI1_text()}
+    Speak = ${UHCMember_Intent_AnythingElse_Capture_NI1_text()}
+    InputHint = expectingInput
+    ChannelData = ${StartPrompts_ActivityParams(1500)}
+]
+
+# UHCMember_Intent_AnythingElse_Capture_NI2()
+[Activity
+    Text = ${UHCMember_Intent_AnythingElse_Capture_NI2_text()}
+    Speak = ${UHCMember_Intent_AnythingElse_Capture_NI2_text()}
+    InputHint = expectingInput
+    ChannelData = ${StartPrompts_ActivityParams(1500)}
+]
+
+# UHCMember_Intent_ReturnNoWrap_Capture_NI1()
+[Activity
+    Text = ${UHCMember_Intent_ReturnNoWrap_Capture_NI1_text()}
+    Speak = ${UHCMember_Intent_ReturnNoWrap_Capture_NI1_text()}
+    InputHint = expectingInput
+    ChannelData = ${StartPrompts_ActivityParams(1500)}
+]
+
+# UHCMember_Intent_ReturnNoWrap_Capture_NI2()
+[Activity
+    Text = ${UHCMember_Intent_ReturnNoWrap_Capture_NI2_text()}
+    Speak = ${UHCMember_Intent_ReturnNoWrap_Capture_NI2_text()}
+    InputHint = expectingInput
+    ChannelData = ${StartPrompts_ActivityParams(1500)}
+]
+
+# IntentCapture_ForeignLanguages_NI1()
+[Activity
+    Text = ${UHCMember_IntentCapture_ForeignLang_NI1_text()}
+    Speak = ${UHCMember_IntentCapture_ForeignLang_NI1_text()}
+    InputHint = expectingInput
+    ChannelData = ${StartPrompts_ActivityParams(1500)}
+]
+
+# IntentCapture_ForeignLanguages_NI2()
+[Activity
+    Text = ${UHCMember_IntentCapture_ForeignLang_NI2_text()}
+    Speak = ${UHCMember_IntentCapture_ForeignLang_NI2_text()}
+    InputHint = expectingInput
+    ChannelData = ${StartPrompts_ActivityParams(1500)}
+]

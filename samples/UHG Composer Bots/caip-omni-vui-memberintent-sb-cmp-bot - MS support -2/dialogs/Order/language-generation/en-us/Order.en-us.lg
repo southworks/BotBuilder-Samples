@@ -1,0 +1,22 @@
+> !# @Namespace = Order
+> !# @Exports = UHCMember_Order_Msg
+
+[import](common.lg)
+
+# UHCMember_Order_Msg()
+[Activity
+    Text = ${UHCMember_Order_text()}
+    Speak = ${UHCMember_Order_text()}
+    InputHint = expectingInput
+    ChannelData = ${
+        {
+            activityParams:{
+                sendDTMF: false, 
+                bargeIn: false,
+                bargeInOnDTMF: false,
+                enableSpeechInput: false
+            }
+        }
+    }
+]
+

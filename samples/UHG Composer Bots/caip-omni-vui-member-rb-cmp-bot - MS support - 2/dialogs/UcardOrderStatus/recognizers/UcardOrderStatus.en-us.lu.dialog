@@ -1,0 +1,8 @@
+{
+  "$kind": "Microsoft.LuisRecognizer",
+  "id": "LUIS_UcardOrderStatus",
+  "applicationId": "=settings.luis.UcardOrderStatus_en_us_lu.appId",
+  "version": "=settings.luis.UcardOrderStatus_en_us_lu.version",
+  "endpoint": "=settings.luis.endpoint",
+  "endpointKey": "=settings.luis.endpointKey"
+}

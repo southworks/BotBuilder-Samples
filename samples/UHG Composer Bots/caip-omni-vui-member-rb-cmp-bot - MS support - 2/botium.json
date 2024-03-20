@@ -1,0 +1,23 @@
+{
+  "botium": {
+    "Capabilities": {
+      "PROJECTNAME": "omni-vui-member-rb-cmp",
+      "WAITFORBOTTIMEOUT": "30000",
+      "CONTAINERMODE": "directline3",
+      "DIRECTLINE3_SECRET": "DIRECTLINE_SECRET",
+      "DIRECTLINE3_HANDLE_ACTIVITY_TYPES": "event,message,conversationUpdate",
+      "DIRECTLINE3_WELCOME_ACTIVITY": {
+        "type": "event",
+        "name": "testEvent",
+        "value": {
+          "language": "de-DE"
+        },
+        "channelData": {
+          "kb": "demo"
+        }
+      }
+    },
+    "Sources": {},
+    "Envs": {}
+  }
+}

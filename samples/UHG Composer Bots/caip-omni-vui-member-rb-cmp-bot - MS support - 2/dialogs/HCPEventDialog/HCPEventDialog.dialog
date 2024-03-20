@@ -1,0 +1,150 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "3IXxFu",
+    "name": "HCPEventDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "4xpibn"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "ewnwEt"
+          },
+          "activityProcessed": true,
+          "dialog": "GetTelemetryProps"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "nIHS5E"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "HCPEvent",
+            "pegType": "General",
+            "request": "",
+            "response": "",
+            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "MemberRootBot_Start_HCPEvent_Peg"
+          }
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "tyrVf5"
+          },
+          "assignments": [
+            {
+              "property": "conversation.startdate",
+              "value": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")"
+            },
+            {
+              "property": "conversation.trans_json",
+              "value": "=json(conversation.transcript_json)"
+            },
+            {
+              "property": "conversation.subject",
+              "value": "=and(conversation.tfnConfig.Root_uhcMember_HcpSubject,length(trim(conversation.tfnConfig.Root_uhcMember_HcpSubject))>0) ? conversation.tfnConfig.Root_uhcMember_HcpSubject : settings.hcpEventSubject"
+            },
+            {
+              "property": "conversation.source",
+              "value": "=and(conversation.tfnConfig.Root_uhcMember_HcpEventSource,length(trim(conversation.tfnConfig.Root_uhcMember_HcpEventSource))>0) ? conversation.tfnConfig.Root_uhcMember_HcpEventSource : settings.hcpEventSource"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "6cSXtp"
+          },
+          "property": "conversation.hcpReqBody",
+          "value": {
+            "specversion": "1.0",
+            "type": "omnibot-transcript-event.v0.1.0",
+            "source": "=conversation.source",
+            "id": "=conversation.storageKey",
+            "subject": "=conversation.subject",
+            "time": "=(formatDateTime(conversation.startdate))",
+            "environment": "=settings.hcpEventPublishEnv",
+            "data": {
+              "conversation_info": "=conversation.trans_json.conversation_info",
+              "KVP": "=conversation.KVPs"
+            }
+          }
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "kehEol"
+          },
+          "property": "conversation.hcpFlag",
+          "value": false
+        },
+        {
+          "$kind": "Optum.HttpRequestDialog",
+          "$designer": {
+            "id": "OStI8o",
+            "name": "Omni-Http Request HCP Event End Point"
+          },
+          "verbiageToggleVal": false,
+          "tokenurl": "=settings.hcpTokenEndPoint",
+          "url": "=settings.hcpEventPublishEndpoint",
+          "method": "POST",
+          "body": "=conversation.hcpReqBody",
+          "tokencontentType": "application/x-www-form-urlencoded",
+          "contentType": "application/json",
+          "timeout": "=settings.hcpMWTimeOutMS",
+          "retryCount": 0,
+          "retryInterval": 0,
+          "tokenTimeout": "=settings.accessTokenTimeout",
+          "resultProperty": "dialog.final_output",
+          "promptTime": "=if(conversation.tfnConfig.Root_GlobalTimeout_InterPromptTimeout, int(conversation.tfnConfig.Root_GlobalTimeout_InterPromptTimeout), settings.promptTimeInMS)",
+          "connectionString": "=settings.connectionString",
+          "containerName": "=settings.hcpContainerName",
+          "clientid": "=settings.hcpTokenClientID",
+          "clientsecret": "=settings.hcpTokenClientSecret",
+          "additionalHeaderKey": "=settings.hcpEventHeaderKey",
+          "additionalHeaderValue": "=settings.hcpEventHeaderValue",
+          "scope": "=settings.hcpTokenScope",
+          "firstPrompt": "=GlobalBehavior.GlobalTimeoutFirstMsg()",
+          "repeatPrompt": "=GlobalBehavior.GlobalTimeoutRepeatMsg()",
+          "fstpmtteleval": "=conversation.fpTelemetryProps",
+          "rptpmtteleval": "=conversation.rpTelemetryProps"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "o4Xbzn"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "memberRoot_TranscriptionLogging_HCPEventAction",
+            "pegType": "DataInterface",
+            "request": "{\"URL\":\"${settings.hcpEventPublishEndpoint}\",\"RequestBody\":${conversation.hcpReqBody}}",
+            "response": "=dialog.final_output",
+            "startDTM": "=conversation.startdate",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "MemberRootBot_TranscriptionLogging_HCPEventAction_Peg"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "HCPEventDialog.lg",
+  "recognizer": "HCPEventDialog.lu.qna",
+  "id": "HCPEventDialog"
+}

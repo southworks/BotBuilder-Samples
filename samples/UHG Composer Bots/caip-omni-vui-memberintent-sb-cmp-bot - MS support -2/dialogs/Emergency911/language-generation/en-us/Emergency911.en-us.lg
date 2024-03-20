@@ -1,0 +1,22 @@
+> !# @Namespace = Emergency
+> !# @Exports = UHCMember_Emergency911_Msg
+
+[import](common.lg)
+
+# UHCMember_Emergency911_Msg()
+[Activity
+    Text = ${UHCMember_Emergency911_text()}
+    Speak = ${UHCMember_Emergency911_text()}
+    InputHint = expectingInput
+    ChannelData = ${
+        {
+            activityParams:{
+                sendDTMF: false, 
+                bargeIn: false,
+                bargeInOnDTMF: false,
+                enableSpeechInput: false
+            }
+        }
+    }
+]
+

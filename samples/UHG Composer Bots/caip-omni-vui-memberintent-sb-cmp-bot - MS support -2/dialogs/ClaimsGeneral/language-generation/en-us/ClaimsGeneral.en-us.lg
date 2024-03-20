@@ -1,0 +1,13 @@
+> !# @Namespace=ClaimsGeneralDialog
+> !# @Exports = UHCMember_ClaimsGeneralMsg
+
+[import](common.lg)
+
+# UHCMember_ClaimsGeneralMsg()
+[Activity
+    Text = ${UHCMember_ClaimsGeneral_text()}
+    Speak = ${UHCMember_ClaimsGeneral_text()}
+    InputHint = expectingInput
+    ChannelData = ${ExpectingPrompts_ActivityParams(1000)}
+]
+

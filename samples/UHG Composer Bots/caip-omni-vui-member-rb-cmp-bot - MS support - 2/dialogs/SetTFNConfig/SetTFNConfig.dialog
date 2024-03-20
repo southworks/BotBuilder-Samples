@@ -1,0 +1,466 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "8zgk5E",
+    "name": "SetTFNConfig",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "OT2uGi"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "IRQHzM"
+          },
+          "assignments": [
+            {
+              "value": "=(toLower(MainDialog.getConfigExperience()))",
+              "property": "conversation.configExperience"
+            },
+            {
+              "value": "=(getProperty(conversation.KVPs, \"ENT_ToAddress\"))",
+              "property": "conversation.tfn"
+            },
+            {
+              "property": "conversation.tfnfilename",
+              "value": "=concat(string(conversation.tfn),if(length(string(conversation.tfn))>0, \"_\", \"\") ,conversation.configExperience)"
+            },
+            {
+              "property": "conversation.startDate",
+              "value": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")"
+            }
+          ]
+        },
+        {
+          "$kind": "Optum.ConfigLoaderDialog",
+          "$designer": {
+            "id": "6OEY4V",
+            "name": "CFGBOT_GetTFNConfig"
+          },
+          "tfnExperienceName": "=conversation.tfnfilename",
+          "resultProperty": "dialog.tfnConfigResponse",
+          "disabled": true
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "eR9P53"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "memberRoot_CFG_GetTFNExperience",
+            "pegType": "DataInterface",
+            "request": "=conversation.tfnfilename",
+            "response": "=dialog.tfnConfigResponse",
+            "startDTM": "=conversation.startDate",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "MemberRootBot_CFG_GetTFNExperience_Peg"
+          },
+          "disabled": true
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "vbaC3r"
+          },
+          "condition": "=and(string(dialog.tfnConfigResponse.status)==string('success'),!empty(dialog.tfnConfigResponse.data))",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "zt6vMl"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.tfnConfig",
+                  "value": "=json(string(dialog.tfnConfigResponse.data))"
+                }
+              ],
+              "disabled": true
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "BeB1pU"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.ENT_BotAction",
+                  "value": "ROUT2AGENT"
+                }
+              ],
+              "disabled": true
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "dTZxEm"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "memberRoot_GetTFNCFG_ErrorException",
+                "pegType": "DataInterface",
+                "request": "=conversation.tfnfilename",
+                "response": "=dialog.tfnconfigresponse.data",
+                "startDTM": "=conversation.startDate",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MemberRootBot_GetTFNCFG_ErrorException_Peg"
+              },
+              "disabled": true
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "KReRSp"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.transferReason",
+                  "value": "TFNConfig_Error"
+                },
+                {
+                  "property": "conversation.transferPegVal",
+                  "value": "TFNConfig_ERROR"
+                },
+                {
+                  "property": "conversation.tfnFound",
+                  "value": false
+                }
+              ],
+              "disabled": true
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "Oe7ptR"
+              },
+              "activityProcessed": true,
+              "dialog": "GlobalBehavior",
+              "options": {
+                "behavior": "SystemError"
+              },
+              "disabled": true
+            }
+          ],
+          "disabled": true
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "VWZ19j"
+          },
+          "property": "conversation.tfnFound",
+          "value": true
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "QNfq8n"
+          },
+          "property": "conversation.tfnConfig",
+          "value": {
+            "Root_Greeting_WAV": "false",
+            "Root_GlobalTimeout_FirstPrompt": "Just a moment.",
+            "IDAuth_Coverage_Type_Priority": "M,B,MC,ME,MH,MS,RX",
+            "DOB_Authentication_Toggle": "ON",
+            "Root_uhcmember_disconnect_maxNI": "true",
+            "ConfirmMemIDMsg_Toggle": "ON",
+            "HoldOnGetDetails_Toggle": "ON",
+            "Personalization_GlobalTimeout_SecondPrompt": "Things are still loading, <break time=\"500ms\" /> we're really sorry about the delay.",
+            "Root_Greeting_TTS": "United HealthCare",
+            "CM_Skill_disconnect_maxNI": "ON",
+            "idPolicySkill_disconnect_maxNI": "true",
+            "MemberAuth_GlobalTimeout_FirstPrompt": "just a moment",
+            "Root_uhcMember_CallerIntent_Toggle": "ON",
+            "MemberRootBot_fsm": {
+              "name": "UHCMember",
+              "state": [
+                "start",
+                "playGreeting",
+                "directMessage",
+                "providerExclusion",
+                "aniExclusion",
+                "language",
+                "araConversationManager",
+                "callerIntent",
+                "authentication",
+                "policySelection",
+                "sms",
+                "scrConversationManager",
+                "selfService",
+                "findProvider",
+                "uCardActivate",
+                "uCardBalance",
+                "transfer"
+              ],
+              "initial": "start",
+              "transition": [
+                {
+                  "event": "playGreeting",
+                  "trigger": "NA",
+                  "from": "start",
+                  "to": "greeting"
+                },
+                {
+                  "event": "directMessage",
+                  "trigger": "directMessage",
+                  "from": "greeting",
+                  "to": "directMessage"
+                },
+                {
+                  "event": "providerExclusion",
+                  "trigger": "providerExclusion",
+                  "from": "directMessage",
+                  "to": "providerExclusion"
+                },
+                {
+                  "event": "aniExclusion",
+                  "trigger": "aniExclusion",
+                  "from": "providerExclusion",
+                  "to": "aniExclusion"
+                },
+                {
+                  "event": "transfer",
+                  "trigger": "defaultTransfer",
+                  "from": "providerExclusion",
+                  "to": "transfer"
+                },
+                {
+                  "event": "araConversationManager",
+                  "trigger": "araConversationManager",
+                  "from": "aniExclusion",
+                  "to": "araConversationManager"
+                },
+                {
+                  "event": "language",
+                  "trigger": "language",
+                  "from": "araConversationManager",
+                  "to": "language"
+                },
+                {
+                  "event": "transfer",
+                  "trigger": "defaultTransfer",
+                  "from": "araConversationManager",
+                  "to": "tansfer"
+                },
+                {
+                  "event": "callerIntent",
+                  "trigger": "callerIntent",
+                  "from": "language",
+                  "to": "callerIntent"
+                },
+                {
+                  "event": "transfer",
+                  "trigger": "defaultTransfer",
+                  "from": "language",
+                  "to": "tansfer"
+                },
+                {
+                  "event": "authentication",
+                  "trigger": "memberAuth",
+                  "from": "callerIntent",
+                  "to": "authentication"
+                },
+                {
+                  "event": "policySelection",
+                  "trigger": "policySelection",
+                  "from": "authentication",
+                  "to": "policySelection"
+                },
+                {
+                  "event": "transfer",
+                  "trigger": "defaultTransfer",
+                  "from": "authentication",
+                  "to": "transfer"
+                },
+                {
+                  "event": "sms",
+                  "trigger": "sms",
+                  "from": "policySelection",
+                  "to": "sms"
+                },
+                {
+                  "event": "scrConversationManager",
+                  "trigger": "scrConversationManager",
+                  "from": "sms",
+                  "to": "scrConversationManager"
+                },
+                {
+                  "event": "selfService",
+                  "trigger": "selfService",
+                  "from": "scrConversationManager",
+                  "to": "selfService"
+                },
+                {
+                  "event": "transfer",
+                  "trigger": "defaultTransfer",
+                  "from": "scrConversationManager",
+                  "to": "transfer"
+                },
+                {
+                  "event": "findProvider",
+                  "trigger": "findProvider",
+                  "from": "selfService",
+                  "to": "findProvider"
+                },
+                {
+                  "event": "uCardActivate",
+                  "trigger": "uCardActivate",
+                  "from": "selfService",
+                  "to": "uCardActivate"
+                },
+                {
+                  "event": "uCardBalance",
+                  "trigger": "uCardBalance",
+                  "from": "selfService",
+                  "to": "uCardBalance"
+                },
+                {
+                  "event": "transfer",
+                  "trigger": "defaultTransfer",
+                  "from": "uCardBalance",
+                  "to": "transfer"
+                },
+                {
+                  "event": "transfer",
+                  "trigger": "defaultTransfer",
+                  "from": "uCardActivate",
+                  "to": "transfer"
+                },
+                {
+                  "event": "transfer",
+                  "trigger": "defaultTransfer",
+                  "from": "findProvider",
+                  "to": "transfer"
+                },
+                {
+                  "event": "transfer",
+                  "trigger": "defaultTransfer",
+                  "from": "selfService",
+                  "to": "transfer"
+                },
+                {
+                  "event": "transfer",
+                  "trigger": "defaultTransfer",
+                  "from": "callerIntent",
+                  "to": "transfer"
+                },
+                {
+                  "event": "transfer",
+                  "trigger": "defaultTransfer",
+                  "from": "policySelection",
+                  "to": "transfer"
+                }
+              ]
+            },
+            "CMSkill_AI_Suppress_Global_Verbiage_RepeatToggle": "OFF",
+            "Root_Language_Toggle": "ON",
+            "Root_ANI_Exclusion_Toggle": "OFF",
+            "Root_Greeting_Toggle": "ON",
+            "Root_AI_Suppress_Global_Verbiage_Toggle": "OFF",
+            "Root_uhcMember_xferHOOPMessage_Toggle": "OFF",
+            "Root_uhcMember_XferMessage_Toggle": "ON",
+            "Policy_askDateRange_Toggle": "OFF",
+            "CallerIntent_OpenEnrollmentDisambig_Toggle": "OFF",
+            "Root_PolicySelection_Toggle": "ON",
+            "Root_ProviderIntercept_Exclusion_Toggle": "OFF",
+            "Root_ANI_Exists_Lookup_Toggle": "ON",
+            "Root_IVRExitAppName": "CAS",
+            "IDAuthSkill_Disconnect_MaxNI": "true",
+            "Root_scrCM_Script": "script:CandS_BOT",
+            "ANI_Authentication_Toggle": "ON",
+            "Last4SSN_Authentication_Toggle": "OFF",
+            "Policy_askDOS_Toggle": "OFF",
+            "Root_FL_MultiLang_Toggle": "ON",
+            "CallerIntent_CallerType_Toggle": "ON",
+            "CallerIntent_GlobalTimeout_InterPromptTimeout": "3000",
+            "IDAuthSkill_RetryAgent_Toggle": "ON",
+            "CMSkill_AI_Global_Repeat_Toggle": "ON",
+            "MembershipSearch_Coverage_Version": "2",
+            "Member_Authentication_Version": "1_0_0",
+            "dob_IncludeDateExample_Toggle": "OFF",
+            "Root_callerIntent_IVRSelfService_EntityCheckBypass_List": "silverSneakers",
+            "ANI_Exclusion_Toggle": "OFF",
+            "CallerIntent_SolutranDisambig_Toggle": "ON",
+            "CallerIntent_GlobalTimeout_SecondPrompt": "Things are still loading, <break time=\"500ms\" /> we're really sorry about the delay.",
+            "Root_BOT_SS_UCard_ValidSourceSystems_List": "CO,AP",
+            "Root_callerIntent_selfService_List": "cardReplacement,silverSneakers,benefits",
+            "CallerIntent_MultiLang_Toggle": "ON",
+            "Root_callRecordingPrompt_Toggle": "ON",
+            "Root_ContextDataStoreCreate_Toggle": "ON",
+            "CMSkill_AI_Suppress_Global_Verbiage_Toggle": "OFF",
+            "TwinAuthenticationToggle": "OFF",
+            "Root_uhcMember_ProviderSearch_Toggle": "OFF",
+            "Root_callerIntentEntity_BOTSelfService_List": "uCardActivateChild,uCardBalanceChild",
+            "PolicySelection_GlobalTimeout_InterPromptTimeout": "3000",
+            "Root_callerIntent_BOTSelfService_List": "uCard",
+            "Personalization_GlobalTimeout_InterPromptTimeout": "3000",
+            "Root_uhcMember_Authentication_Toggle": "ON",
+            "Root_GlobalTimeout_SecondPrompt": "Things are still loading ,<break time=\"500ms\" /> we're really sorry about the delay.",
+            "Phone_Nbr_Prompt_Toggle": "OFF",
+            "Personalization_GlobalTimeout_FirstPrompt": "Just a moment.",
+            "confirmMultiplePolicyToggle": "ON",
+            "PolicySelection_GlobalTimeout_FirstPrompt": "Just a moment.",
+            "Root_uhcMember_UCardBalance_Toggle": "ON",
+            "MR_TFN_PrescriptonDrugPlan": "OFF",
+            "IDAuthSkill_RetryDontKnow_Toggle": "ON",
+            "Root_araConversationManager_Toggle": "OFF",
+            "Root_DirectMessage_Toggle": "OFF",
+            "PolicySelection_GlobalTimeout_SecondPrompt": "Things are still loading, <break time=\"500ms\" /> we're really sorry about the delay.",
+            "Root_SMS_Msg_LOB": "C&S",
+            "ID_Auth_ID_Menu_Type": "MID-SSN",
+            "MW_Retry_Toggle": "ON",
+            "MemberAuth_GlobalTimeout_InterPromptTimeout": "3000",
+            "Root_scrConversationManager_Toggle": "OFF",
+            "Root_selfService_Toggle": "ON",
+            "ZIPAuthenticationToggle": "OFF",
+            "Root_GlobalTimeout_InterPromptTimeout": "3000",
+            "Root_uhcMember_AskPolicyLOB": "OFF",
+            "IDAuth_AccountConfirmPrompt_Toggle": "OFF",
+            "Root_Subscriber_Individual_ID_List": "5400,7800,4900",
+            "Root_uhcMember_BenefitAndEligibility_Toggle": "ON",
+            "IsSupMediPlan_Toggle_PolicySelectionSkill": "ON",
+            "CallerIntent_GlobalTimeout_FirstPrompt": "Just a moment.",
+            "Root_providerIntercept_Toggle": "ON",
+            "Root_callerIntentEntity_IVRSelfService_List": "cardGeneralChild,benefitsEligChild",
+            "Root_selfService_available": "",
+            "idPolicySkill_retryAgent_toggle": "ON",
+            "Root_uhcMember_UCardActivate_Toggle": "ON",
+            "CMSkill_Disabled_Campaigns": "",
+            "Root_RestrictedANI_List": "800,888,877,866,855,844,833",
+            "Member_Authentication_Toggle": "ON",
+            "MemberAuth_GlobalTimeout_SecondPrompt": "Things are still loading, <break time=\"500ms\" /> we're really sorry about the delay.",
+            "CMSkill_retryAgent_toggle": "ON",
+            "Root_SMS_Msg_Toggle": "ON",
+            "nicePolicySelection_Toggle": "ON",
+            "Root_uhcMember_CallerIntent_MaxIntents": 3
+          }
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "zOsabJ"
+          },
+          "property": "conversation.tfnFound",
+          "value": true
+        }
+      ]
+    }
+  ],
+  "generator": "SetTFNConfig.lg",
+  "recognizer": "SetTFNConfig.lu.qna",
+  "id": "SetTFNConfig",
+  "defaultResultProperty": "dialog.result"
+}

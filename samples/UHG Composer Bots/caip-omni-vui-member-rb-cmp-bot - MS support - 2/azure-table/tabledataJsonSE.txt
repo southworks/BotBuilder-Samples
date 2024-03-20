@@ -1,0 +1,222 @@
+@(
+	@{
+		PartitionKey = "SMSExclusion"
+		RowKey = "2034599100"
+		Value = "Exclude"
+	},
+	@{
+		PartitionKey = "SMSExclusion"
+		RowKey = "2154440125"
+		Value = "Exclude"
+	},
+	@{
+		PartitionKey = "SMSExclusion"
+		RowKey = "3362820900"
+		Value = "Exclude"
+	},
+	@{
+		PartitionKey = "SMSExclusion"
+		RowKey = "3365417130"
+		Value = "Exclude"
+	},
+	@{
+		PartitionKey = "SMSExclusion"
+		RowKey = "3365417131"
+		Value = "Exclude"
+	},
+	@{
+		PartitionKey = "SMSExclusion"
+		RowKey = "3365417630"
+		Value = "Exclude"
+	},
+	@{
+		PartitionKey = "SMSExclusion"
+		RowKey = "3365417631"
+		Value = "Exclude"
+	},
+	@{
+		PartitionKey = "SMSExclusion"
+		RowKey = "3365417659"
+		Value = "Exclude"
+	},
+	@{
+		PartitionKey = "SMSExclusion"
+		RowKey = "6103915701"
+		Value = "Exclude"
+	},
+	@{
+		PartitionKey = "SMSExclusion"
+		RowKey = "6122349000"
+		Value = "Exclude"
+	},
+	@{
+		PartitionKey = "SMSExclusion"
+		RowKey = "6122349230"
+		Value = "Exclude"
+	},
+	@{
+		PartitionKey = "SMSExclusion"
+		RowKey = "6122349231"
+		Value = "Exclude"
+	},
+	@{
+		PartitionKey = "SMSExclusion"
+		RowKey = "6126070547"
+		Value = "Exclude"
+	},
+	@{
+		PartitionKey = "SMSExclusion"
+		RowKey = "6513676821"
+		Value = "Exclude"
+	},
+	@{
+		PartitionKey = "SMSExclusion"
+		RowKey = "7632743899"
+		Value = "Exclude"
+	},
+	@{
+		PartitionKey = "SMSExclusion"
+		RowKey = "7633674280"
+		Value = "Exclude"
+	},
+	@{
+		PartitionKey = "SMSExclusion"
+		RowKey = "7633674281"
+		Value = "Exclude"
+	},
+	@{
+		PartitionKey = "SMSExclusion"
+		RowKey = "7633674780"
+		Value = "Exclude"
+	},
+	@{
+		PartitionKey = "SMSExclusion"
+		RowKey = "7633674833"
+		Value = "Exclude"
+	},
+	@{
+		PartitionKey = "SMSExclusion"
+		RowKey = "7633679080"
+		Value = "Exclude"
+	},
+	@{
+		PartitionKey = "SMSExclusion"
+		RowKey = "7633679240"
+		Value = "Exclude"
+	},
+	@{
+		PartitionKey = "SMSExclusion"
+		RowKey = "7633679402"
+		Value = "Exclude"
+	},
+	@{
+		PartitionKey = "SMSExclusion"
+		RowKey = "7636566199"
+		Value = "Exclude"
+	},
+	@{
+		PartitionKey = "SMSExclusion"
+		RowKey = "7637443099"
+		Value = "Exclude"
+	},
+	@{
+		PartitionKey = "SMSExclusion"
+		RowKey = "9523671720"
+		Value = "Exclude"
+	},
+	@{
+		PartitionKey = "SMSExclusion"
+		RowKey = "9523672275"
+		Value = "Exclude"
+	},
+	@{
+		PartitionKey = "SMSExclusion"
+		RowKey = "9523672351"
+		Value = "Exclude"
+	},
+	@{
+		PartitionKey = "SMSExclusion"
+		RowKey = "9523672600"
+		Value = "Exclude"
+	},
+	@{
+		PartitionKey = "SMSExclusion"
+		RowKey = "9523675600"
+		Value = "Exclude"
+	},
+	@{
+		PartitionKey = "SMSExclusion"
+		RowKey = "9523675601"
+		Value = "Exclude"
+	},
+	@{
+		PartitionKey = "SMSExclusion"
+		RowKey = "9523678000"
+		Value = "Exclude"
+	},
+	@{
+		PartitionKey = "SMSExclusion"
+		RowKey = "9523678001"
+		Value = "Exclude"
+	},
+	@{
+		PartitionKey = "SMSExclusion"
+		RowKey = "9523678080"
+		Value = "Exclude"
+	},
+	@{
+		PartitionKey = "SMSExclusion"
+		RowKey = "9523678300"
+		Value = "Exclude"
+	},
+	@{
+		PartitionKey = "SMSExclusion"
+		RowKey = "9523678501"
+		Value = "Exclude"
+	},
+	@{
+		PartitionKey = "SMSExclusion"
+		RowKey = "9526568870"
+		Value = "Exclude"
+	},
+	@{
+		PartitionKey = "SMSExclusion"
+		RowKey = "9529795500"
+		Value = "Exclude"
+	},
+	@{
+		PartitionKey = "SMSExclusion"
+		RowKey = "5408716529"
+		Value = "Exclude"
+	},
+	@{
+		PartitionKey = "SMSExclusion"
+		RowKey = "2145078549"
+		Value = "Exclude"
+	},
+	@{
+		PartitionKey = "SMSExclusion"
+		RowKey = "9496336714"
+		Value = "Exclude"
+	},
+	@{
+		PartitionKey = "SMSExclusion"
+		RowKey = "3612290149"
+		Value = "Exclude"
+	},
+	@{
+		PartitionKey = "SMSExclusion"
+		RowKey = "5409989911"
+		Value = "Exclude"
+	},
+	@{
+		PartitionKey = "SMSExclusion"
+		RowKey = "8327221293"
+		Value = "Exclude"
+	},
+	@{
+		PartitionKey = "SMSExclusion"
+		RowKey = "9492752894"
+		Value = "Exclude"
+	}
+)

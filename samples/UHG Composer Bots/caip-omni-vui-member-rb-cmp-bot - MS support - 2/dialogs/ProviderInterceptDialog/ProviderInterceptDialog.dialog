@@ -1,0 +1,290 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "Osg9Yw",
+    "name": "ProviderInterceptDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "l1TSDo"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "jyYvRM"
+          },
+          "condition": "=equals(conversation.tfnConfig.Root_ProviderIntercept_Toggle,\"OFF\")",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "j7gz4Y"
+              },
+              "condition": "=equals(conversation.tfnConfig.Root_ProviderIntercept_Exclusion_Toggle,\"ON\")",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "QU6XH8",
+                    "comment": "Example for Query : RowKey eq '1234567890'\nRowkey contains the ANI value in the table"
+                  },
+                  "property": "conversation.providerInterceptTableQuery",
+                  "value": "=concat(\"RowKey eq\",\" '\",conversation.ani,\"'\")"
+                },
+                {
+                  "$kind": "Optum.GetAzureTableDataDialog",
+                  "$designer": {
+                    "id": "FUtemX",
+                    "name": "Provider Intecept Exclusion Azure data Table"
+                  },
+                  "accountName": "=settings.storageAccountName",
+                  "key": "=settings.storageAccountKey",
+                  "tableName": "=settings.providerInterceptTableName",
+                  "tableQuery": "=conversation.providerInterceptTableQuery",
+                  "resultProperty": "dialog.providerInterceptResponse"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "jbP9MC"
+                  },
+                  "property": "conversation.providerInterceptResponse",
+                  "value": "=dialog.providerInterceptResponse"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "41v8et",
+                    "name": "Telemetry for ProviderInterceptExclusion"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "memberRoot_CFG_ProviderInterceptExclusion",
+                    "pegType": "General",
+                    "request": "=conversation.providerInterceptTableQuery",
+                    "response": "=conversation.providerInterceptResponse",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "AppName": "=settings.botName",
+                    "conversationId": "=conversation.conversationId",
+                    "eventName": "MemberRootBot_CFG_ProviderInterceptExclusion_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "9kZWiu"
+                  },
+                  "condition": "conversation.providerInterceptResponse.status",
+                  "cases": [
+                    {
+                      "value": "success",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.IfCondition",
+                          "$designer": {
+                            "id": "gFLDSq"
+                          },
+                          "condition": "=equals(count(conversation.providerInterceptResponse.data),0)",
+                          "actions": [
+                            {
+                              "$kind": "Microsoft.BeginDialog",
+                              "$designer": {
+                                "id": "mtQwcN",
+                                "name": "Telemetry for ProviderInterceptExclusion Nodata"
+                              },
+                              "activityProcessed": true,
+                              "dialog": "TelemetryDialog",
+                              "options": {
+                                "peg": "memberRoot_ProviderInterceptExclusion_Nodata",
+                                "pegType": "General",
+                                "request": "",
+                                "response": "",
+                                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                                "AppName": "=settings.botName",
+                                "conversationId": "=conversation.conversationId",
+                                "eventName": "MemberRootBot_ProviderInterceptExclusion_Nodata_Peg"
+                              }
+                            }
+                          ],
+                          "elseActions": [
+                            {
+                              "$kind": "Microsoft.BeginDialog",
+                              "$designer": {
+                                "id": "0Ng7aT",
+                                "name": "Telemetry for ProviderInterceptExclusion Sucess"
+                              },
+                              "activityProcessed": true,
+                              "dialog": "TelemetryDialog",
+                              "options": {
+                                "peg": "memberRoot_ProviderInterceptExclusion_Success",
+                                "pegType": "General",
+                                "request": "",
+                                "response": "=conversation.providerInterceptResponse.data",
+                                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                                "AppName": "=settings.botName",
+                                "conversationId": "=conversation.conversationId",
+                                "eventName": "MemberRootBot_ProviderInterceptExclusion_Success_Peg"
+                              }
+                            },
+                            {
+                              "$kind": "Microsoft.IfCondition",
+                              "$designer": {
+                                "id": "0Mn8VO"
+                              },
+                              "condition": "=equals(conversation.providerInterceptResponse.data[0].value,\"Exclude\")",
+                              "actions": [
+                                {
+                                  "$kind": "Microsoft.BeginDialog",
+                                  "$designer": {
+                                    "id": "lkrrik",
+                                    "name": "Telemetry for ProviderAniExcluded"
+                                  },
+                                  "activityProcessed": true,
+                                  "dialog": "TelemetryDialog",
+                                  "options": {
+                                    "peg": "memberRoot_ProviderANIExcluded",
+                                    "pegType": "General",
+                                    "request": "",
+                                    "response": "=conversation.providerInterceptResponse.data[0].value",
+                                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                                    "AppName": "=settings.botName",
+                                    "conversationId": "=conversation.conversationId",
+                                    "eventName": "MemberRootBot_ProviderANIExcluded_Peg"
+                                  }
+                                },
+                                {
+                                  "$kind": "Microsoft.SetProperty",
+                                  "$designer": {
+                                    "id": "SW9THA"
+                                  },
+                                  "property": "conversation.currentTrigger",
+                                  "value": "aniExclusion"
+                                },
+                                {
+                                  "$kind": "Microsoft.EndDialog",
+                                  "$designer": {
+                                    "id": "bGw25S"
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "default": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "whilUU",
+                        "name": "Telemetry for ProviderInterceptExclusion Exception/Error"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "memberRoot_ProviderInterceptExclusion_Error",
+                        "pegType": "General",
+                        "request": "",
+                        "response": "=conversation.providerInterceptResponse.data",
+                        "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "AppName": "=settings.botName",
+                        "conversationId": "=conversation.conversationId",
+                        "eventName": "MemberRootBot_ProviderInterceptExclusion_Error_Peg"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "EZ7u4B"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "API-ProviderANISearch"
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "BUwE21",
+                    "name": "Telemetry for ProviderInterceptExclusion ToggleOff"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "memberRoot_ProviderInterceptExclusion_OFFToggle",
+                    "pegType": "General",
+                    "request": "",
+                    "response": "",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "AppName": "=settings.botName",
+                    "conversationId": "=conversation.conversationId",
+                    "eventName": "MemberRootBot_ProviderInterceptExclusion_OFFToggle_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "I8fcwP"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "API-ProviderANISearch"
+                }
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "BedatP",
+                "name": "Telemetry for ProviderIntercept OFF Toggle"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "memberRoot_ProviderIntercept_OFFToggle",
+                "pegType": "General",
+                "request": "",
+                "response": "",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "AppName": "=settings.botName",
+                "conversationId": "=conversation.conversationId",
+                "eventName": "MemberRootBot_ProviderIntercept_OFFToggle_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "B10tAg"
+              },
+              "property": "conversation.currentTrigger",
+              "value": "aniExclusion"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "ProviderInterceptDialog.lg",
+  "recognizer": "ProviderInterceptDialog.lu.qna",
+  "id": "ProviderInterceptDialog"
+}

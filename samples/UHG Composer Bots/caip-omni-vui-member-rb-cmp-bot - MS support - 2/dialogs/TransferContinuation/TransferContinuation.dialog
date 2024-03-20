@@ -1,0 +1,303 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "EEg2bl",
+    "name": "TransferContinuation",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "w3T5UI"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "xhdkK8"
+          },
+          "assignments": [
+            {
+              "property": "conversation.defaultTransfer",
+              "value": "=if(getProperty(conversation.KVPs, \"ENT_Current_DN\"), getProperty(conversation.KVPs, \"ENT_Current_DN\"), TransferCall.getDefaultTelNumber())"
+            },
+            {
+              "property": "dialog.telTransfer",
+              "value": "=concat(\"tel:\",conversation.defaultTransfer)"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "YzR8zD"
+          },
+          "activity": "${SendActivity_ConfigEvent()}"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "G212za"
+          },
+          "condition": "conversation.silentTransfer",
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "P69XUV"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "memberRoot_Xfer_Silent",
+                "pegType": "General",
+                "request": "=conversation.silentTransfer",
+                "response": "",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MemberRootBot_Xfer_Silent_Peg"
+              }
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "XlP7vS"
+              },
+              "condition": "=equals(toLower(conversation.tfnConfig.Root_uhcMember_xferHOOPMessage_Toggle),'on')",
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "nKsNUa"
+                  },
+                  "condition": "=toLower(conversation.KVPs.HOOP_OpenFlag) == 'open'",
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "cKQikr"
+                      },
+                      "condition": "=toLower(conversation.KVPs.HOOP_Reason) == 'extended'",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "xw8yBg"
+                          },
+                          "activity": "${XferMessage()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "a1EVVb"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "memberRoot_Xfer_AgentMsgPrmt",
+                            "pegType": "General",
+                            "request": "=TransferCall.XferMessage()",
+                            "response": "",
+                            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "MemberRootBot_Xfer_AgentMsgPrmt_Peg"
+                          }
+                        }
+                      ],
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "XKXdJJ"
+                          },
+                          "activity": "${ClosedMsg()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "kOcAuJ"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "memberRoot_Xfer_ClosedMsgPrmt",
+                            "pegType": "General",
+                            "request": "=TransferCall.ClosedMsg()",
+                            "response": "",
+                            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "MemberRootBot_Xfer_ClosedMsgPrmt_Peg"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "rRxu3A"
+                          },
+                          "assignments": [
+                            {
+                              "property": "conversation.ENT_IVRAppTransferReason",
+                              "value": "0"
+                            },
+                            {
+                              "property": "conversation.ENT_BotAction",
+                              "value": "=''"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "iz0PYN"
+                      },
+                      "activity": "${XferMessage()}"
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "cLdzhu"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "memberRoot_Xfer_AgentMsgPrmt",
+                        "pegType": "General",
+                        "request": "=TransferCall.XferMessage()",
+                        "response": "",
+                        "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "MemberRootBot_Xfer_AgentMsgPrmt_Peg"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "eHLRjM"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "memberRoot_Xfer_HoopMessage_Toggle_OFF",
+                    "pegType": "General",
+                    "request": "",
+                    "response": "",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "MemberRootBot_Xfer_HoopMessage_Toggle_OFF_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "jlUwrz"
+                  },
+                  "activity": "${XferMessage()}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "CT1yZo"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "memberRoot_Xfer_AgentMsgPrmt",
+                    "pegType": "General",
+                    "request": "=TransferCall.XferMessage()",
+                    "response": "",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "MemberRootBot_Xfer_AgentMsgPrmt_Peg"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "bFQTEQ"
+          },
+          "activityProcessed": true,
+          "dialog": "SendKVPsOut",
+          "disabled": true
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "sBQhou"
+          },
+          "property": "conversation.startDate",
+          "value": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "CSu38D"
+          },
+          "activity": "${SendActivity_ConfigEvent()}"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "yqHO8v"
+          },
+          "activity": "${SendActivity_TransferEvent()}"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "tNdP85"
+          },
+          "property": "conversation.transferEventRequest",
+          "value": "{\"ConfigEvent\":${TransferCall.SendActivity_ConfigEvent()},\"TransferEvent\":${TransferCall.SendActivity_TransferEvent()}}"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "GmXyuu"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "memberRoot_TransferEventRequest_Peg",
+            "pegType": "General",
+            "request": "=conversation.transferEventRequest",
+            "response": "",
+            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "MemberRootBot_TransferEventRequest_Peg"
+          }
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "fmrS5O"
+          },
+          "activityProcessed": true,
+          "dialog": "CallLog",
+          "disabled": true
+        }
+      ]
+    }
+  ],
+  "generator": "TransferContinuation.lg",
+  "recognizer": "TransferContinuation.lu.qna",
+  "id": "TransferContinuation"
+}

@@ -1,0 +1,306 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "H8jVhv",
+    "name": "Main",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "8agefl"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "vwg3kd"
+          },
+          "property": "conversation.error",
+          "value": false
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "g4uewc"
+          },
+          "activityProcessed": true,
+          "dialog": "SetKVPsAndBotProps"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "IV39qh"
+          },
+          "condition": "=conversation.kvpsFound",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "tfwRX7"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.appListForEILob",
+                  "value": [
+                    "MEM",
+                    "PLM",
+                    "PFG",
+                    "PFC",
+                    "ICN",
+                    "Member"
+                  ]
+                },
+                {
+                  "property": "conversation.appListForMRLob",
+                  "value": [
+                    "MAP",
+                    "OVA",
+                    "PromptOMatic"
+                  ]
+                },
+                {
+                  "property": "conversation.appListForCSLob",
+                  "value": [
+                    "CAS"
+                  ]
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "MY7Axa"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.tfnLOB",
+                  "value": "=MainDialog.getTfnLob()"
+                },
+                {
+                  "property": "conversation.businessSegment",
+                  "value": "=MainDialog.getBusinessSegment()"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "B0yoN8"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "memberRootBot_TfnLOB",
+                "pegType": "General",
+                "request": "=getProperty(conversation.KVPs, \"ENT_IVRAppNm\")?getProperty(conversation.KVPs, \"ENT_IVRAppNm\"):\"\"",
+                "response": "=conversation.tfnLOB",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MemberRootBot_TfnLOB_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "hNtNyS"
+              },
+              "activityProcessed": true,
+              "dialog": "SetTFNConfig"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "e1fVqR"
+              },
+              "condition": "=conversation.tfnFound",
+              "actions": [],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "wQILie"
+                  }
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "Mr4v8K"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "memberRoot_FSMBOT",
+                "pegType": "General",
+                "request": "",
+                "response": "=conversation.tfnConfig.MemberRootBot_fsm",
+                "startDTM": "=conversation.startDate",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MemberRootBot_FSMBOT_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "a800aa",
+                "comment": "Setting the Finite State Machine porps."
+              },
+              "assignments": [
+                {
+                  "property": "conversation.FSMConfig",
+                  "value": "=conversation.tfnConfig.MemberRootBot_fsm"
+                },
+                {
+                  "property": "conversation.currentState",
+                  "value": "=getProperty(conversation.FSMConfig, \"initial\")"
+                },
+                {
+                  "property": "conversation.transition",
+                  "value": "=getProperty(conversation.FSMConfig, \"transition\")"
+                },
+                {
+                  "property": "conversation.currentTrigger",
+                  "value": "NA"
+                }
+              ],
+              "disabled": true
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "a8tivW"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.CallerIntentCounter",
+                  "value": 0
+                },
+                {
+                  "property": "conversation.PreviousCallerIntent",
+                  "value": "=''"
+                },
+                {
+                  "property": "conversation.PreviousCallerIntentEntity",
+                  "value": "=''"
+                },
+                {
+                  "property": "conversation.SkillWrap",
+                  "value": "N"
+                },
+                {
+                  "property": "conversation.SkillWrapNMUtterance",
+                  "value": "=''"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "JxL2M5",
+                "name": "For testing"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.FSMConfig",
+                  "value": {
+                    "name": "UHCMember",
+                    "state": [
+                      "start",
+                      "playGreeting",
+                      "directMessage",
+                      "providerExclusion",
+                      "aniExclusion",
+                      "language",
+                      "araConversationManager",
+                      "callerIntent",
+                      "authentication",
+                      "policySelection",
+                      "sms",
+                      "scrConversationManager",
+                      "selfService",
+                      "findProvider",
+                      "uCardActivate",
+                      "uCardBalance",
+                      "transfer"
+                    ],
+                    "initial": "start",
+                    "transition": [
+                      {
+                        "event": "playGreeting",
+                        "trigger": "NA",
+                        "from": "start",
+                        "to": "greeting"
+                      },
+                      {
+                        "event": "language",
+                        "trigger": "language",
+                        "from": "greeting",
+                        "to": "language"
+                      },
+                      {
+                        "event": "callerIntent",
+                        "trigger": "callerIntent",
+                        "from": "language",
+                        "to": "callerIntent"
+                      },
+                      {
+                        "event": "transfer",
+                        "trigger": "defaultTransfer",
+                        "from": "language",
+                        "to": "tansfer"
+                      },
+                      {
+                        "event": "transfer",
+                        "trigger": "defaultTransfer",
+                        "from": "callerIntent",
+                        "to": "transfer"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "property": "conversation.currentState",
+                  "value": "=getProperty(conversation.FSMConfig, \"initial\")"
+                },
+                {
+                  "property": "conversation.transition",
+                  "value": "=getProperty(conversation.FSMConfig, \"transition\")"
+                },
+                {
+                  "property": "conversation.currentTrigger",
+                  "value": "NA"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "Nts716"
+              },
+              "activityProcessed": true,
+              "dialog": "FSMDialog"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "PlQqPc"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "Main.lg",
+  "recognizer": "Main.lu.qna",
+  "id": "Main"
+}

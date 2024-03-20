@@ -1,0 +1,81 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "6KMr8v",
+    "name": "NurseLineDisambig",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "q6yVBX"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "cP7FHX"
+          },
+          "assignments": [
+            {
+              "property": "conversation.flowState.flowPreviousPrompt",
+              "value": "='nurselineDisambig'"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "uL1Jqf"
+          },
+          "assignments": [
+            {
+              "property": "conversation.flowState.noMatchCount",
+              "value": 0
+            },
+            {
+              "property": "conversation.flowState.noUserInputCount",
+              "value": 0
+            },
+            {
+              "property": "conversation.flowState.failedCount",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "xkeKk8"
+          },
+          "activity": "${NurseLineDisambigMsg()}"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "J0ATGW"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "=MainDialog.PegVal('')",
+            "pegType": "InputAsk",
+            "request": "=NurseLineDisambig.NurseLineDisambigMsg()",
+            "response": "",
+            "startDTM": "=conversation.startDate",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt,'Prmt')"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "NurseLineDisambig.lg",
+  "recognizer": "NurseLineDisambig.lu.qna",
+  "id": "NurseLineDisambig"
+}

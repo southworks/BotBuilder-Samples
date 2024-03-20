@@ -1,0 +1,13 @@
+> !# @Namespace=CrisisDisambig
+> !# @Exports = CrisisDisambigMsg
+[import](common.lg)
+
+# CrisisDisambigMsg()
+[Activity
+    Text = ${CrisisDisambig_text()}
+    Speak = ${CrisisDisambig_text()}
+    InputHint = expectingInput
+    ChannelData = ${ExpectingPrompts_ActivityParams(1500)}
+]
+
+

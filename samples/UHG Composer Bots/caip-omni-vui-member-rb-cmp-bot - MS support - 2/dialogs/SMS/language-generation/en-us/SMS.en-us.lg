@@ -1,0 +1,40 @@
+> !# @Namespace = SMSDialog
+> !# @Exports = SMSQuestion, NoResponse
+[import](common.lg)
+
+
+# SMSQuestion()
+[Activity
+    Text = ${SMSQuestion_text()}
+    Speak = ${SMSQuestion_text()}
+    InputHint = expectingInput
+    channelData = ${
+        {
+            activityParams: {
+                sendDTMF: false,
+                bargeIn: false,
+                bargeInOnDTMF: false,
+                dtmfCollect: false,
+                userNoInputTimeoutMS: settings.smsUserNoInputTimeoutInMS
+            }
+        }
+    }
+]
+
+# NoResponse()
+[Activity
+    Text = ${NoResponse_text()}
+    Speak = ${NoResponse_text()}
+    InputHint = ignoringInput
+    channelData = ${
+        {
+            activityParams: {
+                sendDTMF: false,
+                bargeIn: false,
+                bargeInOnDTMF: false,
+                dtmfCollect: false,
+                enableSpeechInput: false
+            }
+        }
+    }
+]

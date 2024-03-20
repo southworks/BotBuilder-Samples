@@ -1,0 +1,14 @@
+> !# @Namespace=uCardDisambig
+> !# @Exports = UHCMember_uCardDisambig_Msg
+[import](common.lg)
+
+# UHCMember_uCardDisambig_Msg()
+[Activity
+    Text = ${UHCMember_uCardDisambig_text()}
+    Speak = ${UHCMember_uCardDisambig_text()}
+    InputHint = expectingInput
+    ChannelData = ${ExpectingPrompts_ActivityParams(1500)}
+]
+
+# SendActivity_c5BZta()
+-vvvvvvvvvv

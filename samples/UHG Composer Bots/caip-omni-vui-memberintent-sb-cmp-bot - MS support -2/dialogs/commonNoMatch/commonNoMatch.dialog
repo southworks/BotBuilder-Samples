@@ -1,0 +1,124 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "FIFhir",
+    "name": "commonNoMatch",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "Xsmnqe"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "vai0i7"
+          },
+          "condition": "=contains(createArray('IntentCapture', 'Enrollment_CaptureMnu', 'Start_CaptureMnu_ForeignLanguages'), conversation.flowState.flowPreviousPrompt)",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "my0Sbp"
+              },
+              "activityProcessed": true,
+              "dialog": "NoMatchInput"
+            }
+          ],
+          "actions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "1Yxa3m"
+              },
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "dS3S6O"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "NoMatchInput"
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "eHTQLc"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal('UserInput')",
+                    "pegType": "UserInput",
+                    "request": "User Input",
+                    "response": "=conversation.turnRecognized",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, '_UserInput')"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "BdSG1D"
+                  },
+                  "property": "conversation.flowState.commonNMCount",
+                  "value": "=add(conversation.flowState.commonNMCount, 1)"
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "06C59z"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.commonNMMsg",
+                      "value": "=MainDialog.CommonNoMatch_text(conversation.flowState.lastIntent)"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "QrCtcf"
+                  },
+                  "activity": "${UHCMember_CommonNoMatch_Msg()}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "gKlrOs"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal('commonNoMatch')",
+                    "pegType": "InputAsk",
+                    "request": "=CommonNoMatch.UHCMember_CommonNoMatch_Msg()",
+                    "response": "",
+                    "startDTM": "=conversation.startDate",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt,'_commonNoMatch_Prmt')"
+                  }
+                }
+              ],
+              "condition": "=conversation.flowState.commonNMCount>0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "commonNoMatch.lg",
+  "recognizer": "commonNoMatch.lu.qna",
+  "id": "commonNoMatch"
+}

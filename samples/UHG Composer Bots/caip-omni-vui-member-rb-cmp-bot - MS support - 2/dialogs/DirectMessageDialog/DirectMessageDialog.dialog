@@ -1,0 +1,108 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "b4GmUG",
+    "name": "DirectMessageDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "z0UdYL"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "jZZZjK",
+            "comment": ""
+          },
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "A8XNLS"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "memberRoot_DirectMessages_SetInputs",
+                "pegType": "General",
+                "request": "=conversation.tfnconfig",
+                "response": "",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MemberRootBot_DirectMessages_SetInputs_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "i4O07i"
+              },
+              "activityProcessed": true,
+              "dialog": "RapidMessageDialog",
+              "options": {
+                "LOB": "MemberRootBot",
+                "LOC": "PostGreetingBot"
+              }
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "HEmpo7"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "memberRoot_DirectMessages_SetOutputs",
+                "pegType": "General",
+                "request": "",
+                "response": "=conversation.DMData",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MemberRootBot_DirectMessages_SetOutputs_Peg"
+              }
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "LLRymT"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "memberRoot_DirectMessages_OFFToggle",
+                "pegType": "General",
+                "request": "=conversation.tfnconfig",
+                "response": "",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MemberRootBot_DirectMessages_OFFToggle_Peg"
+              }
+            }
+          ],
+          "condition": "=equals(toUpper(getProperty(conversation.tfnConfig, \"Root_directMessage_Toggle\")) ,'ON')"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "VVdX7w"
+          },
+          "property": "conversation.currentTrigger",
+          "value": "providerExclusion"
+        }
+      ]
+    }
+  ],
+  "generator": "DirectMessageDialog.lg",
+  "recognizer": "DirectMessageDialog.lu.qna",
+  "id": "DirectMessageDialog"
+}

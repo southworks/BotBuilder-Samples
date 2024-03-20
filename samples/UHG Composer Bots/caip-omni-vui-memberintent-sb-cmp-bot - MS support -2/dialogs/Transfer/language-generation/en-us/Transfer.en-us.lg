@@ -1,0 +1,21 @@
+> !# @Namespace = EndSkill
+> !# @Exports = ProviderXferMessage
+
+[import](common.lg)
+
+# ProviderXferMessage()
+[Activity
+    Text = ${UHCMember_ProviderXfer_text()}
+    Speak = ${UHCMember_ProviderXfer_text()}
+    InputHint = ignoringInput
+    channelData = ${
+        {
+            activityParams: {
+                sendDTMF: false, 
+                bargeIn: false,
+                bargeInOnDTMF: false,
+                enableSpeechInput: false
+            }
+        }
+    }
+]

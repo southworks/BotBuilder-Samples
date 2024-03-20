@@ -1,0 +1,281 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "e6wdvP",
+    "name": "API-SMS",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "NmZ87f"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "YNbGdh"
+          },
+          "activityProcessed": true,
+          "dialog": "GetTelemetryProps"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "nYcQSo"
+          },
+          "activity": "${SendActivity_ConfigEvent()}"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "dbfJR7"
+          },
+          "property": "dialog.startDate",
+          "value": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "x5r4U2"
+          },
+          "assignments": [
+            {
+              "property": "conversation.sendSmsUrl",
+              "value": "=concat(settings.smsEndPoint, \"?ver=\", settings.botVersion,\"&botname=\", settings.botName,\"&env=\", settings.botEnvironment)"
+            },
+            {
+              "property": "conversation.tokenUrl",
+              "value": "=concat(settings.accessTokenEndPoint, \"?ver=\", settings.botVersion, \"&botname=\", settings.botName, \"&env=\", settings.botEnvironment)"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "0ep7fZ",
+            "name": "Setting request body for Member Info search API call"
+          },
+          "property": "conversation.sendSmsRequestBody",
+          "value": {
+            "phoneNumber": "${conversation.smsANI}",
+            "countryCode": "US",
+            "lob": "${conversation.tfnConfig.Root_SMS_Msg_LOB}",
+            "consumerApp": "${settings.smsConsumerApp}",
+            "sessionId": "${conversation.KVPs.ENT_CallUUID}",
+            "logLevel": "INFO",
+            "additionalRequestParams": {
+              "businessUnit": "${settings.smsBusinessUnit}"
+            }
+          }
+        },
+        {
+          "$kind": "Optum.HttpRequestDialog",
+          "$designer": {
+            "id": "KZINMN",
+            "name": "Omni-Http Request Send SMS"
+          },
+          "clientid": "=settings.accessTokenClientId",
+          "clientsecret": "=settings.accessTokenClientSecret",
+          "tokencontentType": "application/json",
+          "method": "POST",
+          "contentType": "application/json",
+          "timeout": "=settings.mwTimeOutInMS",
+          "resultProperty": "dialog.sendSMSResult",
+          "verbiageToggleVal": true,
+          "retryCount": 0,
+          "retryInterval": 0,
+          "connectionString": "=settings.connectionString",
+          "containerName": "=settings.containerName",
+          "tokenurl": "=conversation.tokenUrl",
+          "url": "=conversation.sendSmsUrl",
+          "body": "=conversation.sendSmsRequestBody",
+          "firstPrompt": "=GlobalBehavior.GlobalTimeoutFirstMsg()",
+          "repeatPrompt": "=GlobalBehavior.GlobalTimeoutRepeatMsg()",
+          "fstpmtteleval": "=conversation.fpTelemetryProps",
+          "rptpmtteleval": "=conversation.rpTelemetryProps",
+          "promptTime": "=if(conversation.tfnConfig.Root_GlobalTimeout_InterPromptTimeout, int(conversation.tfnConfig.Root_GlobalTimeout_InterPromptTimeout), settings.promptTimeInMS)",
+          "tokenTimeout": "=settings.accessTokenTimeout"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "5Ol4FL",
+            "name": "Telemetry"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "memberRoot_SMS_MWMEMSMS01",
+            "pegType": "DataInterface",
+            "request": "{\"URL\":\"${conversation.sendSmsUrl}\",\"RequestBody\":${conversation.sendSmsRequestBody}}",
+            "response": "=dialog.sendSMSResult",
+            "startDTM": "=dialog.startDate",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "AppName": "=settings.botName",
+            "conversationId": "=conversation.conversationId",
+            "eventName": "MemberRootBot_SMS_MWMEMSMS01_Peg"
+          }
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "48jnwo"
+          },
+          "condition": "=dialog.sendSMSResult.output.returnCode == '200'",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "ygGw78"
+              },
+              "condition": "=or(dialog.sendSMSResult.output.returnCode == '400', dialog.sendSMSResult.output.returnCode == '500')",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "Wp38EU",
+                    "name": "Telemetry Send SMS Error/Exception"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "memberRoot_SMS_MWMEMSMS01_Error",
+                    "pegType": "General",
+                    "request": "",
+                    "response": "=dialog.sendSMSResult",
+                    "startDTM": "=dialog.startDate",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "AppName": "=settings.botName",
+                    "conversationId": "=conversation.conversationId",
+                    "eventName": "MemberRootBot_SMS_MWMEMSMS01_Error_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "iADvHO"
+                  },
+                  "condition": "=and(conversation.tfnConfig.MW_Retry_Toggle == 'ON', not(conversation.mwFailure))",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "DPGBj5"
+                      },
+                      "property": "conversation.mwFailure",
+                      "value": true
+                    },
+                    {
+                      "$kind": "Microsoft.RepeatDialog",
+                      "$designer": {
+                        "id": "OcEicX"
+                      },
+                      "activityProcessed": true
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "qP2pMt"
+                      },
+                      "property": "conversation.mwFailure",
+                      "value": false
+                    },
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "0czDIP"
+                      },
+                      "activity": "${SMSErrorMessage()}"
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "Uzce5c"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "01235",
+                        "pegType": "General",
+                        "request": "=APISMSDialog.SMSErrorMessage()",
+                        "response": "",
+                        "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "MemberRootBot_SMS_MWMEMSMS01_ErrorMessage_prompt_Peg"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "CLYDfo",
+                "name": "Telemetry Send SMS Success"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "memberRootBot_SMS_MWMEMSMS01_Success",
+                "pegType": "General",
+                "request": "",
+                "response": "=dialog.sendSMSResult",
+                "startDTM": "=dialog.startDate",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "AppName": "=settings.botName",
+                "conversationId": "=conversation.conversationId",
+                "eventName": "MemberRootBot_SMS_MWMEMSMS01_Success_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "AuT0MW"
+              },
+              "activity": "${MessageSent()}"
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "2Tr4O1"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "01230",
+                "pegType": "General",
+                "request": "=APISMSDialog.MessageSent()",
+                "response": "",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MemberRootBot_SMS_MWMEMSMS01_MessageSent_prompt_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "VC5QRZ"
+              },
+              "property": "conversation.ANISMSExclude",
+              "value": true
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "API-SMS.lg",
+  "recognizer": "API-SMS.lu.qna",
+  "id": "API-SMS"
+}

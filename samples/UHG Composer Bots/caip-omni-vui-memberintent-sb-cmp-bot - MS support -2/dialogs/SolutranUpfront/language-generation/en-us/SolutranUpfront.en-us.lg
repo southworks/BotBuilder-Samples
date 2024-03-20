@@ -1,0 +1,19 @@
+> !# @Namespace=SolutranUpfront
+> !# @Exports = UHCMember_SolutranUpfront_Msg, UHCMember_SolutranUpfrontML_Msg
+[import](common.lg)
+
+# UHCMember_SolutranUpfront_Msg()
+[Activity
+    Text = ${dialog.solutranUpfrontText}
+    Speak = ${dialog.solutranUpfrontText}
+    InputHint = expectingInput
+    ChannelData = ${ExpectingPrompts_ActivityParams(1500)}
+]
+
+# UHCMember_SolutranUpfrontML_Msg()
+[Activity
+    Text = ${dialog.solutranUpfrontMLText}
+    Speak = ${dialog.solutranUpfrontMLText}
+    InputHint = expectingInput
+    ChannelData = ${ExpectingPrompts_ActivityParams(1500)}
+]

@@ -1,0 +1,22 @@
+> !# @Namespace = Catalog
+> !# @Exports = UHCMember_Catalog_Msg
+
+[import](common.lg)
+
+# UHCMember_Catalog_Msg()
+[Activity
+    Text = ${UHCMember_Catalog_text()}
+    Speak = ${UHCMember_Catalog_text()}
+    InputHint = expectingInput
+    ChannelData = ${
+        {
+            activityParams:{
+                sendDTMF: false, 
+                bargeIn: false,
+                bargeInOnDTMF: false,
+                enableSpeechInput: false
+            }
+        }
+    }
+]
+

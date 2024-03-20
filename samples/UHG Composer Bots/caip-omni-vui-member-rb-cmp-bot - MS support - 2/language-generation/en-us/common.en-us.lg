@@ -1,0 +1,61 @@
+> !# @Namespace=Common
+> !# @Exports = SystemError_text, BotTest_text,spkRecordingPrompt_text, SpanishPrompt_text, SpanishXfer_text,MemberIVRXfer_text
+
+# SystemError_text()
+- I'm sorry, but something isn't working right on my end. Let's connect with someone who can help.
+
+# BotTest_text()
+- Bot is connected and working.
+
+# GlobalTimeoutFirst_text()
+- IF: ${or(conversation.tfnConfig.Root_GlobalTimeout_FirstPrompt, conversation.tfnConfig.Root_GlobalTimeout_FirstPrompt !="", conversation.tfnConfig.Root_GlobalTimeout_FirstPrompt != undefined)}
+    - ${conversation.tfnConfig.Root_GlobalTimeout_FirstPrompt}
+- ELSE:
+    - Looks like systems are taking longer than expected on our end,<break time="200ms" /> so we appreciate your patience.
+
+# GlobalTimeoutRepeat_text()
+- IF: ${or(conversation.tfnConfig.Root_GlobalTimeout_SecondPrompt, conversation.tfnConfig.Root_GlobalTimeout_SecondPrompt != "", conversation.tfnConfig.Root_GlobalTimeout_SecondPrompt != undefined)}
+    - ${conversation.tfnConfig.Root_GlobalTimeout_SecondPrompt}
+- ELSE:
+    - Things are still loading,<break time="500ms" /> we're really sorry about the delay.
+
+# GlobalSystemError_text()
+- Since we're having trouble,<break time="200ms" /> let’s get someone to help you.
+
+# MWWaitingPrompt_text()
+- Thank you for your patience while we gather the information needed for your search......
+
+#spkRecordingPrompt_text()
+- Your call may be monitored or recorded for quality
+
+#spkDefaultGreetingPrompt_text()
+-UnitedHealthCare.
+
+#spkGreetingPrompt_text()
+- ${conversation.tfnConfig.Root_Greeting_TTS}
+
+# SpanishPrompt_text()
+- Para continuar en Español, diga 'Español' cuando quiera.
+# SpanishXfer_text()
+-Un momento, por favor.
+
+# Xfer_text()
+- One moment while we get somebody to help.
+
+# ClosedMsg_text()
+- You've actually reached us after hours. Please call us back between <say-as interpret-as="time" format="hms12">7:00am</say-as> to <say-as interpret-as="time" format="hms12">7:00pm</say-as> Central time, Monday through Friday. If you need to report an emergency, please call the UnitedHealth Security Center at <say-as interpret-as="telephone">1-855-936-8999</say-as>. Good-bye.
+
+# SMSQuestion_text()
+- Before moving on, I wanted to let you know about the UnitedHealthcare mobile app. It's designed to help make it easier to use your health plan — and I can send you a one-time text-with-a-link to download it. Message and data rates may apply, and accepting the text means you agree to the texting terms at... uhc <break time="100ms" />dot care<break time="100ms" /> slash <break time="150ms" />app, dot, sms terms. Do you consent to me sending you that link at the phone number ending in... ${conversation.last4ofANI}
+# NoResponse_text()
+- Okay, no problem...
+# MessageSent_text()
+- Great, the message has been sent.
+# SMSErrorMessage_text()
+- Sorry. We were unable to send the text at this time. Let's continue.. 
+
+# MemberIVRXfer_text()
+- Almost there...
+
+# AskPolicyLOBMenu_text()
+- But for me to correctly route your call... I just need to know if you are calling about...<break time="100ms" />...a Medicare Advantage Plan...<break time="250ms" />...a Community Plan... <break time="250ms" />or, "Something Else"?

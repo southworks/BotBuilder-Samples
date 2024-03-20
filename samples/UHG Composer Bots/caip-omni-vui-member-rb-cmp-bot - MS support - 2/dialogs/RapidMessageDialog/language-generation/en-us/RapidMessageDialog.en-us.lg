@@ -1,0 +1,21 @@
+> !# @Namespace=RapidMessage
+> !# @Exports=SendActivity_RapidMsg
+[import](common.lg)
+
+
+# SendActivity_RapidMsg()
+[Activity
+    Text = ${conversation.DMText}
+    Speak = ${conversation.DMText}
+    InputHint = ignoringInput
+    ChannelData = ${
+	{
+		activityParams:{
+			sendDTMF: false,
+			bargeIn: false,
+			bargeInOnDTMF: false,
+			dtmfCollect: false
+		}
+	}
+}
+]

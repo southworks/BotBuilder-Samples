@@ -1,0 +1,9 @@
+[import](common.lg)
+
+# LogAction_Text_8MKaFB()
+[Activity
+    Text = ${LogAction_Text_8MKaFB_text()}
+]
+
+# LogAction_Text_8MKaFB_text()
+- ${}

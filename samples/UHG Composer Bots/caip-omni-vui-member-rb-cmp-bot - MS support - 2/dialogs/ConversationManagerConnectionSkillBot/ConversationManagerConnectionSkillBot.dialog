@@ -1,0 +1,138 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "WdShTu",
+    "name": "ConnectToConversationManagerSkillBot",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "3YteaP"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "NKyvYl"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "=ConversationManager.getConversationManagerRequestPeg()",
+            "pegType": "General",
+            "request": "=ConversationManager.ConversationManager_SkillBot_Params()",
+            "response": "",
+            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "=ConversationManager.getConversationManagerRequestPegName()"
+          }
+        },
+        {
+          "$kind": "Microsoft.BeginSkill",
+          "$designer": {
+            "id": "thlkSv",
+            "name": "Connect to ConversationManager Skill"
+          },
+          "activityProcessed": true,
+          "botId": "=settings.MicrosoftAppId",
+          "skillHostEndpoint": "=settings.skillHostEndpoint",
+          "connectionName": "=settings.connectionName",
+          "allowInterruptions": false,
+          "skillEndpoint": "=settings.skill['caipOmniVuiPersonalizationSbCmpBot'].endpointUrl",
+          "skillAppId": "=settings.skill['caipOmniVuiPersonalizationSbCmpBot'].msAppId",
+          "activity": "${ConversationManager_SkillBot_Params()}",
+          "resultProperty": "dialog.CMResponse"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "TsEmOo"
+          },
+          "activity": "${SendActivity_ConfigAfterSkill()}"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "yTAwUE"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "=ConversationManager.getConversationManagerResponsePeg()",
+            "pegType": "General",
+            "request": "Skill Event",
+            "response": "=dialog.CMResponse",
+            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "=ConversationManager.getConversationManagerResponsePegName()"
+          }
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "uwIck0",
+            "name": "Set properties for QT ,PT and CampignCode"
+          },
+          "assignments": [
+            {
+              "property": "conversation.questionType",
+              "value": "=getProperty(dialog.CMResponse.parameters,\"QuestionType\") ? dialog.CMResponse.parameters.QuestionType : conversation.questionType"
+            },
+            {
+              "property": "conversation.productType",
+              "value": "=getProperty(dialog.CMResponse.parameters,\"ProductType\") ? dialog.CMResponse.parameters.ProductType : conversation.productType"
+            },
+            {
+              "property": "conversation.campaignCode",
+              "value": "=getProperty(dialog.CMResponse.parameters,\"CampaignCode\") ? dialog.CMResponse.parameters.CampaignCode : \"\""
+            },
+            {
+              "property": "conversation.programCode",
+              "value": "=getProperty(dialog.CMResponse.parameters,\"ProgramCode\") ? dialog.CMResponse.parameters.ProgramCode : \"\""
+            },
+            {
+              "property": "conversation.cmANIContactConstituentID",
+              "value": "=getProperty(conversation.aniCMResponse.parameters,'CM_ANI_ContactConstituentID') ? conversation.aniCMResponse.parameters.CM_ANI_ContactConstituentID :\"\""
+            },
+            {
+              "property": "conversation.cmANIContactDOB",
+              "value": "=getProperty(conversation.aniCMResponse.parameters,'CM_ANI_ContactDOB') ? conversation.aniCMResponse.parameters.CM_ANI_ContactDOB :\"\""
+            },
+            {
+              "property": " conversation.cmANIContactGroupId",
+              "value": "=getProperty(conversation.aniCMResponse.parameters,'CM_ANI_ContactGroupID') ? conversation.aniCMResponse.parameters.CM_ANI_ContactGroupID :\"\""
+            },
+            {
+              "property": " conversation.cmANIContactFirstNm",
+              "value": "=getProperty(conversation.aniCMResponse.parameters,'CM_ANI_ContactFirstNm') ? conversation.aniCMResponse.parameters.CM_ANI_ContactFirstNm :\"\""
+            },
+            {
+              "property": "conversation.setEvent",
+              "value": "=dialog.CMResponse.parameters.setEvent"
+            },
+            {
+              "value": "=RootDialog.isARADataPopulated()",
+              "property": "conversation.ARA_ANI_Auth"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "EvEtFs"
+          },
+          "value": "=dialog.CMResponse"
+        }
+      ]
+    }
+  ],
+  "generator": "ConversationManagerConnectionSkillBot.lg",
+  "recognizer": "ConversationManagerConnectionSkillBot.lu.qna",
+  "id": "ConversationManagerConnectionSkillBot"
+}

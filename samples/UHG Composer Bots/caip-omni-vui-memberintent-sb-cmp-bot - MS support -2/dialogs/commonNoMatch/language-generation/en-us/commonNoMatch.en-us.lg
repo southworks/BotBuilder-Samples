@@ -1,0 +1,11 @@
+> !# @Namespace = CommonNoMatch
+> !# @Exports = UHCMember_CommonNoMatch_Msg
+[import](common.lg)
+
+# UHCMember_CommonNoMatch_Msg()
+[Activity
+    Text = ${dialog.commonNMMsg}
+    Speak = ${dialog.commonNMMsg}
+    InputHint = expectingInput
+    ChannelData = ${StartPrompts_ActivityParams(1500)}
+]

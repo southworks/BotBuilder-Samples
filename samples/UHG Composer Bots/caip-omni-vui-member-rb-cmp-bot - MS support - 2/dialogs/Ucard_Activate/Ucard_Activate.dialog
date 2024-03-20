@@ -1,0 +1,223 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "9MQQJW",
+    "name": "Ucard_Activate",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "1vx7ld"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "GqOFEB"
+          },
+          "condition": "=equals(conversation.tfnConfig.Root_uhcMember_UCardActivate_Toggle,\"ON\")",
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "FgoAoA",
+                "name": "Telemetry for uCardActivate Skill Input Params"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "memberRoot_UCardActivate_SetInputs",
+                "pegType": "General",
+                "request": "=UCardActivate.UCardActivateSkill_Activity_Params()",
+                "response": "",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MemberRootBot_UCardActivate_SetInputs_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.BeginSkill",
+              "$designer": {
+                "id": "8WNapj"
+              },
+              "activityProcessed": true,
+              "botId": "=settings.MicrosoftAppId",
+              "skillHostEndpoint": "=settings.skillHostEndpoint",
+              "connectionName": "=settings.connectionName",
+              "allowInterruptions": false,
+              "activity": "${UCardActivateSkill_Activity_Params()}",
+              "resultProperty": "dialog.uCardActivateResponse",
+              "skillEndpoint": "=settings.skill['ucard-activate-v2-skill'].endpointUrl",
+              "skillAppId": "=settings.skill['ucard-activate-v2-skill'].msAppId"
+            },
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "I24NC6"
+              },
+              "activity": "${SendActivity_ConfigAfterSkill()}"
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "Kjl9A7",
+                "name": "Telemetry for UCardActivate Response"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "memberRoot_UCardActivate_SetOutputs",
+                "pegType": "General",
+                "request": "=UCardActivate.UCardActivateSkill_Activity_Params()",
+                "response": "=turn.activity.value",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MemberRootBot_UcardActivate_SetOutputs_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "X0em1k"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.uCardActivate_transferReasonCode",
+                  "value": "=turn.activity.value.transferReasonCode"
+                },
+                {
+                  "property": "conversation.ucEvent",
+                  "value": "=turn.activity.value.parameters.setEvent"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "afnJQl"
+              },
+              "condition": "=equals(conversation.ucEvent,\"continue\")",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "0kYsyf"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.currentTrigger",
+                      "value": "callerIntent"
+                    },
+                    {
+                      "property": "conversation.PreviousCallerIntent",
+                      "value": "=conversation.iCallerIntent"
+                    },
+                    {
+                      "value": "=conversation.iCallerIntentEntity",
+                      "property": "conversation.PreviousCallerntentEntity"
+                    },
+                    {
+                      "property": "conversation.SkillWrap",
+                      "value": "N"
+                    },
+                    {
+                      "property": "conversation.SkillWrapNMUtterance",
+                      "value": "=''"
+                    }
+                  ]
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "xTU7MN"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.ENT_BotAction",
+                      "value": "ROUTE2AGENT"
+                    },
+                    {
+                      "property": "conversation.currentTrigger",
+                      "value": "defaultTransfer"
+                    },
+                    {
+                      "property": "conversation.silentTransfer",
+                      "value": true
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "SIgfGq"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.transferReason",
+                      "value": "concat(\"UcardActivate_\",turn.activity.value.parameters.transferReason)"
+                    },
+                    {
+                      "property": "conversation.transferPegVal",
+                      "value": "MemberRootBot_UcardActivate_SetOutputs_Peg"
+                    },
+                    {
+                      "property": "conversation.ENT_IVRAppTransferReason",
+                      "value": "=conversation.uCardActivate_transferReasonCode"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "mlGaJh",
+                "name": "Telemetry UCardActivate Toggle OFF"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "memberRoot_UCardActivate_OFFToggle",
+                "pegType": "General",
+                "request": "=conversation.tfnConfig.Root_UCardActivate_Toggle",
+                "response": "",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MemberRootBot_UCardActivate_OFFToggle_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "X2606T"
+              },
+              "assignments": [
+                {
+                  "property": " conversation.currentTrigger",
+                  "value": "defaultTransfer"
+                },
+                {
+                  "property": "conversation.ENT_BotAction",
+                  "value": "ROUTE2AGENT"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "Ucard_Activate.lg",
+  "recognizer": "Ucard_Activate.lu.qna",
+  "id": "Ucard_Activate"
+}

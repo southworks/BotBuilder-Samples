@@ -1,0 +1,274 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "pAxriD",
+    "name": "UcardOrderStatus",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "zovqrK"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "rwiLpD"
+          },
+          "condition": "=equals(conversation.tfnConfig.Root_uhcMember_UCardOrderStatus_Toggle,\"ON\")",
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "Q9RKyj",
+                "name": "Telemetry for uCardOrderstatus Skill Input Params"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "memberRoot_UCardOrderStatus_SetInputs",
+                "pegType": "General",
+                "request": "=UCardOrderStatus.UCardOrderStatusSkill_Activity_Params()",
+                "response": "",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MemberRootBot_UCardOrderStatus_SetInputs_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.BeginSkill",
+              "$designer": {
+                "id": "2GeH8P"
+              },
+              "activityProcessed": true,
+              "botId": "=settings.MicrosoftAppId",
+              "skillHostEndpoint": "=settings.skillHostEndpoint",
+              "connectionName": "=settings.connectionName",
+              "allowInterruptions": false,
+              "activity": "${UCardOrderStatusSkill_Activity_Params()}",
+              "resultProperty": "dialog.uCardOrderStatusResponse",
+              "skillEndpoint": "=settings.skill['ucard-orderstatus-v2-skill'].endpointUrl",
+              "skillAppId": "=settings.skill['ucard-orderstatus-v2-skill'].msAppId"
+            },
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "5rhp9c"
+              },
+              "activity": "${SendActivity_ConfigAfterSkill()}"
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "ZhmV1j",
+                "name": "Telemetry for uCardOrderstatus Response"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "memberRoot_UCardOrderStatus_SetOutputs",
+                "pegType": "General",
+                "request": "=UCardOrderStatus.UCardOrderStatusSkill_Activity_Params()",
+                "response": "=turn.activity.value",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MemberRootBot_UCardOrderStatus_SetOutputs_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "eQn5Nu"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.uCardOrderStatus_transferReasonCode",
+                  "value": "=turn.activity.value.transferReasonCode"
+                },
+                {
+                  "property": "conversation.ucEvent",
+                  "value": "=turn.activity.value.parameters.setEvent"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "EABYgt"
+              },
+              "condition": "=equals(conversation.ucEvent,\"Continue\")",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "qomMVq"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.currentTrigger",
+                      "value": "callerIntent"
+                    },
+                    {
+                      "property": "conversation.PreviousCallerIntent",
+                      "value": "=conversation.iCallerIntent"
+                    },
+                    {
+                      "value": "=conversation.iCallerIntentEntity",
+                      "property": "conversation.PreviousCallerntentEntity"
+                    },
+                    {
+                      "property": "conversation.SkillWrap",
+                      "value": "N"
+                    },
+                    {
+                      "property": "conversation.SkillWrapNMUtterance",
+                      "value": "=''"
+                    }
+                  ]
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "VHC1Le"
+                  },
+                  "condition": "=equals(conversation.ucEvent,\"uCardReplace\")",
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "1peZap"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.ENT_BotAction",
+                          "value": "ROUTE2AGENT"
+                        },
+                        {
+                          "property": "conversation.currentTrigger",
+                          "value": "defaultTransfer"
+                        },
+                        {
+                          "property": "conversation.silentTransfer",
+                          "value": true
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "ctoBZp"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.transferReason",
+                          "value": "concat(\"UCardOrderStatus_\",turn.activity.value.parameters.transferReason)"
+                        },
+                        {
+                          "property": "conversation.transferPegVal",
+                          "value": "MemberRootBot_UCardOrderStatus_SetOutputs_Peg"
+                        },
+                        {
+                          "property": "conversation.ENT_IVRAppTransferReason",
+                          "value": "=conversation.uCardOrderStatus_transferReasonCode"
+                        }
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "4Grrw9"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.ENT_BotAction",
+                          "value": "ROUTE2AGENT"
+                        },
+                        {
+                          "property": "conversation.currentTrigger",
+                          "value": "defaultTransfer"
+                        },
+                        {
+                          "property": "conversation.silentTransfer",
+                          "value": false
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "72DEKm"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.transferReason",
+                          "value": "concat(\"UCardOrderStatus_\",turn.activity.value.parameters.transferReason)"
+                        },
+                        {
+                          "property": "conversation.transferPegVal",
+                          "value": "MemberRootBot_UCardOrderStatus_SetOutputs_Peg"
+                        },
+                        {
+                          "property": "conversation.ENT_IVRAppTransferReason",
+                          "value": "=conversation.uCardOrderStatus_transferReasonCode"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "oByGZp",
+                "name": "Telemetry UCardOrderStatus Toggle OFF"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "memberRoot_UCardOrderStatus_OFFToggle",
+                "pegType": "General",
+                "request": "=conversation.tfnConfig.Root_uhcMember_UCardOrderStatus_Toggle",
+                "response": "",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MemberRootBot_UCardOrderStatus_OFFToggle_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "CPn5IX"
+              },
+              "assignments": [
+                {
+                  "property": " conversation.currentTrigger",
+                  "value": "defaultTransfer"
+                },
+                {
+                  "property": "conversation.ENT_BotAction",
+                  "value": "ROUTE2AGENT"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "UcardOrderStatus.lg",
+  "recognizer": "UcardOrderStatus.lu.qna",
+  "id": "UcardOrderStatus"
+}

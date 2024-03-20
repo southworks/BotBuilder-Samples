@@ -1,0 +1,173 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "FNsUUy",
+    "name": "Catalog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "7ODOeS"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "VzArdI"
+          },
+          "condition": "=contains(conversation.flowState.flowPreviousPrompt, 'solutranUpfront')",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "O0lzMu"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.flowState.flowPreviousPrompt",
+                  "value": "catalogUpfront"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "AIFv0E"
+              },
+              "activity": "${UHCMember_Catalog_Msg()}"
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "jcisGZ"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "=MainDialog.PegVal('')",
+                "pegType": "InputAsk",
+                "request": "=Catalog.UHCMember_Catalog_Msg()",
+                "response": "",
+                "startDTM": "=conversation.startDate",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt,'_Prmt')"
+              }
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "jydhRr"
+              },
+              "activityProcessed": true,
+              "dialog": "Transfer",
+              "options": {
+                "behavior": "EndSkill"
+              }
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "F2uxiV"
+              },
+              "property": "conversation.catalogUtteranceCounter",
+              "value": "=add(conversation.catalogUtteranceCounter, 1)"
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "1pdz9O"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.flowState.flowPreviousPrompt",
+                  "value": "catalog"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "nJDZtp"
+              },
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "MqUzc4"
+                  },
+                  "activity": "${UHCMember_Catalog_Msg()}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "l5uKIt"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal('')",
+                    "pegType": "InputAsk",
+                    "request": "=Catalog.UHCMember_Catalog_Msg()",
+                    "response": "",
+                    "startDTM": "=conversation.startDate",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt,'_Prmt')"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "BvwqzR"
+                  },
+                  "assignments": [
+                    {
+                      "value": "='IntentCaptureRepeatVerbiage'",
+                      "property": "conversation.flowState.flowNextPrompt"
+                    },
+                    {
+                      "property": "conversation.intentEntity",
+                      "value": "=''"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "1JNAc9"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "Flow-Start"
+                }
+              ],
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "XBkiHH"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "Transfer",
+                  "options": {
+                    "behavior": "EndSkill"
+                  }
+                }
+              ],
+              "condition": "=conversation.catalogUtteranceCounter == 2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "Catalog.lg",
+  "recognizer": "Catalog.lu.qna",
+  "id": "Catalog"
+}

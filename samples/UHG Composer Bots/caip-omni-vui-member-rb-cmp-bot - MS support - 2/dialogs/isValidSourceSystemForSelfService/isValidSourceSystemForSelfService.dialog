@@ -1,0 +1,77 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "N0TMuD",
+    "name": "isSourceSystemValidForSelfService",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.isSourceSystemValid",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "hSIdlO"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "SMA5i3"
+          },
+          "condition": "=contains(empty(split(dialog.validSourceSystemList,','))?createArray(dialog.validSourceSystemList):split(dialog.validSourceSystemList,','), conversation.sourceSysCode)",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "CJLM6x"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.isSourceSystemValid",
+                  "value": true
+                }
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "vL39ZC"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "memberRoot_SelfService_CI_NoBOTSelfService_Src",
+                "pegType": "General",
+                "request": "=concat(\"SrcSystemCode\",conversation.sourceSysCode)",
+                "response": "",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MemberRootBot_SelfService_CI_NoBOTSelfService_Src_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "UnhFEa"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.isSourceSystemValid",
+                  "value": false
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "isValidSourceSystemForSelfService.lg",
+  "recognizer": "isValidSourceSystemForSelfService.lu.qna",
+  "id": "isValidSourceSystemForSelfService"
+}

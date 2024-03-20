@@ -1,0 +1,17 @@
+[import](common.lg)
+
+
+
+# SendActivity_IruIn3()
+[Activity
+    Type = event
+    Name = config
+    channelData = ${
+        {
+          sessionParams:{
+           handoverReason :conversation.currentState,
+           notifyParamChange:["handoverReason"]
+            }
+        }
+    }
+]

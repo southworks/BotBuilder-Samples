@@ -1,0 +1,403 @@
+{
+  "omni-vui-memberintent-sb-cmp.en-us": {
+    "rootDialog": true,
+    "triggers": {
+      "": [
+        "TelemetryDialog.en-us",
+        "NoMatchInput.en-us",
+        "LoadEntityConfig.en-us",
+        "GlobalBehavior.en-us",
+        "NoUserInput.en-us",
+        "DTMFDialog.en-us",
+        "StartSkill.en-us"
+      ],
+      "yes": [
+        "TelemetryDialog.en-us",
+        "HandleContext.en-us",
+        "TelemetryDialog.en-us",
+        "Transfer.en-us",
+        "TelemetryDialog.en-us",
+        "LoadEntityConfig.en-us",
+        "CallerType.en-us",
+        "TelemetryDialog.en-us",
+        "CallerType.en-us",
+        "TelemetryDialog.en-us",
+        "LoadEntityConfig.en-us",
+        "CallerType.en-us",
+        "TelemetryDialog.en-us",
+        "LoadEntityConfig.en-us",
+        "CallerType.en-us",
+        "TelemetryDialog.en-us",
+        "LoadEntityConfig.en-us",
+        "CallerType.en-us",
+        "TelemetryDialog.en-us",
+        "LoadEntityConfig.en-us",
+        "Transfer.en-us",
+        "TelemetryDialog.en-us",
+        "LoadEntityConfig.en-us",
+        "Transfer.en-us",
+        "TelemetryDialog.en-us",
+        "LoadEntityConfig.en-us",
+        "Transfer.en-us",
+        "TelemetryDialog.en-us",
+        "LoadEntityConfig.en-us",
+        "Transfer.en-us",
+        "TelemetryDialog.en-us",
+        "LoadEntityConfig.en-us",
+        "Transfer.en-us",
+        "TelemetryDialog.en-us",
+        "HandleContext.en-us",
+        "commonNoMatch.en-us"
+      ],
+      "no": [
+        "TelemetryDialog.en-us",
+        "HandleContext.en-us",
+        "TelemetryDialog.en-us",
+        "Transfer.en-us",
+        "TelemetryDialog.en-us",
+        "LoadEntityConfig.en-us",
+        "CallerType.en-us",
+        "TelemetryDialog.en-us",
+        "CallerType.en-us",
+        "TelemetryDialog.en-us",
+        "OpenEnrollment.en-us",
+        "TelemetryDialog.en-us",
+        "LoadEntityConfig.en-us",
+        "CallerType.en-us",
+        "TelemetryDialog.en-us",
+        "LoadEntityConfig.en-us",
+        "CallerType.en-us",
+        "TelemetryDialog.en-us",
+        "LoadEntityConfig.en-us",
+        "Transfer.en-us",
+        "TelemetryDialog.en-us",
+        "LoadEntityConfig.en-us",
+        "Transfer.en-us",
+        "TelemetryDialog.en-us",
+        "OpenEnrollmentUpfront.en-us",
+        "TelemetryDialog.en-us",
+        "Flow-Start.en-us",
+        "TelemetryDialog.en-us",
+        "OpenEnrollmentUpfront.en-us",
+        "TelemetryDialog.en-us",
+        "HandleContext.en-us",
+        "commonNoMatch.en-us"
+      ],
+      "agentGeneral": [
+        "TelemetryDialog.en-us",
+        "Flow-Start.en-us",
+        "LoadEntityConfig.en-us",
+        "SolutranDisambig.en-us",
+        "LoadEntityConfig.en-us",
+        "Transfer.en-us",
+        "Flow-Start.en-us",
+        "OpenEnrollment.en-us",
+        "LoadEntityConfig.en-us",
+        "CallerType.en-us",
+        "LoadEntityConfig.en-us",
+        "CallerType.en-us",
+        "LoadEntityConfig.en-us",
+        "Transfer.en-us",
+        "LoadEntityConfig.en-us",
+        "Transfer.en-us",
+        "LoadEntityConfig.en-us",
+        "Transfer.en-us",
+        "OpenEnrollmentUpfront.en-us",
+        "Flow-Start.en-us",
+        "OpenEnrollmentUpfront.en-us",
+        "GlobalBehavior.en-us",
+        "NoMatchInput.en-us"
+      ],
+      "claims": [
+        "TriggerFlow.en-us"
+      ],
+      "benefits": [
+        "TriggerFlow.en-us"
+      ],
+      "vision": [
+        "TriggerFlow.en-us"
+      ],
+      "dentalGeneral": [
+        "TriggerFlow.en-us"
+      ],
+      "doctor": [
+        "TriggerFlow.en-us"
+      ],
+      "accountUpdate": [
+        "TriggerFlow.en-us"
+      ],
+      "behavioralHealth": [
+        "TriggerFlow.en-us"
+      ],
+      "billingGeneral": [
+        "TriggerFlow.en-us"
+      ],
+      "cardReplacement": [
+        "TriggerFlow.en-us"
+      ],
+      "chronicPain": [
+        "TriggerFlow.en-us"
+      ],
+      "covid": [
+        "TriggerFlow.en-us"
+      ],
+      "employeeAssistance": [
+        "TriggerFlow.en-us"
+      ],
+      "enrollment": [
+        "TriggerFlow.en-us"
+      ],
+      "fax": [
+        "TriggerFlow.en-us"
+      ],
+      "fertility": [
+        "TriggerFlow.en-us"
+      ],
+      "financial": [
+        "TriggerFlow.en-us"
+      ],
+      "fraud": [
+        "TriggerFlow.en-us"
+      ],
+      "health": [
+        "TriggerFlow.en-us"
+      ],
+      "heart": [
+        "TriggerFlow.en-us"
+      ],
+      "HRA": [
+        "TriggerFlow.en-us"
+      ],
+      "letter": [
+        "TriggerFlow.en-us"
+      ],
+      "makePayment": [
+        "TriggerFlow.en-us"
+      ],
+      "memberID": [
+        "TriggerFlow.en-us"
+      ],
+      "mentalHealth": [
+        "TriggerFlow.en-us",
+        "NoMatchInput.en-us",
+        "TriggerFlow.en-us"
+      ],
+      "NICU": [
+        "TriggerFlow.en-us"
+      ],
+      "None": [
+        "TelemetryDialog.en-us",
+        "NoMatchInput.en-us"
+      ],
+      "onlineQuestions": [
+        "TriggerFlow.en-us"
+      ],
+      "orthopedic": [
+        "TriggerFlow.en-us"
+      ],
+      "pharmacy": [
+        "TriggerFlow.en-us"
+      ],
+      "policyGroupNumber": [
+        "TriggerFlow.en-us"
+      ],
+      "prevention": [
+        "TriggerFlow.en-us"
+      ],
+      "report": [
+        "TriggerFlow.en-us"
+      ],
+      "resources": [
+        "TriggerFlow.en-us"
+      ],
+      "returnCall": [
+        "TriggerFlow.en-us"
+      ],
+      "rewardsForHealthGeneral": [
+        "TriggerFlow.en-us"
+      ],
+      "smokingCessation": [
+        "TriggerFlow.en-us"
+      ],
+      "subrogationGeneral": [
+        "TriggerFlow.en-us"
+      ],
+      "transportation": [
+        "TriggerFlow.en-us"
+      ],
+      "treatmentDecision": [
+        "TriggerFlow.en-us"
+      ],
+      "treatmentDiabetes": [
+        "TriggerFlow.en-us"
+      ],
+      "callerTypeGeneral": [
+        "TriggerFlow.en-us"
+      ],
+      "somethingElse": [
+        "TriggerFlow.en-us"
+      ],
+      "appointmentReschedule": [
+        "TriggerFlow.en-us"
+      ],
+      "complaint": [
+        "TriggerFlow.en-us"
+      ],
+      "disambigGeneral": [
+        "TriggerFlow.en-us"
+      ],
+      "HSA": [
+        "TriggerFlow.en-us"
+      ],
+      "mainMenu": [
+        "TelemetryDialog.en-us",
+        "Flow-Start.en-us",
+        "TriggerFlow.en-us"
+      ],
+      "preAuthorization": [
+        "NoMatchInput.en-us",
+        "TriggerFlow.en-us"
+      ],
+      "pulmonaryDisease": [
+        "TriggerFlow.en-us"
+      ],
+      "rewardsForActionGeneral": [
+        "TriggerFlow.en-us"
+      ],
+      "treatmentEmergencyRoom": [
+        "TriggerFlow.en-us"
+      ],
+      "treatmentTransplant": [
+        "TriggerFlow.en-us"
+      ],
+      "virtualVisit": [
+        "TriggerFlow.en-us"
+      ],
+      "translator": [
+        "TelemetryDialog.en-us",
+        "LoadEntityConfig.en-us",
+        "GlobalBehavior.en-us"
+      ],
+      "spanish": [
+        "TelemetryDialog.en-us",
+        "LoadEntityConfig.en-us",
+        "GlobalBehavior.en-us"
+      ],
+      "silverSneakers": [
+        "TriggerFlow.en-us"
+      ],
+      "caseManagement": [
+        "TriggerFlow.en-us"
+      ],
+      "couponBook": [
+        "TriggerFlow.en-us"
+      ],
+      "EFT": [
+        "TriggerFlow.en-us"
+      ],
+      "extension": [
+        "TriggerFlow.en-us"
+      ],
+      "FOBT": [
+        "TriggerFlow.en-us"
+      ],
+      "form": [
+        "TriggerFlow.en-us"
+      ],
+      "fosterCare": [
+        "TriggerFlow.en-us"
+      ],
+      "handbook": [
+        "TriggerFlow.en-us"
+      ],
+      "healthAssessment": [
+        "TriggerFlow.en-us"
+      ],
+      "hospitalStay": [
+        "TriggerFlow.en-us"
+      ],
+      "membersMatter": [
+        "TriggerFlow.en-us"
+      ],
+      "navigator": [
+        "TriggerFlow.en-us"
+      ],
+      "passport": [
+        "TriggerFlow.en-us"
+      ],
+      "planType": [
+        "TriggerFlow.en-us"
+      ],
+      "uCard": [
+        "TriggerFlow.en-us"
+      ],
+      "upsetCaller": [
+        "TriggerFlow.en-us",
+        "LoadEntityConfig.en-us",
+        "Transfer.en-us",
+        "NoMatchInput.en-us"
+      ],
+      "balance": [
+        "TriggerFlow.en-us"
+      ],
+      "solutran": [
+        "TriggerFlow.en-us"
+      ],
+      "HIPAA": [
+        "TriggerFlow.en-us"
+      ],
+      "noEmployer": [
+        "TriggerFlow.en-us"
+      ],
+      "dontKnow": [
+        "TriggerFlow.en-us",
+        "NoMatchInput.en-us",
+        "LoadEntityConfig.en-us",
+        "Transfer.en-us",
+        "commonNoMatch.en-us"
+      ],
+      "order": [
+        "TriggerFlow.en-us"
+      ],
+      "catalog": [
+        "TriggerFlow.en-us"
+      ],
+      "commonNoMatchQuestion": [
+        "commonNoMatch.en-us"
+      ],
+      "commonNoMatchInfo": [
+        "commonNoMatch.en-us"
+      ],
+      "commonNoMatchWhat": [
+        "commonNoMatch.en-us"
+      ],
+      "commonNoMatchPlease": [
+        "commonNoMatch.en-us"
+      ],
+      "commonNoMatchMembership": [
+        "commonNoMatch.en-us"
+      ],
+      "commonNoMatchUhh": [
+        "commonNoMatch.en-us"
+      ],
+      "commonNoMatchThanks": [
+        "commonNoMatch.en-us"
+      ],
+      "commonNoMatchInsurance": [
+        "commonNoMatch.en-us"
+      ],
+      "commonNoMatchUmm": [
+        "commonNoMatch.en-us"
+      ],
+      "commonNoMatchHello": [
+        "commonNoMatch.en-us"
+      ],
+      "orderSupplies": [
+        "TriggerFlow.en-us"
+      ],
+      "emergency": [
+        "TriggerFlow.en-us"
+      ]
+    }
+  }
+}

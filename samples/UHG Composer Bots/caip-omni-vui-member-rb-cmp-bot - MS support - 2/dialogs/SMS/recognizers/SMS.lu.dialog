@@ -1,0 +1,8 @@
+{
+  "$kind": "Microsoft.MultiLanguageRecognizer",
+  "id": "LUIS_SMS",
+  "recognizers": {
+    "en-us": "SMS.en-us.lu",
+    "": "SMS.en-us.lu"
+  }
+}

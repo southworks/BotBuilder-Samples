@@ -1,0 +1,150 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "ozKcUa",
+    "name": "isSelfServiceAvailable",
+    "comment": "To Check whether the selfService avaiable or not for Given Intent and Entity"
+  },
+  "autoEndDialog": true,
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "gVCWl5"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "SjRAei",
+            "name": "Branch: If/else check Intent SelfService list"
+          },
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "jA2v7o"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "=SelfService.getIntentSelfServicePeg(dialog.selfServiceType)",
+                "pegType": "General",
+                "request": "{\"Intent\":\"${conversation.iCallerIntent}\"}",
+                "response": "Intent is present in ${dialog.intentSelfServiceList} Self-Service List",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "=SelfService.getIntentSelfServiceEventName(dialog.selfServiceType)"
+              }
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "cOsJYd",
+                "name": "Branch: If/else to  Bypass Entity Check"
+              },
+              "condition": "=and(not(empty(dialog.entityBypassList)),contains(empty(split(dialog.entityBypassList,','))?createArray(dialog.entityBypassList):split(dialog.entityBypassList,','), conversation.iCallerIntent))",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "qcxWiU"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "memberRoot_SelfService_CIEntityBypass_IVRSelfService",
+                    "pegType": "General",
+                    "request": "{\"Intent\":\"${conversation.iCallerIntent}\"}",
+                    "response": "Intent is present in ${dialog.entityBypassList} Self-Service List",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "MemberRoot_SelfService_CIEntityBypass_IVRSelfService_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "RkrLOA"
+                  },
+                  "property": "dialog.isSelfServiceAvailable",
+                  "value": true
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "lESjuj"
+                  },
+                  "condition": "=and(not(empty(dialog.EntitySelfServiceList)),contains(empty(split(dialog.EntitySelfServiceList,','))?createArray(dialog.EntitySelfServiceList):split(dialog.EntitySelfServiceList,','), conversation.iCallerIntentEntity))",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "uQjL9n"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "=SelfService.getEntitySelfServicePeg(dialog.selfServiceType)",
+                        "pegType": "General",
+                        "request": "{\"Intent\":\"${conversation.iCallerIntentEntity}\", \"Entity\":\"${conversation.iCallerIntentEntity}\"}",
+                        "response": " Entity is present in ${dialog.EntitySelfServiceList} Self-Service List",
+                        "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "=SelfService.getEntitySelfServiceEventName(dialog.selfServiceType)"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "sbDp2h"
+                      },
+                      "property": "dialog.isSelfServiceAvailable",
+                      "value": true
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "Nc7lc8"
+                      },
+                      "property": "dialog.isSelfServiceAvailable",
+                      "value": false
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "condition": "=and(not(empty(dialog.intentSelfServiceList)),contains(empty(split(dialog.intentSelfServiceList,','))?createArray(dialog.intentSelfServiceList):split(dialog.intentSelfServiceList,','), conversation.iCallerIntent))",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "vfu7Ci"
+              },
+              "property": "dialog.isSelfServiceAvailable",
+              "value": false
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "3bHCZa"
+          },
+          "value": "=dialog.isSelfServiceAvailable"
+        }
+      ]
+    }
+  ],
+  "generator": "isSelfServiceAvailable.lg",
+  "recognizer": "isSelfServiceAvailable.lu.qna",
+  "id": "isSelfServiceAvailable",
+  "defaultResultProperty": "dialog.isSelfServiceAvailable"
+}

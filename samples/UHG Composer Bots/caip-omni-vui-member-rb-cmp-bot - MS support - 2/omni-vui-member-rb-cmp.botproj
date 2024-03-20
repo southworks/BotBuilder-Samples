@@ -1,0 +1,80 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/BotFramework-Composer/main/Composer/packages/server/schemas/botproject.schema",
+  "name": "omni-vui-member-rb-cmp",
+  "skills": {
+    "caipOmniVuiPersonalizationSbCmpBot": {
+      "manifest": "=settings.conversationManagerskillManifestPath",
+      "remote": true,
+      "endpointName": "omni-vui-personalization-sb-cmp"
+    },
+    "caipOmniVuiMemberauthenticationSbCmpBot": {
+      "manifest": "=settings.memberAuthenticationSkillManifestPath",
+      "remote": true,
+      "endpointName": "omni-vui-memberauthentication-sb-cmp"
+    },
+    "caipOmniVuiMemberbneSbCmpBot": {
+      "manifest": "=settings.memberBnESkillManifestPath",
+      "remote": true,
+      "endpointName": "omni-vui-memberbne-sb-cmp"
+    },
+    "memberAuthSkillBot": {
+      "workspace": "../MemberAuthSkillBot",
+      "remote": false
+    },
+    "mdPersonalizationSkillBot": {
+      "workspace": "../MdPersonalizationSkillBot",
+      "remote": false,
+      "endpointName": "omni-vui-personalization-sb-cmp"
+    },
+    "caipOmniVuiMemberintentSbCmpBot": {
+      "manifest": "=settings.memberIntentSkillManifestPath",
+      "remote": true,
+      "endpointName": "caip-omni-vui-memberintent-sb-cmp"
+    },
+    "caipOmniVuiPolicyselectionSbCmpBot": {
+      "manifest": "=settings.policySelectionSkillManifestPath",
+      "remote": true,
+      "endpointName": "caip-omni-vui-policyselection-sb-cmp-bot"
+    },
+    "provider-location-search-skill": {
+      "manifest": "=settings.providerLocationSearchSkillManifest",
+      "remote": true,
+      "endpointName": "provider-location-search"
+    },
+    "ucard-activate-v2-skill": {
+      "manifest": "=settings.uCardActivateSkillManifest",
+      "remote": true,
+      "endpointName": "ucard-activate-v2"
+    },
+    "ucard-balance-transactions-v2-skill": {
+      "manifest": "=settings.uCardBalanceSkillManifest",
+      "remote": true,
+      "endpointName": "ucard-balance-transactions-v2"
+    },
+    "ucard-orderstatus-v2-skill": {
+      "manifest": "=settings.uCardOrderStatusSkillManifest",
+      "remote": true,
+      "endpointName": "ucard-orderstatus-v2"
+    },
+    "memberIntent1": {
+      "workspace": "../MemberIntent1",
+      "remote": false
+    },
+    "policySelectionSkillBot": {
+      "workspace": "../PolicySelectionSkillBot",
+      "remote": false
+    },
+    "memberBenefitsBot": {
+      "workspace": "../MemberBenefitsBot",
+      "remote": false
+    },
+    "findProvider": {
+      "workspace": "../FindProvider",
+      "remote": false
+    },
+    "ucardActivateSkill": {
+      "workspace": "../UcardActivateSkill",
+      "remote": false
+    }
+  }
+}

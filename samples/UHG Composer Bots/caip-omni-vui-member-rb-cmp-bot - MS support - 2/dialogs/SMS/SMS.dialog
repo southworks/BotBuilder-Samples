@@ -1,0 +1,634 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "Rh5Urd",
+    "name": "SMS",
+    "comment": ""
+  },
+  "autoEndDialog": "=conversation.endSMSDialog",
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "IsTu3u"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "RYkjFW"
+          },
+          "property": "conversation.endSMSDialog",
+          "value": false
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "Mrmeyo"
+          },
+          "condition": "=conversation.tfnConfig.Root_SMS_Msg_Toggle == 'ON'",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "nYg5aV"
+              },
+              "property": "dialog.ani",
+              "value": "=replace(string(conversation.ani), ',', '')"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "kZTvNN",
+                "name": "Valid 10 digit ANI?"
+              },
+              "condition": "=length(string(dialog.ani)) == 10",
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "iEUvQK",
+                    "name": "First 3 ANI digits within RestrictedAni_List?"
+                  },
+                  "condition": "=contains(conversation.tfnConfig.Root_RestrictedANI_List, substring(string(dialog.ani), 0, 3))",
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "QfJLo5",
+                        "comment": "Example for Query : RowKey eq '1234567890'\nRowkey contains the ANI value in the table"
+                      },
+                      "property": "dialog.smsExclusionTableQuery",
+                      "value": "=concat(\"RowKey eq\",\" '\",dialog.ani,\"'\")"
+                    },
+                    {
+                      "$kind": "Optum.GetAzureTableDataDialog",
+                      "$designer": {
+                        "id": "WcBcmr",
+                        "name": "SMS Exclusion Azure data Table"
+                      },
+                      "accountName": "=settings.storageAccountName",
+                      "key": "=settings.storageAccountKey",
+                      "tableName": "=settings.smsExclusionTableName",
+                      "tableQuery": "=dialog.smsExclusionTableQuery",
+                      "resultProperty": "dialog.smsExclusionResponse"
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "yRBull",
+                        "name": "Telemetry for SMS Exclusion"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "memberRoot_SMS_SMSExclusion",
+                        "pegType": "General",
+                        "request": "=dialog.smsExclusionTableQuery",
+                        "response": "=dialog.smsExclusionResponse",
+                        "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "AppName": "=settings.botName",
+                        "conversationId": "=conversation.conversationId",
+                        "eventName": "MemberRootBot_SMS_SMSExclusion_Peg"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.SwitchCondition",
+                      "$designer": {
+                        "id": "Fr4gF0"
+                      },
+                      "condition": "dialog.smsExclusionResponse.status",
+                      "cases": [
+                        {
+                          "value": "success",
+                          "actions": [
+                            {
+                              "$kind": "Microsoft.IfCondition",
+                              "$designer": {
+                                "id": "KAmAth"
+                              },
+                              "condition": "=equals(count(dialog.smsExclusionResponse.data), 0)",
+                              "actions": [
+                                {
+                                  "$kind": "Microsoft.SetProperties",
+                                  "$designer": {
+                                    "id": "rlgVnH"
+                                  },
+                                  "assignments": [
+                                    {
+                                      "property": "conversation.last4ANI",
+                                      "value": "=substring(string(dialog.ani), 6, 4)"
+                                    },
+                                    {
+                                      "property": "conversation.last4ofANI",
+                                      "value": "=join(split(conversation.last4ANI,\"\"),\" \")"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "$kind": "Microsoft.SendActivity",
+                                  "$designer": {
+                                    "id": "NmoqVS",
+                                    "name": "SMS question"
+                                  },
+                                  "activity": "${SMSQuestion()}"
+                                },
+                                {
+                                  "$kind": "Microsoft.BeginDialog",
+                                  "$designer": {
+                                    "id": "aLb1iz"
+                                  },
+                                  "activityProcessed": true,
+                                  "dialog": "TelemetryDialog",
+                                  "options": {
+                                    "peg": "memberRoot_SMS_SMSQuestion_Prompt",
+                                    "pegType": "General",
+                                    "request": "=SMSDialog.SMSQuestion()",
+                                    "response": "",
+                                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                                    "eventName": "MemberRootBot_SMS_SMSQuestion_prompt_Peg"
+                                  }
+                                }
+                              ],
+                              "elseActions": [
+                                {
+                                  "$kind": "Microsoft.BeginDialog",
+                                  "$designer": {
+                                    "id": "e3W7an",
+                                    "name": "Telemetry for SMS Exclusion Sucess"
+                                  },
+                                  "activityProcessed": true,
+                                  "dialog": "TelemetryDialog",
+                                  "options": {
+                                    "peg": "memberRoot_SMS_SMSExclusion_Success",
+                                    "pegType": "General",
+                                    "request": "",
+                                    "response": "=dialog.smsExclusionResponse.data",
+                                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                                    "AppName": "=settings.botName",
+                                    "conversationId": "=conversation.conversationId",
+                                    "eventName": "MemberRootBot_SMS_SMSExclusion_Success_Peg"
+                                  }
+                                },
+                                {
+                                  "$kind": "Microsoft.IfCondition",
+                                  "$designer": {
+                                    "id": "mEpQGM",
+                                    "name": "Member ANI excluded?"
+                                  },
+                                  "condition": "=equals(dialog.smsExclusionResponse.data[0].value,\"Exclude\")",
+                                  "actions": [
+                                    {
+                                      "$kind": "Microsoft.BeginDialog",
+                                      "$designer": {
+                                        "id": "obCvvm",
+                                        "name": "Telemetry for MemberAniExcluded"
+                                      },
+                                      "activityProcessed": true,
+                                      "dialog": "TelemetryDialog",
+                                      "options": {
+                                        "peg": "memberRoot_SMS_MemberANIExcluded",
+                                        "pegType": "General",
+                                        "request": "",
+                                        "response": "=dialog.smsExclusionResponse.data[0].value",
+                                        "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                                        "AppName": "=settings.botName",
+                                        "conversationId": "=conversation.conversationId",
+                                        "eventName": "MemberRootBot_SMS_MemberANIExcluded_Peg"
+                                      }
+                                    }
+                                  ],
+                                  "elseActions": []
+                                },
+                                {
+                                  "$kind": "Microsoft.SetProperties",
+                                  "$designer": {
+                                    "id": "2ogjo1"
+                                  },
+                                  "assignments": [
+                                    {
+                                      "property": "conversation.endSMSDialog",
+                                      "value": true
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ],
+                      "default": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "IkvLx9",
+                            "name": "Telemetry for SMS Exclusion Exception/Error"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "memberRoot_SMS_SMSExclusion_Error",
+                            "pegType": "General",
+                            "request": "",
+                            "response": "=dialog.smsExclusionResponse.data",
+                            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "AppName": "=settings.botName",
+                            "conversationId": "=conversation.conversationId",
+                            "eventName": "MemberRootBot_SMS_SMSExclusion_Error_Peg"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "NEBQnR"
+                          },
+                          "assignments": [
+                            {
+                              "property": "conversation.endSMSDialog",
+                              "value": true
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "NCC7Td"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "memberRoot_SMS_Restricted_ANI",
+                        "pegType": "General",
+                        "request": "=dialog.ani",
+                        "response": "restricted_ani_list: ${}",
+                        "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "MemberRootBot_SMS_Restricted_ANI_Peg"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "tmKymE"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.endSMSDialog",
+                          "value": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "8DhUGu"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "memberRoot_SMS_Invalid_ANI",
+                    "pegType": "General",
+                    "request": "=dialog.ani",
+                    "response": "ANI is not a valid 10 digit number",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "MemberRootBot_SMS_Invalid_ANI_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "0vo7la"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.endSMSDialog",
+                      "value": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "1elgyh"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "memberRoot_SMS_Msg_OFFToggle",
+                "pegType": "General",
+                "request": "=conversation.tfnConfig.Root_SMS_Msg_Toggle ",
+                "response": "OFF",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MemberRootBot_SMS_Msg_OFFToggle_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "iWSxCz"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.endSMSDialog",
+                  "value": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "fIVZxq"
+          },
+          "assignments": [
+            {
+              "property": "conversation.currentTrigger",
+              "value": "scrConversationManager"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "dqCoDN",
+        "name": "yes"
+      },
+      "intent": "yes",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "nR9hxk",
+            "name": "Telemetry for User input"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "memberRootBot_SMS_Yes_UserInput",
+            "pegType": "UserInput",
+            "request": "UserInput",
+            "response": "=turn.recognized",
+            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "MemberRootBot_SMS_Yes_UserInput_Peg"
+          }
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "oqd6i8"
+          },
+          "assignments": [
+            {
+              "property": "conversation.smsANI",
+              "value": "=concat('+1', string(dialog.ani))"
+            },
+            {
+              "property": "conversation.mwFailure",
+              "value": false
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "MNm9Nc"
+          },
+          "activityProcessed": true,
+          "dialog": "API-SMS",
+          "options": {}
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "X9uOJU"
+          },
+          "assignments": [
+            {
+              "property": "conversation.currentTrigger",
+              "value": "scrConversationManager"
+            },
+            {
+              "property": "conversation.endSMSDialog",
+              "value": true
+            }
+          ]
+        }
+      ],
+      "condition": "=#yes.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "rpTw18",
+        "name": "no"
+      },
+      "intent": "no",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "IFzDps",
+            "name": "Telemetry for User input"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "memberRootBot_SMS_No_UserInput",
+            "pegType": "UserInput",
+            "request": "UserInput",
+            "response": "=turn.recognized",
+            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "MemberRootBot_SMS_No_UserInput_Peg"
+          }
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "6hSxea"
+          },
+          "activity": "${NoResponse()}"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "S9cxmw"
+          },
+          "assignments": [
+            {
+              "property": "conversation.currentTrigger",
+              "value": "scrConversationManager"
+            },
+            {
+              "property": "conversation.endSMSDialog",
+              "value": true
+            }
+          ]
+        }
+      ],
+      "condition": "=#no.score >=0.5"
+    },
+    {
+      "$kind": "Microsoft.OnEventActivity",
+      "$designer": {
+        "id": "zhdWZu",
+        "name": "Event received (Event activity)"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "mKR2C0"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "memberRootBot_SMS_Event_Received",
+            "pegType": "General",
+            "request": "",
+            "response": "=turn.activity",
+            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "MemberRootBot_SMS_Event_Received_Peg"
+          }
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "kU6KLu"
+          },
+          "condition": "=or(equals(turn.activity.name, 'noUserInput'), equals(turn.activity.name, 'DTMF'))",
+          "actions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "hP2O0i"
+              },
+              "activity": "${NoResponse()}"
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "RS9LT7"
+              },
+              "property": "dialog.eventName",
+              "value": "=if(equals(turn.activity.name, 'noUserInput'), 'NI', 'DTMF')"
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "NYU5Cs"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "01225",
+                "pegType": "General",
+                "request": "=SMSDialog.NoResponse()",
+                "response": "",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "=concat('MemberRootBot_SMS_', dialog.eventName, '_NoResponse_prompt_Peg')"
+              }
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "dRZXGL"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.currentTrigger",
+                  "value": "scrConversationManager"
+                },
+                {
+                  "property": "conversation.endSMSDialog",
+                  "value": true
+                }
+              ]
+            }
+          ],
+          "default": []
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnUnknownIntent",
+      "$designer": {
+        "id": "xltjTC",
+        "name": "Unknown intent"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "Gln5ln"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "memberRoot_SMS_UnknownIntent",
+            "pegType": "General",
+            "request": "",
+            "response": "=turn",
+            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "MemberRootBot_SMS_UnknownIntent_Peg"
+          }
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "Wlg3Pb"
+          },
+          "activity": "${NoResponse()}"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "NkhHx4"
+          },
+          "assignments": [
+            {
+              "property": "conversation.currentTrigger",
+              "value": "scrConversationManager"
+            },
+            {
+              "property": "conversation.endSMSDialog",
+              "value": true
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "SMS.lg",
+  "recognizer": "SMS.lu.qna",
+  "id": "SMS"
+}

@@ -1,0 +1,22 @@
+> !# @Namespace = uCardBalance
+> !# @Exports = UHCMember_uCardBalance_Msg
+
+[import](common.lg)
+
+# UHCMember_uCardBalance_Msg()
+[Activity
+    Text = ${UHCMember_uCardBalance_text()}
+    Speak = ${UHCMember_uCardBalance_text()}
+    InputHint = expectingInput
+    ChannelData = ${
+        {
+            activityParams:{
+                sendDTMF: false, 
+                bargeIn: false,
+                bargeInOnDTMF: false,
+                enableSpeechInput: false
+            }
+        }
+    }
+]
+

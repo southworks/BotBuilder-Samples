@@ -1,0 +1,2136 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "ifFREI",
+    "name": "NoUserInput",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "VXYNOF",
+        "comment": "Send the corresponding message to user based on the value of the noUserInput event and the context."
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "UnkDu2"
+          },
+          "property": "conversation.flowState.failedCount",
+          "value": "=add(conversation.flowState.failedCount,1)"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "1Yo9HR"
+          },
+          "property": "conversation.flowState.noUserInputCount",
+          "value": "=add(conversation.flowState.noUserInputCount,1)"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "veb96L"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "=MainDialog.PegVal(concat('NI', conversation.flowState.noUserInputCount))",
+            "pegType": "General",
+            "request": "No User Input Event",
+            "response": "=dialog.turnVal",
+            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, concat('_NI',conversation.flowState.noUserInputCount, '_Event'))"
+          }
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "lYjwxp",
+            "comment": "If failed count equals 3 send to TransferToAgent dialog."
+          },
+          "condition": "=conversation.flowState.failedCount != 3",
+          "actions": [],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "rV5jLQ"
+              },
+              "activityProcessed": true,
+              "dialog": "GlobalBehavior",
+              "options": {
+                "behavior": "NoUserInput"
+              }
+            },
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "z7Ucws"
+              },
+              "value": "=dialog.endDialogParams"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "3hYc96",
+            "comment": "Sending the corresponding NoInput prompt based on flowPreviousPrompt."
+          },
+          "condition": "conversation.flowState.flowPreviousPrompt",
+          "cases": [
+            {
+              "value": "IntentCapture",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "RdM6Y9"
+                  },
+                  "condition": "conversation.flowState.noUserInputCount",
+                  "cases": [
+                    {
+                      "value": "1",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "7sOyPG"
+                          },
+                          "activity": "${IntentCaptureInitial_NI1()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "NKKybC"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "=MainDialog.PegVal('NI1')",
+                            "pegType": "InputAsk",
+                            "request": "=NoUserInput.IntentCaptureInitial_NI1()",
+                            "response": "",
+                            "startDTM": "=conversation.startDate",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, concat('_NI', conversation.flowState.noUserInputCount, 'Prmt'))"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "value": "2",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "RPWByS"
+                          },
+                          "activity": "${IntentCaptureInitial_NI2()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "8tobqX"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "=MainDialog.PegVal('NI2')",
+                            "pegType": "InputAsk",
+                            "request": "=NoUserInput.IntentCaptureInitial_NI2()",
+                            "response": "",
+                            "startDTM": "=conversation.startDate",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, concat('_NI', conversation.flowState.noUserInputCount, 'Prmt'))"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "IntentCaptureRepeatVerbiage",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "P4Rmbe"
+                  },
+                  "condition": "conversation.flowState.noUserInputCount",
+                  "cases": [
+                    {
+                      "value": "1",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "5AEGZa"
+                          },
+                          "activity": "${IntentCaptureInitial_NI1()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "zx4r4p"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "=MainDialog.PegVal('NI1')",
+                            "pegType": "InputAsk",
+                            "request": "=NoUserInput.IntentCaptureInitial_NI1()",
+                            "response": "",
+                            "startDTM": "=conversation.startDate",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, concat('_NI', conversation.flowState.noUserInputCount, 'Prmt'))"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "value": "2",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "H4Munn"
+                          },
+                          "activity": "${IntentCaptureInitial_NI2()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "CnCVNl"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "=MainDialog.PegVal('NI2')",
+                            "pegType": "InputAsk",
+                            "request": "=NoUserInput.IntentCaptureInitial_NI2()",
+                            "response": "",
+                            "startDTM": "=conversation.startDate",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, concat('_NI', conversation.flowState.noUserInputCount, 'Prmt'))"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "IntentCaptureRetry",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "VAT1Kk"
+                  },
+                  "condition": "conversation.flowState.noUserInputCount",
+                  "cases": [
+                    {
+                      "value": "1",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "5t1yym"
+                          },
+                          "activity": "${IntentCaptureRetry_NI1()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "aEYW94"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "=MainDialog.PegVal('NI1')",
+                            "pegType": "InputAsk",
+                            "request": "=NoUserInput.IntentCaptureRetry_NI1()",
+                            "response": "",
+                            "startDTM": "=conversation.startDate",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, concat('_NI', conversation.flowState.noUserInputCount, 'Prmt'))"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "value": "2",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "b88QuV"
+                          },
+                          "activity": "${IntentCaptureRetry_NI2()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "A3keBS"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "=MainDialog.PegVal('NI2')",
+                            "pegType": "InputAsk",
+                            "request": "=NoUserInput.IntentCaptureRetry_NI2()",
+                            "response": "",
+                            "startDTM": "=conversation.startDate",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, concat('_NI', conversation.flowState.noUserInputCount, 'Prmt'))"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "AgentTransferCapture",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "0rmwPv"
+                  },
+                  "condition": "conversation.flowState.noUserInputCount",
+                  "cases": [
+                    {
+                      "value": "1",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "rvhASL"
+                          },
+                          "activity": "${AgentTransferCapture_NI1()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "rb6bfC"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "=MainDialog.PegVal('NI1')",
+                            "pegType": "InputAsk",
+                            "request": "=NoUserInput.AgentTransferCapture_NI1()",
+                            "response": "",
+                            "startDTM": "=conversation.startDate",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, concat('_NI', conversation.flowState.noUserInputCount, 'Prmt'))"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "value": "2",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "nwgIK2"
+                          },
+                          "activity": "${AgentTransferCapture_NI2()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "NTk7l1"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "=MainDialog.PegVal('NI2')",
+                            "pegType": "InputAsk",
+                            "request": "=NoUserInput.AgentTransferCapture_NI2()",
+                            "response": "",
+                            "startDTM": "=conversation.startDate",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, concat('_NI', conversation.flowState.noUserInputCount, 'Prmt'))"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "ConfirmIntent",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "raV0hf"
+                  },
+                  "condition": "conversation.flowState.noUserInputCount",
+                  "cases": [
+                    {
+                      "value": "1",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "G61BLt"
+                          },
+                          "property": "dialog.intentVerbiage",
+                          "value": "=conversation.callerIntentconfig.Intent_Verbiage"
+                        },
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "5AFPAu"
+                          },
+                          "activity": "${ConfirmIntent_NI1()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "sDkjxk"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "=MainDialog.PegVal('NI1')",
+                            "pegType": "InputAsk",
+                            "request": "=NoUserInput.ConfirmIntent_NI1()",
+                            "response": "",
+                            "startDTM": "=conversation.startDate",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, concat('_NI', conversation.flowState.noUserInputCount, 'Prmt'))"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "value": "2",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "ykqw9H"
+                          },
+                          "activity": "${ConfirmIntent_NI2()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "gSF2K2"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "=MainDialog.PegVal('NI2')",
+                            "pegType": "InputAsk",
+                            "request": "=NoUserInput.ConfirmIntent_NI2()",
+                            "response": "",
+                            "startDTM": "=conversation.startDate",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, concat('_NI', conversation.flowState.noUserInputCount, 'Prmt'))"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "disambigBenefits",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "8lzAae"
+                  },
+                  "condition": "conversation.flowState.failedCount",
+                  "cases": [
+                    {
+                      "value": "1",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "ufxM5a"
+                          },
+                          "activity": "${UHCMember_DisambigBenefits_NI1()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "oCPekE"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "=MainDialog.PegVal('NI1')",
+                            "pegType": "InputAsk",
+                            "request": "=NoUserInput.UHCMember_DisambigBenefits_NI1()",
+                            "response": "",
+                            "startDTM": "=conversation.startDate",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, '_NI1Prmt')"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "value": "2",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "SlanDm"
+                          },
+                          "property": "conversation.lastNMorNI",
+                          "value": "NI2"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "K5JOHp"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LoadEntityConfig",
+                          "options": {
+                            "luisIntent": "benefits",
+                            "luisEntity": "benefitsMedicalChild"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "1T8rei"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "CallerType"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "claimsGeneral",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "og1YRN"
+                  },
+                  "condition": "conversation.flowState.failedCount",
+                  "cases": [
+                    {
+                      "value": "1",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "gRKt2Z"
+                          },
+                          "activity": "${UHCMember_ClaimsGeneral_NI1()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "794vpH"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "=MainDialog.PegVal('NI1')",
+                            "pegType": "InputAsk",
+                            "request": "=NoUserInput.UHCMember_ClaimsGeneral_NI1()",
+                            "response": "",
+                            "startDTM": "=conversation.startDate",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, '_NI1Prmt')"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "value": "2",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "1uEuEc"
+                          },
+                          "property": "conversation.lastNMorNI",
+                          "value": "NI2"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "8DMIgJ"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LoadEntityConfig",
+                          "options": {
+                            "luisEntity": "claimsMedicalChild",
+                            "luisIntent": "claims"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "LcKFRn"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "CallerType"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "callerTypeGeneral",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "1aXRZq"
+                  },
+                  "property": "conversation.callerIntentconfig.CT_NLTagCallerType",
+                  "value": "=if(equals(conversation.flowState.lastIntent, 'enrollment'), conversation.callerIntentconfig.CT_NLTagCallerType, 'MM')"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "ms236Y"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "Transfer",
+                  "options": {
+                    "behavior": "EndSkill"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "C1nR1K"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal('NI1')",
+                    "pegType": "InputAsk",
+                    "request": "",
+                    "response": "",
+                    "startDTM": "=conversation.startDate",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, concat('_NI', conversation.flowState.noUserInputCount, 'Prmt'))"
+                  },
+                  "disabled": true
+                }
+              ]
+            },
+            {
+              "value": "disambigGeneral",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "2yhDv3"
+                  },
+                  "condition": "conversation.flowState.noUserInputCount",
+                  "cases": [
+                    {
+                      "value": "1",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "AjpnUL"
+                          },
+                          "activity": "${UHCMember_Intent_DisambigGeneral_NI1()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "lpv4mE"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "=MainDialog.PegVal('NI1')",
+                            "pegType": "InputAsk",
+                            "request": "=NoUserInput.UHCMember_Intent_DisambigGeneral_NI1()",
+                            "response": "",
+                            "startDTM": "=conversation.startDate",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, concat('_NI', conversation.flowState.noUserInputCount, 'Prmt'))"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "value": "2",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "rvuTYm"
+                          },
+                          "activity": "${UHCMember_Intent_DisambigGeneral_NI2()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "qeuAkf"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "=MainDialog.PegVal('NI2')",
+                            "pegType": "InputAsk",
+                            "request": "=NoUserInput.UHCMember_Intent_DisambigGeneral_NI2()",
+                            "response": "",
+                            "startDTM": "=conversation.startDate",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, concat('_NI', conversation.flowState.noUserInputCount, 'Prmt'))"
+                          }
+                        }
+                      ]
+                    }
+                  ],
+                  "default": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "FCSnEo"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "Transfer",
+                      "options": {
+                        "behavior": "EndSkill"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "pharmacyGeneral",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "DBAdEp"
+                  },
+                  "condition": "conversation.flowState.failedCount",
+                  "cases": [
+                    {
+                      "value": "1",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "HvlHj8"
+                          },
+                          "activity": "${UHCMember_PharmacyGeneral_NI1()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "hLUyV1"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "=MainDialog.PegVal('NI1')",
+                            "pegType": "InputAsk",
+                            "request": "=NoUserInput.UHCMember_PharmacyGeneral_NI1()",
+                            "response": "",
+                            "startDTM": "=conversation.startDate",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, '_NI1Prmt')"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "value": "2",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "4Mrxm9"
+                          },
+                          "property": "conversation.lastNMorNI",
+                          "value": "NI2"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "aqBAUH"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LoadEntityConfig",
+                          "options": {
+                            "luisIntent": "somethingElse",
+                            "context": "pharmacyGeneral",
+                            "luisEntity": "=''"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "aCj6Y1"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "CallerType"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "mentalHealthGeneral",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "b4EFER"
+                  },
+                  "condition": "conversation.flowState.failedCount",
+                  "cases": [
+                    {
+                      "value": "1",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "VWqYyE"
+                          },
+                          "activity": "${UHCMember_MentalHealth_General_NI1_Msg()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "U3TEuJ"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "=MainDialog.PegVal('NI1')",
+                            "pegType": "InputAsk",
+                            "request": "=NoUserInput.UHCMember_MentalHealth_General_NI1_Msg()",
+                            "response": "",
+                            "startDTM": "=conversation.startDate",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, '_NI1Prmt')"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "value": "2",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "R7G8Kz"
+                          },
+                          "property": "conversation.lastNMorNI",
+                          "value": "NI2"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "t0uI81"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LoadEntityConfig",
+                          "options": {
+                            "luisIntent": "somethingElse",
+                            "context": "mentalHealthGeneral",
+                            "luisEntity": "=''"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "P1ZzhG"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "CallerType"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "financialAccountsGeneral",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "7PEaxn"
+                  },
+                  "condition": "string(conversation.flowState.failedCount)",
+                  "cases": [
+                    {
+                      "value": "1",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "8qJiSP"
+                          },
+                          "activity": "${UHCMember_FinancialAccount_General_NI1_Msg()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "XrgiTL"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "=MainDialog.PegVal('NI1')",
+                            "pegType": "InputAsk",
+                            "request": "=NoUserInput.UHCMember_FinancialAccount_General_NI1_Msg()",
+                            "response": "",
+                            "startDTM": "=conversation.startDate",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, '_NI1Prmt')"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "value": "2",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "rPersG"
+                          },
+                          "property": "conversation.lastNMorNI",
+                          "value": "NI2"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "KwkB5L"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LoadEntityConfig",
+                          "options": {
+                            "luisIntent": "somethingElse",
+                            "context": "financialAccountsGeneral",
+                            "luisEntity": "=''"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "2GsPDf"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "CallerType"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "preApprovalRx",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "sTQe3a"
+                  },
+                  "condition": "string(conversation.flowState.failedCount)",
+                  "cases": [
+                    {
+                      "value": "1",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "xnPSHr"
+                          },
+                          "activity": "${UHCMember_PreApproval_Rx_NI1_Msg()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "3cbJxb"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "=MainDialog.PegVal('NI1')",
+                            "pegType": "InputAsk",
+                            "request": "=NoUserInput.UHCMember_PreApproval_Rx_NI1_Msg()",
+                            "response": "",
+                            "startDTM": "=conversation.startDate",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, '_NI1Prmt')"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "value": "2",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "dPk61j"
+                          },
+                          "property": "conversation.lastNMorNI",
+                          "value": "NI2"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "9oi7Pt"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LoadEntityConfig",
+                          "options": {
+                            "luisIntent": "somethingElse",
+                            "context": "preApprovalRx",
+                            "luisEntity": "=''"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "GgGhdQ"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "CallerType"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "billingDisambig",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "cfkuqc"
+                  },
+                  "condition": "string(conversation.flowState.failedCount)",
+                  "cases": [
+                    {
+                      "value": "1",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "XiX73k"
+                          },
+                          "activity": "${UHCMember_BillingDisambig_NI1_Msg()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "oVYCSi"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "=MainDialog.PegVal('NI1')",
+                            "pegType": "InputAsk",
+                            "request": "=NoUserInput.UHCMember_BillingDisambig_NI1_Msg()",
+                            "response": "",
+                            "startDTM": "=conversation.startDate",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, '_NI1Prmt')"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "value": "2",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "PFopzP"
+                          },
+                          "property": "conversation.lastNMorNI",
+                          "value": "NI2"
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "kcKMJW"
+                          },
+                          "assignments": [
+                            {
+                              "property": "conversation.callerIntentconfig.QT_NLTagQuestionType",
+                              "value": "NA"
+                            },
+                            {
+                              "property": "conversation.callerIntentconfig.PT_NLTagProductType",
+                              "value": "BL"
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "y77uK4"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "CallerType"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "solutranDisambig",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "4BYyeP"
+                  },
+                  "condition": "string(conversation.flowState.failedCount)",
+                  "cases": [
+                    {
+                      "value": "1",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "zfCRHn"
+                          },
+                          "property": "dialog.solutranDisambigNI1Text",
+                          "value": "=MainDialog.getSolutranDisambigNI1Text()"
+                        },
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "qDbuHv"
+                          },
+                          "activity": "${UHCMember_SolutranDisambig_NI1_Msg()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "mlJ3G1"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "=MainDialog.PegVal('NI1')",
+                            "pegType": "InputAsk",
+                            "request": "=NoUserInput.UHCMember_SolutranDisambig_NI1_Msg()",
+                            "response": "",
+                            "startDTM": "=conversation.startDate",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, '_NI1Prmt')"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "value": "2",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "rq9Sh0"
+                          },
+                          "property": "conversation.lastNMorNI",
+                          "value": "NI2"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "Rwf8d7"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "OpenEnrollment"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "openEnrollment",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "9Zzbb3"
+                  },
+                  "condition": "string(conversation.flowState.failedCount)",
+                  "cases": [
+                    {
+                      "value": "1",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "ttpovH"
+                          },
+                          "activity": "${UHCMember_OpenEnrollment_NI1_Msg()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "AtWHtv"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "=MainDialog.PegVal('NI1')",
+                            "pegType": "InputAsk",
+                            "request": "=NoUserInput.UHCMember_OpenEnrollment_NI1_Msg()",
+                            "response": "",
+                            "startDTM": "=conversation.startDate",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, '_NI1Prmt')"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "value": "2",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "kHwd2V"
+                          },
+                          "property": "conversation.lastNMorNI",
+                          "value": "NI2"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "gxj2Ws"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LoadEntityConfig",
+                          "options": {
+                            "luisIntent": "agentGeneral",
+                            "context": "openEnrollment",
+                            "luisEntity": "agentGeneralML"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "MBeQOp"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "CallerType"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "balanceDisambig",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "8nDm3O"
+                  },
+                  "condition": "string(conversation.flowState.failedCount)",
+                  "cases": [
+                    {
+                      "value": "1",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "0xM4Ie"
+                          },
+                          "activity": "${UHCMember_BalanceDisambig_NI1_Msg()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "ryO9y7"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "=MainDialog.PegVal('NI1')",
+                            "pegType": "InputAsk",
+                            "request": "=NoUserInput.UHCMember_BalanceDisambig_NI1_Msg()",
+                            "response": "",
+                            "startDTM": "=conversation.startDate",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, '_NI1Prmt')"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "value": "2",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "wuHgIH"
+                          },
+                          "property": "conversation.lastNMorNI",
+                          "value": "NI2"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "VMjtgc"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LoadEntityConfig",
+                          "options": {
+                            "luisIntent": "balance",
+                            "context": "balanceDisambig",
+                            "luisEntity": "=''"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "JmZ40J"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "CallerType"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "nurselineDisambig",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "l8t1cX"
+                  },
+                  "condition": "string(conversation.flowState.failedCount)",
+                  "cases": [
+                    {
+                      "value": "1",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "lUWPyi"
+                          },
+                          "activity": "${NurseLingDisambig_NI1_Msg()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "WU5xaP"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "=MainDialog.PegVal('NI1')",
+                            "pegType": "InputAsk",
+                            "request": "=NoUserInput.NurseLingDisambig_NI1_Msg()",
+                            "response": "",
+                            "startDTM": "=conversation.startDate",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, '_NI1Prmt')"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "value": "2",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "jbLfBt"
+                          },
+                          "property": "conversation.lastNMorNI",
+                          "value": "NI2"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "F87Bnz"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LoadEntityConfig",
+                          "options": {
+                            "luisIntent": "agentGeneral",
+                            "context": "nurselineDisambig",
+                            "luisEntity": "agentGeneralML"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "vzht1R"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "CallerType"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "crisisDisambig",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "awLQD4"
+                  },
+                  "condition": "string(conversation.flowState.failedCount)",
+                  "cases": [
+                    {
+                      "value": "1",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "oVn5It"
+                          },
+                          "activity": "${CrisisDisambig_NI1_Msg()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "kORgax"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "=MainDialog.PegVal('NI1')",
+                            "pegType": "InputAsk",
+                            "request": "=NoUserInput.CrisisDisambig_NI1_Msg()",
+                            "response": "",
+                            "startDTM": "=conversation.startDate",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, '_NI1Prmt')"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "value": "2",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "HKTROe"
+                          },
+                          "property": "conversation.lastNMorNI",
+                          "value": "NI2"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "CpYLBb"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LoadEntityConfig",
+                          "options": {
+                            "luisIntent": "prevention",
+                            "context": "nurselineDisambig",
+                            "luisEntity": "preventionNurseLineChild"
+                          },
+                          "disabled": true
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "8O4OcO"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "Transfer",
+                          "options": {
+                            "behavior": "EndSkill"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "maxNIStillThere",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "nFqnSv"
+                  },
+                  "activity": "${UHCMember_Max_NI_Disconnect_Msg()}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "HNDtNU"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "=MainDialog.PegVal('NI1')",
+                    "pegType": "InputAsk",
+                    "request": "=NoUserInput.UHCMember_Max_NI_Disconnect_Msg()",
+                    "response": "",
+                    "startDTM": "=conversation.startDate",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, concat('_NI1', 'Prmt'))"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "wCidif"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.pegNumber",
+                      "value": "10190"
+                    },
+                    {
+                      "property": "conversation.transferReasonCode",
+                      "value": "0"
+                    },
+                    {
+                      "property": "conversation.transferReason",
+                      "value": "Max_NI_NI1"
+                    },
+                    {
+                      "property": "conversation.setEvent",
+                      "value": "defaultTransfer"
+                    },
+                    {
+                      "property": "conversation.silentTransfer",
+                      "value": true
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "kz1aCy"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "Transfer"
+                }
+              ]
+            },
+            {
+              "value": "paymentDisambig",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "ck0snR"
+                  },
+                  "condition": "string(conversation.flowState.failedCount)",
+                  "cases": [
+                    {
+                      "value": "1",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "NYt8u8"
+                          },
+                          "activity": "${UHCMember_PaymentDisambig_NI1_Msg()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "ps9bZj"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "=MainDialog.PegVal('NI1')",
+                            "pegType": "InputAsk",
+                            "request": "=NoUserInput.UHCMember_PaymentDisambig_NI1_Msg()",
+                            "response": "",
+                            "startDTM": "=conversation.startDate",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, '_NI1Prmt')"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "value": "2",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "jLyQo4"
+                          },
+                          "property": "conversation.lastNMorNI",
+                          "value": "NI2"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "6otayK"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LoadEntityConfig",
+                          "options": {
+                            "luisIntent": "makePayment",
+                            "context": "paymentDisambig",
+                            "luisEntity": "=''"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "SRcIdv"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "Transfer",
+                          "options": {
+                            "behavior": "EndSkill"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "solutranUpfront",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "DNQVk2"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "OpenEnrollmentUpfront"
+                }
+              ]
+            },
+            {
+              "value": "openEnrollmentUpfront",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "b46wTd"
+                  },
+                  "property": "conversation.flowState.flowNextPrompt",
+                  "value": "Enrollment_CaptureMnu"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "kYWkiA"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "Flow-Start"
+                }
+              ]
+            },
+            {
+              "value": "Enrollment_CaptureMnu",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "YrDpNa"
+                  },
+                  "condition": "conversation.flowState.noUserInputCount",
+                  "cases": [
+                    {
+                      "value": "1",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "XP401O"
+                          },
+                          "activity": "${SendActivity_XP401O()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "VF9ult"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "=MainDialog.PegVal('NI1')",
+                            "pegType": "InputAsk",
+                            "request": "=NoUserInput.IntentCaptureInitial_NI1()",
+                            "response": "",
+                            "startDTM": "=conversation.startDate",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, concat('_NI', conversation.flowState.noUserInputCount, 'Prmt'))"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "value": "2",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "oXgaEm"
+                          },
+                          "activity": "${SendActivity_oXgaEm()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "rQSVEo"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "=MainDialog.PegVal('NI2')",
+                            "pegType": "InputAsk",
+                            "request": "=NoUserInput.IntentCaptureInitial_NI2()",
+                            "response": "",
+                            "startDTM": "=conversation.startDate",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, concat('_NI', conversation.flowState.noUserInputCount, 'Prmt'))"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "solutranUpfrontML",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "B8rhsb"
+                  },
+                  "condition": "string(conversation.flowState.failedCount)",
+                  "cases": [
+                    {
+                      "value": "1",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "sKQ5Kt"
+                          },
+                          "property": "dialog.solutranUpfrontMLNI1Text",
+                          "value": "=MainDialog.getSolutranUpfrontMLNI1Text()"
+                        },
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "mmtMmn"
+                          },
+                          "activity": "${UHCMember_SolutranUpfrontML_NI1_Msg()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "iEghYy"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "=MainDialog.PegVal('NI1')",
+                            "pegType": "InputAsk",
+                            "request": "=NoUserInput.UHCMember_SolutranUpfrontML_NI1_Msg()",
+                            "response": "",
+                            "startDTM": "=conversation.startDate",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, '_NI1Prmt')"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "value": "2",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "dBOvin"
+                          },
+                          "property": "conversation.lastNMorNI",
+                          "value": "NI2"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "ZrYin6"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "OpenEnrollmentUpfront"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "uCardDisambig",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "EaNKke"
+                  },
+                  "condition": "string(conversation.flowState.failedCount)",
+                  "cases": [
+                    {
+                      "value": "1",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "8G5d2z"
+                          },
+                          "activity": "${UHCMember_uCardDisambig_NI1_Msg()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "hSyDjE"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "=MainDialog.PegVal('NI1')",
+                            "pegType": "InputAsk",
+                            "request": "=NoUserInput.UHCMember_uCardDisambig_NI1_Msg()",
+                            "response": "",
+                            "startDTM": "=conversation.startDate",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, '_NI1Prmt')"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "value": "2",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "8SSfRk"
+                          },
+                          "property": "conversation.lastNMorNI",
+                          "value": "NI2"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "rhugEl"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LoadEntityConfig",
+                          "options": {
+                            "luisIntent": "uCard",
+                            "context": "uCardDisambig",
+                            "luisEntity": "uCardML"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "mGwOxi"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "Transfer",
+                          "options": {
+                            "behavior": "EndSkill"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "Start_AnythingElse_CaptureMnu",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "2W27s9"
+                  },
+                  "condition": "conversation.flowState.noUserInputCount",
+                  "cases": [
+                    {
+                      "value": "1",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "CAfILE"
+                          },
+                          "activity": "${UHCMember_Intent_AnythingElse_Capture_NI1()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "6kL5yM"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "=MainDialog.PegVal('NI1')",
+                            "pegType": "InputAsk",
+                            "request": "=NoUserInput.UHCMember_Intent_AnythingElse_Capture_NI1()",
+                            "response": "",
+                            "startDTM": "=conversation.startDate",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, concat('_NI', conversation.flowState.noUserInputCount, 'Prmt'))"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "value": "2",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "0a5Ysq"
+                          },
+                          "activity": "${UHCMember_Intent_AnythingElse_Capture_NI2()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "BF8E5m"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "=MainDialog.PegVal('NI2')",
+                            "pegType": "InputAsk",
+                            "request": "=NoUserInput.UHCMember_Intent_AnythingElse_Capture_NI2()",
+                            "response": "",
+                            "startDTM": "=conversation.startDate",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, concat('_NI', conversation.flowState.noUserInputCount, 'Prmt'))"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "Start_ReturnNoWrap_CaptureMnu",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "bJqiMB"
+                  },
+                  "condition": "conversation.flowState.noUserInputCount",
+                  "cases": [
+                    {
+                      "value": "1",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "Uf6P6J"
+                          },
+                          "activity": "${UHCMember_Intent_ReturnNoWrap_Capture_NI1()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "1WpWs2"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "=MainDialog.PegVal('NI1')",
+                            "pegType": "InputAsk",
+                            "request": "=NoUserInput.UHCMember_Intent_ReturnNoWrap_Capture_NI1()",
+                            "response": "",
+                            "startDTM": "=conversation.startDate",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, concat('_NI', conversation.flowState.noUserInputCount, 'Prmt'))"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "value": "2",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "LX2yi8"
+                          },
+                          "activity": "${UHCMember_Intent_ReturnNoWrap_Capture_NI2()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "gqPOq0"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "=MainDialog.PegVal('NI2')",
+                            "pegType": "InputAsk",
+                            "request": "=NoUserInput.UHCMember_Intent_ReturnNoWrap_Capture_NI2()",
+                            "response": "",
+                            "startDTM": "=conversation.startDate",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, concat('_NI', conversation.flowState.noUserInputCount, 'Prmt'))"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "Start_CaptureMnu_ForeignLanguages",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "2cxJOw"
+                  },
+                  "condition": "conversation.flowState.noUserInputCount",
+                  "cases": [
+                    {
+                      "value": "1",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "lSeOs2"
+                          },
+                          "activity": "${IntentCapture_ForeignLanguages_NI1()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "QucevZ"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "=MainDialog.PegVal('NI1')",
+                            "pegType": "InputAsk",
+                            "request": "=NoUserInput.IntentCapture_ForeignLanguages_NI1()",
+                            "response": "",
+                            "startDTM": "=conversation.startDate",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, concat('_NI', conversation.flowState.noUserInputCount, 'Prmt'))"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "value": "2",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "hcFac1"
+                          },
+                          "activity": "${IntentCapture_ForeignLanguages_NI2()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "PWsYeY"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TelemetryDialog",
+                          "options": {
+                            "peg": "=MainDialog.PegVal('NI2')",
+                            "pegType": "InputAsk",
+                            "request": "=NoUserInput.IntentCapture_ForeignLanguages_NI2()",
+                            "response": "",
+                            "startDTM": "=conversation.startDate",
+                            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                            "eventName": "=MainDialog.PegName(conversation.flowState.flowPreviousPrompt, concat('_NI', conversation.flowState.noUserInputCount, 'Prmt'))"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "NoUserInput.lg",
+  "recognizer": "NoUserInput.lu.qna",
+  "id": "NoUserInput"
+}

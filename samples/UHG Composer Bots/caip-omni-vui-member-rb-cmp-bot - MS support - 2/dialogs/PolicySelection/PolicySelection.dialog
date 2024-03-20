@@ -1,0 +1,238 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "M3ye0e",
+    "name": "PolicySelection",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "M1uouW"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "fSKwJX"
+          },
+          "condition": "=equals(conversation.tfnConfig.Root_PolicySelection_Toggle,\"OFF\")",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "xfG8O7",
+                "name": "Telemetry for Policy Selection Input Params"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "memberRoot_PolicySelection_SetInputs",
+                "pegType": "General",
+                "request": "=PolicySelection.PolicySelectionSkill_Activity_Params()",
+                "response": "",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MemberRootBot_PolicySelection_SetInputs_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.BeginSkill",
+              "$designer": {
+                "id": "YlR50K",
+                "name": "Connect to PolicySelection Skill"
+              },
+              "activityProcessed": true,
+              "botId": "=settings.MicrosoftAppId",
+              "skillHostEndpoint": "=settings.skillHostEndpoint",
+              "connectionName": "=settings.connectionName",
+              "allowInterruptions": false,
+              "skillEndpoint": "=settings.skill['caipOmniVuiPolicyselectionSbCmpBot'].endpointUrl",
+              "skillAppId": "=settings.skill['caipOmniVuiPolicyselectionSbCmpBot'].msAppId",
+              "activity": "${PolicySelectionSkill_Activity_Params()}",
+              "resultProperty": "conversation.policySelectionResponse"
+            },
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "nbXiFc"
+              },
+              "activity": "${ConfigActivityEvent_AfterSkill()}"
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "hXbvYi",
+                "name": "Telemetry for AuthSkill Response"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "memberRoot_PolicySelection_SetOutputs",
+                "pegType": "General",
+                "request": "=PolicySelection.PolicySelectionSkill_Activity_Params()",
+                "response": "=turn.activity.value",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MemberRootBot_PolicySelection_SetOutputs_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "rzdSVp"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.policySelectionFlag",
+                  "value": "=turn.activity.value.parameters.policySelectedFlag"
+                },
+                {
+                  "property": "conversation.member.coverageInfo",
+                  "value": "=if(turn.activity.value.parameters.member,turn.activity.value.parameters.member,\"\")"
+                },
+                {
+                  "property": "conversation.medsup",
+                  "value": "=if(turn.activity.value.parameters.medSup,turn.activity.value.parameters.medSup,\"N\")"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "tiP1Y0"
+              },
+              "condition": "=equals(conversation.policySelectionFlag,true)",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "i84t5j"
+                  },
+                  "property": "conversation.sourceSysCode",
+                  "value": "=conversation.member.coverageInfo[0].sourceSysCode"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "yyZR2H"
+                  },
+                  "condition": "=equals(conversation.tfnConfig.Root_ContextDataStoreCreate_Toggle,\"OFF\")",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "1kxCmo",
+                        "name": "Telemetry Policy Selection Toggle OFF"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "memberRoot_PolicySelection_CDS_OFFToggle",
+                        "pegType": "General",
+                        "request": "=conversation.tfnConfig.Root_ContextDataStoreCreate_Toggle",
+                        "response": "",
+                        "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "MemberRootBot_PolicySelection_CDS_OFFToggle_Peg"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "RanETm",
+                        "comment": ""
+                      },
+                      "property": "conversation.currentTrigger",
+                      "value": "sms"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "mwZ6cx"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "API-CDS"
+                    }
+                  ]
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "CDeOJL"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.ENT_IVRAppTransferReason",
+                      "value": "=turn.activity.value.transferReasonCode"
+                    },
+                    {
+                      "property": "conversation.transferReason",
+                      "value": "=turn.activity.value.transferReason"
+                    },
+                    {
+                      "property": "conversation.transferPegVal",
+                      "value": "=turn.activity.value.transferPeg"
+                    },
+                    {
+                      "property": "conversation.silentTransfer",
+                      "value": "=if(equals(conversation.policySelectionResponse.silentTransfer, true),true,false)"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "Y3SsmE"
+                  },
+                  "assignments": [
+                    {
+                      "property": " conversation.currentTrigger",
+                      "value": "defaultTransfer"
+                    },
+                    {
+                      "property": "conversation.ENT_BotAction",
+                      "value": "ROUTE2AGENT"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "HkRpKj",
+                "name": "Telemetry Policy Selection Toggle OFF"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "memberRoot_PolicySelection_OFFToggle",
+                "pegType": "General",
+                "request": "=conversation.tfnConfig.Root_PolicySelection_Toggle",
+                "response": "",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MemberRootBot_PolicySelection_OFFToggle_Peg"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "PolicySelection.lg",
+  "recognizer": "PolicySelection.lu.qna",
+  "id": "PolicySelection"
+}

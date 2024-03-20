@@ -1,0 +1,502 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "UoucvS",
+    "name": "Language",
+    "comment": ""
+  },
+  "autoEndDialog": "=conversation.endDialog",
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "VXamzZ"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "2SQF7F"
+          },
+          "property": "conversation.endDialog",
+          "value": false
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "L2nLEa"
+          },
+          "assignments": [
+            {
+              "property": "conversation.tfnConfig.Root_Language_Toggle",
+              "value": "='ON'"
+            },
+            {
+              "property": "conversation.tfnConfig.Root_FL_MultiLang_Toggle",
+              "value": "='ON'"
+            }
+          ],
+          "disabled": true
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "I0v0bl"
+          },
+          "condition": "=equals(conversation.tfnConfig.Root_Language_Toggle ,\"OFF\")",
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "Bo5ypj"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "memberRoot_Language_OFFToggle",
+                "pegType": "Toggle Peg",
+                "request": "",
+                "response": "",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MemberRootBot_Language_OFFToggle_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "IzpZ7s"
+              },
+              "activityProcessed": true,
+              "dialog": "EndLanguageDialog",
+              "options": {
+                "toTrigger": "callerIntent"
+              }
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "2pCNXK"
+              },
+              "condition": "=equals(conversation.tfnConfig.Root_FL_MultiLang_Toggle,\"OFF\")",
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "HPn9yB"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "memberRoot_Language_SpanishPrmt",
+                    "pegType": "InputAsk",
+                    "request": "=Language.SendActivity_SpanishPrompt()",
+                    "response": "",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "MemberRootBot_Language_AskSpanishPrmt_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "vXRte7"
+                  },
+                  "activity": "${SendActivity_SpanishPrompt()}"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "R4id0q"
+                  },
+                  "property": "conversation.inputAsk",
+                  "value": "spanishuser"
+                }
+              ],
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "1KAaqg"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TelemetryDialog",
+                  "options": {
+                    "peg": "memberRoot_Language_MultiLangOFFToggle",
+                    "pegType": "Toggle Peg",
+                    "request": "",
+                    "response": "",
+                    "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                    "eventName": "MemberRootBot_Language_MultiLangOFFToggle_Peg"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "UFLtFQ"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "EndLanguageDialog",
+                  "options": {
+                    "toTrigger": "callerIntent"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "4p2MDy"
+          },
+          "condition": "=conversation.endDialog",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "0CWuTF"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnUnknownIntent",
+      "$designer": {
+        "id": "p2rkP2",
+        "name": "Unknown intent"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "7JBYNJ"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "memberRoot_Language_UnknownIntent",
+            "pegType": "General",
+            "request": "",
+            "response": "=turn",
+            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "MemberRootBot_Language_UnknownIntent_Peg"
+          }
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "7sSJhc"
+          },
+          "assignments": [
+            {
+              "value": "=turn.activity.channelData.recognitionOutput.PrimaryLanguage.Language",
+              "property": "conversation.langProperty"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "qILNUz"
+          },
+          "condition": "=string(conversation.inputAsk)!=string(\"\")",
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "kQ3ENC"
+              },
+              "activityProcessed": true,
+              "dialog": "EndLanguageDialog",
+              "options": {
+                "toTrigger": "callerIntent"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnEventActivity",
+      "$designer": {
+        "id": "pr64gd",
+        "name": "Event received (Event activity)"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "CiGau9"
+          },
+          "condition": "=string(turn.activity.name)==string(\"DTMF\")",
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "uRaHYs"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "memberRoot_Language_SpanishPrmt",
+                "pegType": "DTMF Input",
+                "request": "",
+                "response": "=turn.dialogEvent.value",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MemberRootBot_Language_SpanishPrmt_DTMF_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "n2zLJ2"
+              },
+              "condition": "=string(conversation.inputAsk)==string(\"spanishuser\")",
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "5Em1VM"
+                  },
+                  "condition": "=string(turn.activity.value)==string(\"3\")",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "4OY1iE"
+                      },
+                      "assignments": [
+                        {
+                          "property": "conversation.silentTransfer",
+                          "value": true
+                        },
+                        {
+                          "property": "conversation.ENT_IVRAppTransferReason",
+                          "value": "X"
+                        },
+                        {
+                          "property": "conversation.ENT_BotAction",
+                          "value": "ROUTE2IVR"
+                        },
+                        {
+                          "property": "conversation.callerType",
+                          "value": "SP"
+                        },
+                        {
+                          "property": "conversation.callerLanguage",
+                          "value": "Spanish"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "DYsxAl"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "TelemetryDialog",
+                      "options": {
+                        "peg": "memberRoot_Language_SpanishXferPrmt",
+                        "pegType": "General",
+                        "request": "=Language.SendActivity_SpanishXfer()",
+                        "response": "",
+                        "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                        "eventName": "MemberRootBot_Language_SpanishXferPrmt_Peg"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "mBO0ou"
+                      },
+                      "activity": "${SendActivity_SpanishXfer()}"
+                    },
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "0zGA7R"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "EndLanguageDialog",
+                      "options": {
+                        "toTrigger": "defaultTransfer"
+                      }
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "qLycF1"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "EndLanguageDialog",
+                      "options": {
+                        "toTrigger": "callerIntent"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "dtBva6"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "memberRoot_Language_SpanishPrmt",
+                "pegType": "No User Input",
+                "request": "",
+                "response": "=turn.dialogEvent.value",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MemberRootBot_Language_SpanishPrmt_NI_Event_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "FNSRTY"
+              },
+              "condition": "=string(turn.activity.name)==string(\"noUserInput\")",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "e6yhci"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "EndLanguageDialog",
+                  "options": {
+                    "toTrigger": "callerIntent"
+                  }
+                }
+              ],
+              "elseActions": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "KPfCzc",
+        "name": "spanish"
+      },
+      "intent": "spanish",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "wSlayR"
+          },
+          "activityProcessed": true,
+          "dialog": "TelemetryDialog",
+          "options": {
+            "peg": "memberRoot_Language_SpanishPrmt",
+            "pegType": "LUIS Result",
+            "request": "",
+            "response": "=turn.recognized",
+            "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+            "eventName": "MemberRootBot_Language_SpanishPrmt_LuisResult_Peg"
+          }
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "9KIZBd"
+          },
+          "condition": "=string(conversation.inputAsk)==string(\"spanishuser\")",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "yOfQjc"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.silentTransfer",
+                  "value": true
+                },
+                {
+                  "property": "conversation.ENT_IVRAppTransferReason",
+                  "value": "X"
+                },
+                {
+                  "property": "conversation.ENT_BotAction",
+                  "value": "ROUTE2IVR"
+                },
+                {
+                  "property": "conversation.callerType",
+                  "value": "SP"
+                },
+                {
+                  "property": "conversation.callerLanguage",
+                  "value": "Spanish"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "hiZDkE"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "memberRoot_Language_SpanishXferPrmt",
+                "pegType": "General",
+                "request": "=Language.SendActivity_SpanishXfer()",
+                "response": "",
+                "startDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MemberRootBot_Language_SpanishXferPrmt_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "8kWPzC"
+              },
+              "activity": "${SendActivity_SpanishXfer()}"
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "n6QUCL"
+              },
+              "activityProcessed": true,
+              "dialog": "EndLanguageDialog",
+              "options": {
+                "toTrigger": "defaultTransfer"
+              }
+            }
+          ]
+        }
+      ],
+      "condition": "=#spanish.score >=0.7"
+    }
+  ],
+  "generator": "Language.lg",
+  "recognizer": "Language.lu.qna",
+  "id": "Language"
+}

@@ -1,0 +1,24 @@
+> !# @Namespace=OpenEnrollmentUpfront
+> !# @Exports = UHCMember_OpenEnrollmentUpfront_Msg1, UHCMember_OpenEnrollmentUpfront_Msg2
+[import](common.lg)
+
+# UHCMember_OpenEnrollmentUpfront_Msg1()
+[Activity
+    Text = ${UHCMember_OpenEnrollmentUpfront_text1()}
+    Speak = ${UHCMember_OpenEnrollmentUpfront_text1()}
+    InputHint = expectingInput
+    ChannelData = ${ExpectingPrompts_ActivityParams(1500)}
+]
+
+# UHCMember_OpenEnrollmentUpfront_Msg2()
+[Activity
+    Text = ${UHCMember_OpenEnrollmentUpfront_text2()}
+    Speak = ${UHCMember_OpenEnrollmentUpfront_text2()}
+    InputHint = expectingInput
+    ChannelData = ${ExpectingPrompts_ActivityParams(1500)}
+]
+
+# SendActivity_irNZsC()
+-
+# SendActivity_McQg36()
+-

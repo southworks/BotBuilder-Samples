@@ -1,0 +1,510 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "AsOjro",
+    "name": "SendKVPsOut",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "QX5UAU"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "HD8mir"
+          },
+          "condition": "=length(string(conversation.KVPs))<=2",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "s9fYBj"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPs, 'ENT_BotAction') ? setProperty(conversation.KVPs, \"ENT_BotAction\", \"ROUTE2BOT\") : addProperty(conversation.KVPs, \"ENT_BotAction\", \"ROUTE2BOT\")"
+                }
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "FCgTNY"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.callerIntent",
+                  "value": "=length(trim(conversation.iCallerIntent))> 12 ? substring(trim(conversation.iCallerIntent),0,12):conversation.iCallerIntent"
+                },
+                {
+                  "property": "conversation.callerIntentEntity",
+                  "value": "=length(trim(conversation.iCallerIntentEntity))> 28 ? substring(trim(conversation.iCallerIntentEntity),0,28) :conversation.iCallerIntentEntity"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "FCgTNZ",
+                "name": "Updating Kvpin values"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPs, 'ENT_BotAction')? setProperty(conversation.KVPS, 'ENT_BotAction',conversation.ENT_BotAction):conversation.KVPs"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPs, 'ENT_ContactConstituentType')? setProperty(conversation.KVPS, 'ENT_ContactConstituentType',conversation.ENT_ContactConstituentType):conversation.KVPs"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPs, 'ENT_SubFunction')?setProperty(conversation.KVPS, 'ENT_SubFunction',conversation.subFunction) :addProperty(conversation.KVPS, 'ENT_SubFunction',conversation.subFunction)"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPs, 'ENT_SubFunctionDetail')? setProperty(conversation.KVPS, 'ENT_SubFunctionDetail',conversation.subFunctionDetail) :addProperty(conversation.KVPS, 'ENT_SubFunctionDetail',conversation.subFunctionDetail)"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPs, 'ENT_CampaignCD')?setProperty(conversation.KVPS, 'ENT_CampaignCD',conversation.campaignCode):addProperty(conversation.KVPs,'ENT_CampaignCD',conversation.campaignCode)"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPs, 'ENT_Language') ? setProperty(conversation.KVPS, 'ENT_Language',conversation.callerLanguage):conversation.KVPs"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "FCgTNX",
+                "name": "Passing throug/adding Kvpin values"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_CMCampaignCD')? conversation.KVPS: addProperty(conversation.KVPS,'ENT_CMCampaignCD','')"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_CMProgramNm')? conversation.KVPS: addProperty(conversation.KVPS,'ENT_CMProgramNm','')"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_ICMProductCodeID')? conversation.KVPS: addProperty(conversation.KVPS,'ENT_ICMProductCodeID','')"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_ICMRegionCode')? conversation.KVPS: addProperty(conversation.KVPS,'ENT_ICMRegionCode','')"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_ICMRoutingIndicator')? conversation.KVPS: addProperty(conversation.KVPS,'ENT_ICMRoutingIndicator','')"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_AcctMgrPhone')? conversation.KVPS: addProperty(conversation.KVPS,'ENT_AcctMgrPhone','')"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_SpecialHandling')?setProperty(conversation.KVPS, 'ENT_SpecialHandling',RootDialog.getVipFlag()): addProperty(conversation.KVPS,'ENT_SpecialHandling',RootDialog.getVipFlag())"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_SubjectDOB')? setProperty(conversation.KVPS,'ENT_SubjectDOB',and(RootDialog.isMemberInfoAvailable(),conversation.member.memberInfo.dob) ?conversation.member.memberInfo.dob :'') : addProperty(conversation.KVPS, 'ENT_SubjectDOB',and(RootDialog.isMemberInfoAvailable(),conversation.member.memberInfo.dob) ?conversation.member.memberInfo.dob :'')"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_providerSourceSysCode')?setProperty(conversation.KVPS, 'ENT_providerSourceSysCode',and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].providerSourceSysCode) ? conversation.member.coverageInfo[0].providerSourceSysCode : ''):addProperty(conversation.KVPS, 'ENT_providerSourceSysCode',and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].providerSourceSysCode) ? conversation.member.coverageInfo[0].providerSourceSysCode : '')"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_MDMID')? setProperty(conversation.KVPS,'ENT_MDMID',and(RootDialog.isMemberInfoAvailable(),conversation.member.memberInfo.individualIdentifier) ?conversation.member.memberInfo.individualIdentifier :'') : addProperty(conversation.KVPS, 'ENT_MDMID',and(RootDialog.isMemberInfoAvailable(),conversation.member.memberInfo.individualIdentifier) ?conversation.member.memberInfo.individualIdentifier :'')"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_MBID')? setProperty(conversation.KVPS,'ENT_MBID',and(RootDialog.isMemberInfoAvailable(),conversation.member.memberInfo.medicareBeneficiaryId) ?conversation.member.memberInfo.medicareBeneficiaryId :'') : addProperty(conversation.KVPS, 'ENT_MBID',and(RootDialog.isMemberInfoAvailable(),conversation.member.memberInfo.medicareBeneficiaryId) ?conversation.member.memberInfo.medicareBeneficiaryId :'')"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_ARADataPopulated')? setProperty(conversation.KVPS,'ENT_ARADataPopulated',RootDialog.isARADataPopulated()?'true':'false') : addProperty(conversation.KVPS, 'ENT_ARADataPopulated',RootDialog.isARADataPopulated()?'true':'false')"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "faDYKo",
+                "name": " Adding New KVPs for Kvp Out"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_IVRExitAppNm')?setProperty(conversation.KVPS, 'ENT_IVRExitAppNm', conversation.tfnConfig.Root_IVRExitAppName):addProperty(conversation.KVPS, 'ENT_IVRExitAppNm', conversation.tfnConfig.Root_IVRExitAppName)"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_NLSubGroup')?setProperty(conversation.KVPS, 'ENT_NLSubGroup', RootDialog.getNLSubGroup()):addProperty(conversation.KVPS, 'ENT_NLSubGroup',RootDialog.getNLSubGroup())"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_IVRAppTransferReason')?setProperty(conversation.KVPS, 'ENT_IVRAppTransferReason',if(conversation.ENT_IVRAppTransferReason, conversation.ENT_IVRAppTransferReason,'?')):addProperty(conversation.KVPS, 'ENT_IVRAppTransferReason', if(conversation.ENT_IVRAppTransferReason, conversation.ENT_IVRAppTransferReason,'?'))"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_ICMIVRTransferReason')?setProperty(conversation.KVPS, 'ENT_ICMIVRTransferReason', if(conversation.ENT_IVRAppTransferReason, conversation.ENT_IVRAppTransferReason,'?')):addProperty(conversation.KVPS, 'ENT_ICMIVRTransferReason', if(conversation.ENT_IVRAppTransferReason, conversation.ENT_IVRAppTransferReason,'?'))"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_ICMQuestionType')?setProperty(conversation.KVPS, 'ENT_ICMQuestionType',if(conversation.questionType,conversation.questionType,'NA')):addProperty(conversation.KVPS, 'ENT_ICMQuestionType',if(conversation.questionType,conversation.questionType,'NA'))"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_ICMProductType')?setProperty(conversation.KVPS, 'ENT_ICMProductType',if(conversation.productType,conversation.productType,'NA')):addProperty(conversation.KVPS, 'ENT_ICMProductType',if(conversation.productType,conversation.productType,'NA'))"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_ICMCallerType')?setProperty(conversation.KVPS, 'ENT_ICMCallerType',if(conversation.callerType,conversation.callerType,'NA')):addProperty(conversation.KVPS, 'ENT_ICMCallerType',if(conversation.callerType,conversation.callerType,'NA'))"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_ProgramCD')?setProperty(conversation.KVPS, 'ENT_ProgramCD', if(conversation.programCode,conversation.programCode,'')):addProperty(conversation.KVPS, 'ENT_ProgramCD', if(conversation.programCode,conversation.programCode,''))"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_AuthFlag')?setProperty(conversation.KVPS, 'ENT_AuthFlag', equals(conversation.authFlag,true)?'YES':'NO'):addProperty(conversation.KVPS, 'ENT_AuthFlag', equals(conversation.authFlag,true)?'YES':'NO')"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_BotIntent')?setProperty(conversation.KVPS, 'ENT_BotIntent',if(conversation.callerIntent,conversation.callerIntent,'')):addProperty(conversation.KVPS, 'ENT_BotIntent',if(conversation.callerIntent,conversation.callerIntent,''))"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_BotIntentDisplay')?setProperty(conversation.KVPS, 'ENT_BotIntentDisplay',if(conversation.callerIntentEntity,conversation.callerIntentEntity,'')):addProperty(conversation.KVPS, 'ENT_BotIntentDisplay',if(conversation.callerIntentEntity,conversation.callerIntentEntity,''))"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_Product')?setProperty(conversation.KVPS, 'ENT_Product',RootDialog.getENTProduct()):addProperty(conversation.KVPS, 'ENT_Product',if(conversation.product,conversation.product,''))"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_ClaimId')?setProperty(conversation.KVPS, 'ENT_ClaimId',''):addProperty(conversation.KVPS, 'ENT_ClaimId','')"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_ICMClaimsDOS')?setProperty(conversation.KVPS, 'ENT_ICMClaimsDOS',''):addProperty(conversation.KVPS, 'ENT_ICMClaimsDOS','')"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_MedSup')?setProperty(conversation.KVPS, 'ENT_MedSup',if(conversation.medsup,conversation.medsup,'N')):addProperty(conversation.KVPS, 'ENT_MedSup',if(conversation.medsup,conversation.medsup,'N'))"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "NIFqAS",
+                "name": " Adding New KVPs for Kvp Out Based on Coverage"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS,'ENT_AlternateID')?setProperty(conversation.KVPS,'ENT_AlternateID',and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].alternateId)? conversation.member.coverageInfo[0].alternateId: ''):addProperty(conversation.KVPS, 'ENT_AlternateID', and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].alternateId)? conversation.member.coverageInfo[0].alternateId: '')"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS,'ENT_ObligorID')?setProperty(conversation.KVPS,'ENT_ObligorID',and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].obligorID)? conversation.member.coverageInfo[0].obligorID: ''):addProperty(conversation.KVPS, 'ENT_ObligorID', and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].obligorID)? conversation.member.coverageInfo[0].obligorID: '')"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_CDBSourceSystem')?setProperty(conversation.KVPS, 'ENT_CDBSourceSystem',and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].sourceSysCode)? conversation.member.coverageInfo[0].sourceSysCode:''):addProperty(conversation.KVPS, 'ENT_CDBSourceSystem',and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].sourceSysCode)? conversation.member.coverageInfo[0].sourceSysCode:'')"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_ContactGroupID')?setProperty(conversation.KVPS, 'ENT_ContactGroupID', and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].policyNumber) ? conversation.member.coverageInfo[0].policyNumber : ''):addProperty(conversation.KVPS, 'ENT_ContactGroupID', and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].policyNumber) ? conversation.member.coverageInfo[0].policyNumber : '')"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_ContactConstituentID')?setProperty(conversation.KVPS, 'ENT_ContactConstituentID',and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].subscriberId) ? conversation.member.coverageInfo[0].subscriberId : ''):addProperty(conversation.KVPS, 'ENT_ContactConstituentID',and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].subscriberId) ? conversation.member.coverageInfo[0].subscriberId : '')"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_ContactRelationshipType')?setProperty(conversation.KVPS, 'ENT_ContactRelationshipType',and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].topsRelationshipCode) ? conversation.member.coverageInfo[0].topsRelationshipCode: ''):addProperty(conversation.KVPS, 'ENT_ContactRelationshipType',and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].topsRelationshipCode) ? conversation.member.coverageInfo[0].topsRelationshipCode: '')"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_ContactSourceSystem')?setProperty(conversation.KVPS, 'ENT_ContactSourceSystem',RootDialog.getContactSourceSystemTypeCode()):addProperty(conversation.KVPS, 'ENT_ContactSourceSystem',RootDialog.getContactSourceSystemTypeCode())"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_ICMActiveCovCode')?setProperty(conversation.KVPS, 'ENT_ICMActiveCovCode', RootDialog.getICMActiveCovCode()):addProperty(conversation.KVPS, 'ENT_ICMActiveCovCode', RootDialog.getICMActiveCovCode())"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_ICMEligSysValue')?setProperty(conversation.KVPS, 'ENT_ICMEligSysValue',and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].eligibilitySystemTypeCode) ? conversation.member.coverageInfo[0].eligibilitySystemTypeCode:''):addProperty(conversation.KVPS, 'ENT_ICMEligSysValue',and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].eligibilitySystemTypeCode) ? conversation.member.coverageInfo[0].eligibilitySystemTypeCode:'')"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_ICMGovernmentIndicator')?setProperty(conversation.KVPS, 'ENT_ICMGovernmentIndicator',and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].governmentProgramCode) ? conversation.member.coverageInfo[0].governmentProgramCode: ''):addProperty(conversation.KVPS, 'ENT_ICMGovernmentIndicator',and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].governmentProgramCode) ? conversation.member.coverageInfo[0].governmentProgramCode: '')"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_ICMSharedArrangement')?setProperty(conversation.KVPS, 'ENT_ICMSharedArrangement',and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].sharedArrangement) ? conversation.member.coverageInfo[0].sharedArrangement : ''):addProperty(conversation.KVPS, 'ENT_ICMSharedArrangement',and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].sharedArrangement) ? conversation.member.coverageInfo[0].sharedArrangement : '')"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_ICMSystemDivision')?setProperty(conversation.KVPS, 'ENT_ICMSystemDivision',and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].divCode) ? conversation.member.coverageInfo[0].divCode : ''):addProperty(conversation.KVPS, 'ENT_ICMSystemDivision',and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].divCode) ? conversation.member.coverageInfo[0].divCode : '')"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_ICMTopsProdCd')?setProperty(conversation.KVPS, 'ENT_ICMTopsProdCd',and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].coverageLevelCode) ? conversation.member.coverageInfo[0].coverageLevelCode : ''):addProperty(conversation.KVPS, 'ENT_ICMTopsProdCd',and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].coverageLevelCode) ? conversation.member.coverageInfo[0].coverageLevelCode : '')"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_PlanIndicator')?setProperty(conversation.KVPS, 'ENT_PlanIndicator',and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].planIndicator) ? conversation.member.coverageInfo[0].planIndicator : ''):addProperty(conversation.KVPS, 'ENT_PlanIndicator',and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].planIndicator) ? conversation.member.coverageInfo[0].planIndicator : '')"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_PlanType')?setProperty(conversation.KVPS, 'ENT_PlanType',RootDialog.getPlanType()):addProperty(conversation.KVPS, 'ENT_PlanType',RootDialog.getPlanType())"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_PlanVariationCD')?setProperty(conversation.KVPS, 'ENT_PlanVariationCD',RootDialog.getPlanVariationCD()):addProperty(conversation.KVPS, 'ENT_PlanVariationCD',RootDialog.getPlanVariationCD())"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_PlanVariationReportingCd')?setProperty(conversation.KVPS, 'ENT_PlanVariationReportingCd',and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].reportingCode) ? conversation.member.coverageInfo[0].reportingCode:''):addProperty(conversation.KVPS, 'ENT_PlanVariationReportingCd',and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].reportingCode) ? conversation.member.coverageInfo[0].reportingCode:'')"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_ICMPlanBenefitPackage')?setProperty(conversation.KVPS, 'ENT_ICMPlanBenefitPackage',and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].planBenefitPackage) ? conversation.member.coverageInfo[0].planBenefitPackage : ''):addProperty(conversation.KVPS, 'ENT_ICMPlanBenefitPackage',and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].planBenefitPackage) ? conversation.member.coverageInfo[0].planBenefitPackage : '')"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_sourceProviderId')?setProperty(conversation.KVPS, 'ENT_sourceProviderId',and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].sourceProviderId) ? conversation.member.coverageInfo[0].sourceProviderId : ''):addProperty(conversation.KVPS, 'ENT_sourceProviderId',and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].sourceProviderId) ? conversation.member.coverageInfo[0].sourceProviderId : '')"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_BookOfBusinessType')?setProperty(conversation.KVPS, 'ENT_BookOfBusinessType',and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].cirrus, conversation.member.coverageInfo[0].cirrus.bookOfBusinessTypeCode) ? conversation.member.coverageInfo[0].cirrus.bookOfBusinessTypeCode: ''):addProperty(conversation.KVPS, 'ENT_BookOfBusinessType',and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].cirrus, conversation.member.coverageInfo[0].cirrus.bookOfBusinessTypeCode) ? conversation.member.coverageInfo[0].cirrus.bookOfBusinessTypeCode: '')"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_BundleOptionId')?setProperty(conversation.KVPS, 'ENT_BundleOptionId',and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].cirrus, conversation.member.coverageInfo[0].cirrus.benefitBundleOptionId) ? conversation.member.coverageInfo[0].cirrus.benefitBundleOptionId : ''):addProperty(conversation.KVPS, 'ENT_BundleOptionId',and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].cirrus, conversation.member.coverageInfo[0].cirrus.benefitBundleOptionId) ? conversation.member.coverageInfo[0].cirrus.benefitBundleOptionId : '')"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_ICMContractNumber')?setProperty(conversation.KVPS, 'ENT_ICMContractNumber',RootDialog.getICMContractNumber()):addProperty(conversation.KVPS, 'ENT_ICMContractNumber',RootDialog.getICMContractNumber())"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_PolicyNbr')?setProperty(conversation.KVPS, 'ENT_PolicyNbr',RootDialog.getPolicyNbr()):addProperty(conversation.KVPS, 'ENT_PolicyNbr',RootDialog.getPolicyNbr())"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_BenefitPlanID')? setProperty(conversation.KVPS,'ENT_BenefitPlanID',RootDialog.getBenfitPlanID()) : addProperty(conversation.KVPS, 'ENT_BenefitPlanID',RootDialog.getBenfitPlanID())"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_ProdTypeSkillRoutingCD')?setProperty(conversation.KVPS, 'ENT_ProdTypeSkillRoutingCD',and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].productIndicator)?conversation.member.coverageInfo[0].productIndicator:''):addProperty(conversation.KVPS, 'ENT_ProdTypeSkillRoutingCD',and(RootDialog.isCoverageInfoAvailable(),conversation.member.coverageInfo[0].productIndicator)?conversation.member.coverageInfo[0].productIndicator:'')"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "3BgQUT",
+                "name": "Adding New KVPs for Kvp Out Based on Auth"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_ContactDOB')?setProperty(conversation.KVPS, 'ENT_ContactDOB',and(RootDialog.isMemberInfoAvailable(),conversation.member.memberInfo.dob) ? conversation.member.memberInfo.dob:''):addProperty(conversation.KVPS, 'ENT_ContactDOB',and(RootDialog.isMemberInfoAvailable(),conversation.member.memberInfo.dob) ? conversation.member.memberInfo.dob:'')"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_ContactZip')?setProperty(conversation.KVPS, 'ENT_ContactZip',and(RootDialog.isMemberInfoAvailable(),conversation.member.memberInfo.address[0].first5PostalCode) ? conversation.member.memberInfo.address[0].first5PostalCode:''):addProperty(conversation.KVPS, 'ENT_ContactZip',and(RootDialog.isMemberInfoAvailable(),conversation.member.memberInfo.address[0].first5PostalCode) ? conversation.member.memberInfo.address[0].first5PostalCode:'')"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_ICMStateCode')?setProperty(conversation.KVPS, 'ENT_ICMStateCode',and(RootDialog.isMemberInfoAvailable(),conversation.member.memberInfo.address[0].stateCode) ? conversation.member.memberInfo.address[0].stateCode:''):addProperty(conversation.KVPS, 'ENT_ICMStateCode',and(RootDialog.isMemberInfoAvailable(),conversation.member.memberInfo.address[0].stateCode) ? conversation.member.memberInfo.address[0].stateCode:'')"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_ContactFirstNm')?setProperty(conversation.KVPS, 'ENT_ContactFirstNm',and(RootDialog.isMemberInfoAvailable(),conversation.member.memberInfo.name.firstName) ? conversation.member.memberInfo.name.firstName:''):addProperty(conversation.KVPS, 'ENT_ContactFirstNm',and(RootDialog.isMemberInfoAvailable(),conversation.member.memberInfo.name.firstName) ? conversation.member.memberInfo.name.firstName:'')"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_ContactLastNm')?setProperty(conversation.KVPS, 'ENT_ContactLastNm',and(RootDialog.isMemberInfoAvailable(),conversation.member.memberInfo.name.lastName) ? conversation.member.memberInfo.name.lastName:''):addProperty(conversation.KVPS, 'ENT_ContactLastNm',and(RootDialog.isMemberInfoAvailable(),conversation.member.memberInfo.name.lastName) ? conversation.member.memberInfo.name.lastName:'')"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=getProperty(conversation.KVPS, 'ENT_SubscriberKey')?setProperty(conversation.KVPS, 'ENT_SubscriberKey',and(RootDialog.isMemberInfoAvailable(),conversation.member.memberInfo.individualSRK)? conversation.member.memberInfo.individualSRK :''):addProperty(conversation.KVPS, 'ENT_SubscriberKey',and(RootDialog.isMemberInfoAvailable(),conversation.member.memberInfo.individualSRK)? conversation.member.memberInfo.individualSRK :'')"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "pbq4Ix",
+                "name": "Adding New KVPs Based on mini Auth-LOB"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=if(equals(conversation.AppNm, ''), if(getProperty(conversation.KVPs, 'ENT_IVRAppNm'), setProperty(conversation.KVPs, 'ENT_IVRAppNm', conversation.KVPs.ENT_IVRAppNm), addProperty(conversation.KVPs, 'ENT_IVRAppNm', '')), if(getProperty(conversation.KVPs, 'ENT_IVRAppNm'), setProperty(conversation.KVPs, 'ENT_IVRAppNm', conversation.AppNm), addProperty(conversation.KVPs, 'ENT_IVRAppNm', conversation.AppNm)))"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=if(equals(conversation.AppArea, ''), if(getProperty(conversation.KVPs, 'ENT_IVRAppArea'), setProperty(conversation.KVPs, 'ENT_IVRAppArea', conversation.KVPs.ENT_IVRAppArea), addProperty(conversation.KVPs, 'ENT_IVRAppArea', '')), if(getProperty(conversation.KVPs, 'ENT_IVRAppArea'), setProperty(conversation.KVPs, 'ENT_IVRAppArea', conversation.AppArea), addProperty(conversation.KVPs, 'ENT_IVRAppArea', conversation.AppArea)))"
+                },
+                {
+                  "property": "conversation.KVPs",
+                  "value": "=if(equals(conversation.AppVsnNbr,''), if(getProperty(conversation.KVPs, 'ENT_IVRAppVersionNbr'), setProperty(conversation.KVPs, 'ENT_IVRAppVersionNbr', conversation.KVPs.ENT_IVRAppVersionNbr), addProperty(conversation.KVPs, 'ENT_IVRAppVersionNbr', '')), if(getProperty(conversation.KVPs, 'ENT_IVRAppVersionNbr'), setProperty(conversation.KVPs, 'ENT_IVRAppVersionNbr', conversation.AppVsnNbr), addProperty(conversation.KVPs, 'ENT_IVRAppVersionNbr', conversation.AppVsnNbr)))"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "lonBW8"
+          },
+          "condition": "=and(equals(conversation.tfnConfig.Root_uhcMember_HCPTranscriptionLogging_Toggle,\"ON\"),equals(conversation.hcpFlag,true))",
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "HWi3p4"
+              },
+              "activityProcessed": true,
+              "dialog": "HCPEventDialog"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "UuWVL4"
+          },
+          "property": "dialog.startDate",
+          "value": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "l3H6ch"
+          },
+          "value": "=concat(settings.gmsEndPoint,\"custom/\",conversation.storageKey,\"/600\",\"?ver=\",settings.botVersion,\"&botname=\",settings.botName,\"&env=\",settings.botEnvironment)",
+          "property": "dialog.kvpoutUrl"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "PtLBqT"
+          },
+          "property": "dialog.reqBody",
+          "value": "KVPs=${conversation.KVPs}"
+        },
+        {
+          "$kind": "Optum.HttpRequestDialog",
+          "$designer": {
+            "id": "fbMH8a"
+          },
+          "clientid": "=settings.accessTokenClientId",
+          "clientsecret": "=settings.accessTokenClientSecret",
+          "method": "POST",
+          "timeout": "=settings.gmsResponseTimeoutInMS",
+          "resultProperty": "dialog.gmsResult",
+          "tokenurl": "=conversation.tokenUrl",
+          "tokencontentType": "application/json",
+          "contentType": "application/x-www-form-urlencoded",
+          "verbiageToggleVal": false,
+          "tokenTimeout": "=settings.accessTokenTimeout",
+          "retryCount": "=settings.retryCount",
+          "retryInterval": "=settings.retryInterval",
+          "connectionString": "=settings.connectionString",
+          "containerName": "=settings.containerName",
+          "url": "=dialog.kvpoutUrl",
+          "body": "=dialog.reqBody"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "Qx8M13"
+          },
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "FX8Wzk"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "memberRoot_Xfer_KVPOUT",
+                "pegType": "DataInterface",
+                "request": "{\"url\": \"${dialog.kvpoutUrl}\", \"KVPout\": \"${conversation.KVPs}\"}",
+                "response": "=dialog.gmsResult",
+                "startDTM": "=dialog.startDate",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MemberRootBot_Xfer_KVPOUT_Peg"
+              }
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "7hNUp6"
+              },
+              "activityProcessed": true,
+              "dialog": "TelemetryDialog",
+              "options": {
+                "peg": "memberRoot_Xfer_KVPOUT_Failure",
+                "pegType": "DataInterface",
+                "request": "{\"url\": \"${dialog.kvpoutUrl}\", \"KVPout\": \"${conversation.KVPs}\"}",
+                "response": "=dialog.gmsResult",
+                "startDTM": "=conversation.startDate",
+                "endDTM": "=utcNow(\"yyyy-MMM-dd hh:mm:ss.SSS\", \"en-us\")",
+                "eventName": "MemberRootBot_Xfer_KVPOUT_Failure_Peg"
+              }
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "rU48VU"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.transferReason",
+                  "value": "KVPOUT_GMSError"
+                },
+                {
+                  "property": "conversation.transferPegVal",
+                  "value": "GMS_ERROR"
+                }
+              ]
+            }
+          ],
+          "condition": "=and(string(dialog.gmsResult.status_messages)!=\"error\", dialog.gmsResult.status_code==200)"
+        }
+      ]
+    }
+  ],
+  "generator": "SendKVPsOut.lg",
+  "recognizer": "SendKVPsOut.lu.qna",
+  "id": "SendKVPsOut"
+}

@@ -1,0 +1,67 @@
+> !# @Namespace=Greeting
+> !# @Exports = DefaultGreetingMsg,DynamicGreetingMsg,spkRecordingMsg
+[import](common.lg)
+
+
+# DefaultGreetingMsg()
+[Activity
+    Text = ${spkDefaultGreetingPrompt_text()}
+    Speak = ${spkDefaultGreetingPrompt_text()}
+    InputHint = ignoringInput
+    channelData = ${
+        {
+            sessionParams:{
+            sendDTMF: false,
+            bargeIn: false,
+            bargeInOnDTMF: false,
+            dtmfCollect: false,
+            userNoInputTimeoutMS: settings.defaultUserNoInputInMS,
+            userNoInputRetries: 3,
+            sendEventsToBot: ["noUserInput"] 
+            },
+            activityParams: {
+                    enableSpeechInput: false
+            }
+        }
+    }
+]
+
+# DynamicGreetingMsg()
+[Activity
+    Text = ${spkGreetingPrompt_text()}
+    Speak = ${spkGreetingPrompt_text()}
+    InputHint = ignoringInput
+    channelData = ${
+        {
+        sessionParams:{
+                sendDTMF: false,
+                bargeIn: false,
+                bargeInOnDTMF: false,
+                dtmfCollect: false,
+                userNoInputTimeoutMS: settings.defaultUserNoInputInMS,
+                userNoInputRetries: 3,
+                sendEventsToBot: ["noUserInput"]                           
+                },
+        activityParams: {
+                enableSpeechInput: false
+            }
+        }
+    }
+]
+
+
+# spkRecordingMsg()
+[Activity
+    Text = ${spkRecordingPrompt_text()}
+    Speak = ${spkRecordingPrompt_text()}
+    InputHint = ignoringInput
+    channelData = ${
+        {
+            activityParams: {
+                bargeIn: false,
+                bargeInOnDTMF: false,
+                enableSpeechInput: false
+            }
+        }
+    }
+]

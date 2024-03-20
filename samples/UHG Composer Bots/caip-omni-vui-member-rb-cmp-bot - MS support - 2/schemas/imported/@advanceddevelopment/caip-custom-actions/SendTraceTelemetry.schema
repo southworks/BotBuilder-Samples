@@ -1,0 +1,20 @@
+{
+    "$schema": "https://raw.githubusercontent.com/microsoft/botframework-sdk/master/schemas/component/component.schema",
+    "$role": "implements(Microsoft.IDialog)",
+    "title": "SendTraceTelemetry",
+    "description": "Action to send trace to application insights",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "message": {
+            "$ref": "schema:#/definitions/stringExpression",
+            "title": "Message",
+            "description": "Value from callers memory to use as message"
+        },
+        "properties": {
+            "$ref": "schema:#/definitions/objectExpression",
+            "title": "Properties",
+            "description": "Value from callers memory to use as properties"
+        }
+    }
+}

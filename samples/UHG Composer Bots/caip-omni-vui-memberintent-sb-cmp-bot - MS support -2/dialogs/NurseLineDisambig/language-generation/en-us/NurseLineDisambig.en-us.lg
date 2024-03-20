@@ -1,0 +1,14 @@
+> !# @Namespace=NurseLineDisambig
+> !# @Exports = NurseLineDisambigMsg
+
+[import](common.lg)
+
+# NurseLineDisambigMsg()
+[Activity
+    Text = ${NurseLineDisambig_text()}
+    Speak = ${NurseLineDisambig_text()}
+    InputHint = expectingInput
+    ChannelData = ${ExpectingPrompts_ActivityParams(1500)}
+]
+
+

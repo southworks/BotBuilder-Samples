@@ -1,0 +1,12 @@
+> !# @Namespace = SolutranDisambig
+> !# @Exports = UHCMember_SolutranDisambig_Msg
+
+[import](common.lg)
+
+# UHCMember_SolutranDisambig_Msg()
+[Activity
+    Text = ${dialog.solutranDisambigText}
+    Speak = ${dialog.solutranDisambigText}
+    InputHint = expectingInput
+    ChannelData = ${ExpectingPrompts_ActivityParams(1500)}
+]

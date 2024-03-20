@@ -1,0 +1,65 @@
+{
+  "name": "@advanceddevelopment/omni-vui-custom-actions",
+  "version": "2.0.44",
+  "description": "custom actions for bot composer",
+  "repository": {
+    "type": "git",
+    "url": "https://github.optum.com/advanced-development/omni-vui-custom-actions.git"
+  },
+  "keywords": [
+    "msbot-component"
+  ],
+  "author": "Optum",
+  "license": "ISC",
+  "scripts": {
+    "build": "tsc -b",
+    "lint": "tslint -c tslint.json 'src/**/*.ts'",
+    "test": "node ./node_modules/mocha/bin/mocha -r ts-node/register --extension ts --extension js tests",
+    "coverage": "nyc --reporter=lcov --reporter=text npm run test"
+  },
+  "files": [
+    "exported",
+    "lib",
+    "src"
+  ],
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "peerDependencies": {
+    "adaptive-expressions": "4.17.0",
+    "botbuilder": "4.17.0",
+    "botbuilder-dialogs": "4.17.0",
+    "botbuilder-dialogs-adaptive-runtime-core": "4.17.0-preview",
+    "botbuilder-dialogs-declarative": "4.17.0-preview",
+    "request-promise": "^4.2.6"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.18",
+    "@types/lodash": "^4.14.134",
+    "@types/mocha": "^8.2.2",
+    "@types/request-promise": "^4.1.48",
+    "@types/sinon": "^10.0.2",
+    "adaptive-expressions": "4.17.0",
+    "botbuilder": "4.17.0",
+    "botbuilder-dialogs": "4.17.0",
+    "botbuilder-dialogs-adaptive-runtime-core": "4.17.0-preview",
+    "botbuilder-dialogs-declarative": "4.17.0-preview",
+    "chai": "^4.3.4",
+    "mocha": "^9.0.0",
+    "nodemon": "^2.0.7",
+    "nyc": "^15.1.0",
+    "sinon": "^11.1.1",
+    "sonarqube-scanner": "^2.8.1",
+    "ts-node": "^10.0.0",
+    "typescript": "^4.3.2"
+  },
+  "dependencies": {
+    "@azure/data-tables": "^13.2.2",
+    "@azure/storage-blob": "^12.9.0",
+    "agentkeepalive": "^4.3.0",
+    "axios": "^0.21.4",
+    "axios-retry": "^3.3.1",
+    "azure-storage": "^2.10.7",
+    "nock": "^13.2.9",
+    "request-promise": "^4.2.6"
+  }
+}

@@ -1,0 +1,34 @@
+> !# @Namespace=ErrorTransfer
+> !# @Exports =SendActivity_TransferEvent, SendActivity_ConfigEvent
+
+[import](common.lg)
+
+# SendActivity_ConfigEvent()
+[Activity
+    Type = event
+    Name = config
+    channelData = ${
+        {
+            sessionParams:{
+                bargeIn: false,
+                bargeInOnDTMF: false,
+                enableSpeechInput: false
+            }
+        }
+    }
+]
+# SendActivity_TransferEvent()
+[Activity
+   Type = event
+    Name = transfer
+    ChannelData = ${
+    {
+        activityParams:
+        {
+            handoverReason: dialog.transferReason,
+            transferTarget: dialog.telTransfer,
+            enableSpeechInput: false
+        }
+    }
+    }
+]

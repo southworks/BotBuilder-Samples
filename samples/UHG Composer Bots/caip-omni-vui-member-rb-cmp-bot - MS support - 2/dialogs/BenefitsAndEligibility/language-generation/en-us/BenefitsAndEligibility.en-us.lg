@@ -1,0 +1,27 @@
+[import](common.lg)
+> !# @Namespace = BenefitsAndEligibility
+> !# @Exports = BnESkill_Activity_Params
+
+# BnESkill_Activity_Params()
+[Activity
+    Type = event
+    Name = startBnESkill
+    value = ${
+		{
+			appName: conversation.botName,
+			businessUnit: "MemberEI",
+			conversationId:conversation.conversationId,
+			callId: conversation.KVPs.ENT_CallUUID,
+			tfn: conversation.KVPs.ENT_ToAddress,
+			callGUID: conversation.storageKey,			
+			parameters: {
+				tfnConfig: conversation.tfnConfig,
+				coverageInfo :conversation.member.coverageInfo,
+                medicalBEVisitcount : conversation.medicalBEVisitCount,
+                medicalEligibilityVisitCount: conversation.medicalEligibilityVisitCount,
+                callerIntent: conversation.iCallerIntent,
+                callerEntity: conversation.iCallerEntity
+			}
+		}
+    }
+]

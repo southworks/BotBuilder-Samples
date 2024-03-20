@@ -1,0 +1,4335 @@
+
+> LUIS application information
+> !# @app.name = caip-omni-vui-memberintent-sb-cmp-bot
+> !# @app.versionId = UHC_MemberCallerIntent_EI_MR_CS_10.3
+> !# @app.culture = en-us
+> !# @app.luis_schema_version = 7.0.0
+> !# @app.settings.NormalizePunctuation = True
+> !# @app.settings.UseAllTrainingData = True
+> !# @app.tokenizerVersion = 1.0.0
+
+
+> # Intent definitions
+
+# accountUpdate
+- {@accountUpdateML=a birth of a child}
+- {@accountUpdateML=account update}
+- {@accountUpdateML=add a member}
+- {@accountUpdateML=add child}
+- {@accountUpdateML=add {@callerTypeML={@callerTypeMemberChild=my}}}
+- {@accountUpdateML=add my baby} to {@callerTypeML={@callerTypeMemberChild=my}} coverage
+- {@accountUpdateML=add someone to {@callerTypeML={@callerTypeMemberChild=my}} account}
+- {@accountUpdateML=add someone to {@callerTypeML={@callerTypeMemberChild=my}} plan}
+- {@accountUpdateML=added child}
+- {@accountUpdateML=adding beneficiary}
+- {@accountUpdateML=adding someone to {@callerTypeML={@callerTypeMemberChild=my}} account}
+- {@accountUpdateML=adding someone to {@callerTypeML={@callerTypeMemberChild=my}} plan}
+- {@accountUpdateML={@addressUpdateChild=address change}}
+- {@accountUpdateML={@addressUpdateChild=address correction}}
+- {@accountUpdateML={@addressUpdateChild=address update}}
+- {@accountUpdateML=birth of a child}
+- {@accountUpdateML=birthdate is wrong}
+- {@agentGeneralML=c o b} issues
+- can i {@accountUpdateML=add a dependent to {@callerTypeML={@callerTypeMemberChild=my}}} account
+- can i {@accountUpdateML=add a new dependent}
+- can i {@accountUpdateML=update {@callerTypeML={@callerTypeMemberChild=my}} account} to {@accountUpdateML=add a dependent}
+- {@accountUpdateML=change account information}
+- {@accountUpdateML={@addressUpdateChild=change address}}
+- {@accountUpdateML=change benefits}
+- {@accountUpdateML=change birthdate}
+- {@accountUpdateML=change contact information}
+- {@accountUpdateML=change coverage}
+- {@accountUpdateML=change information}
+- {@accountUpdateML=change last name}
+- {@accountUpdateML={@addressUpdateChild=change {@callerTypeML={@callerTypeMemberChild=my}} address}}
+- {@accountUpdateML=change my last name}
+- {@accountUpdateML=change {@callerTypeML={@callerTypeMemberChild=my}} name}
+- {@accountUpdateML=change my phone number}
+- {@accountUpdateML={@addressUpdateChild=change of home address}}
+- {@accountUpdateML=change personal information}
+- changed last name
+- {@accountUpdateML=changing address}
+- {@accountUpdateML={@addressUpdateChild=changing {@callerTypeML={@callerTypeMemberChild=my}} address}}
+- {@accountUpdateML=changing name}
+- {@accountUpdateML={@addressUpdateChild=correct an address}}
+- {@accountUpdateML=correct date of birth}
+- {@accountUpdateML=correct information}
+- {@accountUpdateML=correct information on account}
+- {@accountUpdateML=correct {@callerTypeML={@callerTypeMemberChild=my}}}
+- {@accountUpdateML=correct {@callerTypeML={@callerTypeMemberChild=my}} date of birth}
+- {@accountUpdateML=correct {@callerTypeML={@callerTypeMemberChild=my}} name}
+- {@accountUpdateML=correct {@callerTypeML={@callerTypeMemberChild=my}} phone number}
+- {@accountUpdateML=correct phone number}
+- {@accountUpdateML={@addressUpdateChild=correction on the address}}
+- {@accountUpdateML=dependents}
+- {@accountUpdateML=edit address}
+- {@accountUpdateML=fix birthday}
+- fix name
+- fixing address
+- {@accountUpdateML=fixing name}
+- {@accountUpdateML=gender is incorrect on records}
+- get {@accountUpdateML=name changed}
+- how do i {@accountUpdateML=add a dependent}
+- how do i {@accountUpdateML=add a dependent to {@callerTypeML={@callerTypeMemberChild=my}}} account
+- how do i go about {@accountUpdateML=adding a dependent}
+- i {@accountUpdateML={@addressUpdateChild=changed the address}}
+- i need a {@accountUpdateML={@addressUpdateChild=mailing address}}
+- i need to {@accountUpdateML=add a dependent}
+- i need to {@accountUpdateML=change {@callerTypeML={@callerTypeMemberChild=my}} account information}
+- i need to {@accountUpdateML=update {@callerTypeML={@callerTypeMemberChild=my}} account}
+- i need to {@accountUpdateML=update {@callerTypeML={@callerTypeMemberChild=my}} account} with a dependent
+- i need to {@accountUpdateML=update {@callerTypeML={@callerTypeMemberChild=my}} account} with a new dependent
+- i want to {@accountUpdateML=add a dependent to {@callerTypeML={@callerTypeMemberChild=my}}} account
+- i want to {@accountUpdateML=add a dependent to {@callerTypeML={@callerTypeMemberChild=my}}} profile
+- i want to {@accountUpdateML=add someone as a dependent}
+- i want to make {@accountUpdateML=adjustment}
+- i want to {@accountUpdateML=update {@callerTypeML={@callerTypeMemberChild=my}} account}
+- i want to {@accountUpdateML={@addressUpdateChild=update {@callerTypeML={@callerTypeMemberChild=my}} mailing address}}
+- i'd like to {@accountUpdateML=add a dependent to {@callerTypeML={@callerTypeMemberChild=my}}} account
+- {@accountUpdateML=incorrect data}
+- {@accountUpdateML=incorrect date of birth}
+- {@accountUpdateML=incorrect information on {@callerTypeML={@callerTypeMemberChild=my}} account}
+- {@accountUpdateML=incorrect name}
+- {@accountUpdateML=information change}
+- {@accountUpdateML=life event}
+- {@accountUpdateML=listed incorrectly}
+- {@accountUpdateML=misspelled name}
+- {@callerTypeML={@callerTypeMemberChild=my}} {@accountUpdateML=last name changed}
+- my {@accountUpdateML=name is wrong} on {@callerTypeML={@callerTypeMemberChild=my}} insurance card
+- {@accountUpdateML=name change}
+- {@accountUpdateML=name correction}
+- {@accountUpdateML=name is spelled wrong}
+- {@accountUpdateML=name is spelt incorrect}
+- need {@accountUpdateML=update}
+- {@accountUpdateML={@addressUpdateChild=new address}}
+- {@accountUpdateML=remove} children from plan
+- to {@accountUpdateML=add a member}
+- {@accountUpdateML=to correct information on the account}
+- to get {@accountUpdateML=email {@addressUpdateChild=address}} for office essentials
+- to verify {@callerTypeML={@callerTypeMemberChild=my}} {@accountUpdateML={@addressUpdateChild=address change}}
+- {@accountUpdateML=update}
+- {@accountUpdateML={@addressUpdateChild=update address}}
+- {@accountUpdateML={@addressUpdateChild=update addresses}}
+- {@accountUpdateML=update info}
+- {@accountUpdateML=update information}
+- {@accountUpdateML=update {@callerTypeML={@callerTypeMemberChild=my}}}
+- {@accountUpdateML=update phone number}
+- {@accountUpdateML=updated} insurance info
+- {@accountUpdateML={@addressUpdateChild=updating address}}
+- {@accountUpdateML=updating information}
+- {@accountUpdateML=updating} members information
+- {@accountUpdateML}
+
+
+@ intent accountUpdate usesFeatures accountUpdateML,accountUpdateList
+
+# agentGeneral
+- {@agentGeneralML=0}
+- a medical {@agentGeneralML=emergency} out of the country
+- {@agentGeneralML=advisor}
+- {@agentGeneralML=advocate}
+- {@agentGeneralML=agent}
+- {@agentGeneralML=agents}
+- appeals {@agentGeneralML=agent}
+- {@agentGeneralML=assistance}
+- {@agentGeneralML=assistant}
+- {@agentGeneralML=associate}
+- benefit question {@agentGeneralML=representative}
+- benefits eligibility {@agentGeneralML=representative}
+- can i {@agentGeneralML=talk with} {@agentGeneralML=customer service} please
+- claims {@agentGeneralML=agent}
+- connect me to a {@agentGeneralML=representative}
+- {@agentGeneralML=customer assistance}
+- {@agentGeneralML=customer care}
+- {@agentGeneralML=customer service}
+- {@agentGeneralML=customer service} medical
+- {@agentGeneralML=customer services}
+- {@agentGeneralML=customer support}
+- don't you have a {@agentGeneralML=live person} i can talk to
+- {@agentGeneralML=emergancy}
+- {@agentGeneralML=gap coverage}
+- {@agentGeneralML=help}
+- {@agentGeneralML=human}
+- i need a {@agentGeneralML=customer service} {@agentGeneralML=representative} to {@agentGeneralML=speak to}
+- i need a {@agentGeneralML=representative}
+- i need an {@agentGeneralML=operator}
+- i need to {@agentGeneralML=speak to} a {@agentGeneralML=customer service}
+- i need to {@agentGeneralML=speak to} a {@agentGeneralML=customer service} person
+- i need to {@agentGeneralML=speak to} a {@agentGeneralML=customer service} rep
+- i need to {@agentGeneralML=speak to} a {@agentGeneralML=customer service} rep please
+- i need to {@agentGeneralML=speak to} a member service rep please
+- i need to {@agentGeneralML=speak to advocate}
+- i need to {@agentGeneralML=speak to agent} please
+- i need to {@agentGeneralML=speak to an agent} about coverage
+- i need to speak to an appeal {@agentGeneralML=agent}
+- i need to speak to {@agentGeneralML=customer service representative} please
+- i need to {@agentGeneralML=speak to somebody}
+- i need to {@agentGeneralML=speak to somebody} as soon as possible
+- i need to {@agentGeneralML=speak to somebody} {@agentGeneralML=customer service}
+- i need to {@agentGeneralML=speak to someone} customer service
+- i need to {@agentGeneralML=speak with someone}
+- i need to {@agentGeneralML=talk to customer service} person
+- i need to {@agentGeneralML=talk to} {@agentGeneralML=customer service} please
+- i need to {@agentGeneralML=talk to someone}
+- i wanna {@agentGeneralML=speak to} a {@agentGeneralML=customer service} rep
+- i wanna {@agentGeneralML=speak to agent}
+- i wanna {@agentGeneralML=speak to somebody}
+- i wanna {@agentGeneralML=talk to customer service}
+- i want to {@agentGeneralML=talk to} human being
+- i was disconnected i need {@agentGeneralML=customer service} please
+- i would like to {@agentGeneralML=speak to a representative} i have a question regarding
+- i would like to {@agentGeneralML=talk to someone} about {@callerTypeML={@callerTypeMemberChild=my}} medical benefit
+- i'd like to {@agentGeneralML=speak with a representative} about {@callerTypeML={@callerTypeMemberChild=my}} benefits
+- {@agentGeneralML=manager}
+- medical benefits {@agentGeneralML=representative}
+- {@agentGeneralML=member service}
+- {@agentGeneralML=member support}
+- {@mentalHealthGeneralML=mental health} {@agentGeneralML=representative}
+- need {@agentGeneralML=talk to customer service}
+- need to {@agentGeneralML=speak to} {@agentGeneralML=a} {@agentGeneralML=customer service}
+- need to {@agentGeneralML=speak to} a {@agentGeneralML=customer service} rep
+- {@agentGeneralML=need to speak to advocate}
+- need to {@agentGeneralML=speak to operator}
+- need to {@agentGeneralML=talk to agent}
+- need to {@agentGeneralML=talk to} {@agentGeneralML=customer service} for
+- none of those {@agentGeneralML=representative} please
+- {@agentGeneralML=person}
+- {@agentGeneralML=put me through to someone}
+- {@agentGeneralML=rapid resolution}
+- {@agentGeneralML=rep}
+- {@agentGeneralML=represent}
+- {@agentGeneralML=representative}
+- {@agentGeneralML=representative} about a claim
+- {@agentGeneralML=representative} medical
+- {@agentGeneralML=representatives}
+- {@agentGeneralML=resolution}
+- speak {@agentGeneralML=customer services}
+- {@agentGeneralML=speak someone}
+- {@agentGeneralML=speak someone} about claims
+- {@agentGeneralML=speak to}
+- {@agentGeneralML=speak to a consultant}
+- {@agentGeneralML=speak to} a {@callerTypeML={@callerTypeMemberChild=member}}
+- {@agentGeneralML=speak to a representative} for benefits and eligibility
+- {@agentGeneralML=speak to operator}
+- {@agentGeneralML=speak to someone}
+- {@agentGeneralML=speak to supervisor}
+- {@agentGeneralML=speak with}
+- {@agentGeneralML=speak with} a {@agentGeneralML=customer service}
+- {@agentGeneralML=speak with somebody}
+- {@agentGeneralML=speak with someone}
+- {@agentGeneralML=supervisor}
+- {@agentGeneralML=support}
+- {@agentGeneralML=talk to}
+- talk to a benefits {@agentGeneralML=representative}
+- {@agentGeneralML=talk to a claims rep}
+- {@agentGeneralML=talk to agent} regarding {@mentalHealthGeneralML=mental health}
+- {@agentGeneralML=talk to} {@agentGeneralML=customer service}
+- {@agentGeneralML=talk to somebody}
+- {@agentGeneralML=talk to someone}
+- {@agentGeneralML=talk with}
+- to {@agentGeneralML=speak to associate}
+- today i need to {@agentGeneralML=talk to someone} from united
+- {@agentGeneralML=transfer me}
+- {@agentGeneralML=transferred to a rep}
+- {@agentGeneralML=well being}
+- {@agentGeneralML=well being} plan
+- {@agentGeneralML=wellbeing}
+- {@agentGeneralML=wellbeing plan}
+- {@agentGeneralML}
+
+
+@ intent agentGeneral usesFeatures agentGeneralML,ZeroRegex
+
+# appointmentReschedule
+- a doctor's {@appointmentML={@appointmentChild=appointment}}
+- {@appointmentML={@appointmentChild=appointment}}
+- {@appointmentML={@appointmentChild=appointments}}
+- {@appointmentML={@appointmentChild=cancel an appointment}}
+- cancel {@appointmentML={@appointmentChild=appointment}}
+- {@appointmentML={@appointmentChild=cancel my appointment}}
+- {@appointmentML={@appointmentChild=cancel of appointment}}
+- check on a {@appointmentML={@appointmentChild=reservation}}
+- doctor's {@appointmentML={@appointmentChild=appointment}}
+- i need a {@appointmentML={@appointmentChild=appointment}} for a colonoscopy
+- i need a dental {@appointmentML={@appointmentChild=appointment}}
+- make {@appointmentML={@appointmentChild=appointment}}
+- making {@appointmentML={@appointmentChild=appointment}}
+- {@callerTypeML={@callerTypeMemberChild=my}} {@appointmentML={@appointmentChild=appointment}} was canceled and i need to {@appointmentML={@appointmentChild=reschedule}}
+- {@appointmentML={@appointmentChild=reschedule}}
+- {@appointmentML={@appointmentChild=reschedule}} {@appointmentML={@appointmentChild=appointment}}
+- {@appointmentML={@appointmentChild=reservation}}
+- to make an in home doctor's {@appointmentML={@appointmentChild=appointment}}
+
+
+@ intent appointmentReschedule usesFeatures appointmentList,appointmentML
+
+# balance
+- about {@balanceML=account balance}
+- {@balanceML=account balance}
+- {@balanceML=amount on {@callerTypeML={@callerTypeMemberChild=my}} card}
+- {@balanceML=balance}
+- {@balanceML=balance} inquiry
+- {@balanceML=balance of {@callerTypeML={@callerTypeMemberChild=my}} account}
+- {@balanceML=balance on card}
+- {@balanceML=balance on {@callerTypeML={@callerTypeMemberChild=my}} account} please
+- {@balanceML=balance on {@callerTypeML={@callerTypeMemberChild=my}} card}
+- {@balanceML=balance} please
+- call {@balanceML=balance}
+- {@balanceML=card balances}
+- {@balanceML=check balance}
+- check {@callerTypeML={@callerTypeMemberChild=my}} {@balanceML=account balance}
+- {@balanceML=check {@callerTypeML={@callerTypeMemberChild=my}} balance}
+- check {@callerTypeML={@callerTypeMemberChild=my}} {@balanceML=balances}
+- {@balanceML=check {@callerTypeML={@callerTypeMemberChild=my}} otc balance}
+- {@balanceML=check the balance of {@callerTypeML={@callerTypeMemberChild=my}} account}
+- {@balanceML=check the balance on {@callerTypeML={@callerTypeMemberChild=my}} account}
+- check the {@balanceML=card balance}
+- {@balanceML=get the balance of {@callerTypeML={@callerTypeMemberChild=my}} account}
+- get the {@balanceML=balance on {@callerTypeML={@callerTypeMemberChild=my}} account}
+- how much do i have on {@callerTypeML={@callerTypeMemberChild=my}} card
+- {@balanceML=how much money do i have on {@callerTypeML={@callerTypeMemberChild=my}} card}
+- i am looking for the {@balanceML=card balance}
+- {@balanceML=i need balance of {@callerTypeML={@callerTypeMemberChild=my}} account}
+- i need {@balanceML=card balance}
+- i need {@balanceML={@callerTypeML={@callerTypeMemberChild=my}} balance}
+- i need {@balanceML={@callerTypeML={@callerTypeMemberChild=my}} card balance}
+- {@balanceML=i need the balance of {@callerTypeML={@callerTypeMemberChild=my}} account}
+- {@balanceML=i need the balance on {@callerTypeML={@callerTypeMemberChild=my}} account}
+- i need the {@balanceML=card balance}
+- {@balanceML=i need to know the balance {@callerTypeML={@callerTypeMemberChild=my}} account please}
+- i need to know the {@balanceML=balance of {@callerTypeML={@callerTypeMemberChild=my}} account}
+- {@balanceML=i need to know the balance on {@callerTypeML={@callerTypeMemberChild=my}} account}
+- i want {@callerTypeML={@callerTypeMemberChild=my}} {@balanceML=balance}
+- {@balanceML=i want the balance on {@callerTypeML={@callerTypeMemberChild=my}} account}
+- i want to check the {@balanceML=balance on {@callerTypeML={@callerTypeMemberChild=my}}} otc card
+- i want to know {@balanceML=how much is left on {@callerTypeML={@callerTypeMemberChild=my}} card}
+- i want to know {@callerTypeML={@callerTypeMemberChild=my}} {@balanceML=balance}
+- {@balanceML=i want to know the balance of {@callerTypeML={@callerTypeMemberChild=my}} account}
+- {@balanceML=i want to know the balance on {@callerTypeML={@callerTypeMemberChild=my}} account}
+- i want to know what my {@balanceML=balance} is
+- {@balanceML=i would like to get the balance on {@callerTypeML={@callerTypeMemberChild=my}} account}
+- {@balanceML=i'd like to check the balance of {@callerTypeML={@callerTypeMemberChild=my}} account}
+- {@balanceML=i'm calling to check balance on {@callerTypeML={@callerTypeMemberChild=my}} account}
+- {@balanceML=i'm calling to get the balance on {@callerTypeML={@callerTypeMemberChild=my}} account}
+- {@balanceML=like to check the balance on {@callerTypeML={@callerTypeMemberChild=my}} account}
+- {@balanceML=like to know the balance on {@callerTypeML={@callerTypeMemberChild=my}} account}
+- {@balanceML={@callerTypeML={@callerTypeMemberChild=my}} balance}
+- {@callerTypeML={@callerTypeMemberChild=my}} {@balanceML=card balance}
+- {@balanceML=outstanding balance}
+- {@balanceML=premium balance}
+- the {@balanceML=balance}
+- the {@balanceML=balance} on {@callerTypeML={@callerTypeMemberChild=my}} new card
+- {@balanceML=to check the balance of {@callerTypeML={@callerTypeMemberChild=my}} account}
+- {@balanceML=to check the balance on {@callerTypeML={@callerTypeMemberChild=my}} account}
+- {@balanceML=to find out balance on {@callerTypeML={@callerTypeMemberChild=my}} account}
+- {@balanceML=to find the balance on {@callerTypeML={@callerTypeMemberChild=my}} account}
+- {@balanceML=to get a balance on {@callerTypeML={@callerTypeMemberChild=my}} account}
+- {@balanceML=to get the balance on account}
+- {@balanceML=to get the balance on {@callerTypeML={@callerTypeMemberChild=my}} account}
+- {@balanceML=want the balance of {@callerTypeML={@callerTypeMemberChild=my}} account}
+- {@balanceML=what is the balance of {@callerTypeML={@callerTypeMemberChild=my}} account}
+- {@balanceML=what's the balance of {@callerTypeML={@callerTypeMemberChild=my}} account}
+- {@balanceML=what's the balance on {@callerTypeML={@callerTypeMemberChild=my}} account}
+- yes {@balanceML=see how much is on {@callerTypeML={@callerTypeMemberChild=my}} card}
+- you could {@balanceML=balance}
+
+
+@ intent balance usesFeatures balanceFeature,balanceML
+
+# behavioralHealth
+- {@behavioralHealthML={@behavioralHealthCrisisChild=abused}}
+- {@behavioralHealthML={@behavioralHealthChild=adhd}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=afraid}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=agitated}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=alone}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=angry}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=anxiety}}
+- attempt to {@behavioralHealthML={@behavioralHealthCrisisChild=suicide}}
+- {@behavioralHealthML={@behavioralHealthChild=behavior health}}
+- {@behavioralHealthML={@behavioralHealthChild=behavior health benefit}}
+- {@behavioralHealthML={@behavioralHealthChild=behavior health benefits}}
+- {@behavioralHealthML={@behavioralHealthChild=behavior health coverage}}
+- {@behavioralHealthML={@behavioralHealthChild=behavior health services}}
+- {@behavioralHealthML={@behavioralHealthChild=behavioral benefits}}
+- {@behavioralHealthML={@behavioralHealthChild=behavioral}} call
+- {@behavioralHealthML={@behavioralHealthChild=behavioral care benefits}}
+- {@behavioralHealthML={@behavioralHealthChild=behavioral coverage}}
+- {@behavioralHealthML={@behavioralHealthChild=behavioral}} department
+- {@behavioralHealthML={@behavioralHealthChild=behavioral health}}
+- {@behavioralHealthML={@behavioralHealthChild=behavioral health benefit}}
+- {@behavioralHealthML={@behavioralHealthChild=behavioral health benefits}}
+- {@behavioralHealthML={@behavioralHealthChild=behavioral health coverage}}
+- {@behavioralHealthML={@behavioralHealthChild=behavioral health}} plan
+- {@behavioralHealthML={@behavioralHealthChild=behavioral health services}}
+- {@behavioralHealthML={@behavioralHealthChild=behavioral healthcare}}
+- {@behavioralHealthML={@behavioralHealthChild=behavioral} problem}
+- {@behavioralHealthML={@behavioralHealthChild=behavioral services}}
+- {@behavioralHealthML={@behavioralHealthChild=behavioral}} summary
+- {@behavioralHealthML={@behavioralHealthChild=behavioural health}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=being alone is painful}}
+- benefits for {@behavioralHealthML={@behavioralHealthChild=behavioral health}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=bullied}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=bullies}} are making my life a {@behavioralHealthML={@behavioralHealthCrisisChild=nightmare}}
+- can i get info for {@behavioralHealthML={@behavioralHealthChild=behavioral health benefits}}
+- can you help me with a {@behavioralHealthML={@behavioralHealthCrisisChild=crisis}}
+- can you tell me the details for {@behavioralHealthML={@behavioralHealthChild=behavioral health benefits}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=can't sleep}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=cannot go on}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=cannot sleep}}
+- cannot stop {@behavioralHealthML={@behavioralHealthCrisisChild=crying}}
+- children's psychiatry
+- {@behavioralHealthML={@behavioralHealthChild=counseling}}
+- {@behavioralHealthML={@behavioralHealthChild=counseling} services}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=crisis}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=critical situation}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=depressed}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=depression}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=dire straits}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=distress}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=do not feel right}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=emotional}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=empty}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=end my life}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=ending {@callerTypeML={@callerTypeMemberChild=my}} life}}
+- feel like {@behavioralHealthML={@behavioralHealthCrisisChild=crying}}
+- going to {@behavioralHealthML={@behavioralHealthCrisisChild=commit suicide}}
+- going to {@behavioralHealthML={@behavioralHealthCrisisChild=hurt myself}}
+- going to {@behavioralHealthML={@behavioralHealthCrisisChild=kill myself}}
+- health {@behavioralHealthML={@behavioralHealthChild=counseling}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=health crisis}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=helpless}}
+- how to live with this {@behavioralHealthML={@behavioralHealthCrisisChild=pain}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=hurt some}} other {@agentGeneralML=person}
+- i am gonna {@behavioralHealthML={@behavioralHealthCrisisChild=kill}} that {@agentGeneralML=person}
+- i am just gonna {@behavioralHealthML={@behavioralHealthCrisisChild=die}}
+- i am looking at {@behavioralHealthML={@behavioralHealthChild=behavioral health benefits}}
+- i am {@behavioralHealthML={@behavioralHealthCrisisChild=not interested in work}} anymore
+- i am sick of this {@behavioralHealthML={@behavioralHealthCrisisChild=abusive relationship}}
+- i am {@behavioralHealthML={@behavioralHealthCrisisChild=suicidal}}
+- i can't bear this {@behavioralHealthML={@behavioralHealthCrisisChild=loneliness}}
+- i {@behavioralHealthML={@behavioralHealthCrisisChild=can’t imagine living}} the rest of my life like this
+- {@behavioralHealthML={@behavioralHealthCrisisChild=i can’t keep doing this}}
+- i {@behavioralHealthML={@behavioralHealthCrisisChild=cannot get a wink of sleep}}
+- {@behavioralHealthML=i cant handle this {@behavioralHealthCrisisChild=stress}}
+- i constantly get {@behavioralHealthML={@behavioralHealthCrisisChild=suicidal thoughts}}
+- i don't have any motivation to do anything anymore, it feels like {@behavioralHealthML={@behavioralHealthCrisisChild=life is meaningless}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=i don’t care}}
+- i don’t have anyone to talk
+- i feel like {@behavioralHealthML={@behavioralHealthCrisisChild=nobody understands}} what i'm going through
+- i feel to {@behavioralHealthML={@behavioralHealthCrisisChild=end his life}}
+- i have been {@behavioralHealthML={@behavioralHealthCrisisChild=sleep deprived}}
+- i have got {@behavioralHealthML={@behavioralHealthCrisisChild=no purpose to live}}
+- i just {@behavioralHealthML={@behavioralHealthCrisisChild=can't stop crying}} and i don't even know why
+- i just want to be {@behavioralHealthML={@behavioralHealthCrisisChild=alone}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=i just want to be done}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=i keep forgetting things}}
+- i need {@behavioralHealthML={@behavioralHealthChild=therapy}}
+- i need to know about {@behavioralHealthML={@behavioralHealthChild=behavioral health}} coverage
+- i should just {@behavioralHealthML={@behavioralHealthCrisisChild=die}}
+- i should just {@behavioralHealthML={@behavioralHealthCrisisChild=kill myself}}
+- i think i should {@behavioralHealthML={@behavioralHealthCrisisChild=die}}
+- i wanna {@behavioralHealthML={@behavioralHealthCrisisChild=quit my life}}
+- i want to {@behavioralHealthML={@behavioralHealthCrisisChild=die}}
+- i want to {@behavioralHealthML={@behavioralHealthCrisisChild=disappear}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=i want to go home}}
+- i want to {@behavioralHealthML={@behavioralHealthCrisisChild=hurt others}}
+- i want to {@behavioralHealthML={@behavioralHealthCrisisChild=kill}} others
+- i will {@behavioralHealthML={@behavioralHealthCrisisChild=die}}
+- i would like to know more about the {@behavioralHealthML={@behavioralHealthChild=behavioral health benefits}}
+- i'm {@behavioralHealthML={@behavioralHealthCrisisChild=exhausted}} from {@behavioralHealthML={@behavioralHealthCrisisChild=not being able to sleep}}
+- i'm experiencing a {@behavioralHealthML={@behavioralHealthCrisisChild=crisis}}
+- i'm feeling completely {@behavioralHealthML={@behavioralHealthCrisisChild=overwhelmed}} and don't know how to cope anymore
+- i'm feeling so {@behavioralHealthML={@behavioralHealthCrisisChild=hopeless}} and {@behavioralHealthML={@behavioralHealthCrisisChild=desperate}}
+- i'm going to {@behavioralHealthML={@behavioralHealthCrisisChild=hang myself}}
+- i'm going to {@behavioralHealthML={@behavioralHealthCrisisChild=shoot myself}}
+- i'm having thoughts of {@behavioralHealthML={@behavioralHealthCrisisChild=hurting myself}} and i'm {@behavioralHealthML={@behavioralHealthCrisisChild=scared}}
+- i'm in an {@behavioralHealthML={@behavioralHealthCrisisChild=abusive relationship}} and i don't know how to get out of it
+- i'm in the middle of a {@behavioralHealthML={@behavioralHealthCrisisChild=crisis}}
+- i'm {@behavioralHealthML={@behavioralHealthCrisisChild=suicidal}}
+- i'm trapped in an {@behavioralHealthML={@behavioralHealthCrisisChild=abusive relationship}}
+- i've been feeling so {@behavioralHealthML={@behavioralHealthCrisisChild=lonely}} and {@behavioralHealthML={@behavioralHealthCrisisChild=isolated}}
+- i've been having {@behavioralHealthML={@behavioralHealthCrisisChild=panic attacks}} and i can't control them
+- i've lost my job and i'm {@behavioralHealthML={@behavioralHealthCrisisChild=struggling}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=i’m having a hard time}}
+- i’m just {@behavioralHealthML={@behavioralHealthCrisisChild=stressed}} out
+- {@behavioralHealthML={@behavioralHealthCrisisChild=i’m just tired}}
+- information for {@behavioralHealthML={@behavioralHealthChild=therapy counseling}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=irritable}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=isolated}}
+- it's as if i {@behavioralHealthML={@behavioralHealthCrisisChild=can't stop crying}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=kill}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=killing myself}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=lack of sleep}}
+- living in an {@behavioralHealthML={@behavioralHealthCrisisChild=abusive}} environment
+- {@behavioralHealthML={@behavioralHealthCrisisChild=loneliness}} is {@callerTypeML={@callerTypeMemberChild=my}} constant companion
+- {@behavioralHealthML={@behavioralHealthCrisisChild=loneliness is suffocating}}
+- looking for a {@behavioralHealthML={@behavioralHealthChild=psychiatry}}
+- looking for {@behavioralHealthML={@behavioralHealthChild=behavioral health benefits}}
+- looking for {@behavioralHealthML={@behavioralHealthChild=psychiatry}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=mad}}
+- make this {@behavioralHealthML={@behavioralHealthCrisisChild=pain}} go away
+- {@behavioralHealthML={@behavioralHealthCrisisChild=mental health crisis}}
+- my {@behavioralHealthML={@behavioralHealthCrisisChild=agitation}} is out of control
+- my {@behavioralHealthML={@behavioralHealthCrisisChild=anxiety}} is spiraling
+- {@callerTypeML={@callerTypeMemberChild=my}} life has become {@behavioralHealthML={@behavioralHealthCrisisChild=meaningless}}
+- {@callerTypeML={@callerTypeMemberChild=my}} {@behavioralHealthML={@behavioralHealthCrisisChild=life is not worth living}}
+- need {@behavioralHealthML=psychiatry}
+- need {@behavioralHealthML={@behavioralHealthChild=therapy}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=nervous}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=no appetite}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=no control over my anger}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=no control over my feelings}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=no energy}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=no interest}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=no one cares}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=no one understands}}
+- nobody talks to me
+- only want to eat
+- {@behavioralHealthML={@behavioralHealthCrisisChild=people are very abusive around here}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=picked on}}
+- {@behavioralHealthML={@behavioralHealthChild=psych}}
+- {@behavioralHealthML=psychiatry}
+- question about {@behavioralHealthML={@behavioralHealthChild=behavioral health}}
+- question regarding {@behavioralHealthML={@behavioralHealthChild=therapy}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=sad}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=scared}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=self destruction}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=self harm}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=sleepless nights}}
+- sometimes i feel to {@behavioralHealthML={@behavioralHealthCrisisChild=end {@callerTypeML={@callerTypeMemberChild=my}} life}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=stressed}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=suicidal}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=suicidal thoughts}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=suicide}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=taking {@callerTypeML={@callerTypeMemberChild=my}} life}}
+- the {@behavioralHealthML={@behavioralHealthCrisisChild=agitation}} is affecting my sleep
+- the constant {@behavioralHealthML={@behavioralHealthCrisisChild=agitation}} is exhausting
+- the {@behavioralHealthML={@behavioralHealthCrisisChild=constant fatigue}} from lack of sleep
+- the {@behavioralHealthML={@behavioralHealthCrisisChild=fear}} of being {@behavioralHealthML={@behavioralHealthCrisisChild=bullied}} is consuming me
+- the {@behavioralHealthML={@behavioralHealthCrisisChild=frustration}} of not being able to sleep
+- the {@behavioralHealthML={@behavioralHealthCrisisChild=pain}} is too much; i {@behavioralHealthML={@behavioralHealthCrisisChild=cry constantly}}
+- the {@behavioralHealthML={@behavioralHealthCrisisChild=sadness}} keeps me {@behavioralHealthML={@behavioralHealthCrisisChild=crying}}
+- the {@behavioralHealthML={@behavioralHealthCrisisChild=struggle}} to fall asleep
+- {@behavioralHealthML={@behavioralHealthChild=therapy}}
+- {@behavioralHealthML={@behavioralHealthChild=therapy counseling}}
+- {@behavioralHealthML={@behavioralHealthChild=therapy}} coverage
+- {@behavioralHealthML={@behavioralHealthChild=therapy for my daughter}}
+- {@behavioralHealthML={@behavioralHealthChild=therapy}} services
+- there's a {@behavioralHealthML={@behavioralHealthCrisisChild=crisis}} i'm dealing with
+- {@behavioralHealthML={@behavioralHealthCrisisChild=thinking about suicide}}
+- this {@behavioralHealthML={@behavioralHealthCrisisChild=pain}} makes me {@behavioralHealthML={@behavioralHealthCrisisChild=hurt others}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=tired all the time}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=tired of living}} like this
+- {@behavioralHealthML={@behavioralHealthCrisisChild=tired of my life}}
+- to check about {@behavioralHealthML={@behavioralHealthChild=behavioral health}}
+- to {@behavioralHealthML=get help for {@behavioralHealthChild=behavioral counseling}}
+- wanna {@behavioralHealthML={@behavioralHealthCrisisChild=self destruct}}
+- want to {@behavioralHealthML={@behavioralHealthCrisisChild=hurt someone}}
+- what are my {@behavioralHealthML={@behavioralHealthChild=behavioral health benefits}}
+- what are the {@behavioralHealthML={@behavioralHealthChild=behavioral health benefits}}
+- what are the specific {@behavioralHealthML={@behavioralHealthChild=behavioral health benefits}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=what will heaven be like}}
+- work culture {@behavioralHealthML={@behavioralHealthCrisisChild=disturbing}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=worried}}
+- {@behavioralHealthML={@behavioralHealthCrisisChild=worthless}}
+- {@behavioralHealthBenefitsRegex}
+
+
+@ intent behavioralHealth usesFeatures behavioralHealthFeature,behavioralHealthCrisisFeature,behavioralHealthML
+
+# benefits
+- {@benefits2ML={@benefits1099Child=1099}}
+- a {@benefits2ML={@benefitsTreatmentChild=blood test}}
+- active
+- active date
+- {@benefits1ML={@benefitsMedicalChild=acupuncture}}
+- {@benefits1ML={@benefitsCoinsuranceChild=add coinsurance}}
+- {@benefits1ML={@benefitsGeneralChild=all of them}}
+- {@benefits1ML={@benefitsMedicalChild=allergy shots}}
+- {@benefits2ML={@benefitsAsthmaChild=asthma}}
+- {@benefits2ML={@benefitsBariatricChild=b r s}}
+- {@benefits2ML={@benefitsBariatricChild=bariatric}}
+- {@benefits2ML={@benefitsBariatricChild=bariatrics}}
+- {@benefits1ML=benefit}
+- {@benefits1ML=benefit coverage}
+- {@benefits2ML={@benefitsEOBChild=benefit explanation}}
+- {@benefits1ML=benefit information}
+- {@benefits1ML=benefit questions}
+- {@benefits1ML=benefit status}
+- {@benefits1ML=benefits}
+- {@benefits1ML=benefits} and {@benefits1ML={@benefitsEligChild=eligibility}}
+- {@benefits1ML=benefits plans}
+- {@benefits1ML=benefits question}
+- {@benefits1ML={@benefitsEligChild=benefits {@benefitsEligStartChild=start} date}}
+- {@benefits2ML={@benefitsTreatmentChild=blood draw}}
+- {@benefits2ML={@benefitsTreatmentChild=blood work}}
+- {@benefits2ML={@benefitsTreatmentChild=bloodwork}}
+- {@benefits1ML={@benefitsMedicalChild=breast pump}}
+- {@benefits1ML={@benefitsMedicalChild=breastfeeding supplies}}
+- {@benefits2ML={@benefitsBariatricChild=brs}}
+- {@benefits1ML={@benefitsCancelChild=cancel}}
+- {@benefits1ML={@benefitsCancelChild=cancel insurance}}
+- {@benefits1ML={@benefitsCancelChild=cancel}} {@callerTypeML={@callerTypeMemberChild=my}} {@benefits1ML=policy}
+- {@benefits1ML={@benefitsCancelChild=canceling}}
+- {@benefits1ML={@benefitsCancelChild=cancellation}}
+- {@benefits1ML={@benefitsCancelChild=cancellation}} of benefits
+- {@benefits2ML={@benefitsTreatmentChild=cataract surgery}}
+- {@benefits1ML={@benefitsCertificateChild=certificate}}
+- {@benefits1ML={@benefitsCertificateChild=certificate} of coverage}
+- {@benefits1ML={@benefitsCertificateChild=certification}}
+- {@benefits1ML=check benefit}
+- {@benefits1ML=check benefits}
+- {@benefits1ML=check {@callerTypeML={@callerTypeMemberChild=my}} benefit}
+- {@benefits1ML=check {@callerTypeML={@callerTypeMemberChild=my}} benefits}
+- check {@callerTypeML={@callerTypeMemberChild=my}} {@benefits1ML={@benefitsMedicalChild=surgery benefits}}
+- {@benefits1ML=check on {@callerTypeML={@callerTypeMemberChild=my}} {@benefitsEligChild=eligibility} status}
+- checking for {@callerTypeML={@callerTypeMemberChild=my}} {@benefits1ML={@benefitsEligChild=eligibility}}
+- {@benefits1ML=checking on a policy}
+- checking on {@benefits1ML={@benefitsCopayChild=copies}}
+- {@benefits1ML={@benefitsMedicalChild=chiropractic}}
+- {@doctorML={@findProviderChild={@benefits1ML={@benefitsMedicalChild=chiropractor}}}}
+- {@benefits1ML={@benefitsCancelChild=close}}
+- {@benefits1ML={@benefitsCancelChild=closing account}}
+- {@benefits1ML={@benefitsCancelChild=closure of account}}
+- {@benefits1ML={@benefitsCoinsuranceChild=co-insurance}}
+- {@benefits1ML={@benefitsCobraChild=cobra}}
+- {@benefits1ML={@benefitsCobraChild=cobra} information}
+- {@benefits1ML={@benefitsCobraChild=cobra}} update
+- {@benefits1ML={@benefitsCoinsuranceChild=coinsurance}}
+- {@benefits1ML={@benefitsMedicalChild=colonoscopy}}
+- {@benefits1ML=confirm {@callerTypeML={@callerTypeMemberChild=member}} {@benefitsEligChild=eligibility}}
+- confirmation of benefits
+- {@benefits1ML={@benefitsCopayChild=copay}}
+- {@benefits1ML={@benefitsCopayChild=copay}} for a {@benefits1ML=specialist} visit
+- {@benefits1ML={@benefitsCopayChild=copayment}}
+- {@benefits1ML={@benefitsCopayChild=copayments}}
+- {@benefits1ML={@benefitsCopayChild=copays}}
+- {@benefits1ML=cover {@benefitsMedicalChild=medical}}
+- {@benefits1ML=coverage}
+- {@benefits1ML=coverage {@benefitsEligChild={@benefitsEligStartChild=begins}}}
+- {@benefits2ML={@benefitsVerifyChild=coverage confirmation}}
+- {@benefits1ML={@benefitsSpendingChild=coverage gap}}
+- {@benefits1ML={@benefitsSpendingChild=coverage gap information}}
+- {@benefits1ML=coverage status}
+- {@benefits1ML=coverages}
+- {@benefits1ML={@benefitsMedicalChild=cpap}}
+- {@benefits1ML={@benefitsMedicalChild=cpap benefits}}
+- {@benefits1ML={@benefitsDeductibleChild=deductible}}
+- {@doctorML={@findProviderChild={@benefits1ML={@benefitsMedicalChild=dermatologist}}}}
+- {@benefits1ML={@benefitsMedicalChild=dermatology}}
+- {@benefits1ML={@benefitsGeneralChild=disability}}
+- {@benefits1ML={@benefitsCancelChild=discontinue}}
+- {@benefits1ML=discuss coverage}
+- discussing a {@benefits2ML={@benefitsEOBChild=benefit explanation}}
+- {@benefits1ML={@benefitsCancelChild=disenroll}}
+- {@benefits1ML={@benefitsCancelChild=disenrollment}}
+- {@benefits1ML={@benefitsCertificateChild=document stating}}
+- {@benefits1ML={@benefitsSpendingChild=donut hole}}
+- {@benefits2ML={@benefitsEOBChild=e o b}}
+- {@benefits1ML={@benefitsEligChild=effective date}}
+- {@benefits1ML={@benefitsEligChild=effective dates}}
+- {@benefits1ML={@benefitsEligChild=eligiable}}
+- {@benefits1ML={@benefitsEligChild=eligibility}}
+- {@benefits1ML={@benefitsEligChild=eligibility}} and
+- {@benefits1ML=eligibility and benefits}
+- {@benefits1ML={@benefitsEligChild=eligibility}} check
+- {@benefits1ML={@benefitsEligChild={@benefitsEligEndsChild=eligibility ends}}}
+- {@benefits1ML={@benefitsEligChild=eligibility}} for {@callerTypeML={@callerTypeMemberChild=my}} daughter
+- {@benefits1ML={@benefitsEligChild={@benefitsEligStartChild=eligibility starts}}}
+- {@benefits1ML={@benefitsEligChild=eligible}} date
+- {@benefits2ML={@benefitsEOBChild={@benefits1ML=eob}}}
+- {@benefits1ML={@benefitsMedicalChild=equipment}}
+- expiration
+- expiration date
+- {@benefits2ML={@benefitsEOBChild=explanation of benefit}}
+- {@benefits2ML={@benefitsEOBChild=explanation of benefits}}
+- find {@benefits1ML=out about {@benefitsCobraChild=cobra}}
+- find out about {@benefits1ML={@benefitsCopayChild=copay}}
+- find out {@benefits1ML={@benefitsMedicalChild=if {@callerTypeML={@callerTypeMemberChild=my}} plan is ppo}}
+- find out what {@callerTypeML={@callerTypeMemberChild=my}} {@benefits1ML={@benefitsCopayChild=copay}} is
+- {@benefits2ML={@benefitsFluShotChild=flu shot}}
+- {@benefits1ML={@benefitsGeneralChild=general information}}
+- {@benefits1ML={@benefitsMedicalChild=glucose meter}}
+- {@benefits1ML={@benefitsMedicalChild=h m o}}
+- {@benefits1ML={@benefitsGeneralChild=health}}
+- {@benefits1ML={@benefitsGeneralChild=health care}}
+- {@benefits1ML={@benefitsGeneralChild=health insurance}}
+- {@benefits1ML=health plan}
+- {@benefits1ML=healthcare}
+- {@benefits1ML=healthcare plan}
+- {@benefits3ML={@benefitsHearingAidsChild=hearing}}
+- {@benefits3ML={@benefitsHearingAidsChild=hearing aid}}
+- {@benefits3ML={@benefitsHearingAidsChild=hearing aids}}
+- {@benefits3ML={@benefitsHearingAidsChild=hearing evaluation}}
+- {@benefits3ML={@benefitsHearingAidsChild=hearing problems}}
+- {@benefits1ML={@benefitsMedicalChild=heart monitor}}
+- {@benefits3ML={@benefitsHearingAidsChild=help with hearing}}
+- {@benefits1ML={@benefitsMedicalChild=hmo}}
+- {@benefits2ML={@benefitsHomeHealthChild=home care}}
+- {@benefits2ML={@benefitsHomeHealthChild=home health}}
+- {@benefits2ML={@benefitsHomeHealthChild=home health aid}}
+- {@benefits2ML={@benefitsHomeHealthChild=home health care}}
+- {@benefits2ML={@benefitsHomeHealthChild=home healthcare}}
+- {@benefits2ML={@benefitsHomeHealthChild=house call}}
+- i am calling about {@benefits1ML={@benefitsMedicalChild=surgery benefits}}
+- i have a question about {@callerTypeML={@callerTypeMemberChild=my}} {@benefits1ML=benefits}
+- i have a question about {@benefits2ML={@benefitsTreatmentChild=physical therapy}}
+- i have {@benefits2ML={@benefitsTreatmentChild=surgery}}
+- i need a {@benefits3ML={@benefitsHearingAidsChild=hearing evaluation}}
+- i need {@callerTypeML={@callerTypeMemberChild=my}} {@benefits1ML={@benefitsGeneralChild=health care information}}
+- i need to know if {@callerTypeML={@callerTypeMemberChild=my}} insurance will cover a {@benefits3ML={@benefitsShinglesChild=shingles shot}}
+- i need to know {@benefits3ML=if {@benefitsShinglesChild=shingles vaccine} is covered}
+- i need to know what {@callerTypeML={@callerTypeMemberChild=my}} {@benefits1ML={@benefitsCopayChild=copay}} would be
+- i need to know {@benefits1ML={@benefitsEligChild={@benefitsEligEndsChild=when my insurance is up}}}
+- i need to see if a treatment is covered
+- i wanna {@benefits1ML=check {@callerTypeML={@callerTypeMemberChild=my}} benefit}
+- i wanna {@benefits1ML=check {@callerTypeML={@callerTypeMemberChild=my}} benefits}
+- i wanna {@benefits1ML=upgrade {@callerTypeML={@callerTypeMemberChild=my}} benefits}
+- i want to {@benefits1ML={@benefitsCancelChild=cancel {@callerTypeML={@callerTypeMemberChild=my}} account}}
+- i want to {@benefits1ML=check {@callerTypeML={@callerTypeMemberChild=my}} benefit}
+- i want to {@benefits1ML=check {@callerTypeML={@callerTypeMemberChild=my}} benefits}
+- {@benefits1ML={@benefitsEligChild=i want to see if i was eligible}} to have that done
+- i would like to {@benefits1ML={@benefitsCancelChild=cancel {@callerTypeML={@callerTypeMemberChild=my}} plan}}
+- i would like to know {@benefits1ML={@callerTypeML={@callerTypeMemberChild=my}} summary of benefits and coverage}
+- i would like to see if a {@benefits2ML={@benefitsTreatmentChild=mammogram}} is {@benefits1ML=covered} under this plan
+- i'm calling about the {@benefits2ML={@benefitsFluShotChild=flu shot}}
+- i'm calling about the the {@benefits2ML={@benefitsFluShotChild=flu shot}} that you called me about
+- i'm calling because austin received his {@benefits2ML={@benefitsFluShotChild=flu shot}}
+- i'm calling regarding {@benefits1ML={@benefitsMedicalChild={@callerTypeML={@callerTypeMemberChild=my}} medical benefits}}
+- if {@benefits1ML={@benefitsMedicalChild=chiropractors}} are {@benefits1ML=covered}
+- {@benefits1ML=insurance coverage}
+- {@benefits1ML=insurance status}
+- {@benefits2ML=insurance {@benefitsVerifyChild=verification}}
+- {@benefits2ML={@benefitsInternationalChild=international benefits}}
+- {@benefits2ML={@benefitsInternationalChild={@benefits1ML=international coverage}}}
+- {@benefits2ML={@benefitsInternationalChild={@benefits1ML=international medical benefits}}}
+- {@benefits1ML=is {@callerTypeML={@callerTypeMemberChild=my}} surgery {@benefitsGeneralChild=covered}}
+- know {@benefits1ML=if {@callerTypeML={@callerTypeMemberChild=my}} procedure is going to be covered}
+- know {@benefits1ML=if {@callerTypeML={@callerTypeMemberChild=my}} surgery will be covered}
+- {@benefits1ML={@benefitsMedicalChild=lifetime}}
+- {@benefits1ML={@benefitsMedicalChild=lifetime maximums}}
+- {@benefits2ML={@benefitsTreatmentChild=mammogram}}
+- {@benefits1ML={@benefitsMedicalChild=mammograms}}
+- {@benefits1ML=medicaid}
+- {@benefits1ML={@benefitsMedicalChild=medical}}
+- {@benefits1ML={@benefitsMedicalChild=medical advice}}
+- {@benefits1ML={@benefitsMedicalChild=medical benefit}}
+- {@benefits1ML={@benefitsMedicalChild=medical benefits}}
+- {@benefits1ML=medical {@benefitsEligChild=eligibility}}
+- {@benefits1ML={@benefitsMedicalChild=medical equipment}}
+- {@benefits1ML={@benefitsMedicalChild=medical information}}
+- {@benefits1ML={@benefitsMedicalChild=medical medical}}
+- {@benefits1ML={@benefitsMedicalChild=medical medical medical}}
+- {@benefits1ML={@benefitsMedicalChild=medical policy}}
+- {@benefits1ML={@benefitsMedicalChild=medical question}}
+- {@benefits1ML={@benefitsMedicalChild=medical records}}
+- {@benefits1ML={@benefitsMedicalChild=medical}} treatment
+- {@benefits2ML={@benefitsTreatmentChild=mri}}
+- {@benefits1ML={@callerTypeML={@callerTypeMemberChild=my}} benefits}
+- {@benefits1ML={@benefitsMedicalChild={@callerTypeML={@callerTypeMemberChild=my}} medical}}
+- {@benefits1ML={@callerTypeML={@callerTypeMemberChild=my}} {@benefitsCoinsuranceChild=medical coinsurance}}
+- {@benefits1ML={@benefitsMedicalChild={@callerTypeML={@callerTypeMemberChild=my}} medical policy}}
+- {@benefits1ML={@callerTypeML={@callerTypeMemberChild=my}} plan}
+- {@benefits2ML={@benefitsAsthmaChild=nebulizer}}
+- need {@benefits1ML=additional benefits}
+- need copies of {@benefits2ML={@benefitsEOBChild=eob}}
+- need copies of {@benefits2ML={@benefitsEOBChild=eob}}'s
+- need copy of {@benefits2ML={@benefitsEOBChild=eob}}
+- need to find out {@benefits1ML={@benefitsMedicalChild=if {@callerTypeML={@callerTypeMemberChild=my}} plan is ppo}}
+- need to get {@benefits1ML={@benefitsCobraChild=cobra}} subscriber information
+- {@benefits1ML={@benefitsMedicalChild=nutrition}}
+- {@doctorML={@findProviderChild={@benefits1ML={@benefitsMedicalChild=nutritionist}}}}
+- {@benefits1ML={@benefitsCancelChild=opt out}}
+- orthopedic benefits
+- {@benefits2ML={@benefitsOutOfPocketChild=out of pocket}}
+- {@benefits2ML={@benefitsOutOfPocketChild=out of pocket}} cost
+- {@benefits1ML={@benefitsMedicalChild=p p o}}
+- {@benefits2ML={@benefitsTreatmentChild=physical therapy}}
+- {@benefits1ML=plan}
+- {@benefits1ML=plans}
+- {@benefits1ML=policy}
+- policy information
+- {@benefits1ML=policy question}
+- {@benefits1ML={@benefitsMedicalChild=ppo}}
+- {@benefits1ML=preventative}
+- price of a {@benefits2ML={@benefitsTreatmentChild=surgery}}
+- {@benefits1ML=primary insurance}
+- procedure
+- {@benefits1ML=procedure cost}
+- {@benefits1ML={@benefitsCertificateChild=proof of}}
+- {@benefits1ML={@benefitsCertificateChild=proof of coverage}}
+- {@benefits1ML={@benefitsCertificateChild=proof of insurance}}
+- {@benefits1ML={@benefitsCertificateChild=prove of coverage}}
+- {@benefits1ML={@benefitsMedicalChild=provision}}
+- {@benefits1ML={@benefitsMedicalChild=provisions}}
+- {@benefits1ML=question about coverage}
+- {@benefits1ML=question about {@callerTypeML={@callerTypeMemberChild=my}} policy}
+- questions on a {@benefits1ML=benefit summary}
+- {@benefits1ML=secondary insurance}
+- {@benefits1ML=service}
+- services
+- {@benefits3ML={@benefitsShinglesChild=shingles}}
+- {@benefits3ML={@benefitsShinglesChild={@benefits1ML=shingles shot}}}
+- {@benefits3ML={@benefitsShinglesChild=shingles vaccine}}
+- {@benefits1ML=short term disability}
+- {@benefits1ML={@benefitsMedicalChild=shots}}
+- {@benefits1ML={@benefitsMedicalChild=singles}}
+- {@benefits1ML=specialty benefits}
+- {@benefits1ML=speech therapy}
+- {@benefits1ML=statement of {@benefitsEligChild=eligibility} for insurance}
+- {@benefits2ML={@benefitsTreatmentChild=surgery}}
+- term date
+- {@benefits1ML={@benefitsCancelChild=terminate membership}}
+- {@benefits1ML={@benefitsCancelChild=termination of membership}}
+- {@benefits1ML={@benefitsCancelChild=termination of plan}}
+- {@benefits1ML={@benefitsCancelChild=termination of policy}}
+- {@benefits1ML={@benefitsSpendingChild=the donut hole}}
+- to check {@benefits1ML=benefits}
+- to check {@benefits1ML={@benefitsEligChild=eligibility}}
+- to find out why {@callerTypeML={@callerTypeMemberChild=my}} insurance was {@benefits1ML={@benefitsCancelChild=canceled}}
+- to {@benefits1ML={@benefitsEligChild=see if {@callerTypeML={@callerTypeMemberChild=my}} insurance's been} {@benefitsCancelChild=canceled}}
+- {@benefits1ML={@benefitsCancelChild=unenroll}}
+- {@benefits2ML={@benefitsTreatmentChild=upcoming procedure}}
+- {@benefits2ML={@benefitsTreatmentChild=upcoming surgery}}
+- {@benefits2ML=update {@benefitsOutOfPocketChild=on out of pocket} cost}
+- {@benefits1ML={@benefitsGeneralChild=vaccinations}}
+- {@benefits1ML={@benefitsGeneralChild=vaccine}}
+- {@benefits2ML={@benefitsVerifyChild=verification of coverage}}
+- {@benefits2ML={@benefitsVerifyChild=verification of insurance}}
+- {@benefits2ML={@benefitsVerifyChild=verify} benefits}
+- {@benefits2ML={@benefitsVerifyChild=verify} {@benefits1ML={@benefitsEligChild=eligibility}}}
+- {@benefits2ML={@benefitsVerifyChild=verify insurance}}
+- what is {@callerTypeML={@callerTypeMemberChild=my}} {@benefits1ML={@benefitsDeductibleChild=deductible}}
+- {@benefits1ML={@benefitsMedicalChild=wheelchair}}
+- {@benefits1ML={@benefitsEligChild=when do {@callerTypeML={@callerTypeMemberChild=my}} benefits {@benefitsEligEndsChild=end}}}
+- {@benefits1ML={@benefitsEligChild=when do {@callerTypeML={@callerTypeMemberChild=my}} benefits {@benefitsEligStartChild=start}}}
+- why was {@callerTypeML={@callerTypeMemberChild=my}} {@benefits1ML={@benefitsCancelChild=account canceled}}
+- {@benefits2ML={@benefitsTreatmentChild=xray}}
+- {@benefits1ML}
+- {@benefitsGeneralChild}
+
+
+@ intent benefits usesFeatures benefits1ML,benefits2ML,benefitsGeneralChild,benefits3ML
+
+# billingGeneral
+- auto {@billingClassifierML=payments}
+- automatic {@billingClassifierML=payment}
+- {@billingClassifierML=bill} discrepancy
+- {@billingClassifierML=billing}
+- {@billingClassifierML=billing} discrepancy
+- {@billingClassifierML=billing} dispute
+- calling about a {@billingClassifierML=bill}
+- {@billingClassifierML=charges}
+- check about {@billingClassifierML=auto pay}
+- {@billingClassifierML=check} issue
+- {@billingClassifierML=check lost}
+- check on {@billingClassifierML=payments}
+- {@billingClassifierML=check received}
+- {@billingClassifierML=collections}
+- disputing a {@billingClassifierML=bill}
+- figure out a {@billingClassifierML=bill}
+- find a {@billingClassifierML=payment}
+- i got a {@billingClassifierML=bill} in the mail for {@callerTypeML={@callerTypeMemberChild=my}} surgery
+- insurance {@billingClassifierML=payment}
+- {@billingClassifierML=lost check}
+- medical {@billingClassifierML=bill}
+- medical {@billingClassifierML=bills}
+- medication {@billingClassifierML=bill}
+- {@billingClassifierML=monthly premium}
+- need a {@billingClassifierML=statement}
+- need {@billingClassifierML=bill} information
+- {@billingClassifierML=overpayment}
+- pay electric {@billingClassifierML=bill}
+- {@billingClassifierML=paying a bill}
+- {@billingClassifierML=payment}
+- {@billingClassifierML=payment} plan
+- {@makePaymentML={@billingClassifierML=premium}}
+- {@billingClassifierML=premiums}
+- problem with a {@billingClassifierML=bill}
+- question about a {@billingClassifierML=payment}
+- question about {@billingClassifierML=payments}
+- question on {@callerTypeML={@callerTypeMemberChild=my}} {@billingClassifierML=bill}
+- received a {@billingClassifierML=statement}
+- {@billingClassifierML=received check}
+- regards to a {@billingClassifierML=bill}
+- review a {@billingClassifierML=bill}
+- {@billingClassifierML=statement}
+- submit a {@billingClassifierML=bill}
+- understand {@callerTypeML={@callerTypeMemberChild=my}} {@billingClassifierML=bill}
+- verify {@billingClassifierML=payment}
+
+
+@ intent billingGeneral usesFeatures billingGeneralFeature,billClassifierList,billingAutoPayList,billingOverpaymentList,billingDisputeList,billingCheckList,billingClassifierML
+
+# callerTypeGeneral
+- a {@callerTypeML={@callerTypeMemberChild=member}}
+- a {@callerTypeML={@callerTypeProviderChild=provider}}
+- {@callerTypeML=as a {@callerTypeMemberChild=member}}
+- as a {@callerTypeML={@callerTypeProviderChild=provider}}
+- {@callerTypeML={@callerTypeProviderChild=as an employer}}
+- {@callerTypeML={@callerTypeMemberChild=behalf of my father}}
+- {@callerTypeML={@callerTypeMemberChild=behalf of my wife}}
+- {@callerTypeML={@callerTypeProviderChild=broker}}
+- calling as a {@callerTypeML={@callerTypeMemberChild=member}}
+- {@callerTypeML={@callerTypeMemberChild=child}}
+- {@callerTypeML={@callerTypeMemberChild=client}}
+- {@callerTypeML={@callerTypeMemberChild=customer}}
+- {@callerTypeML={@callerTypeMemberChild=daughter}}
+- {@callerTypeML={@callerTypeMemberChild=dependent}}
+- {@callerTypeML={@callerTypeProviderChild=doctor}}
+- {@callerTypeML={@callerTypeProviderChild=doctors}}
+- {@callerTypeML={@callerTypeProviderChild=health care professional}}
+- {@callerTypeML={@callerTypeProviderChild=healthcare professional}}
+- healthcare {@callerTypeML={@callerTypeProviderChild=provider}}
+- i am a {@callerTypeML={@callerTypeMemberChild=client}}
+- {@callerTypeML={@callerTypeMemberChild=i am a member}}
+- {@callerTypeML={@callerTypeProviderChild=i am a provider}}
+- i'm a {@callerTypeML={@callerTypeMemberChild=patient}}
+- {@callerTypeML={@callerTypeProviderChild=i'm a provider}}
+- {@callerTypeML={@callerTypeMemberChild=member}}
+- {@callerTypeML={@callerTypeMemberChild=mine}}
+- {@callerTypeML={@callerTypeMemberChild=my}}
+- {@callerTypeML={@callerTypeMemberChild=my child}}
+- {@callerTypeML={@callerTypeMemberChild=my}} doctor
+- {@callerTypeML={@callerTypeMemberChild=my husband}}
+- no {@callerTypeML={@callerTypeMemberChild=a member}}
+- no a {@callerTypeML={@callerTypeProviderChild=provider}}
+- no {@callerTypeML={@callerTypeMemberChild=remember}}
+- {@callerTypeML={@callerTypeMemberChild=patient}}
+- {@callerTypeML={@callerTypeProviderChild=provider}}
+- {@callerTypeML={@callerTypeProviderChild=providers}}
+- {@callerTypeML={@callerTypeProviderChild=providers}} office
+- {@callerTypeML={@callerTypeMemberChild=remember}}
+- {@callerTypeML={@callerTypeMemberChild=son}}
+- {@callerTypeML={@callerTypeMemberChild=spouse}}
+- {@callerTypeML={@callerTypeMemberChild=subscriber}}
+- uh the {@callerTypeML={@callerTypeMemberChild=member}}
+- um {@callerTypeML=a {@callerTypeMemberChild=member}} account
+- umm {@callerTypeML={@callerTypeProviderChild=provider}}
+
+
+@ intent callerTypeGeneral usesFeature callerTypeML
+
+# cardReplacement
+- {@cardReplacementML=a {@cardGeneralChild=benefits card}}
+- a {@cardReplacementML={@cardGeneralChild=card replacement}}
+- activate {@cardReplacementML={@cardGeneralChild=insurance card}}
+- {@cardReplacementML=additional id {@cardGeneralChild=cards}}
+- benefit {@cardReplacementML={@cardGeneralChild=card}}
+- {@cardReplacementML={@cardGeneralChild=benefits card}}
+- can i get a {@cardReplacementML=new {@cardGeneralChild=insurance card}}
+- can i get a {@cardReplacementML=replacement {@cardGeneralChild=insurance card}}
+- {@cardReplacementML={@cardGeneralChild=card}}
+- {@cardReplacementML={@cardGeneralChild=card is no longer working}}
+- {@cardReplacementML={@cardGeneralChild=card not working}}
+- {@cardReplacementML={@cardGeneralChild=card replacement}}
+- copy of {@cardReplacementML=my {@cardGeneralChild=id card}}
+- copy of {@cardReplacementML={@callerTypeML={@callerTypeMemberChild=my}} {@cardGeneralChild=insurance card}}
+- {@cardReplacementML={@dentalGeneralML=dental} {@cardGeneralChild=card replacement}}
+- {@cardReplacementML={@cardGeneralChild=get my id card}}
+- getting my {@cardReplacementML={@cardGeneralChild=healthcare card}}
+- help me {@cardReplacementML=replace {@callerTypeML={@callerTypeMemberChild=my}} {@cardGeneralChild=insurance card}}
+- how do i get a {@cardReplacementML=new {@cardGeneralChild=insurance card}}
+- how do i {@cardReplacementML=replace {@callerTypeML={@callerTypeMemberChild=my}} {@cardGeneralChild=insurance card}}
+- {@cardReplacementML=i have a question about {@callerTypeML={@callerTypeMemberChild=my}} {@cardGeneralChild=card}}
+- i {@cardReplacementML={@lostStolenCardChild=lost {@callerTypeML={@callerTypeMemberChild=my}} card}}
+- i {@cardReplacementML={@lostStolenCardChild=lost {@callerTypeML={@callerTypeMemberChild=my}} id card}}
+- {@cardReplacementML={@cardGeneralChild=i need a dental card}}
+- {@cardReplacementML={@cardGeneralChild=i need a {@visionML=vision} card}}
+- i need to get a {@cardReplacementML=new {@cardGeneralChild=insurance card}}
+- i need to {@cardReplacementML={@cardGeneralChild=order replacement medicaid card}}
+- id {@cardReplacementML={@cardGeneralChild=card}}
+- id {@cardReplacementML={@cardGeneralChild=cards}}
+- {@cardReplacementML={@cardGeneralChild=insurance card}}
+- {@cardReplacementML={@cardGeneralChild=insurance cards}}
+- {@cardReplacementML={@lostStolenCardChild=last card}}
+- {@cardReplacementML={@lostStolenCardChild=lost card}}
+- {@cardReplacementML={@lostStolenCardChild=lost id card}}
+- {@cardReplacementML={@lostStolenCardChild=lost insurance card}}
+- {@cardReplacementML={@lostStolenCardChild=lost {@callerTypeML={@callerTypeMemberChild=my}} card}}
+- medical {@cardReplacementML={@cardGeneralChild=card}}
+- {@cardReplacementML=medical {@cardGeneralChild=insurance card}}
+- {@callerTypeML={@callerTypeMemberChild=my}} {@cardReplacementML={@cardGeneralChild=card}}
+- {@cardReplacementML={@callerTypeML={@callerTypeMemberChild=my}} {@cardGeneralChild=insurance card} expired}.
+- {@cardReplacementML={@callerTypeML={@callerTypeMemberChild=my}} {@lostStolenCardChild=insurance card was lost}}.
+- {@cardReplacementML={@callerTypeML={@callerTypeMemberChild=my}} {@lostStolenCardChild=insurance card was stolen}}.
+- {@cardReplacementML={@cardGeneralChild=need a dental card}}
+- {@cardReplacementML={@cardGeneralChild=replace card}}
+- {@cardReplacementML={@cardGeneralChild=replace id card}}
+- {@cardReplacementML=replace {@cardGeneralChild=insurance cards}}
+- {@cardReplacementML={@cardGeneralChild=replacement card}}
+- {@cardReplacementML={@lostStolenCardChild=stolen card}}
+- {@cardReplacementML={@cardGeneralChild=temporary id card}}
+- {@cardReplacementML={@cardGeneralChild={@visionML=vision} card}}
+- {@cardReplacementML}
+
+
+@ intent cardReplacement usesFeatures cardReplacementML,cardList
+
+# caseManagement
+- {@caseManagementML=care coordination}
+- {@caseManagementML=care coordinator}
+- {@caseManagementML=care manager}
+- {@caseManagementML=case management}
+- {@caseManagementML=case manager}
+- {@caseManagementML=case worker}
+- {@caseManagementML=caseworker}
+- i need speak to my {@caseManagementML=caseworker}
+- need {@callerTypeML={@callerTypeMemberChild=my}} {@caseManagementML=caseworker}
+- speak with a {@caseManagementML=case manager}
+- speak with {@caseManagementML=case manager}
+- talk to {@callerTypeML={@callerTypeMemberChild=my}} {@caseManagementML=case manager}
+- to speak to {@caseManagementML=caseworker}
+
+
+@ intent caseManagement usesFeature caseManagementML
+
+# catalog
+- can i order from the catalog?
+- catalog please
+- do you have the catalog?
+- do you have the medline catalog?
+- how do i order from the catalog
+- how do i order from the medline catalog?
+- i have a question concerning the catalog ordering
+- i want to order from the catalog.
+- i want to order from the medline catalog
+- medline catalog
+- medline catalog please
+- need catalog
+- need catalog ordering blanks
+- need to order from catalog
+- order from the medline catalog
+- ordering from the catalog
+
+
+@ intent catalog usesFeature catalogFeature
+
+# chronicPain
+- chronic pain
+- i've been experiencing chronic pain
+- my chronic pain has been getting worse
+
+
+@ intent chronicPain usesFeatures chronicPainFeature,chronicList
+
+# claims
+- a {@claimsML={@claimsVisionChild=claim for eyeglasses}}
+- a question about an {@claimsML={@claimsAppealsChild=appeals letter}}
+- about a {@claimsML=claim}
+- about {@claimsML=claims}
+- {@claimsML={@claimsGeneralChild=acclaim}}
+- {@claimsML={@claimsAppealsChild=appeal}}
+- {@claimsML={@claimsAppealsChild=appealing}}
+- {@claimsML={@claimsAppealsChild=appealing a denial of a claim}}
+- {@claimsML={@claimsAppealsChild=appeals}}
+- ask about a {@claimsML=claim}
+- {@claimsML={@claimsBehavioralChild=behavioral health claim}}
+- {@claimsML={@claimsGeneralChild=benefit claims}}
+- benefits {@claimsML=claim}
+- billing {@claimsML=claim}
+- billing {@claimsML=claims}
+- calling about {@claimsML=insurance {@claimsGeneralChild=claims}}
+- check a {@claimsML=claim}
+- check {@claimsML=status}
+- checking on a {@claimsML={@claimsBehavioralChild=claim for mental health}}
+- childcare {@claimsML={@claimsReimbursementChild=reimbursement}}
+- {@claimsML=claim}
+- {@claimsML={@claimsDentalChild=claim on dental}}
+- {@claimsML=claims}
+- {@claimsML=claims {@claimsAppealsChild=appeal}}
+- {@claimsML={@claimsMedicalChild=claims medical}}
+- {@claimsML={@claimsPharmacyChild=claims pharmacy}}
+- {@claimsML=claims} questions
+- {@claimsML={@claimsVisionChild=claims vision}}
+- {@claimsML={@claimsCOBChild=cob}}
+- {@claimsML={@claimsCOBChild=coordination benefits}}
+- {@claimsML={@claimsCOBChild=coordination of benefit}}
+- {@claimsML={@claimsCOBChild=coordination of benefits}}
+- {@claimsML={@claimsReimbursementChild=declined insurance}}
+- {@claimsML={@claimsAppealsChild=denial}}
+- {@claimsML={@claimsAppealsChild=denial} of coverage}
+- {@claimsML=denial of {@claimsReimbursementChild=payment}}
+- {@claimsML={@claimsAppealsChild=denial} of service}
+- {@claimsML={@claimsAppealsChild=denied}}
+- {@claimsML={@claimsAppealsChild=denied claim}}
+- {@claimsML={@claimsAppealsChild=denied} coverage}
+- {@claimsML={@claimsAppealsChild=denied}} insurance coverage
+- {@claimsML={@claimsAppealsChild=denied} request}
+- {@claimsML=dispute}
+- file a {@claimsML={@claimsBehavioralChild=behavioral health claim}}
+- {@claimsML={@claimsVisionChild=file a claim for eyewear}}
+- {@claimsML={@claimsGeneralChild=flames}}
+- healthcare {@claimsML={@claimsReimbursementChild=reimbursement}} check
+- help me with {@claimsML={@claimsGeneralChild=claims} status}
+- i have a question about a {@claimsML={@claimsReimbursementChild=claim wasn't paid}}
+- i have a {@claimsML=question about a {@claimsDentalChild=dental claim}}
+- i have a question about a payment {@claimsML=claim}
+- i have a {@claimsML=question about a {@claimsPharmacyChild=pharmacy claim}}
+- i have a question about a possible claim
+- i have a question about a {@claimsML={@claimsPharmacyChild=prescription claim}}.
+- i have a {@claimsML=question about a {@claimsVisionChild=vision claim}}
+- i have a {@claimsML=question about {@claimsGeneralChild=claims}}
+- i need a {@claimsML={@claimsReimbursementChild=refund}}
+- i need a {@claimsML={@claimsReimbursementChild=reimbursement}}
+- i need the visions number for the {@claimsML={@claimsVisionChild=vision claim}}
+- i need to be {@claimsML={@claimsReimbursementChild=reimbursed}}
+- i need to {@claimsML=check on a {@claimsPharmacyChild=pharmacy claim}}
+- i wanna find out the {@claimsML=status of {@callerTypeML={@callerTypeMemberChild=my}} claim}
+- i want i get {@claimsML={@claimsReimbursementChild=reimbursed}}
+- insurance {@claimsML=claim}
+- insurance {@claimsML={@claimsReimbursementChild=declined}}
+- {@claimsML={@claimsReimbursementChild=insurance not paying}}
+- {@claimsML=insurance {@claimsReimbursementChild=reimbursement}}
+- {@claimsML={@claimsReimbursementChild=insurance rejected}}
+- {@claimsML={@claimsMedicalChild=medical claim}}
+- {@claimsML={@claimsMedicalChild=medical claims}}
+- medication {@claimsML={@claimsReimbursementChild=reimbursement}}
+- {@callerTypeML={@callerTypeMemberChild=my}} {@claimsML=claim was {@claimsAppealsChild=denied}}
+- {@callerTypeML={@callerTypeMemberChild=my}} {@claimsML={@claimsMedicalChild=medical claims}}
+- {@claimsML={@claimsReimbursementChild=not accepted {@callerTypeML={@callerTypeMemberChild=my}} insurance}}
+- {@claimsML={@claimsGeneralChild=plains}}
+- {@claimsML={@claimsPharmacyChild=prescription drug claims}}
+- question about a {@claimsML=claim}
+- question about {@claimsML=claim}
+- {@claimsML={@claimsReimbursementChild=refund}}
+- {@claimsML={@claimsReimbursementChild=refund check}}
+- {@claimsML={@claimsReimbursementChild=refunds}}
+- {@claimsML={@claimsReimbursementChild=reimbursed}}
+- {@claimsML={@claimsReimbursementChild=reimbursement}}
+- {@claimsML={@claimsReimbursementChild=reimbursement}} for
+- {@claimsML={@claimsAppealsChild=rejected}}
+- {@claimsML={@claimsAppealsChild=rejected claim}}
+- {@claimsML=status}
+- submit {@claimsML=claim}
+- {@claimsML={@claimsSubrogationChild=subrogation claim}}
+- {@claimsML={@claimsSubrogationChild=subrogation claims}}
+- {@claimsML={@claimsSubrogationChild=subrogation lien}}
+- {@claimsML={@claimsVisionChild=vision claim}}
+- {@claimsML}
+- {@claimsClassifierList}
+- {@claimsReimbursementList}
+
+
+@ intent claims usesFeatures claimsML,claimsClassifierList
+
+# commonNoMatchHello
+- hello
+- hey
+- hi
+- how are you
+- howdy
+
+
+@ intent commonNoMatchHello usesFeature helloFeature
+
+# commonNoMatchInfo
+- info
+- information
+
+
+@ intent commonNoMatchInfo usesFeature infoFeature
+
+# commonNoMatchInsurance
+- {@commonNoMatchInsuranceML=insurance}
+- {@commonNoMatchInsuranceML=medical insurance}
+- {@callerTypeML={@callerTypeMemberChild=my}} {@commonNoMatchInsuranceML=insurance}
+- question about {@commonNoMatchInsuranceML=insurance}
+
+
+@ intent commonNoMatchInsurance usesFeatures insuranceFeature,commonNoMatchInsuranceML
+
+# commonNoMatchMembership
+- {@commonNoMatchMembershipML=membership}
+
+
+@ intent commonNoMatchMembership usesFeature commonNoMatchMembershipML
+
+# commonNoMatchPlease
+- clean
+- ohh
+- planes
+- play
+- please
+
+
+@ intent commonNoMatchPlease usesFeature pleaseFeature
+
+# commonNoMatchQuestion
+- a question
+- a question about
+- general questions
+- i have a general question
+- question
+- question about
+
+
+@ intent commonNoMatchQuestion usesFeature questionFeature
+
+# commonNoMatchThanks
+- {@commonNoMatchThanksML=thank you}
+- {@commonNoMatchThanksML=thank you} so much
+- {@commonNoMatchThanksML=thank you} very much
+- {@commonNoMatchThanksML=thanks}
+- {@commonNoMatchThanksML=thanks} a lot
+- {@commonNoMatchThanksML=thanks} for the help
+
+
+@ intent commonNoMatchThanks usesFeatures thanksFeature,commonNoMatchThanksML
+
+# commonNoMatchUhh
+- uh
+- uhh
+
+
+@ intent commonNoMatchUhh usesFeature uhhFeature
+
+# commonNoMatchUmm
+- umm
+
+
+@ intent commonNoMatchUmm usesFeature ummFeature
+
+# commonNoMatchWhat
+- huh
+- what
+
+
+@ intent commonNoMatchWhat usesFeature whatFeature
+
+# complaint
+- asked to enter my personal information multiple times
+- {@complaintML=complain} about
+- {@complaintML=complaint}
+- {@complaintML=grievance}
+- {@complaintML=grievance} report
+- i have a {@complaintML=complaint}
+- i have a {@complaintML=complaint} about service
+- i'm feeling frustrated
+- i'm not getting the answers i need
+- i've been waiting on hold for too long
+- no i want the {@complaintML=complaints} department
+- not recognizing my voice commands correctly
+- placed on hold for an extended period of time
+- to check the status of a {@complaintML=grievance}
+
+
+@ intent complaint usesFeature complaintFeature
+
+# couponBook
+- {@couponBookML=coupon}
+- {@couponBookML=coupon book}
+- {@couponBookML=coupon payment book}
+- {@couponBookML=payment coupon}
+
+
+@ intent couponBook usesFeature couponBookML
+
+# covid
+- {@covidML={@covidChild=corona virus test}}
+- {@covidML=corona virus} testing
+- covered for {@covidML={@covidChild=covid nineteen}}
+- {@covidML={@covidChild=covid}}
+- {@covidML=covid booster shots}
+- {@covidML=covid nineteen} homecare coverage
+- {@covidML=covid shot}
+- {@covidML={@covidChild=covid}} test
+- {@covidML=covid vaccine}
+- {@covidML={@covidChild=covid vaccine}} coverage
+- does my plan cover {@covidML=covid test}
+- i have a question about {@covidML=covid testing}
+- i want to check coverage for {@covidML={@covidChild=covid} test}
+- information on {@covidML=covid testing} coverage
+- {@covidML={@modernaChild=moderna}}
+- my plan cover at {@covidML=home covid test}
+- {@covidML={@pfizerChild=pfizer}}
+- {@covidML={@pfizerChild=pfizer} vaccine}
+- question about {@covidML=covid coverage}
+- tested positive for {@covidML={@covidChild=covid}}
+- to find out if {@covidML=covid tests} are covered
+- trying to get {@covidML=covid test} through {@callerTypeML={@callerTypeMemberChild=my}} insurance
+- {@covidML}
+
+
+@ intent covid usesFeature covidML
+
+# dentalGeneral
+- about {@callerTypeML={@callerTypeMemberChild=my}} {@dentalGeneralML=dental} plan
+- {@dentalGeneralML=dental}
+- {@dentalGeneralML=dental} benefits
+- {@dentalGeneralML=dental} coverage question
+- {@dentalGeneralML=dental} eligibility
+- {@dentalGeneralML=dental} insurance
+- {@dentalGeneralML=dental} insurance coverage
+- {@dentalGeneralML=dental} {@callerTypeML={@callerTypeProviderChild=provider}}
+- {@dentalGeneralML=dental} work
+- {@dentalGeneralML=gental}
+- question about {@dentalGeneralML=dental} plan
+- {@dentalGeneralML}
+
+
+@ intent dentalGeneral usesFeatures dentalGeneralML,dentalClassifierList
+
+# disambigGeneral
+- i hurt {@callerTypeML={@callerTypeMemberChild=my}} leg
+- {@callerTypeML={@callerTypeMemberChild=my}} tummy hurts
+
+
+# doctor
+- a {@doctorML={@findFacilityChild=closest urgent care to my a home address}}
+- a closet {@doctorML={@findFacilityChild=urgent care to my home address}}
+- a {@doctorML=copy of {@findPharmacyChild=pharmacy directory}}
+- {@doctorML={@doctorGeneralChild=a doctor in the network}}
+- {@doctorML={@findProviderChild=a list of specialist}}
+- {@doctorML=accredited {@findPharmacyChild=pharmacy near me}}
+- {@doctorML={@changeProviderChild=add doctor}}
+- {@doctorML={@changeProviderChild=add physician}}
+- {@doctorML={@findProviderChild=allergist}}
+- {@doctorML={@findProviderChild=anatomic pathologist}}
+- {@doctorML={@changeProviderChild=assign primary care}}
+- {@doctorML={@findProviderChild=audiologist}}
+- {@doctorML={@findFacilityChild=calling to get the name of radiology facility}}
+- {@doctorML={@findProviderChild=cardiac surgeon}}
+- {@doctorML={@findProviderChild=cardiologist}}
+- {@doctorML={@findProviderChild=cardiovascular surgeon}}
+- {@doctorML={@changeProviderChild=change doctor}}
+- {@doctorML={@changeProviderChild=change {@callerTypeML={@callerTypeMemberChild=my}} doctor}}
+- {@doctorML={@changeProviderChild=change {@callerTypeML={@callerTypeMemberChild=my}} pcp}}
+- {@doctorML={@changeProviderChild=change {@callerTypeML={@callerTypeMemberChild=my}} primary}}
+- {@doctorML={@changeProviderChild=change pcp}}
+- {@doctorML={@changeProviderChild=change primary doctor}}
+- {@doctorML={@changeProviderChild=change primary provider}}
+- {@doctorML={@changeProviderChild=change provider}}
+- {@doctorML={@changeProviderChild=changing primary care doctor}}
+- {@doctorML={@changeProviderChild=changing primary care physician}}
+- {@doctorML={@changeProviderChild=changing primary care provider}}
+- {@doctorML={@doctorGeneralChild=check a provider}}
+- {@doctorML={@doctorGeneralChild=check on a doctor}}
+- {@doctorML={@doctorGeneralChild=check on a provider}}
+- {@doctorML={@doctorGeneralChild=check provider}}
+- {@doctorML={@doctorGeneralChild=check providers}}
+- check to see if i need a {@doctorML={@referralChild=referral}}
+- {@doctorML={@doctorGeneralChild=checking on a provider}}
+- checking to see if {@callerTypeML={@callerTypeMemberChild=my}} {@doctorML=doctor is {@doctorGeneralChild=in network}}
+- {@doctorML={@changeProviderChild=choose a doctor}}
+- {@doctorML={@findFacilityChild=clinic}}
+- {@doctorML={@findProviderChild=clinical geneticist}}
+- {@doctorML={@findProviderChild=clinical pathologist}}
+- {@doctorML={@findProviderChild=dietitian}}
+- {@doctorML={@changeProviderChild=doctor change}}
+- {@doctorML={@doctorGeneralChild=doctor in network}}
+- {@doctorML={@doctorGeneralChild=doctor in the network}}
+- {@doctorML={@findProviderChild=doula}}
+- {@doctorML={@findProviderChild=endocrinologist}}
+- {@doctorML={@doctorGeneralChild=family doctor}}
+- {@doctorML={@findProviderChild=find}}
+- {@doctorML={@findFacilityChild=find a clinic}}
+- {@doctorML={@findProviderChild=find a doctor}}
+- {@doctorML={@findFacilityChild=find a hospital}}
+- {@doctorML={@findPharmacyChild=find a pharmacy}}
+- {@doctorML={@findPharmacyChild=find a pharmacy} in my area}
+- {@doctorML={@findPharmacyChild=find a pharmacy near me}}
+- {@doctorML={@findProviderChild=find a provider}} near me
+- {@doctorML={@findFacilityChild=find a radiology facility}}
+- {@doctorML={@findProviderChild=find care}}
+- {@doctorML={@findFacilityChild=find closest urgent care}}
+- {@doctorML={@findProviderChild=find doctor}}
+- {@doctorML={@findFacilityChild=find facility}}
+- {@doctorML={@findProviderChild=find hosipital admission}}
+- {@doctorML={@findFacilityChild=find hospital}}
+- find out {@doctorML={@whoIsMyDoctorProviderChild=who my pcp is}}
+- {@doctorML={@findPharmacyChild=find pharmacy}}
+- {@doctorML={@findProviderChild=find provider}}
+- {@doctorML={@findPsychiatristChild=find psychiatrist}}
+- {@doctorML={@findFacilityChild=find urgent care}}
+- {@doctorML={@findProviderChild=finding a doctor}} in network
+- {@doctorML={@findProviderChild=finding a physician}}
+- {@doctorML={@doctorGeneralChild=foot care provider}}
+- {@doctorML={@findProviderChild=gastroenterologist}}
+- {@doctorML={@findProviderChild=geriatrician}}
+- {@doctorML={@findProviderChild=gynecologist}}
+- {@doctorML={@findProviderChild=hematologist}}
+- {@doctorML={@findProviderChild=hospitalist}}
+- i {@doctorML={@findProviderChild=need a dentist}}
+- {@doctorML={@findProviderChild=i need a doctor}}
+- {@doctorML={@findProviderChild=i need a new doctor}}
+- {@doctorML={@findProviderChild=i need a provider}}
+- i need a {@doctorML={@referralChild=referral}} for a dermatologist
+- i need the {@doctorML={@whoIsMyDoctorProviderChild=name of a doctor}}
+- i need to {@doctorML={@findProviderChild=find a childrens doctor}}
+- i need to {@doctorML={@findProviderChild=find a kids' physician}} in my network
+- i need to {@doctorML={@findPharmacyChild=find a pharmacy}}
+- i need to {@doctorML={@findPharmacyChild=find a pharmacy near me}}
+- i need to know if i need a {@doctorML={@referralChild=referral}} for a dermatologist
+- {@doctorML=i need to see a {@findPsychiatristChild=psychiatrist}}
+- i need to see if i need a {@doctorML={@referralChild=referral}}
+- i wanna {@doctorML={@changeProviderChild=change {@callerTypeML={@callerTypeMemberChild=my}} primary}}
+- i want to {@doctorML={@findProviderChild=find a doctor}} for myself
+- i'd like to {@doctorML={@changeProviderChild=setup my pcp provider}}
+- {@doctorML={@findProviderChild=immunologist}}
+- {@doctorML={@doctorGeneralChild=in network}}
+- {@doctorML={@doctorGeneralChild=in network doctor}}
+- {@doctorML={@doctorGeneralChild=in network doctors}}
+- {@doctorML={@doctorGeneralChild=in network} {@findProviderChild=provider list}}
+- {@doctorML={@findProviderChild=infectious disease doctor}}
+- {@doctorML={@doctorGeneralChild=is my provider in network}}
+- {@doctorML={@findProviderChild=lab}}
+- {@doctorML={@findProviderChild=lab work}}
+- {@doctorML={@findProviderChild=labs}}
+- {@doctorML={@findProviderChild=lactation specialist}}
+- {@doctorML={@findProviderChild=list of}}
+- {@doctorML={@findPharmacyChild=list of pharmacies}}
+- {@doctorML={@findProviderChild=list of providers}}
+- {@doctorML={@findProviderChild=locate a doctor}}
+- {@doctorML={@findProviderChild=locate doctor}}
+- {@doctorML={@findPharmacyChild=locate pharmacy}}
+- {@doctorML={@findProviderChild=locate provider}}
+- {@doctorML={@findProviderChild=locate specialist}}
+- {@doctorML=look for a {@findPsychiatristChild=psychiatrist}}
+- {@doctorML={@findProviderChild=looking for a dentist}}
+- {@doctorML={@findProviderChild=looking for a doctor}}
+- {@doctorML={@findProviderChild=looking for a provider}}
+- looking for a {@doctorML={@findPsychiatristChild=psychiatric}} specialist
+- {@doctorML={@findProviderChild=looking for provider}}
+- {@doctorML={@findProviderChild=looking for providers}}
+- {@doctorML={@findProviderChild=lookup} a provider}
+- {@doctorML={@findProviderChild=massage therapist}}
+- {@doctorML={@findProviderChild=maxillofacial surgeon}}
+- {@doctorML={@findProviderChild=naturopathy}}
+- need to {@doctorML={@changeProviderChild=change the name of {@callerTypeML={@callerTypeMemberChild=my}} primary care provider}}
+- {@doctorML={@findProviderChild=neonatologist}}
+- {@doctorML={@findProviderChild=nephrologist}}
+- {@doctorML={@doctorGeneralChild=network}}
+- {@doctorML={@findProviderChild=neurologist}}
+- {@doctorML={@findProviderChild=neurosurgeon}}
+- {@doctorML={@changeProviderChild=new doctor}}
+- {@doctorML={@findProviderChild=nuclear medicine doctor}}
+- {@doctorML={@findProviderChild=obstetrician}}
+- {@doctorML={@findProviderChild=occupational therapist}}
+- {@doctorML={@findProviderChild=oncologist}}
+- {@visionML={@doctorML={@findProviderChild=ophthalmologist}}}
+- {@doctorML={@findProviderChild=oral surgeon}}
+- {@doctorML={@findProviderChild=orthopedic surgeon}}
+- {@doctorML={@findProviderChild=orthopedist}}
+- {@doctorML={@findProviderChild=otolaryngologist}}
+- {@doctorML={@doctorGeneralChild=out of network}}
+- {@doctorML={@findProviderChild=pain management specialist}}
+- {@doctorML={@findProviderChild=pathologist}}
+- {@doctorML={@doctorGeneralChild=pcp}}
+- {@doctorML={@findProviderChild=pediatric child abuse}}
+- {@doctorML={@findProviderChild=pediatric specialist}}
+- {@doctorML={@findProviderChild=pediatrician}}
+- {@doctorML={@findPharmacyChild=pharmacy directory}}
+- {@doctorML={@findProviderChild=physical therapist}}
+- {@doctorML={@doctorGeneralChild=physician}}
+- {@doctorML={@findProviderChild=plastic surgeon}}
+- {@doctorML={@findProviderChild=podiatrist}}
+- {@doctorML={@doctorGeneralChild=primary care}}
+- {@doctorML={@doctorGeneralChild=primary care doctor}}
+- {@doctorML={@changeProviderChild=primary care physician change}}
+- {@doctorML={@changeProviderChild=primary physician has changed}}
+- {@doctorML={@changeProviderChild=provider change}}
+- {@doctorML={@doctorGeneralChild=provider information}}
+- {@doctorML={@findProviderChild=provider list}}
+- {@doctorML={@doctorGeneralChild=provider question}}
+- {@doctorML={@findProviderChild=provider search}}
+- {@doctorML={@doctorGeneralChild=provider verification}}
+- {@doctorML={@findPsychiatristChild=psychotherapist}}
+- {@doctorML={@findProviderChild=pulmonologist}}
+- {@doctorML={@doctorGeneralChild=question about a doctor}}
+- {@doctorML={@doctorGeneralChild=question about a provider}}
+- question about {@doctorML={@changeProviderChild=changing doctors}}
+- {@doctorML={@findProviderChild=radiologist}}
+- {@doctorML={@referralChild=referral}}
+- {@doctorML={@findProviderChild=rheumatologist}}
+- {@doctorML={@findProviderChild=searching for a doctor}}
+- {@doctorML={@findProviderChild=searching for a provider}}
+- {@doctorML={@doctorGeneralChild=second opinion}}
+- {@doctorML={@changeProviderChild=select a pcp}}
+- {@doctorML={@changeProviderChild=select a primary care physician}}
+- {@doctorML={@changeProviderChild=select primary care provider}}
+- {@doctorML={@changeProviderChild=setup primary care doctor}}
+- {@doctorML={@findProviderChild=sleep specialist}}
+- {@doctorML={@doctorGeneralChild=specialist}}
+- {@doctorML={@findProviderChild=speech pathologist}}
+- {@doctorML={@findProviderChild=sports medicine physician}}
+- {@doctorML={@findProviderChild=surgeon}}
+- {@doctorML={@changeProviderChild=switch doctor}}
+- {@doctorML={@changeProviderChild=switch my provider}}
+- {@doctorML={@changeProviderChild=switch primary care physician}}
+- {@doctorML={@changeProviderChild=switch provider}}
+- to {@doctorML={@changeProviderChild=change {@callerTypeML={@callerTypeMemberChild=my}} pcp}} on file
+- to see if i need a {@doctorML={@referralChild=referral}} for an ent
+- {@doctorML={@findFacilityChild=urgent care location}}
+- urgent care {@doctorML={@referralChild=referral}}
+- {@doctorML={@findProviderChild=urologist}}
+- {@doctorML={@doctorGeneralChild=verify doctor}}
+- {@doctorML={@doctorGeneralChild=verify provider}}
+- {@visionML={@doctorML={@doctorGeneralChild=vision provider}}}
+- {@doctorML={@findProviderChild=where do i get lab work done}}
+- {@doctorML={@whoIsMyDoctorProviderChild=who is}}
+- {@doctorML={@whoIsMyDoctorProviderChild=who is} a provider} for my care
+- {@doctorML={@whoIsMyDoctorProviderChild=who is} {@callerTypeML={@callerTypeMemberChild=my}} doctor}
+- {@doctorML={@whoIsMyDoctorProviderChild=who is}} {@callerTypeML={@callerTypeMemberChild=my}} pcd
+- {@doctorML={@whoIsMyDoctorProviderChild=who is} {@callerTypeML={@callerTypeMemberChild=my}} primary care doctor}
+- {@doctorML={@whoIsMyDoctorProviderChild=who is} {@callerTypeML={@callerTypeMemberChild=my}} primary care physician}
+- {@doctorML={@whoIsMyDoctorProviderChild=who is} {@callerTypeML={@callerTypeMemberChild=my}} primary carrier}
+- {@doctorML={@whoIsMyDoctorProviderChild=who} {@callerTypeML={@callerTypeMemberChild=my}} primary doctor is}
+
+
+@ intent doctor usesFeature doctorML
+
+# dontKnow
+- can't remember
+- cant remember
+- do not have
+- do not have it
+- do not know
+- do not remember
+- don't have
+- don't have it
+- don't know
+- don't really know
+- don't remember
+- dont know
+- dont remember
+- i do not know
+- i don't know need help
+- i don't know ok
+- i don't know that
+- maybe i don't know
+- ok i don't know
+- sorry i don't have it
+
+
+@ intent dontKnow usesFeature dontKnowML
+
+# EFT
+- {@EFTML=automatic withdrawals}
+- {@EFTML=automatic withdrawl}
+- {@EFTML=eft}
+- {@EFTML=eft payment}
+- {@EFTML=eft withdrawal}
+- {@EFTML=efts}
+- {@EFTML=electronic funds transfer}
+- i wanna setup {@EFTML=eft}
+- i wanted to know what {@EFTML=eft} means
+- {@EFTML=withdrawal}
+- {@EFTML=withdrawals}
+
+
+@ intent EFT usesFeature EFTML
+
+# emergency
+- {@emergencyML=emergency}
+- i have an {@emergencyML=emergency}
+- {@emergencyML=medical emergency}
+- this is an {@emergencyML=emergency}
+
+
+@ intent emergency usesFeatures emergencyList,emergencyML
+
+# employeeAssistance
+- authorization for {@eapML=eap}
+- {@eapML=eap}
+- {@eapML=eap} assistance
+- {@eapML=eap} authorization
+- {@eapML=eap} plan
+- {@eapML=eap} provider
+- {@eapML=employee assistance}
+- {@eapML=employee assistance} program
+- {@eapML=employee benefits}
+
+
+@ intent employeeAssistance usesFeatures employeeAssistancePlanFeature,eapList,eapML
+
+# enrollment
+- {@enrollmentML=application}
+- {@enrollmentML={@enrollmentMedicaidChild=apply for medicaid}}
+- {@enrollmentML=applying for insurance}
+- {@enrollmentML={@enrollmentPlanChangeChild=change health plan}}
+- {@enrollmentML={@enrollmentPlanChangeChild=change insurance}}
+- {@enrollmentML={@enrollmentPlanChangeChild=change my insurance}}
+- {@enrollmentML={@enrollmentPlanChangeChild=change my plan}}
+- {@enrollmentML={@enrollmentPlanChangeChild=change my policy}}
+- {@enrollmentML={@enrollmentPlanChangeChild=change of plan}}
+- {@enrollmentML={@enrollmentPlanChangeChild=change of plans}}
+- {@enrollmentML={@enrollmentPlanChangeChild=change plan}}
+- {@enrollmentML={@enrollmentPlanChangeChild=change plans}}
+- {@enrollmentML={@enrollmentPlanChangeChild=change policy}}
+- {@enrollmentML={@enrollmentPlanChangeChild=changing insurance}}
+- {@enrollmentML=enroll}
+- {@enrollmentML=enrolled}
+- {@enrollmentML=enrolling}
+- {@enrollmentML=enrolling} in aarp {@planTypeML={@planTypeAdvantageChild=medicare advantage}}
+- {@enrollmentML=enrollment}
+- {@enrollmentML={@enrollmentStatusChild=enrollment status}}
+- how do i {@enrollmentML={@enrollmentRenewalChild=reapply}}
+- i got a notification saying that i might i might have a late {@enrollmentML=enrollment} penalty
+- i have questions about {@enrollmentML=enrollment} in medicare advantage
+- i just want to make sure that i'm {@enrollmentML=enrolled} in the 2024 uh {@planTypeML=medicare program}
+- i need to check the {@enrollmentML={@enrollmentStatusChild=status of {@callerTypeML={@callerTypeMemberChild=my}} insurance}}
+- i need to {@enrollmentML={@enrollmentRenewalChild=reenroll}}
+- i want to {@enrollmentML=enroll} in a different plan this year
+- i want to {@enrollmentML={@enrollmentRenewalChild=reenroll}}
+- i'd like to {@enrollmentML=enroll} in the aarp {@planTypeML={@planTypeAdvantageChild=medicare advantage plan}} medicare advantage plan and could you tell me the number i should call to do that
+- {@enrollmentML={@enrollmentPlanChangeChild=insurance change}}
+- {@enrollmentML=insurance update}
+- interested in {@enrollmentML={@enrollmentPlanChangeChild=changing plan}}
+- interested in {@enrollmentML={@enrollmentPlanChangeChild=changing policies}}
+- {@enrollmentML={@enrollmentMedicaidChild=medicaid application}}
+- {@enrollmentML={@enrollmentMedicaidChild={@benefits1ML=medicaid} enrollment}}
+- {@enrollmentML={@enrollmentRenewalChild=membership renewal}}
+- my name is grace barbieri and i am {@enrollmentML=enrolled} in united healthcare for next year but i'm not sure of which plan i am entitled to have
+- {@enrollmentML=new member}
+- {@enrollmentML=new membership}
+- {@enrollmentML={@enrollmentPlanChangeChild=plan change}}
+- question about {@enrollmentML={@enrollmentRenewalChild=reenroll}}
+- question about {@enrollmentML={@enrollmentRenewalChild=reenrollment}}
+- question about {@enrollmentML={@enrollmentRenewalChild=renewal}}
+- {@enrollmentML=quote}
+- {@enrollmentML=quote} for insurance
+- {@enrollmentML=quote} for medical insurance
+- {@enrollmentML={@enrollmentRenewalChild=re enroll}}
+- {@enrollmentML={@enrollmentRenewalChild=reapply}}
+- {@enrollmentML={@enrollmentRenewalChild=reenroll}}
+- {@enrollmentML={@enrollmentRenewalChild=reenrollment}}
+- {@enrollmentML=register}
+- {@enrollmentML=registering}
+- {@enrollmentML=registration}
+- {@enrollmentML={@enrollmentRenewalChild=reinstate}}
+- {@enrollmentML={@enrollmentRenewalChild=reinstatement}}
+- {@enrollmentML={@enrollmentRenewalChild=renew}}
+- {@enrollmentML={@enrollmentRenewalChild=renew}} insurance
+- {@enrollmentML={@enrollmentRenewalChild=renew membership}}
+- {@enrollmentML={@enrollmentRenewalChild=renew {@callerTypeML={@callerTypeMemberChild=my}} policy}}
+- {@enrollmentML={@enrollmentRenewalChild=renew}} policy
+- {@enrollmentML={@enrollmentRenewalChild=renewal plan}}
+- {@enrollmentML=sign up}
+- {@enrollmentML=signing up}
+- {@enrollmentML={@enrollmentStatusChild=status enrollment}}
+- {@enrollmentML={@enrollmentPlanChangeChild=switch plan}}
+- {@enrollmentML={@enrollmentPlanChangeChild=switch plans}}
+- {@enrollmentML=update my plan}
+- {@enrollmentML={@enrollmentPlanChangeChild=update plan}}
+- {@enrollmentML={@enrollmentPlanChangeChild=upgrade plan}}
+- {@enrollmentML}
+
+
+@ intent enrollment usesFeatures enrollmentFeature,enrollmentStatus,enrollmentML
+
+# extension
+- dial a extension
+- dial an extension
+- extension
+- extensions
+
+
+@ intent extension usesFeature extensionFeature
+
+# fax
+- fax
+- fax number
+- faxing
+- i'm calling to get a fax number
+- i'm looking for a fax number
+- need the fax number for provider
+- to see if received my fax
+
+
+@ intent fax usesFeature faxFeature
+
+# fertility
+- fertility
+- fertility benefits
+- fertility coverage
+- infertility questions
+- infertility solution
+- reproductive resource
+- {@fertilityList}
+
+
+@ intent fertility usesFeatures fertilityFeature,fertilityList
+
+# financial
+- a {@financialML={@FSAChild=dependent care fsa}}
+- a {@financialML={@financialRetirementChild=information on medicare}}
+- about {@financialML={@FSAChild=flex spending account}} for retired centurylink employee
+- {@financialML={@financialAccountsChild=about {@callerTypeML={@callerTypeMemberChild=my}} account}}
+- access to {@financialML={@financialAccountsChild=account}}
+- {@financialML={@financialAccountsChild=account}}
+- {@financialML={@financialAccountsChild=account access}}
+- {@financialML={@financialAccountsChild=account}} help
+- {@financialML={@financialAccountsChild=account info}}
+- {@financialML={@financialAccountsChild=account issue}}
+- {@financialML={@financialAccountsChild=account plan}}
+- {@financialML={@financialAccountsChild=account question}}
+- {@financialML={@financialAccountsChild=account services}}
+- {@financialML={@financialAccountsChild=account setup}}
+- {@financialML={@financialAccountsChild=account status}}
+- {@financialML={@financialAccountsChild=account verification}}
+- {@financialML={@financialAccountsChild=accounts}}
+- {@financialML={@financialAccountsChild=activate {@callerTypeML={@callerTypeMemberChild=my}} account}}
+- {@financialML={@financialAccountsChild=check}}
+- {@financialML={@financialAccountsChild=check on account}}
+- {@financialML={@financialAccountsChild=dependent care health account}}
+- {@financialML={@financialAccountsChild=direct deposit}}
+- {@financialML={@financialAccountsChild=direct deposits}}
+- {@financialML={@FSAChild=flex account}}
+- {@financialML={@FSAChild=flex spending}}
+- {@financialML={@FSAChild=flexible spending}}
+- {@financialML={@FSAChild=flexible spending account}}
+- {@financialML={@FSAChild=fsa}}
+- get information on {@financialML={@financialAccountsChild={@callerTypeML={@callerTypeMemberChild=my}} account}}
+- i have a {@financialML={@financialAccountsChild=question about {@callerTypeML={@callerTypeMemberChild=my}} account}}
+- i need {@callerTypeML={@callerTypeMemberChild=my}} {@financialML={@financialAccountsChild=account number}}
+- i need {@callerTypeML={@callerTypeMemberChild=my}} {@financialML={@financialAccountsChild=account plan}} information
+- is {@financialML={@financialAccountsChild={@callerTypeML={@callerTypeMemberChild=my}} account}} active
+- {@financialML={@financialAccountsChild=issues with account}}
+- {@financialML={@financialAccountsChild=medical reimbursement account}}
+- {@financialML={@financialRetirementChild=medicare member services}}
+- {@financialML={@financialAccountsChild=mra}}
+- {@financialML={@financialAccountsChild={@callerTypeML={@callerTypeMemberChild=my}} account}}
+- {@financialML={@financialAccountsChild={@callerTypeML={@callerTypeMemberChild=my}} account}} is locked
+- need {@financialML={@financialAccountsChild=account information}}
+- problem with {@financialML={@financialAccountsChild={@callerTypeML={@callerTypeMemberChild=my}} account}}
+- to {@financialML={@financialAccountsChild=verify {@callerTypeML={@callerTypeMemberChild=my}} account}}
+- {@financialML={@financialAccountsChild=verify account}}
+- what is {@callerTypeML={@callerTypeMemberChild=my}} {@financialML={@financialAccountsChild=account status}}
+
+
+@ intent financial usesFeatures FSAFeature,financialML
+
+# FOBT
+- {@FOBTML=colon cancer screening kit}
+- {@FOBTML=colon cancer test kit}
+- {@FOBTML=colon test kit}
+- {@FOBTML=fecal occult blood test}
+- {@FOBTML=fobt}
+- {@FOBTML=fobt test}
+- i need a new {@FOBTML=fobbed kit}
+- i need a new {@FOBTML=fobt kit}
+- i need {@callerTypeML={@callerTypeMemberChild=my}} {@FOBTML=fobt} stool sample collection kit
+- i need to get an {@FOBTML=fobt} in home {@FOBTML=colon cancer screening test}
+- {@FOBTML=screening test}
+
+
+@ intent FOBT usesFeature FOBTML
+
+# form
+- discharge monitoring report {@formML=form}
+- filling out a form
+- {@formML=forms}
+- help filling out a {@formML=form}
+- i need a copy of a tax {@formML=form}
+- i need a dmr {@formML=form}
+- i need a {@formML=form}
+- i need a {@formML=form} faxed
+- i need {@formML=forms}
+- i need help locating a {@formML=form}
+- i need {@callerTypeML={@callerTypeMemberChild=my}} tax {@formML=form}
+- i need to access {@callerTypeML={@callerTypeMemberChild=my}} {@formML=tax forms}
+- need {@callerTypeML={@callerTypeMemberChild=my}} tax {@formML=form}
+- {@formML=paperwork}
+- report {@formML=form}
+- request a {@formML=form}
+- tax {@formML=form}
+- {@formML=tax forms}
+
+
+@ intent form usesFeature formML
+
+# fosterCare
+- {@fosterML=confirm coverage for foster child}
+- {@fosterML=coverage for foster child}
+- {@fosterML=foster}
+- {@fosterML=foster care}
+- {@fosterML=foster care} coverage
+- {@fosterML=foster child}
+
+
+@ intent fosterCare usesFeatures fosterFeature,fosterML
+
+# fraud
+- fraud
+- identity theft
+- insurance fraud
+- medicaid fraud
+- possible fraud
+- report fraud
+
+
+@ intent fraud usesFeatures fraudFeature,fraudList
+
+# handbook
+- {@handbookML=hand book}
+- {@handbookML=handbook}
+- i have not received {@callerTypeML={@callerTypeMemberChild=my}} {@handbookML=book}
+- i haven't received any {@handbookML=book}
+- i need a medical {@handbookML=book}
+- i need a {@handbookML=membership book}
+- member {@handbookML=handbook}
+
+
+@ intent handbook usesFeature handbookML
+
+# health
+- {@healthML={@healthPregnancyChild=baby block}}
+- {@healthML={@healthWeightChild=fitness club}}
+- {@healthML={@healthWeightChild=gym}}
+- {@healthML={@healthWeightChild=gym membership reimbursement}}
+- {@healthML={@healthWeightChild=gym reimbursement}}
+- {@healthML={@healthAlliesChild=health allies}}
+- {@healthML={@healthyBackChild=healthy back}}
+- i'm calling about {@callerTypeML={@callerTypeMemberChild=my}} {@healthML={@healthPregnancyChild=pregnancy benefits}}
+- insurance for gym
+- looking for {@healthML={@healthWeightChild=weight loss program}}
+- {@healthML={@healthPregnancyChild=maternity}}
+- {@healthML={@healthPregnancyChild=pregnancy}}
+- {@healthML={@healthPregnancyChild=pregnant}}
+- {@healthML={@healthPregnancyChild=prenatal health}}
+- {@healthML={@healthAlliesChild=united health allies}}
+- {@healthML}
+
+
+@ intent health usesFeature healthML
+
+# healthAssessment
+- about {@callerTypeML={@callerTypeMemberChild=my}} {@healthAssessmentML=assessment}
+- annual {@healthAssessmentML=assessment}
+- {@healthAssessmentML=assessment}
+- {@healthAssessmentML=assessment} date
+- complete {@healthAssessmentML=assessment}
+- complete {@healthAssessmentML=survey}
+- do a {@healthAssessmentML=survey}
+- health {@healthAssessmentML=assessment}
+- health risk {@healthAssessmentML=assessment}
+- healthcare {@healthAssessmentML=assessment}
+- {@healthAssessmentML=survey}
+- {@healthAssessmentML=survey} question
+- the {@healthAssessmentML=assessment}
+- the {@healthAssessmentML=survey}
+
+
+@ intent healthAssessment usesFeatures healthAssessmentFeature,healthAssessmentML
+
+# heart
+- {@heartML={@coronaryArteryDiseaseChild=artery disease}}
+- {@heartML={@congenitalHeartDiseaseChild=c h d}}
+- {@heartML={@congestiveHeartFailureChild=c h f}}
+- {@heartML={@congenitalHeartDiseaseChild=chd}}
+- {@heartML={@congestiveHeartFailureChild=chf}}
+- {@heartML={@congenitalHeartDiseaseChild=congenital heart disease}}
+- congenital {@heartML={@congestiveHeartFailureChild=heart failure}}
+- {@heartML={@congestiveHeartFailureChild=congestive heart failure}}
+- {@heartML={@coronaryArteryDiseaseChild=coronary disease}}
+- {@heartML={@congenitalHeartDiseaseChild=heart disease}}
+- {@heartML={@congestiveHeartFailureChild=heart failure}}
+- i am seeking help for {@heartML={@congestiveHeartFailureChild=chf}}
+- i need help with {@heartML={@congenitalHeartDiseaseChild=chd}}
+- looking for a support group for {@heartML={@congestiveHeartFailureChild=chf}}
+- looking for guidance on managing {@heartML={@congenitalHeartDiseaseChild=chd}}
+- who can provide support to deal with {@heartML={@congenitalHeartDiseaseChild=chd}}
+
+
+@ intent heart usesFeature heartML
+
+# HIPAA
+- could you provide details regarding hippa
+- hipaa
+- hipaa activated
+- hipaa certificate
+- hipaa violation
+- i'd like to learn more about hippa can you help?
+- provide me some details on hippa
+
+
+@ intent HIPAA usesFeature HIPAAFeature
+
+# hospitalStay
+- a member in the {@hospitalStayML=hospital}
+- admitted to the {@hospitalStayML=hospital}
+- {@hospitalStayML=hospital}
+- {@hospitalStayML=hospital stay}
+- {@hospitalStayML=hospital visit}
+- {@hospitalStayML=hospitalization}
+- i'm in the {@hospitalStayML=hospital}
+- international {@hospitalStayML=hospitalization}
+- medical {@hospitalStayML=hospital visit}
+- regarding my overnight {@hospitalStayML=hospital stay}
+- report a {@hospitalStayML=hospital visit}
+
+
+@ intent hospitalStay usesFeatures hospitalStayFeature,hospitalStayML
+
+# HRA
+- {@HRAML=h r a}
+- {@HRAML=health reimbursement account}
+- {@HRAML=hra}
+- {@HRAML}
+
+
+@ intent HRA usesFeatures hraFeature,HRAML
+
+# HSA
+- health saving account
+- health savings
+- health savings account
+- health savings card
+- hsa
+- hsa balance
+- hsa card
+
+
+@ intent HSA usesFeature hsaFeature
+
+# letter
+- {@letterML={@letterTerminationChild=cancellation letter}}
+- customer service {@letterML={@letterGeneralChild=letter}}
+- for explanation {@letterML={@letterGeneralChild=on a letter that}} i received
+- i have a question about a {@letterML={@letterGeneralChild=letter}}.
+- i have a question about some {@letterML={@letterGeneralChild=mail}} i received.
+- i {@letterML={@letterGeneralChild=received a letter}}
+- i received an email
+- {@letterML={@letterGeneralChild=letter}}
+- {@letterML={@letterGeneralChild=letter received}}
+- post card
+- {@letterML={@letterGeneralChild=received a letter}}
+- {@letterML={@letterTerminationChild=termination} {@letterGeneralChild=letter}}
+
+
+@ intent letter usesFeatures letterML,letterClassifierList
+
+# mainMenu
+- go back to the first menu
+- i would appreciate it if you took me to the main menu
+- main menu
+- mainmenu
+- menu
+
+
+@ intent mainMenu usesFeature mainMenuFeature
+
+# makePayment
+- $50 {@makePaymentML=credit}
+- {@makePaymentML=credit}
+- {@makePaymentML=credit card}
+- {@makePaymentML=debit}
+- {@makePaymentML=debit card}
+- {@makePaymentML=make a payment}
+- {@makePaymentML=make a payment} of a bill
+- {@makePaymentML=make payment}
+- {@makePaymentML=pay}
+- {@makePaymentML=pay a bill}
+- {@makePaymentML=pay bill}
+- {@makePaymentML=pay my}
+- {@makePaymentML=pay {@callerTypeML={@callerTypeMemberChild=my}} bill}
+- {@makePaymentML=pay} premium
+- payments
+- {@makePaymentML={@makePaymentPremiumChild=premium payment}}
+- {@makePaymentML=self pay}
+- {@makePaymentML=settle {@callerTypeML={@callerTypeMemberChild=my}} account}
+- {@makePaymentML=settle {@callerTypeML={@callerTypeMemberChild=my}} debt}
+
+
+@ intent makePayment usesFeatures makePaymentFeature,makePaymentML
+
+# memberID
+- {@memberIDML=dental id}
+- i need {@callerTypeML={@callerTypeMemberChild=my}} {@memberIDML=member id}
+- {@memberIDML=id}
+- {@memberIDML=id number}
+- {@memberIDML=member credential}
+- {@memberIDML=member id}
+- {@memberIDML=member number}
+- {@memberIDML=membership number}
+- need {@callerTypeML={@callerTypeMemberChild=my}} {@memberIDML=member credentials}
+
+
+@ intent memberID usesFeature memberIDML
+
+# membersMatter
+- {@membersMatterML=member matters}
+- {@membersMatterML=members matter}
+- {@membersMatterML=members matters}
+- need speak with {@membersMatterML=member matters}
+- need to talk with {@membersMatterML=members matter}
+- returning a phone call {@membersMatterML=members matter}
+
+
+@ intent membersMatter usesFeature membersMatterML
+
+# mentalHealth
+- {@mentalHealthGeneralML={@substanceAbuseChild=abuse}}
+- {@mentalHealthGeneralML={@substanceAbuseChild=alcohol}}
+- {@mentalHealthGeneralML={@substanceAbuseChild=chemical abuse}}
+- {@mentalHealthGeneralML={@substanceAbuseChild=detox}}
+- {@mentalHealthGeneralML={@substanceAbuseChild=drug abuse}}
+- {@mentalHealthGeneralML=mental health}
+- {@mentalHealthGeneralML=mental health} benefits
+- {@mentalHealthGeneralML=mental health} coverage
+- {@mentalHealthGeneralML=mental health} {@mentalHealthGeneralML={@substanceAbuseChild=substance abuse}}
+- {@mentalHealthGeneralML=mental therapist}
+- {@mentalHealthGeneralML={@substanceAbuseChild=rehab}}
+- {@mentalHealthGeneralML={@substanceAbuseChild=rehabilitation services}}
+- {@mentalHealthGeneralML={@substanceAbuseChild=substance abuse}}
+- {@mentalHealthGeneralML}
+
+
+@ intent mentalHealth usesFeature mentalHealthGeneralML
+
+# navigator
+- i need {@callerTypeML={@callerTypeMemberChild=my}} {@navigatorML=navigator}
+- i need to speak to a {@navigatorML=navigator}
+- i need to speak with {@navigatorML=navigator}
+- {@navigatorML=navigator}
+- talk to {@callerTypeML={@callerTypeMemberChild=my}} {@navigatorML=navigator}
+- talk to {@navigatorML=navigator}
+
+
+@ intent navigator usesFeatures navigatorFeature,navigatorList
+
+# NICU
+- baby icu
+- intensive care nursery
+- neonatal
+- neonatal care
+- neonatal critical care unit
+- neonatal icu
+- neonatal intensive care
+- neonatal intensive care unit
+- neonatal unit
+- newborn icu
+- nicu
+- preemie baby
+- premature baby
+
+
+@ intent NICU usesFeature NICUFeature
+
+# no
+- incorrect
+- negative
+- no
+- no, not this
+- nope
+- not correct
+- not that
+- that's not correct
+- that's not right
+- the answer is no
+- wrong
+- wrong one
+
+
+@ intent no usesFeature noFeature
+
+# noEmployer
+- freelancing
+- i don't have a job
+- i don't have an employer
+- i don't work
+- i'm currently without a job
+- i'm not employed
+- jobless
+- left the workforce
+- no longer employed
+- no longer working
+- not employed
+- not working
+- retired
+- retiree
+- self employed
+- unemployed
+- unemployment
+- without a job
+
+
+@ intent noEmployer usesFeature noEmployerFeature
+
+# None
+- funny i don't know i'll go somewhere else
+- i'm confused about a couple of things and i need to get them explained
+- it's time for dinner
+- more than less than
+- none
+- none of those
+- why don't you shut up
+
+
+# onlineQuestions
+- {@onlineQuestionML=account login}
+- {@onlineQuestionML=activate my online account}
+- {@onlineQuestionML=app issues}
+- {@onlineQuestionML=can't access account}
+- {@onlineQuestionML=can't login}
+- {@onlineQuestionML=computer support}
+- {@onlineQuestionML=email}
+- having {@onlineQuestionML=trouble logging into} {@callerTypeML={@callerTypeMemberChild=my}} account
+- having trouble signing on
+- help {@onlineQuestionML=logging in}
+- help with my {@onlineQuestionML=password}
+- {@onlineQuestionML=help with website}
+- i {@onlineQuestionML=can't login}
+- {@onlineQuestionML=i can't sign in}
+- {@onlineQuestionML=i need help signing in}
+- {@onlineQuestionML=internet access}
+- {@onlineQuestionML=locked out of account}
+- {@onlineQuestionML=locked out of my account}
+- {@onlineQuestionML=log into {@callerTypeML={@callerTypeMemberChild=my}} account}
+- {@onlineQuestionML=logging in}
+- {@onlineQuestionML=logging into {@callerTypeML={@callerTypeMemberChild=my}} account}
+- {@onlineQuestionML=login}
+- {@onlineQuestionML=mobile app}
+- need {@callerTypeML={@callerTypeMemberChild=my}} {@onlineQuestionML=username}
+- {@onlineQuestionML=not able to log into}
+- {@onlineQuestionML=online}
+- {@onlineQuestionML=password}
+- {@onlineQuestionML=password reset} help
+- {@onlineQuestionML=portal access}
+- {@onlineQuestionML=reset my password}
+- {@onlineQuestionML=security code}
+- security code question
+- {@onlineQuestionML=sign in}
+- {@onlineQuestionML=site}
+- {@onlineQuestionML=tech support}
+- {@onlineQuestionML=technical assistance}
+- {@onlineQuestionML=technical difficulties}
+- {@onlineQuestionML=technical difficulty}
+- {@onlineQuestionML=technical glitch}
+- {@onlineQuestionML=technical issue}
+- {@onlineQuestionML=technical problem}
+- {@onlineQuestionML=technical support}
+- {@onlineQuestionML=trouble logging in}
+- unlock my {@onlineQuestionML=password}
+- {@onlineQuestionML=username}
+- {@onlineQuestionML=web}
+- {@onlineQuestionML=webpage support}
+- {@onlineQuestionML=website}
+- {@onlineQuestionML=website help}
+- website question
+
+
+@ intent onlineQuestions usesFeature onlineQuestionML
+
+# order
+- i wanna place an {@orderML=order}
+- make a {@orderML=order}
+- make an {@orderML=order}
+- new {@orderML=order}
+- {@orderML=order}
+- place a {@orderML=order}
+- place an {@orderML=order}
+- place {@orderML=order}
+- placing an {@orderML=order}
+- to {@orderML=order}
+- {@orderML=ucard order}
+- wanna {@orderML=order}
+
+
+@ intent order usesFeatures orderFeature,orderML
+
+# orderSupplies
+- check {@orderSuppliesML=status of an existing order}
+- {@orderSuppliesML=incontinence supplies}
+- {@orderSuppliesML=medical supplies}
+- {@orderSuppliesML=medical supply}
+- {@orderSuppliesML=order supplies}
+- {@orderSuppliesML=ordering supplies}
+- {@orderSuppliesML=supplies}
+
+
+@ intent orderSupplies usesFeatures orderSuppliesFeature,orderSuppliesML
+
+# orthopedic
+- back injury
+- back pain
+- back problems
+- hip surgery
+- knee surgery
+- musculoskeletal support
+- neck pain
+- orthopedic
+- orthopedic help
+- orthopedic surgery
+- shoulder pain
+
+
+@ intent orthopedic usesFeature orthopedicFeature
+
+# passport
+- {@passportML=activate my passport}
+- {@passportML=activate passport}
+- {@passportML=foreign travel}
+- i have a {@passportML=question about passport}
+- i have a {@passportML=question about travel}
+- i'm {@passportML=calling about a passport}
+- {@passportML=international travel}
+- {@passportML=overseas travel}
+- {@passportML=passport}
+- {@passportML=passport information}
+- {@passportML=passport insurance}
+- {@passportML=passport} program
+- {@passportML=passport services}
+- {@passportML=question about travel}
+- {@benefits1ML={@passportML=question about travel insurance}}
+- question about united health {@passportML=passport}
+- {@passportML=travel}
+- {@passportML=travel information}
+- {@passportML=travel plans}
+- {@passportML=traveling}
+- {@passportML=traveling international}
+- {@passportML=traveling out of the country}
+- {@passportML=traveling overseas}
+- united health {@passportML=passport}
+
+
+@ intent passport usesFeature passportML
+
+# pause
+- {@pauseML=hang on}
+- {@pauseML=hold}
+- {@pauseML=hold on}
+- {@pauseML=just a minute}
+- {@pauseML=just a moment}
+- {@pauseML=one minute}
+- {@pauseML=pause}
+- {@pauseML=wait}
+
+
+@ intent pause usesFeatures pauseFeature,pauseML
+
+# pharmacy
+- a {@billingClassifierML=charge} at {@pharmacyML={@pharmacyGeneralChild=pharmacy}}
+- about a {@pharmacyML={@pharmacyGeneralChild=prescription}}
+- {@pharmacyML={@pharmacyGeneralChild=approve prescription}}
+- {@pharmacyML={@pharmacyGeneralChild=approve prescriptions}}
+- {@pharmacyML={@pharmacyGeneralChild=authorize prescription}}
+- {@pharmacyML={@pharmacyGeneralChild=authorize prescriptions}}
+- {@pharmacyML={@pharmacyGeneralChild=birth control}}
+- {@pharmacyML={@pharmacyGeneralChild=calling about a prescription}}
+- can i get {@pharmacy2ML={@pharmacyMailOrderChild=home delivery}}
+- check {@callerTypeML={@callerTypeMemberChild=my}} {@pharmacyML={@pharmacyOTCChild=otc}} card
+- {@pharmacyML={@pharmacyOrderStatusChild=check on a order}}
+- check on a {@pharmacyML={@pharmacyGeneralChild=prescription}}
+- {@pharmacyML={@pharmacyOrderStatusChild=check on a prescription order}}
+- {@pharmacyML={@pharmacyOrderStatusChild=check on an order}}
+- {@pharmacyML={@pharmacyGeneralChild=check} {@pharmacyGeneralChild=prescription}}
+- {@pharmacyML={@pharmacyGeneralChild=check prescription coverage}}
+- checking on a {@pharmacyML={@pharmacyGeneralChild=tier reduction}}
+- {@pharmacyML={@pharmacyPriceCostChild=cost of a prescription}} drug
+- {@pharmacyML={@pharmacyPriceCostChild=cost of medication}}
+- {@pharmacyML={@pharmacyPriceCostChild=cost of my prescription}}
+- {@pharmacyML={@pharmacyPriceCostChild=cost of prescription}}
+- {@pharmacyML={@pharmacyDeniedPrescriptionChild=denied prescription}}
+- {@pharmacyML={@pharmacyDeniedPrescriptionChild=denied prescriptions}}
+- {@pharmacy2ML={@pharmacyMailOrderChild=express scripts}}
+- {@pharmacyML={@pharmacyOTCChild=firstline benefits}}
+- {@pharmacyML={@pharmacyOTCChild=firstline medical}}
+- having an {@pharmacyML={@pharmacyRefillChild=issue with a prescription}}
+- {@pharmacyML={@pharmacyGeneralChild=help with prescription}}
+- {@pharmacy2ML={@pharmacyMailOrderChild=home delivery}}
+- i have a {@pharmacyML={@pharmacyGeneralChild=pharmacy}} question
+- i have a question about {@pharmacyML={@pharmacyPriceCostChild=medication cost}}
+- i have a question about the {@pharmacyML={@pharmacyPriceCostChild=cost of a prescription}}
+- i need {@pharmacy2ML={@pharmacyMailOrderChild=home delivery}}
+- i wanna check the {@pharmacyML={@pharmacyPriceCostChild=price of a prescription}}
+- i want to check the {@pharmacyML={@pharmacyPriceCostChild=price of a prescription}}
+- i'm calling about a {@pharmacyML={@pharmacyPriceCostChild=prescription on price}}
+- i'm {@pharmacyML={@pharmacyGeneralChild=calling about a prescription}} to see how much it {@pharmacyML={@pharmacyPriceCostChild=cost}}
+- i'm calling to {@pharmacyML={@pharmacyPriceCostChild=price a medication}} through the pharmacy
+- {@pharmacy2ML={@pharmacyMailOrderChild=mail order}}
+- {@pharmacy2ML={@pharmacyMailOrderChild=mail order pharmacy}}
+- {@pharmacyML={@pharmacyGeneralChild=medication}}
+- {@pharmacyML={@pharmacyPreapprovalChild=medication approval}}
+- {@pharmacyML={@pharmacyGeneralChild=medication cost}}
+- {@pharmacyML={@pharmacyGeneralChild=medication costs}}
+- {@pharmacyML={@pharmacyGeneralChild=medication issue}}
+- {@pharmacyML={@pharmacyPriceCostChild=medication price}}
+- {@pharmacyML={@pharmacyGeneralChild=medication prices}}
+- {@pharmacyML={@pharmacyGeneralChild=medication question}}
+- {@pharmacyML={@pharmacyGeneralChild=medication questions}}
+- {@pharmacyML={@pharmacyGeneralChild=medications}}
+- {@pharmacyML={@pharmacyGeneralChild=medicine}}
+- {@pharmacyML={@pharmacyGeneralChild=medicines}}
+- {@callerTypeML={@callerTypeMemberChild=my}} {@pharmacyML={@pharmacyOTCChild=otc}} card
+- my {@pharmacyML={@pharmacyGeneralChild=pharmacy}} said my plan had expired
+- {@callerTypeML={@callerTypeMemberChild=my}} {@pharmacyML={@pharmacyDeniedPrescriptionChild=prescription was denied}}
+- need to {@pharmacyML={@pharmacyOrderChild=order} medication}
+- {@pharmacyML={@pharmacyGeneralChild=optum rx}}
+- {@pharmacyML={@pharmacyOrderChild=order prescription}}
+- {@pharmacyML={@pharmacyOrderStatusChild=order status}}
+- {@pharmacy2ML={@pharmacyMailOrderChild=order support}}
+- {@pharmacyML={@pharmacyOTCChild=otc}}
+- {@pharmacyML={@pharmacyOTCChild=over the counter}}
+- {@pharmacyML={@pharmacyOTCChild=over the counter benefits}}
+- {@pharmacyML={@pharmacyOTCChild=over the counter drug}}
+- {@pharmacyML={@pharmacyOTCChild=over the counter drugs}}
+- {@pharmacyML={@pharmacyOTCChild=over the counter prescription}}
+- {@pharmacyML={@pharmacyGeneralChild=pharmacies}}
+- {@pharmacyML={@pharmacyGeneralChild=pharmacist}}
+- {@pharmacyML={@pharmacyGeneralChild=pharmacy}}
+- {@pharmacyML={@pharmacyGeneralChild=pharmacy}} {@billingClassifierML=charge}
+- {@pharmacyML={@pharmacyGeneralChild=pharmacy}} coverage
+- {@pharmacyML={@pharmacyGeneralChild=pharmacy}} issue
+- {@pharmacyML={@pharmacyPreapprovalChild=pharmacy preapproval}}
+- {@pharmacyML={@pharmacyGeneralChild=prescription}}
+- {@pharmacyML={@pharmacyPreapprovalChild=prescription approval}}
+- {@pharmacyML={@pharmacyPreapprovalChild=prescription authorization}}
+- {@pharmacyML={@pharmacyPriceCostChild=prescription cost}}
+- {@pharmacyML={@pharmacyGeneralChild=prescription coverage}}
+- {@pharmacyML={@pharmacyDeniedPrescriptionChild=prescription denial}}
+- {@pharmacyML={@pharmacyDeniedPrescriptionChild=prescription denied}}
+- {@pharmacyML={@pharmacyPriceCostChild=prescription drug costs}}
+- {@pharmacyML=prescription drug price}
+- {@pharmacyML={@pharmacyPriceCostChild=prescription drug prices}}
+- {@pharmacyML={@pharmacyGeneralChild=prescription}} drugs
+- {@pharmacyML={@pharmacyGeneralChild=prescription issue}}
+- {@pharmacyML={@pharmacyOrderChild=prescription order}}
+- {@pharmacyML={@pharmacyGeneralChild=prescription}} {@billingClassifierML=payment}
+- {@pharmacyML={@pharmacyPriceCostChild=prescription price}}
+- {@pharmacyML={@pharmacyPriceCostChild=prescription prices}}
+- {@pharmacyML={@pharmacyPriceCostChild=prescription pricing}}
+- {@pharmacyML={@pharmacyGeneralChild=prescription}} problem
+- {@pharmacyML={@pharmacyRefillChild=prescription refill}}
+- {@pharmacyML={@pharmacyRefillChild=prescription refills}}
+- {@pharmacyML={@pharmacyDeniedPrescriptionChild=prescription rejected}}
+- {@pharmacyML={@pharmacyDeniedPrescriptionChild=prescription rejection}}
+- {@pharmacyML={@pharmacyRenewalChild=prescription renewal}}
+- {@pharmacyML={@pharmacyRefillChild=prescription reorder}}
+- {@pharmacyML={@pharmacyOrderStatusChild=prescription status}}
+- {@pharmacyML={@pharmacyGeneralChild=prescription verification}}
+- {@pharmacyML={@pharmacyGeneralChild=prescriptions}}
+- {@pharmacyML={@pharmacyPriceCostChild=price medication}}
+- {@pharmacyML={@pharmacyPriceCostChild=price of a medication}}
+- {@pharmacyML={@pharmacyPriceCostChild=price}} of a {@pharmacyML={@pharmacyGeneralChild=prescription}}
+- {@pharmacyML={@pharmacyPriceCostChild=price of prescription}}
+- {@pharmacyML={@pharmacyPriceCostChild=price on prescription}}
+- {@pharmacyML={@pharmacyPriceCostChild=pricing on medication}}
+- {@pharmacyML={@pharmacyPriceCostChild=pricing on prescriptions}}
+- {@pharmacyML={@pharmacyGeneralChild=question about medication}}
+- question about {@pharmacyML={@pharmacyGeneralChild=pharmacy}} benefits
+- {@pharmacyML={@pharmacyRefillChild=refill}}
+- {@pharmacyML={@pharmacyRefillChild=refill prescription}}
+- {@pharmacyML={@pharmacyRefillChild=refill prescriptions}}
+- {@pharmacyML={@pharmacyGeneralChild=refills}}
+- {@pharmacyML={@pharmacyRenewalChild=renew prescription}}
+- {@pharmacyML={@pharmacyRefillChild=reorder prescription}}
+- {@pharmacy2ML={@pharmacyMailOrderChild=request home delivery}}
+- setup {@pharmacy2ML={@pharmacyMailOrderChild=home delivery}}
+- {@pharmacyML={@pharmacySpecialtyChild=specialty}}
+- {@pharmacyML={@pharmacySpecialtyChild=specialty drug}}
+- {@pharmacyML={@pharmacySpecialtyChild=specialty} {@pharmacyGeneralChild=pharmacy}}
+- {@pharmacyML={@pharmacySpecialtyChild=specialty prescription}}
+- {@pharmacyML={@pharmacyOrderStatusChild=status of a medication}}
+- {@pharmacyML={@pharmacyOrderStatusChild=status of {@callerTypeML={@callerTypeMemberChild=my}} prescription}}
+- {@pharmacyML={@pharmacyOrderStatusChild=status of order}}
+- the {@pharmacyML={@pharmacyPriceCostChild=cost of a prescription}}
+- the {@pharmacyML={@pharmacyGeneralChild=pharmacist}} says my insurance has expired
+- the {@pharmacyML={@pharmacyPriceCostChild=price of my prescriptions}}
+- to check my benefit {@pharmacyML={@pharmacyGeneralChild=pharmacy}}
+- try to get {@pharmacyML={@pharmacySpecialtyChild=specialty}}
+- {@pharmacyML={@pharmacyGeneralChild=vacation override}}
+- {@pharmacyML}
+- {@pharmacy2ML}
+
+
+@ intent pharmacy usesFeatures pharmacyML,pharmacyClassifierList,pharmacy2ML
+
+# planType
+- {@planTypeML=coverage under {@planTypePartDChild=part d}}
+- {@planTypeML=coverage under {@planTypePartDChild=party}}
+- {@planTypeML=does our {@planTypePartDChild=part d plan} cover} the
+- information on {@planTypeML={@planTypeAdvantageChild=medicare advantage}}
+- {@planTypeML=medicare}
+- {@planTypeML={@planTypeAdvantageChild=medicare advantage}}
+- {@planTypeML={@planTypeAdvantageChild=medicare advantage information}}
+- {@planTypeML={@planTypeAdvantageChild=medicare advantage plan}}
+- {@planTypeML={@planTypePartDChild=medicare part d}}
+- {@planTypeML={@planTypeSupplementalChild=medicare supplement}}
+- {@planTypeML={@planTypeSupplementalChild=medicare supplemental plan}}
+- {@planTypeML={@planTypePartDChild=part d}}
+- {@planTypeML={@planTypeSupplementalChild=supplemental}}
+- {@planTypeML={@planTypeSupplementalChild=supplemental insurance}}
+- {@planTypeML}
+
+
+@ intent planType usesFeature planTypeML
+
+# policyGroupNumber
+- {@policyGroupNumberML=account and group number}
+- {@policyGroupNumberML=group number}
+- {@policyGroupNumberML=policy number}
+- {@policyGroupNumberML}
+
+
+@ intent policyGroupNumber usesFeature policyGroupNumberML
+
+# preAuthorization
+- {@authorizationML=approval}
+- {@authorizationML={@benefits1ML=authorization}}
+- {@authorizationML=authorization} for procedure
+- {@authorizationML=authorization} for surgery
+- {@authorizationML=authorization} status
+- {@authorizationML=authorizations}
+- {@authorizationML=authorize}
+- check on {@authorizationML=preapproval}
+- i'm calling about a {@authorizationML=preauthorization} request
+- medical {@authorizationML=authorization}
+- mental health {@authorizationML=authorization}
+- mri {@authorizationML=authorization}
+- {@authorizationML=notifications}
+- {@authorizationML=notify}
+- {@authorizationML=pre authorization}
+- {@authorizationML=pre qualification}
+- {@authorizationML=preapproval}
+- {@authorizationML=preapproval} for procedure
+- {@authorizationML=preapproval} for surgery
+- {@authorizationML=preauth}
+- {@authorizationML=preauthorization}
+- {@authorizationML=preauthorization} for surgery
+- {@authorizationML=preauthorization} question
+- {@authorizationML=precert}
+- {@authorizationML=precertification}
+- {@authorizationML=prequalification}
+- {@authorizationML=prior auth}
+- {@authorizationML=prior authorization request}
+- prior {@authorizationML=authorization} status
+- {@authorizationML=procedure approval}
+- procedure {@authorizationML=preapproval}
+- surgery {@authorizationML=preapproval}
+- {@authorizationML}
+
+
+@ intent preAuthorization usesFeatures AuthFeature,authorizationML
+
+# prevention
+- a question about {@preventionML={@preventionWellnessChild=updating a scorecard}}
+- {@preventionML={@preventionNurseLineChild=clinical question}}
+- {@preventionML={@preventionWellnessChild=coach}}
+- information on {@preventionML={@preventionWellnessChild=well connected}}
+- learn more about {@preventionML={@preventionWellnessChild=well connected}}
+- {@preventionML={@preventionNurseLineChild=nurse}}
+- {@preventionML={@preventionNurseLineChild=nurse line}}
+- {@preventionML={@preventionNurseLineChild=nurseline}}
+- {@preventionML={@preventionNurseLineChild=nurses}}
+- {@preventionML={@preventionNurseLineChild=nursing}}
+- {@preventionML=prevention}
+- {@preventionML={@preventionNurseLineChild=registered nurse}}
+- {@preventionML={@preventionWellnessChild=scorecard}}
+- speak to a {@preventionML={@preventionNurseLineChild=nurse}}
+- {@preventionML={@preventionWellnessChild=speak to wellness coach}}
+- {@preventionML={@preventionWellnessChild=well connect}}
+- {@preventionML={@preventionWellnessChild=well connected}}
+- {@preventionML={@preventionWellnessChild=wellness}}
+- {@preventionML={@preventionWellnessChild=wellness coach}}
+- {@preventionML={@preventionWellnessChild=wellness}} kit
+- {@nurseList}
+
+
+@ intent prevention usesFeatures preventionNurseFeature,preventionML,nurseList
+
+# pulmonaryDisease
+- {@copdML=copd}
+- i need help with {@copdML=copd}
+- please help me with {@copdML=pulmonary disease}
+- {@copdML=pulmonary disease}
+
+
+@ intent pulmonaryDisease usesFeature copdML
+
+# repeat
+- {@repeatML=again}
+- {@repeatML=couldn't hear your question}
+- {@repeatML=did not hear your question}
+- {@repeatML=didn't get your question}
+- {@repeatML=didn't hear your question}
+- {@repeatML=i did not hear you}
+- {@repeatML=i didn't hear you}
+- {@repeatML=i didn't understand}
+- {@repeatML=one more time}
+- {@repeatML=repeat}
+- {@repeatML=say again}
+- {@repeatML=say that again}
+- {@repeatML=what did you just say}
+- {@repeatML=what did you say}
+- {@repeatML=what was that}
+
+
+@ intent repeat usesFeature repeatML
+
+# report
+- {@reportML={@reportNewbornChild=add a new born}}
+- {@reportML={@reportNewbornChild=add newborn}}
+- {@reportML={@reportNewbornChild=add newborn coverage}}
+- {@reportML={@reportNewbornChild=adding newborn}}
+- {@reportML={@reportNewbornChild=adding newborn to plan}}
+- {@reportML={@reportDeathChild=death}}
+- {@reportML={@reportDeathChild=death of a member}}
+- {@reportML={@reportDeathChild=deceased}}
+- {@reportML={@reportDeathChild=died}}
+- {@reportML={@reportDeathChild=member deceased}}
+- {@reportML={@reportDeathChild=my husband passed away}}
+- {@reportML={@reportNewbornChild=newborn}}
+- {@reportML={@reportDeathChild=notification of death}}
+- {@reportML={@reportDeathChild=notify of death}}
+- {@reportML={@reportDeathChild=report a death}}
+- {@reportML={@reportDeathChild=reporting of a death}}
+- {@reportML={@reportDeathChild=subscriber death}}
+
+
+@ intent report usesFeature reportML
+
+# resources
+- {@resourcesML=calling for {@cancerChild=cancer resource services}}
+- {@resourcesML={@cancerChild=cancer}}
+- {@resourcesML={@cancerChild=cancer resource}}
+- {@resourcesML={@cancerChild=cancer resource service}}
+- {@resourcesML={@cancerChild=cancer resource services}}
+- {@resourcesML={@cancerChild=cancer resources}}
+- {@resourcesML={@cancerChild=cancer services}}
+- i'm looking for {@resourcesML={@cancerChild=cancer resource services}}
+- {@resourcesML={@kidneyChild=kidney}}
+- {@resourcesML={@kidneyChild=kidney resource}}
+- {@resourcesML={@kidneyChild=kidney resource services}}
+- {@resourcesML={@kidneyChild=kidney resources}}
+- tell me more about {@resourcesML={@cancerChild=cancer resource services}}
+- {@resourcesML}
+
+
+@ intent resources usesFeature resourcesML
+
+# returnCall
+- {@returnCallML=call back}
+- {@returnCallML=call i received}
+- {@returnCallML=calling back}
+- {@returnCallML=i got disconnected}
+- {@returnCallML=phone call}
+- {@returnCallML=return a call}
+- {@returnCallML=return call}
+- {@returnCallML=returning a call}
+- told me to {@returnCallML=call back}
+- well you just {@returnCallML=hung up on me a little while ago}
+
+
+@ intent returnCall usesFeature returnCallFeature
+
+# rewardsForActionGeneral
+- action
+- actions
+- health action
+- health action rewards
+- rewards for health action
+
+
+@ intent rewardsForActionGeneral usesFeature rewardsForHealthActionFeature
+
+# rewardsForHealthGeneral
+- a question about {@rewardsML=rally} for the health
+- {@rewardsML=bio metric}
+- {@rewardsML=biometric screening}
+- {@rewardsML=delta health rewards}
+- {@rewardsML=delta health rewards} and my {@rewardsML=points}
+- {@rewardsML=delta heath rewards}
+- {@rewardsML=gift card} for your physical
+- {@rewardsML=health rewards}
+- {@rewardsML=health screening}
+- {@rewardsML=healthcare rewards}
+- {@rewardsML=healthy incentives}
+- {@callerTypeML={@callerTypeMemberChild=my}} {@rewardsML=points}
+- question on {@rewardsML=reward plan}
+- {@rewardsML=rally}
+- regarding my {@rewardsML=renew rewards}
+- {@rewardsML=renew rewards}
+- {@rewardsML=reward plan}
+- {@rewardsML=reward program}
+- {@rewardsML=rewards}
+- {@rewardsML=rewards for health}
+- {@rewardsML=rewards plan}
+
+
+@ intent rewardsForHealthGeneral usesFeatures rewardsForHealthGeneralFeature,rewardsML
+
+# silverSneakers
+- activate {@silverSneakersML=silversneaker}
+- activation code for {@silverSneakersML=silver sneakers}
+- check on {@silverSneakersML=silversneakers} account
+- {@silverSneakersML=exercise}
+- {@silverSneakersML=exercise program}
+- {@silverSneakersML=fitness}
+- {@silverSneakersML=fitness plan}
+- {@silverSneakersML=fitness program}
+- {@silverSneakersML=gym membership}
+- {@silverSneakersML=gym memberships}
+- {@silverSneakersML=health and fitness}
+- {@silverSneakersML=health and fitness} benefit
+- {@silverSneakersML=health club}
+- i have a question about signing up for {@silverSneakersML=silversneakers}
+- i have a question about {@silverSneakersML=silversneaker}
+- question about {@silverSneakersML=silvers sneakers}
+- {@silverSneakersML=renew active}
+- {@silverSneakersML=silver sneaker} program
+- {@silverSneakersML=silver sneakers}
+- {@silverSneakersML=silver sneakers} membership
+- {@silverSneakersML=silversneaker} program
+- {@silverSneakersML=silversneakers}
+- {@silverSneakersML=silversneakers} membership
+- yeah {@silverSneakersML=silver sneakers} activation code
+
+
+@ intent silverSneakers usesFeatures silverSneakersFeature,silverSneakersML
+
+# smokingCessation
+- confirm i am tobacco free
+- i want to ask a question about smoking
+- i would like to quit smoking
+- quit for life
+- smoking
+- smoking cessation
+- speak to someone about quit smoking
+- tobacco
+
+
+@ intent smokingCessation usesFeature smokingCessationFeature
+
+# solutran
+- get through {@solutranML=solutran}
+- health program from {@solutranML=solutran}
+- how can i contact {@solutranML=solutran} support
+- {@solutranML=silatral}
+- {@solutranML=silutrin}
+- {@solutranML=solatran}
+- {@solutranML=solitaire}
+- {@solutranML=solitrin}
+- {@solutranML=solitron}
+- {@solutranML=solu tran}
+- {@solutranML=solu tron}
+- {@solutranML=solution}
+- {@solutranML=solutraan}
+- {@solutranML=solutran}
+- {@solutranML=solutrin}
+- {@solutranML=solutron}
+- tell me about {@solutranML=solutran}
+- whats unique about {@solutranML=solutran}
+
+
+@ intent solutran usesFeatures solutranFeature,solutranML
+
+# somethingElse
+- {@somethingElseML=anything else}
+- help with {@somethingElseML=something else}
+- i am looking for {@somethingElseML=something else}.
+- i'm looking for a {@somethingElseML=different thing}.
+- i'm trying to find {@somethingElseML=something else}.
+- it's for {@somethingElseML=something else}
+- {@somethingElseML=something different}
+- {@somethingElseML=something else}
+- {@somethingElseML=something else} benefits
+- {@somethingElseML=something else} claims
+- {@somethingElseML}
+
+
+@ intent somethingElse usesFeatures somethingElseList,somethingElseML
+
+# spanish
+- ¡hola! sí, hablo español con fluidez
+- 1. hola, ¿cómo estás
+- claro que sí, soy hispanohablante
+- entiendo y hablo español con fluidez
+- espanol
+- espanol por favor
+- espanol someone that speaks spanish
+- espanola
+- espanyol
+- espanyol please
+- estoy hablando en español
+- hablas español?
+- hablo español como segunda lengua
+- hispanic
+- hispano
+- i speak only spanish. sometimes i speak english but not all the time because i don't understand
+- mi idioma nativo es el español
+- mi inglés es limitado.
+- no comprendo
+- no english
+- no entiendo
+- no entiendo inglés.
+- no habla ingles
+- no hablo english
+- no me manejo bien en inglés.
+- no puedo hablar en inglés.
+- no sé hablar inglés.
+- no soy fluido en inglés.
+- no tengo conocimientos de inglés.
+- prefiero hablar en español
+- sí, hablo español
+- soy hispanohablante
+- soy un hablante nativo de español.
+- spanish
+- spanyol
+
+
+@ intent spanish usesFeature spanishList
+
+# subrogationGeneral
+- i'm calling regarding {@subrogationGeneralML=subrogation}
+- need {@subrogationGeneralML=subrogation department}
+- need to talk about {@subrogationGeneralML=subrogation}
+- {@subrogationGeneralML=subrogation}
+- {@subrogationGeneralML=subrogation} amount
+- {@subrogationGeneralML=subrogation department}
+- {@subrogationGeneralML=subrogation} inquiry
+- {@subrogationGeneralML=subrogation} phone number
+- {@subrogationGeneralML=subrogation} printout
+- {@subrogationGeneralML=subrogation} question
+- {@subrogationGeneralML=subrogation} report
+- {@subrogationGeneralML=subrogation} team
+
+
+@ intent subrogationGeneral usesFeature subrogationGeneralML
+
+# translator
+- could you get me a {@translatorML=translator}
+- i {@translatorML=do not speak english}
+- i {@translatorML=don't know english}
+- i {@translatorML=don't speak any english}
+- i {@translatorML=don't speak english}
+- i {@translatorML=don't speak in english}
+- {@translatorML=i} {@translatorML=don't talk english}
+- i {@translatorML=don’t speak english}
+- i need a {@translatorML=translator}
+- i wanna {@translatorML=translator}
+- i want a {@translatorML=translator}
+- i want {@translatorML=translator}
+- {@translatorML=translator}
+
+
+@ intent translator usesFeature translatorML
+
+# transportation
+- arrange {@transportationML=transport}
+- {@transportationML={@cancelTransportationChild=cancel a ride}}
+- {@transportationML={@cancelTransportationChild=cancel transportation}}
+- confirming {@callerTypeML={@callerTypeMemberChild=my}} {@transportationML=ride to the doctor}
+- i need a {@transportationML=ride} home
+- i {@transportationML=need a ride} to the doctor
+- i need to {@transportationML=have a ride} for my doctor's appointment
+- i {@transportationML=need transportation}
+- i want to {@transportationML=check the status of {@callerTypeML={@callerTypeMemberChild=my}} ride}
+- i'm being discharged and {@transportationML=i need a ride home}
+- i'm calling i'm calling about a {@transportationML=medical ride}
+- medical {@transportationML=transportation}
+- {@transportationML=medical transportation services}
+- {@transportationML=modivcare}
+- {@transportationML=need a ride}
+- {@transportationML=need transportation}
+- {@transportationML=need transportation services}
+- {@transportationML=ride}
+- {@transportationML=ride home}
+- {@transportationML=ride} to get to
+- {@transportationML=ride} to my
+- {@transportationML=rides}
+- {@transportationML=saferide}
+- {@transportationML=saferides}
+- {@transportationML=schedule a ride}
+- {@transportationML=setup a ride}
+- {@transportationML=setup transportation}
+- {@transportationML=transport}
+- {@transportationML=transportation}
+- {@transportationML=transportation} cost
+- {@transportationML=transportation} costs
+- {@transportationML=transportation service}
+- {@transportationML=transportation services}
+
+
+@ intent transportation usesFeature transportationML
+
+# treatmentDecision
+- decision on treatment
+- treatment decision
+
+
+@ intent treatmentDecision usesFeature treatmentDecisionFeature
+
+# treatmentDiabetes
+- {@diabeticML=diabetes}
+- {@diabeticML=diabetes} equipment
+- {@diabeticML=diabetes} supplies
+- {@diabeticML=diabetic}
+- {@diabeticML=diabetic} supplies
+- {@diabeticML=diabetic} support
+- need a {@diabeticML=diabetic} meter
+
+
+@ intent treatmentDiabetes usesFeatures treatmentDiabetesFeature,diabeticML
+
+# treatmentEmergencyRoom
+- access {@treatmentERML=urgent care}
+- admitted to the {@treatmentERML=emergency room}
+- {@treatmentERML=emergency room}
+- {@treatmentERML=emergency} {@treatmentERML=urgent care}
+- {@treatmentERML=er}
+- i need {@treatmentERML=urgent care}
+- i'm looking for {@treatmentERML=urgent care}
+- want to check {@treatmentERML=urgent care}
+- {@treatmentERML}
+
+
+@ intent treatmentEmergencyRoom usesFeatures treatmentERList,treatmentERML
+
+# treatmentTransplant
+- i need transplant services
+- transplant
+- transplant services
+- transplant treatment
+- treatment transplant
+- {@transplantList}
+
+
+@ intent treatmentTransplant usesFeature transplantList
+
+# uCard
+- $20 worth of {@uCardML=free food}
+- a {@uCardML={@uCardReplaceCardChild=new card}}
+- {@uCardML={@uCardActivateChild=activate}}
+- {@uCardML={@uCardActivateChild=activate a you card}}
+- {@uCardML={@uCardActivateChild=activate card}}
+- {@uCardML={@uCardActivateChild=activate {@callerTypeML={@callerTypeMemberChild=my}} card}}
+- {@uCardML={@uCardActivateChild=activate} {@callerTypeML={@callerTypeMemberChild=my}} new ucard}
+- {@uCardML={@uCardActivateChild=activate} {@callerTypeML={@callerTypeMemberChild=my}} ucard}
+- {@uCardML={@uCardActivateChild=activate {@callerTypeML={@callerTypeMemberChild=my}} united health card}}
+- {@uCardML={@uCardActivateChild=activate the card}}
+- {@uCardML={@uCardActivateChild=activate u card}}
+- {@uCardML={@uCardActivateChild=activate ucard}}
+- {@uCardML={@uCardActivateChild=activate united health card}}
+- {@uCardML={@uCardActivateChild=activate you card}}
+- {@uCardML={@uCardActivateChild=activated}}
+- {@uCardML={@uCardActivateChild=activating}}
+- {@uCardML={@uCardActivateChild=activating {@callerTypeML={@callerTypeMemberChild=my}} card}}
+- {@uCardML={@uCardActivateChild=activation}}
+- {@uCardML={@uCardActivateChild=activation of card}}
+- adding points to {@uCardML=my you card} monthly points
+- am i going to {@uCardML={@uCardOrderStatusChild=receive a new ucard}}?
+- are you {@uCardML={@uCardReplaceCardChild=replacing my u card}}?
+- {@uCardML={@uCardBalanceChild=balance is on {@callerTypeML={@callerTypeMemberChild=my}} you card}}
+- {@uCardML={@uCardBalanceChild=balance of {@callerTypeML={@callerTypeMemberChild=my}} u card}}
+- {@uCardML={@uCardBalanceChild=balance of {@callerTypeML={@callerTypeMemberChild=my}} ucard}}
+- {@uCardML={@uCardBalanceChild=balance of {@callerTypeML={@callerTypeMemberChild=my}} you card}}
+- {@uCardML={@uCardBalanceChild=balance of the united healthcare u card}}
+- {@uCardML={@uCardBalanceChild=balance of you card}}
+- {@uCardML={@uCardBalanceChild=balance on {@callerTypeML={@callerTypeMemberChild=my}} eu card}}
+- {@uCardML={@uCardBalanceChild=balance on {@callerTypeML={@callerTypeMemberChild=my}} ucard}}
+- {@uCardML={@uCardBalanceChild=balance on {@callerTypeML={@callerTypeMemberChild=my}} you card}}
+- {@uCardML={@uCardBalanceChild=balance on ucard}}
+- {@uCardML={@uCardBalanceChild=balance on you card}}
+- can i get my {@uCardML={@uCardReplaceCardChild=u card replaced}}
+- can i see {@callerTypeML={@callerTypeMemberChild=my}} {@uCardML=u-card}?
+- can u tell me {@uCardML={@uCardBalanceChild=ucard balance}}
+- can you mail me {@uCardML={@uCardReplaceCardChild=another ucard}}?
+- can you mail me {@uCardML={@uCardReplaceCardChild=another youcard}}
+- can you tell me {@uCardML={@uCardBalanceChild={@callerTypeML={@callerTypeMemberChild=my}} ucard balance}}
+- can you tell me what {@callerTypeML={@callerTypeMemberChild=my}} {@uCardML={@uCardBalanceChild=ucard balance is}}
+- {@uCardML=cancel you card}
+- {@balanceML=check {@callerTypeML={@callerTypeMemberChild=my}} {@uCardML={@uCardBalanceChild=balance on {@callerTypeML={@callerTypeMemberChild=my}}} u card}}
+- check the {@uCardML={@uCardBalanceChild=balance on {@callerTypeML={@callerTypeMemberChild=my}} u card}}
+- did not received rewards to {@uCardML=my you card}
+- {@uCardML={@uCardBalanceChild=eu card balance}}
+- {@uCardML=eucard}
+- find out why i haven't gotten my {@uCardML={@uCardReplaceCardChild=new card}}
+- {@uCardML=food allowance card} benefits
+- {@uCardML=food card}
+- {@uCardML={@uCardBalanceChild=food card balance}}
+- {@uCardML=food share}
+- {@uCardML=get {@callerTypeML={@callerTypeMemberChild=my}} u-card}
+- {@uCardML=groceries}
+- haven't received my {@uCardML={@uCardReplaceCardChild=new card}}
+- how and where on this site do i {@uCardML={@uCardActivateChild=activate {@callerTypeML={@callerTypeMemberChild=my}} new ucard}}?
+- how do i {@uCardML={@uCardActivateChild=activate {@callerTypeML={@callerTypeMemberChild=my}} card}}
+- how do i obtain or {@uCardML={@uCardActivateChild=activate} {@callerTypeML={@callerTypeMemberChild=my}} ucard}
+- how long will it take to {@uCardML={@uCardOrderStatusChild=receive a new ucard}}
+- how to {@uCardML={@uCardActivateChild=activate} {@callerTypeML={@callerTypeMemberChild=my}} ucard}?
+- how to view my {@uCardML={@uCardBalanceChild=u card balances}}
+- i called to put money on {@callerTypeML={@callerTypeMemberChild=my}} utility bill and i could not access the automated system
+- i have misplaced my {@uCardML=ucard}
+- i have {@uCardML={@uCardOrderStatusChild=not received {@callerTypeML={@callerTypeMemberChild=my}} new ucard}}
+- {@uCardML={@uCardOrderStatusChild=i haven’t received {@callerTypeML={@callerTypeMemberChild=my}} new ucard}} yet
+- i just shopped at a walmart and my {@uCardML=u card} was declined
+- i just want to {@uCardML={@uCardActivateChild=activate {@callerTypeML={@callerTypeMemberChild=my}} new ucard}}
+- i like to {@uCardML={@uCardActivateChild=register this u card}}
+- i need a {@uCardML={@uCardReplaceCardChild=new card}}
+- i need a {@uCardML={@uCardReplaceCardChild=new card}} please
+- i need {@callerTypeML={@callerTypeMemberChild=my}} {@uCardML=u-card}
+- i need the {@uCardML={@uCardBalanceChild=balance on my you card}} for rewards
+- i need to {@uCardML={@uCardActivateChild=activate my card}}
+- i need to find out the {@uCardML={@uCardBalanceChild=balance for groceries}} on my account
+- i need to know how to use {@uCardML=my card} for {@uCardML=utilities}
+- i need to mail me {@callerTypeML={@callerTypeMemberChild=my}} {@uCardML=ucard}
+- i need to see a copy of {@callerTypeML={@callerTypeMemberChild=my}} {@uCardML=ucard}
+- i want to put {@uCardML=money on my utilities and my internet}
+- i'm a {@uCardML=you card} member and i went into walgreens and they said call you because they don't understand why my card won't work
+- i'm calling about {@callerTypeML={@callerTypeMemberChild=my}} {@uCardML=u card} so that i can find out what i have to do
+- i’m trying to {@uCardML={@uCardActivateChild=activate} {@callerTypeML={@callerTypeMemberChild=my}} ucard}
+- {@callerTypeML={@callerTypeMemberChild=my}} wallet was stolen and i need to {@uCardML={@uCardReplaceCardChild=replace my eu card}}
+- {@uCardML=my you card}
+- {@callerTypeML={@callerTypeMemberChild=my}} {@uCardML={@uCardBalanceChild=you card benefit balance}}
+- {@callerTypeML={@callerTypeMemberChild=my}} {@uCardML={@uCardActivateChild=you card is not working}}
+- {@uCardML=my you card} was mailed to an {@accountUpdateML=incorrect address}
+- {@callerTypeML={@callerTypeMemberChild=my}} {@uCardML={@uCardOrderStatusChild=youcard status}}
+- need help {@uCardML={@uCardActivateChild=activate {@callerTypeML={@callerTypeMemberChild=my}} card}}
+- need help to {@uCardML={@uCardReplaceCardChild=replace my missing you card}}
+- need help with {@uCardML={@uCardReplaceCardChild=replacing my your card}}
+- need {@uCardML={@uCardReplaceCardChild=new card}}
+- need new {@uCardML=ucard}
+- need to get a {@uCardML={@uCardReplaceCardChild=new card}} mailed to me
+- need to make a {@uCardML=utility} payment with {@callerTypeML={@callerTypeMemberChild=my}} {@uCardML=utc card}
+- need to {@uCardML={@uCardReplaceCardChild=replace my u card}}
+- {@uCardML={@uCardReplaceCardChild=new card}}
+- now {@uCardML=food voucher card}
+- pay {@uCardML=utility} bills
+- payment of {@uCardML=utility} bill with {@uCardML=otc card}
+- please {@uCardML={@uCardReplaceCardChild=replace missing u card}}.
+- {@uCardML={@uCardActivateChild=register my your card}}
+- {@uCardML={@uCardActivateChild=register you card}}
+- {@uCardML={@uCardReplaceCardChild=replace ucard}}
+- {@uCardML={@uCardReplaceCardChild=request a new you card}}
+- request {@uCardML={@uCardReplaceCardChild=new card}}
+- reward {@uCardML=you card}
+- see if {@uCardML={@uCardActivateChild={@callerTypeML={@callerTypeMemberChild=my}} card is activated}}
+- shop for {@uCardML=healthy food}
+- should i be expecting a new {@uCardML=ucard} for
+- {@uCardML={@uCardOrderStatusChild=status of {@callerTypeML={@callerTypeMemberChild=my}} u card}}
+- {@uCardML={@uCardOrderStatusChild=status of my your card}}
+- the {@uCardML={@uCardBalanceChild=balance on {@callerTypeML={@callerTypeMemberChild=my}} u card and to add more money on eu card}} for going to the doctors
+- the {@uCardML=uk card} the {@uCardML=food allowance}
+- trying to {@uCardML={@uCardActivateChild=activate} {@callerTypeML={@callerTypeMemberChild=my}} ucard}.
+- {@uCardML={@uCardActivateChild=u card activation}}
+- {@uCardML={@uCardReplaceCardChild=u card replacement}}
+- {@uCardML=u card} rewards
+- {@uCardML={@uCardBalanceChild=u-card balance}}
+- {@uCardML={@uCardBalanceChild=u-card balance}}?
+- {@uCardML=ucard}
+- {@uCardML={@uCardBalanceChild=ucard account activity}}
+- {@uCardML=ucard {@uCardActivateChild=activation}}
+- {@uCardML={@uCardBalanceChild=ucard balance}}
+- {@uCardML={@uCardActivateChild=ucard is not working}}
+- {@uCardML={@uCardActivateChild=ucard not working}}
+- {@uCardML={@uCardReplaceCardChild=ucard replacement}}
+- {@uCardML={@uCardBalanceChild=ucard transaction history}}
+- {@uCardML=ukird}
+- umm i need to um put money on my utilities
+- {@uCardML=universal card}
+- {@uCardML=utilities}
+- {@uCardML=utility}
+- {@uCardML=utility} payment with {@callerTypeML={@callerTypeMemberChild=my}} {@uCardML=otc card}
+- view digital {@uCardML=ucard}
+- want to put some money on my {@uCardML=utility} electricity
+- want to see if {@uCardML={@uCardActivateChild={@callerTypeML={@callerTypeMemberChild=my}} card is active}}
+- what are the benefits of {@callerTypeML={@callerTypeMemberChild=my}} {@uCardML=ucard}
+- what is {@uCardML={@uCardBalanceChild={@callerTypeML={@callerTypeMemberChild=my}} ucard balance}}
+- when can i expect my new {@uCardML=ucard}
+- when can i expect my new {@uCardML=ucard}?
+- {@uCardML={@uCardOrderStatusChild=when will i receive {@callerTypeML={@callerTypeMemberChild=my}} new ucard}} in the mail
+- {@uCardML={@uCardOrderStatusChild=when will {@callerTypeML={@callerTypeMemberChild=my}} ucard be mailed}} to me
+- whend o i get {@callerTypeML={@callerTypeMemberChild=my}} {@uCardML=u-card}?
+- where can i find {@callerTypeML={@callerTypeMemberChild=my}} {@uCardML=u-card}
+- where can i see {@callerTypeML={@callerTypeMemberChild=my}} {@uCardML=universal card}
+- where do i find my {@uCardML=ucard}?
+- wondering when i will {@uCardML={@uCardOrderStatusChild=receive a new ucard}}.
+- yes i'm calling about my {@uCardML={@uCardReplaceCardChild=new card}}
+- yes um i have a {@uCardML=ucard}
+- {@uCardML={@uCardBalanceChild=you card account balance}}
+- {@uCardML=you card {@uCardActivateChild=activation}}
+- {@uCardML={@uCardBalanceChild=you card balance}}
+- {@uCardML=you card} benefits
+- {@uCardML={@uCardActivateChild=you card is no longer working}}
+- {@uCardML={@uCardReplaceCardChild=you card replacement}}
+- {@uCardML=you card} reward
+- {@uCardML={@uCardOrderStatusChild=you card status}}
+- {@uCardML={@uCardBalanceChild=youcard balance}}
+- {@uCardML={@uCardOrderStatusChild=youcard order status}}
+- {@uCardML={@uCardActivateChild=your card activation}}
+- {@uCardML={@uCardBalanceChild=your card balance}}
+- {@uCardML={@uCardBalanceChild=your card transaction history}}
+- {@uCardList}
+
+
+@ intent uCard usesFeature uCardML
+
+# upsetCaller
+- {@upsetCallerML=*}
+- {@upsetCallerML=**}
+- {@upsetCallerML=***}
+- {@upsetCallerML=****}
+- {@upsetCallerML=*****}
+- {@upsetCallerML=******}
+- {@upsetCallerML=*******}
+- {@upsetCallerML=********}
+- {@upsetCallerML=jesus christ}
+- just kiss {@callerTypeML={@callerTypeMemberChild=my}}
+- {@upsetCallerML=oh my god}
+- {@upsetCallerML=omg}
+- {@upsetCallerML=ridiculous}
+- {@upsetCallerML=stupid}
+- {@upsetCallerML}
+
+
+@ intent upsetCaller usesFeature upsetCallerML
+
+# virtualVisit
+- can i use {@virtualVisitML=teladoc}
+- does my plan cover {@virtualVisitML=virtual visit}
+- i need the number for {@virtualVisitML=teladoc}
+- information for {@virtualVisitML=telehealth} services
+- information on {@virtualVisitML=telemedicine}
+- looking for {@virtualVisitML=telemedicine}
+- {@virtualVisitML=tela doc}
+- {@virtualVisitML=tela health}
+- {@virtualVisitML=teladoc}
+- {@virtualVisitML=tele health}
+- {@virtualVisitML=teledoc}
+- {@virtualVisitML=teledoctor}
+- {@virtualVisitML=telehealth}
+- {@virtualVisitML=telemedicine}
+- {@virtualVisitML=televisit}
+- {@virtualVisitML=virtual visit}
+- {@virtualVisitML=virtual visits}
+- yes {@virtualVisitML=teladoc services}
+
+
+@ intent virtualVisit usesFeatures virtualVisitFeature,teleHealthList,virtualVisitML
+
+# vision
+- about {@callerTypeML={@callerTypeMemberChild=my}} {@visionML=eyeglasses}
+- {@visionML=contact lens}
+- corrective {@visionML=eye} surgery
+- {@visionML=eye}
+- {@visionML=eye care}
+- {@visionML=eye doctor}
+- {@visionML=eye exam}
+- {@visionML=eye insurance}
+- {@visionML=eye prescription}
+- {@visionML=eyeglass prescription}
+- {@visionML=eyeglasses}
+- {@visionML=get {@callerTypeML={@callerTypeMemberChild=my}} eyes checked}
+- {@visionML=glasses}
+- i have a question about {@visionML=prescription glasses}
+- i need to get {@visionML=eyeglasses}
+- {@visionML=optometrist}
+- {@visionML=prescription for glasses}
+- question about {@visionML=vision}
+- understand {@callerTypeML={@callerTypeMemberChild=my}} {@visionML=vision benefits}
+- {@visionML=vision}
+- {@visionML=vision benefits}
+- {@visionML=vision care}
+- {@visionML=vision coverage}
+- {@visionML=vision exam}
+- {@visionML=vision insurance}
+- {@visionML=vision plan}
+- {@visionML=vision test}
+- {@visionML}
+
+
+@ intent vision usesFeatures visionGeneralFeature,visionML
+
+# yes
+- absolutely
+- affirmative
+- agreed
+- alright
+- correct
+- it is right
+- it's correct
+- ok
+- okay
+- right
+- right that is it
+- right that’s it
+- sure
+- that is correct
+- that's correct
+- that's perfect
+- that's right
+- yea
+- yeah
+- yeah, that’s it
+- yep
+- yes
+- yes i am
+- yes, i said that
+- yes, it is
+- yup
+
+
+@ intent yes usesFeature yesFeature
+
+> # Entity definitions
+
+@ ml accountUpdateML usesFeatures accountUpdateFeature,accountUpdateList
+    - @ ml addressUpdateChild usesFeature addressUpdateList
+
+
+@ ml agentGeneralML usesFeatures agentGeneralFeature,ZeroRegex
+
+@ ml appointmentML
+    - @ ml appointmentChild usesFeature appointmentList
+
+
+@ ml authorizationML usesFeature AuthFeature
+
+@ ml balanceML usesFeatures balanceFeature,balanceList
+
+@ ml behavioralHealthML
+    - @ ml behavioralHealthChild usesFeature behavioralHealthFeature
+    - @ ml behavioralHealthCrisisChild usesFeature behavioralHealthCrisisFeature
+
+
+@ ml benefits1ML usesFeatures benefitsGeneralFeature,benefitsGeneralChild
+    - @ ml benefitsCertificateChild usesFeature benefitsCertificateFeature
+    - @ ml benefitsMedicalChild usesFeature medicalFeature
+    - @ ml benefitsCancelChild usesFeature benefitsCancelFeature
+    - @ ml benefitsCobraChild usesFeature benefitsCobraFeature
+    - @ ml benefitsCoinsuranceChild usesFeature benefitsCoinsuranceFeature
+    - @ ml benefitsCopayChild usesFeature benefitsCopayFeature
+    - @ ml benefitsEligChild usesFeature benefitsEligList
+        - @ ml benefitsEligStartChild usesFeature benefitsEligibilityStartFeature
+        - @ ml benefitsEligEndsChild usesFeature benefitsEligibilityEndsFeature
+    - @ ml benefitsDeductibleChild usesFeature benefitsDeductibleFeature
+    - @ ml benefitsGeneralChild usesFeature benefitsGeneralFeature
+    - @ ml benefitsSpendingChild usesFeature benefitsSpendingChild
+
+
+@ ml benefits2ML
+    - @ ml benefitsEOBChild usesFeature EOBFeature
+    - @ ml benefitsOutOfPocketChild usesFeature benefitsOutOfPocketFeature
+    - @ ml benefitsAsthmaChild usesFeature benefitsAsthmaFeature
+    - @ ml benefitsBariatricChild usesFeature benefitsBariatricFeature
+    - @ ml benefitsTreatmentChild usesFeature benefitsLabFeature
+    - @ ml benefitsVerifyChild usesFeature benefitsVerifyFeature
+    - @ ml benefitsInternationalChild usesFeature benefitsInternationalFeature
+    - @ ml benefits1099Child usesFeature 1099List
+    - @ ml benefitsFluShotChild usesFeature benefitsFluShotChild
+    - @ ml benefitsHomeHealthChild usesFeature benefitsHomeHealthFeature
+
+
+@ ml benefits3ML
+    - @ ml benefitsHearingAidsChild usesFeature hearingAidsList
+    - @ ml benefitsShinglesChild usesFeature benefitsShinglesFeature
+
+
+@ ml benefitsFluShotChild
+
+@ ml benefitsSpendingChild
+
+@ ml billingClassifierML usesFeature billClassifierList
+
+@ ml callerTypeML
+    - @ ml callerTypeMemberChild usesFeature callerTypeMemberFeature
+    - @ ml callerTypeProviderChild usesFeature callerTypeProviderList
+
+
+@ ml cardReplacementML
+    - @ ml cardGeneralChild usesFeatures cardReplacementFeature,cardGeneralFeature
+    - @ ml cardDentalChild
+    - @ ml lostStolenCardChild usesFeature lostStolenCardFeature
+
+
+@ ml caseManagementML usesFeature caseManagementFeature
+
+@ ml changeProviderML usesFeature changeProviderFeature
+
+@ ml claimsClassifierML usesFeature claimsGeneralFeature
+
+@ ml claimsML usesFeature claimsClassifierList
+    - @ claimsClassifierML claimsGeneralChild
+    - @ ml claimsAppealsChild usesFeature claimsAppealsFeature
+    - @ ml claimsBehavioralChild usesFeature claimsBehavioralFeature
+    - @ ml claimsCOBChild usesFeature claimsCOBFeature
+    - @ ml claimsDentalChild usesFeature claimsDentalFeature
+    - @ ml claimsPharmacyChild usesFeature claimsPharmacyFeature
+    - @ ml claimsVisionChild usesFeature claimsVisionFeature
+    - @ ml claimsReimbursementChild usesFeatures claimsReimbursementFeature,claimsReimbursementList
+    - @ ml claimsMedicalChild usesFeature medicalFeature
+    - @ ml claimsSubrogationChild usesFeature claimsSubrogationFeature
+
+
+@ ml commonNoMatchInsuranceML usesFeature insuranceFeature
+
+@ ml commonNoMatchMembershipML usesFeature commonNoMatchMembershipFeature
+
+@ ml commonNoMatchThanksML usesFeature thanksFeature
+
+@ ml complaintML usesFeature complaintFeature
+
+@ ml conoraryDiseaseML usesFeature coronaryDiseseFeature
+
+@ ml copdML usesFeature copdFeature
+
+@ ml couponBookML usesFeature couponBookFeature
+
+@ ml covidML usesFeature covidRegEx
+    - @ ml covidChild usesFeature covidVaccineFeature
+    - @ ml pfizerChild usesFeature pfizerVacFeature
+    - @ ml modernaChild usesFeature modernaFeature
+
+
+@ ml dentalGeneralML usesFeatures dentalGeneralFeature,dentalClassifierList
+
+@ ml diabeticML usesFeature diabeticList
+
+@ ml doctorML
+    - @ ml doctorGeneralChild usesFeature doctorGeneralFeature
+    - @ ml whoIsMyDoctorProviderChild usesFeature whoLIST
+    - @ ml changeProviderChild usesFeature changeProviderML
+    - @ ml findProviderChild usesFeatures doctorSpecialistFeature,findProviderML
+    - @ ml referralChild usesFeature referralFeature
+    - @ ml findPsychiatristChild usesFeature findPsychiatristFeature
+    - @ ml findPharmacyChild usesFeatures findPharmacyFeature,findPharmacyML,findAPharmacyDirectoryList
+    - @ ml findFacilityChild usesFeature findFacilityFeature
+
+
+@ ml dontKnowML usesFeature dontKnowFeature
+
+@ ml eapML usesFeature eapList
+
+@ ml EFTML usesFeature EFTFeature
+
+@ ml emergencyML usesFeature emergencyList
+
+@ ml enrollmentML usesFeature enrollmentFeature
+    - @ ml enrollmentStatusChild usesFeature enrollmentStatus
+    - @ ml enrollmentMedicaidChild usesFeature enrollmentMedicaidFeature
+    - @ ml enrollmentPlanChangeChild usesFeature enrollmentPlanChangeFeature
+    - @ ml enrollmentRenewalChild usesFeature enrollmentRenewalFeature
+
+
+@ ml financialML
+    - @ ml financialAccountsChild usesFeature financialAccountFeature
+    - @ ml financialRetirementChild usesFeature financialRetirementFeature
+    - @ ml FSAChild usesFeature FSAFeature
+
+
+@ ml findPharmacyML usesFeature findPharmacyFeature
+
+@ ml findProviderML usesFeature findProviderFeature
+
+@ ml FOBTML usesFeature FOBTList
+
+@ ml formML usesFeature formLIST
+
+@ ml fosterML usesFeature fosterFeature
+
+@ ml handbookML usesFeature handbookFeature
+
+@ ml healthAssessmentML usesFeature healthAssessmentFeature
+
+@ ml healthML
+    - @ ml healthAlliesChild usesFeature healthAlliesFeature
+    - @ ml healthPregnancyChild usesFeature healthPregnancyFeature
+    - @ ml healthWeightChild usesFeatures healthWeightFeature,gymList
+    - @ ml rewardsForHealthChild usesFeature rewardsForHealthGeneralFeature
+    - @ ml healthyBackChild usesFeature healthyBackFeature
+
+
+@ ml heartML
+    - @ ml congenitalHeartDiseaseChild usesFeature congenitalHeartDiseaseFeature
+    - @ ml congestiveHeartFailureChild usesFeature congestiveHeartFailureFeature
+    - @ ml coronaryArteryDiseaseChild usesFeature conoraryDiseaseML
+
+
+@ ml hospitalStayML usesFeature hospitalStayFeature
+
+@ ml HRAML usesFeature hraFeature
+
+@ ml letterML
+    - @ ml letterGeneralChild usesFeature letterGeneralFeature
+    - @ ml letterTerminationChild usesFeature letterTerminationFeature
+
+
+@ ml makePaymentML usesFeature makePaymentFeature
+    - @ ml makePaymentPremiumChild usesFeature premiumList
+
+
+@ ml memberIDML usesFeature memberIDGeneralFeature
+
+@ ml membersMatterML usesFeature membersMatterFeature
+
+@ ml mentalHealthGeneralML usesFeature mentalHealthGeneralFeature
+    - @ ml substanceAbuseChild usesFeature substanceAbuseFeature
+
+
+@ ml navigatorML usesFeatures navigatorFeature,navigatorList
+
+@ ml newCardML usesFeature newCardFeature
+
+@ ml onlineQuestionML usesFeature onlineQuestionsFeature
+
+@ ml orderML usesFeature orderFeature
+
+@ ml orderSuppliesML usesFeature orderSuppliesFeature
+
+@ ml passportML usesFeature passportList
+
+@ ml pauseML usesFeature pauseFeature
+
+@ ml pharmacy2ML
+    - @ ml pharmacyMailOrderChild usesFeature pharmacyMailOrderFeature
+
+
+@ ml pharmacyML usesFeature pharmacyClassifierList
+    - @ ml pharmacyGeneralChild usesFeature pharmacyGeneralFeature
+    - @ ml pharmacyOrderChild usesFeature pharmacyOrderFeature
+    - @ ml pharmacySpecialtyChild usesFeature pharmacySpecialtyFeature
+    - @ ml pharmacyPriceCostChild usesFeature pharmacyPriceCostList
+    - @ ml pharmacyDeniedPrescriptionChild usesFeature pharmacyDeniedPrescriptionFeature
+    - @ ml pharmacyRefillChild usesFeature pharmacyRefillFeature
+    - @ ml pharmacyPreapprovalChild usesFeature pharmacyPreapprovalFeature
+    - @ ml pharmacyOrderStatusChild usesFeature pharmacyStatusFeature
+    - @ ml pharmacyRenewalChild usesFeature pharmacyRenewalFeature
+    - @ ml pharmacyOTCChild usesFeature pharmacyOTCFeature
+
+
+@ ml planTypeML usesFeature planTypeMedicareFeature
+    - @ ml planTypeAdvantageChild usesFeature planTypeAdvantageList
+    - @ ml planTypePartDChild usesFeature planTypePartDList
+    - @ ml planTypeSupplementalChild usesFeature planTypeSupplementalList
+
+
+@ ml policyGroupNumberML usesFeature policyGroupNumberFeature
+
+@ ml preventionML
+    - @ ml preventionWellnessChild usesFeature preventionWellnessCoachFeature
+    - @ ml preventionNurseLineChild usesFeatures preventionNurseFeature,nurseList
+
+
+@ ml repeatML usesFeature repeatFeature
+
+@ ml reportML
+    - @ ml reportDeathChild usesFeatures reportDeathFeature,deathList
+    - @ ml reportNewbornChild usesFeature reportNewbornFeature
+
+
+@ ml resourcesML
+    - @ ml kidneyChild usesFeature resourceKidneyFeature
+    - @ ml cancerChild usesFeature resourceCancerFeature
+
+
+@ ml returnCallML usesFeature returnCallFeature
+
+@ ml rewardsML usesFeature rewardsForHealthGeneralFeature
+
+@ ml silverSneakersML usesFeature silverSneakersFeature
+
+@ ml solutranML usesFeature solutranFeature
+
+@ ml somethingElseML usesFeature somethingElseList
+
+@ ml subrogationGeneralML usesFeature subrogationGeneralFeature
+
+@ ml translatorML usesFeature translatorFeature
+
+@ ml transportationML usesFeature transportationFeature
+    - @ ml cancelTransportationChild usesFeature cancelTransportationFeature
+
+
+@ ml treatmentERML usesFeatures treatmentERFeature,emergencyList,treatmentERList
+
+@ ml uCardML usesFeature uCardList
+    - @ ml uCardActivateChild usesFeature uCardActivateFeature
+    - @ ml uCardBalanceChild usesFeature uCardBalanceFeature
+    - @ ml uCardOrderStatusChild usesFeature uCardOrderStatusFeature
+    - @ ml uCardReplaceCardChild usesFeatures uCardReplaceCardFeature,newCardML
+
+
+@ ml upsetCallerML usesFeatures negativeSentimentFeature,upsetCallerRegEx
+
+@ ml virtualVisitML usesFeatures virtualVisitFeature,teleHealthList
+
+@ ml visionML usesFeature visionGeneralFeature
+
+
+> # PREBUILT Entity definitions
+
+
+> # Phrase list definitions
+
+@ phraselist claimsGeneralFeature(interchangeable) disabledForAllModels = 
+	- claim,claims,plains,flames
+
+@ phraselist billingGeneralFeature(interchangeable) disabledForAllModels = 
+	- billing,bill,payment,collections,pay
+
+@ phraselist claimsAppealsFeature(interchangeable) disabledForAllModels = 
+	- appeal,denied,not paid,appeals,denial,rejected,unpaid claim,appealing a denial of a claim
+
+@ phraselist claimsBehavioralFeature(interchangeable) disabledForAllModels = 
+	- behavioral claim,behavioral claims,mental health claim,mental health claims,claim for mental health,claim for behavioral,behavioral health claim
+
+@ phraselist claimsCOBFeature(interchangeable) disabledForAllModels = 
+	- cob claim,claims cob,c o b claim,c o b claims,cob,c o b,coordination of benefits,coordination of benefit,coordination benefits
+
+@ phraselist claimsDentalFeature(interchangeable) disabledForAllModels = 
+	- dental claims,dental claim
+
+@ phraselist claimsPharmacyFeature(interchangeable) disabledForAllModels = 
+	- prescription claim,prescription claims,pharmacy claim,pharmacy claims,prescription drug claims
+
+@ phraselist makePaymentFeature(interchangeable) disabledForAllModels = 
+	- make payment,pay bill,make a payment,settle my account,settle my debt,pay up,pay my bill,pay premium,pay a bill,pay,pay my,premuim,credit card,debt card,self pay,credit,debt
+
+@ phraselist claimsVisionFeature(interchangeable) disabledForAllModels = 
+	- vision claims,claims vision
+
+@ phraselist claimsReimbursementFeature(interchangeable) disabledForAllModels = 
+	- reimbursement,reimburse,refund
+
+@ phraselist agentGeneralFeature(interchangeable) disabledForAllModels = 
+	- agent,talk to someone,talk with someone,talk to somebody,speak with someone,talk to,speak with,customer service,representative,rep,advisor,advocate,manager,person,human,operator,real contact,speak to someone,speak to,talk with,phone number,resolution,customer support,associate,customer care,supervisor,representatives,member service,customer assistance,assistance,help,csr,customer service rep,customer service representative,customer care rep,customer care representative,member services,put me through to someone,i need assistance,assistant,agents,well-being plan,wellbeing plan,customer services,support
+
+@ phraselist accountUpdateFeature(interchangeable) disabledForAllModels = 
+	- add,update,include,add a dependent,update account,account update,coordinator,change coverage,change benefits,dependent,dependents,adding someone,adding,wrong birthday,wrong birthdate,wrong date of birth,incorrect birthdate,incorrect birthday,changing,change,changes,change account information,i need to change my account information,change last name,correct information,update information,update info,correct my phone number,change personal information,change my address,changing address,change my last name,correct an address,update my,correct my,add my,name change,incorrect name,listed incorrectly
+
+@ phraselist benefitsCertificateFeature(interchangeable) disabledForAllModels = 
+	- certificate,proof of,certificate of coverage,proof,proof of insurance,proof of coverage,certification,verify insurance,verification of insurance,prove of coverage,document stating
+
+@ phraselist medicalFeature(interchangeable) disabledForAllModels = 
+	- chiropractor,chiropractic,dermatology,dermatologist,mammogram,medical,nutrition,nutritionist,allergy shots,shots,acupuncture,medical equipment,lifetime maximums,HMO,PPO,h m o,p p o,colonoscopy,mri,m r i,lifetime,c pap,Blood pressure monitor,Pulse oximeter,Thermometer,Stethoscope,Nebulizer,EKG machine,Glucometer,glucose monitor,Wheelchair,Crutches,Walker,Cane,Oxygen concentrator,Feeding tube,Catheter,Insulin pump,BiPAP machine,CPAP machine,ventilator,equipment,heart monitor,medical benefits,lifetime maximum,breast pump,dentist,medical supplies,breastfeeding,cpap,provision,provisions,glucose meter,chiropractors,medical benefit
+
+@ phraselist benefitsAsthmaFeature(interchangeable) disabledForAllModels = 
+	- asthma,nebulizer
+
+@ phraselist benefitsBariatricFeature(interchangeable) disabledForAllModels = 
+	- bariatric,bariatrics,bariatric services,bariatrics services
+
+@ phraselist benefitsGeneralFeature(interchangeable) disabledForAllModels = 
+	- benefits plans,plan,benefit,benefits,plans,benefit status,healthcare plan,international coverage,international medical benefits,eligibility,secondary insurance,coverage,healthcare,health plan,insurance status,medicaid,policy,preventative,short term disability,specialty benefits,speech therapy,travel insurance,procedure,procedure cost,upcoming procedure,upcoming surgery,benefits summary,summary of benefits,policy information,will be covered,is covered,is going to be covered,covered,all of them,health care
+
+@ phraselist benefitsCancelFeature(interchangeable) disabledForAllModels = 
+	- cancel,cancellation of benefits,cancellation,canceling,close,discontinue,disenroll,disenrollment,unenroll,opt out,closure,unenrollment
+
+@ phraselist benefitsCobraFeature(interchangeable) disabledForAllModels = 
+	- cobra
+
+@ phraselist benefitsCoinsuranceFeature(interchangeable) disabledForAllModels = 
+	- co-insurance,coinsurance
+
+@ phraselist benefitsCopayFeature(interchangeable) disabledForAllModels = 
+	- co-pay,copay,copayment,copayments,copies,copays
+
+@ phraselist benefitsEligibilityStartFeature(interchangeable) disabledForAllModels = 
+	- started,starts,begins,start,eligibility starts,eligibility begins,date insurance coverage begun,eligible
+
+@ phraselist benefitsEligibilityEndsFeature(interchangeable) disabledForAllModels = 
+	- ended,ends,end,eligibility ends
+
+@ phraselist benefitsDeductibleFeature(interchangeable) disabledForAllModels = 
+	- deductible,deductibles
+
+@ phraselist benefitsOutOfPocketFeature(interchangeable) disabledForAllModels = 
+	- out of pocket
+
+@ phraselist cardReplacementFeature(interchangeable) disabledForAllModels = 
+	- replace card,card replacement,replacement,new insurance card,replacement insurance card,replace my insurance card,insurance card was lost,insurance card expired,duplicate insurance card,replacing insurance card,replace id card,temporary id card,a card replacement,last card
+
+@ phraselist cardGeneralFeature(interchangeable) disabledForAllModels = 
+	- card,cards,id card,id cards,insurance card,insurance cards,dental card,healthcare card
+
+@ phraselist changeProviderFeature(interchangeable) disabledForAllModels = 
+	- change,switch,switching,changing,add doctor,add physician,provider change,assign,setup,choose a,new doctor,switch my provider,change provider,select a pcp,choose a doctor,select a primary care phyiscian,changing doctors
+
+@ phraselist findProviderFeature(interchangeable) disabledForAllModels = 
+	- find,locate,search,finding,location,list of,looking for a,searching for,provider search,looking for a provider,find care,lab,labs,lab work,looking for,list,search for,locate specialist,locate doctor,locate provider,provider list,lookup,need to find
+
+@ phraselist pharmacyGeneralFeature(interchangeable) disabledForAllModels = 
+	- pharmacy,prescription,prescriptions,question about medication,calling about a prescription,birth control,optum rx,vacation override,medication,prescription coverage,pharmacies
+
+@ phraselist pharmacyOrderFeature(interchangeable) disabledForAllModels = 
+	- prescription order,mail order prescription
+
+@ phraselist transportationFeature(interchangeable) disabledForAllModels = 
+	- transportation,transport,ride,transportation cost,transportation costs,medical transportation,saferide,modivcare,rides,saferides,schedule a ride,setup transportation,need transportation,transportation service,need a ride,setup a ride,transportation services,medical ride,have a ride
+
+@ phraselist visionGeneralFeature(interchangeable) disabledForAllModels = 
+	- vision,eye,eyecare,eye doctor,optometrist,eye exam,vision specialist,vision exam,vision insurance,vision services,eye care,contact lens,glasses,corrective eye surgery,vision tests,vision test,vision care,ophthalmologist,eyeglass,eyeglasses,eye glass,eye glasses,eyeglass prescription,eyeglass prescriptions,eyeglasses prescripions,eyeglasses prescription,vision prescription,vision prescriptions,prescription for glasses,prescription for eyeglasses,prescription for eyeglass,glasses prescription,glasses prescriptions,prescription for vision,prescription eyecare
+
+@ phraselist dentalGeneralFeature(interchangeable) disabledForAllModels = 
+	- dental,gental
+
+@ phraselist EOBFeature(interchangeable) disabledForAllModels = 
+	- EOB,E O B,explanation of benefits,explanation of benefit,explain benefits,explain benefit
+
+@ phraselist AuthFeature(interchangeable) disabledForAllModels = 
+	- authorization,authorize,authorizations,approval,certification,notification,notifications,precertification,preauthorization,pre,preapproval,precert,preauth,pre qualification,prequalification
+
+@ phraselist financialAccountFeature(interchangeable) disabledForAllModels = 
+	- direct deposit,direct deposits,benefits for my mra,check,account,accounts,mra,account status,inactive account,spending account,dependent care fsa,dependent care account,dependent care flex,account access,account details,account information,account number,account verification,medical reimbursement account
+
+@ phraselist financialRetirementFeature(interchangeable) disabledForAllModels = 
+	- retirement,medicare
+
+@ phraselist onlineQuestionsFeature(interchangeable) disabledForAllModels = 
+	- online,web,website,site,tech support,technical support,security code,can't login,email,login,online access,password,login help,login issues,online account,password reset,reset password,trouble logging in,locked out of my account,technical assistance,activate my online account,logging in,technical difficulties,Technical glitch,Technical issue,Technical problem,technical difficulty,reset my password,mobile app,logging into my account,webpage support,sign in,locked out of account,log into my account,i need help signing in,username,help with my password,portal access,can't logon,app,phone app,technical error,tech error,tech issue,tech difficulty,pin reset,reset pin,pin,unlock pin,not able to log into
+
+@ phraselist memberIDGeneralFeature(interchangeable) disabledForAllModels = 
+	- ID,member ID,ID number,member number,insurance number
+
+@ phraselist doctorGeneralFeature(interchangeable) disabledForAllModels = 
+	- primary,physician,doctor,provider,second opinion,in network,network,out of network,pcp,primary care,primary care doctor,primary care physician,primary care provider,provider information,question about a doctor,question about a provider,specialist,foot care provider,family doctor,verify provider,provider verification,check a provider,verify doctor,doctor's in network,doctor is in network,provider is in network,psychologist is in network
+
+@ phraselist behavioralHealthFeature(interchangeable) disabledForAllModels = 
+	- behavioral,behavioralhealth,behavioral health,behavioral healthcare,self harm,adhd,psychiatry,psych,counseling,behavioural health,behavioural,behavioral services,behavioral coverage,behavioral benefits,behavioral health benefits,behavioral health coverage,therapy
+
+@ phraselist pharmacySpecialtyFeature(interchangeable) disabledForAllModels = 
+	- specialty,specialty drug,specialty prescription
+
+@ phraselist mentalHealthGeneralFeature(interchangeable) disabledForAllModels = 
+	- mental health,mental therapist,mental healthcare
+
+@ phraselist faxFeature(interchangeable) disabledForAllModels = 
+	- fax,fax number
+
+@ phraselist resourceKidneyFeature(interchangeable) disabledForAllModels = 
+	- kidney,kidney resource,kidney resources,kidney resource service,kidney resource services
+
+@ phraselist resourceCancerFeature(interchangeable) disabledForAllModels = 
+	- cancer,Cancer resource services,cancer resource,cancer services,cancer resource service,cancer service
+
+@ phraselist congenitalHeartDiseaseFeature(interchangeable) disabledForAllModels = 
+	- chd,c h d,heart disease,congenital heart disease
+
+@ phraselist congestiveHeartFailureFeature(interchangeable) disabledForAllModels = 
+	- chf,c h f,congestive heart failure,congenital heart failure
+
+@ phraselist chronicPainFeature(interchangeable) disabledForAllModels = 
+	- chronic pain,chronic
+
+@ phraselist coronaryDiseseFeature(interchangeable) disabledForAllModels = 
+	- coronary,coronary artery disease
+
+@ phraselist fertilityFeature(interchangeable) disabledForAllModels = 
+	- fertility,reproductive resource,fertility benefits,fertility coverage,infertility
+
+@ phraselist covidVaccineFeature(interchangeable) disabledForAllModels = 
+	- covid,covid vaccine,covid testing,covid nineteen,covid test,covid tests,covid test kit,corona virus test,covid shot,covid shots,covid 19,covid vaccines,rapid pcr,rapid pcr test,corona,corona virus
+
+@ phraselist HIPAAFeature(interchangeable) disabledForAllModels = 
+	- hippa,hippa certificate,hipaa,hipaa certificate
+
+@ phraselist hraFeature(interchangeable) disabledForAllModels = 
+	- hra,h r a,health reimbursement account
+
+@ phraselist hsaFeature(interchangeable) disabledForAllModels = 
+	- hsa,h s a,health savings account
+
+@ phraselist letterGeneralFeature(interchangeable) disabledForAllModels = 
+	- letter,mail
+
+@ phraselist letterTerminationFeature(interchangeable) disabledForAllModels = 
+	- termination,cancellation letter
+
+@ phraselist NICUFeature(interchangeable) disabledForAllModels = 
+	- nicu,neonatal intensive care,neonatal intensive care unit,neonatal,neonatal unit
+
+@ phraselist policyGroupNumberFeature(interchangeable) disabledForAllModels = 
+	- group number,policy number,account and group number
+
+@ phraselist preventionNurseFeature(interchangeable) disabledForAllModels = 
+	- nurse,nurseline,nurse line,registered nurse,clinical question
+
+@ phraselist preventionWellnessCoachFeature(interchangeable) disabledForAllModels = 
+	- wellness,coach,health and wellness,wellness coaching,scorecard,health coach,lifestyle coach,holistic health coach,updating a score card
+
+@ phraselist copdFeature(interchangeable) disabledForAllModels = 
+	- copd,Pulmonary_Disease,pulmonary disease
+
+@ phraselist referralFeature(interchangeable) disabledForAllModels = 
+	- referral,referrals
+
+@ phraselist reportDeathFeature(interchangeable) disabledForAllModels = 
+	- death,death of a member,notify of death,notification of death,reporting of a death,report a death,deceased,died
+
+@ phraselist reportNewbornFeature(interchangeable) disabledForAllModels = 
+	- adding newborn,newborn,add newborn coverage,add newborn,add a new born
+
+@ phraselist silverSneakersFeature(interchangeable) disabledForAllModels = 
+	- silver sneakers,renew active,silversneakers,fitness program,fitness,health club,exercise program,fitness plan,health and fitness,exercise,gym membership,silversneaker,silver sneaker,gym memberships
+
+@ phraselist healthAlliesFeature(interchangeable) disabledForAllModels = 
+	- allies,health allies,united health allies
+
+@ phraselist healthPregnancyFeature(interchangeable) disabledForAllModels = 
+	- pregnancy,prenatal,maternity,pregnant,baby block
+
+@ phraselist healthWeightFeature(interchangeable) disabledForAllModels = 
+	- gym,fitness club,gym reimbursement,gym membership reimbursement
+
+@ phraselist orthopedicFeature(interchangeable) disabledForAllModels = 
+	- orthopedic,back pain,knee surgery,hip,knee,neck,shoulder pain,musculoskeletal support,back problems,back injury
+
+@ phraselist claimsSubrogationFeature(interchangeable) disabledForAllModels = 
+	- subrogation claim,subrogation claims,subrogation lien
+
+@ phraselist subrogationGeneralFeature(interchangeable) disabledForAllModels = 
+	- subrogation,subrogation department
+
+@ phraselist returnCallFeature(interchangeable) disabledForAllModels = 
+	- returning a call,call i received,call,phone call,return call,return,returning,calling back,call back,return a call
+
+@ phraselist FSAFeature(interchangeable) disabledForAllModels = 
+	- flexible spending account,FSA,flex account
+
+@ phraselist substanceAbuseFeature(interchangeable) disabledForAllModels = 
+	- detox,drug abuse,rehab,alcohol,chemical abuse,substance abuse,rehabilitation services,rehabilitation,abuse
+
+@ phraselist smokingCessationFeature(interchangeable) disabledForAllModels = 
+	- smoking,smoking cessation,tobacco,quit for life,smoking sensation program,quit smoking
+
+@ phraselist rewardsForHealthGeneralFeature(interchangeable) disabledForAllModels = 
+	- rally,delta,delta health,points,health action,screening,health rewards,biometric screening,rewards,rewards for health,gift card,bio metric,reward,renew rewards
+
+@ phraselist fraudFeature(interchangeable) disabledForAllModels = 
+	- fraud,identity theft,insurance fraud
+
+@ phraselist enrollmentFeature(interchangeable) disabledForAllModels = 
+	- enrollment,quote,quote for insurance,enroll,registration,sign up,signing up,enrolled,enrolling,applying for insurance,application,apply for,new member,insurance update
+
+@ phraselist employeeAssistancePlanFeature(interchangeable) disabledForAllModels = 
+	- eap,employee benefits,employee assistance,employee assistance program
+
+@ phraselist virtualVisitFeature(interchangeable) disabledForAllModels = 
+	- telehealth,tele health,virtual visit
+
+@ phraselist treatmentDecisionFeature(interchangeable) disabledForAllModels = 
+	- treatment decision,decision on treatment
+
+@ phraselist treatmentDiabetesFeature(interchangeable) disabledForAllModels = 
+	- diabetes,diabetic
+
+@ phraselist urgentCareFeature(interchangeable) disabledForAllModels = 
+	- urgent care,emergency room
+
+@ phraselist treatmentTransplantFeature(interchangeable) disabledForAllModels = 
+	- transplant
+
+@ phraselist benefitsLabFeature(interchangeable) disabledForAllModels = 
+	- blood work,blood draw,blood test,mri,mammogram,x-ray,xray,surgery,physical therapy,bloodwork,cataract surgery,colonoscopy,home healthcare,home health care,surgery benefits,surgery benefit
+
+@ phraselist benefitsVerifyFeature(interchangeable) disabledForAllModels = 
+	- verify,verification,inquire,inquiry,confirm,confirming,inquiring,verifying
+
+@ phraselist benefitsInternationalFeature(interchangeable) disabledForAllModels = 
+	- international
+
+@ phraselist healthyBackFeature(interchangeable) disabledForAllModels = 
+	- healthy back
+
+@ phraselist findFacilityFeature(interchangeable) disabledForAllModels = 
+	- find facility,change facility,change hospital,find hospital,find a hospital,find urgent care,urgent care location,find a clinic,clinic,urgent care
+
+@ phraselist complaintFeature(interchangeable) disabledForAllModels = 
+	- complaint,grievance,grievances,complain,complaints,complains,breach,security breach
+
+@ phraselist pfizerVacFeature(interchangeable) disabledForAllModels = 
+	- pfizer
+
+@ phraselist modernaFeature(interchangeable) disabledForAllModels = 
+	- moderna
+
+@ phraselist yesFeature(interchangeable) disabledForAllModels = 
+	- yes,yeah,yup,correct,right,sure,yep,that's right,that's correct,yea,yah,perfect,ok,okay,alright,that is correct,absolutely,affirmative,agreed
+
+@ phraselist noFeature(interchangeable) disabledForAllModels = 
+	- no,nope,I'm not,wrong,negative,incorrect
+
+@ phraselist mainMenuFeature(interchangeable) disabledForAllModels = 
+	- menu,main menu,mainmenu
+
+@ phraselist translatorFeature(interchangeable) disabledForAllModels = 
+	- don't understand english,speak english,translator,need translator,dont speak english,do not speak english
+
+@ phraselist callerTypeMemberFeature(interchangeable) disabledForAllModels = 
+	- son,daughter,wife,spouse,partner,husband,child,dependent,children,baby,kids,kid,member,mine,father,Customer,patient,remember
+
+@ phraselist repeatFeature(interchangeable) disabledForAllModels = 
+	- repeat,say that again,one more time,again,didn't hear your question,couldn't hear your question,say again,what was that,i didn't hear you,i did not hear you,i didn't understand,what did you say,didn't get your question,did not hear your question,what did you just say
+
+@ phraselist pause(interchangeable) disabledForAllModels = 
+	- pause,freeze,hold on,wait,one minute,give me some time,just a moment,hang on,more time,please give me a moment,just a minute,i need some time,i need more time
+
+@ phraselist treatmentERFeature(interchangeable) disabledForAllModels = 
+	- emergency,emergency room,urgent care
+
+@ phraselist dontKnowFeature(interchangeable) disabledForAllModels = 
+	- dont know,don't know,dont remember,don't remember,cant remember,can't remember,dont have it,don't have it,don't really know,i do not know,do not remember,do not have it,don't have,do not know,do not have
+
+@ phraselist enrollmentStatus(interchangeable) disabledForAllModels = 
+	- status enrollment,enrollment status,status of my insurance
+
+@ phraselist EFTFeature(interchangeable) disabledForAllModels = 
+	- EFT,Electronic Funds Transfer,automatic withdrawal,automatic withdrawals,E F T,electronic fund transfer,eft payment,withdrawals,withdrawal
+
+@ phraselist couponBookFeature(interchangeable) disabledForAllModels = 
+	- coupon book,coupon payment book,coupon,coupons,coupon books,payment coupon,payment coupons
+
+@ phraselist pauseFeature(interchangeable) disabledForAllModels = 
+	- just a minute,hang on,just a moment,one minute,wait,hold on,pause,hold
+
+@ phraselist pharmacyDeniedPrescriptionFeature(interchangeable) disabledForAllModels = 
+	- denied prescription,prescription denied,denied prescriptions,prescriptions denied,prescription denial,prior authorization for medication,prescription rejected
+
+@ phraselist pharmacyRefillFeature(interchangeable) disabledForAllModels = 
+	- prescription refill,refill prescription,refill prescriptions,refill,reorder prescription,reorder prescriptions,prescription reorder,prescription refills
+
+@ phraselist caseManagementFeature(interchangeable) disabledForAllModels = 
+	- case management,case manager,case worker,care manager,care coordinator,caseworker,care coordination
+
+@ phraselist fosterFeature(interchangeable) disabledForAllModels = 
+	- foster,foster care,foster child,foster care coverage
+
+@ phraselist handbookFeature(interchangeable) disabledForAllModels = 
+	- handbook,hand book,membership book,book
+
+@ phraselist hospitalStayFeature(interchangeable) disabledForAllModels = 
+	- hospitalization,hospital,hospital stay,hospital visit,member in the hospital,international hospitalization
+
+@ phraselist membersMatterFeature(interchangeable) disabledForAllModels = 
+	- members matter
+
+@ phraselist cancelTransportationFeature(interchangeable) disabledForAllModels = 
+	- cancel transportation,cancel ride,cancel a ride
+
+@ phraselist extensionFeature(interchangeable) disabledForAllModels = 
+	- extension,extensions
+
+@ phraselist navigatorFeature(interchangeable) disabledForAllModels = 
+	- navigator
+
+@ phraselist orderSuppliesFeature(interchangeable) disabledForAllModels = 
+	- supplies,supply,order supplies,medical supplies,ordering supplies,medical supply,check status of an existing order
+
+@ phraselist benefitsSpendingChild(interchangeable) disabledForAllModels = 
+	- coverage gap,coverage gap information,donut hole
+
+@ phraselist benefitsFluShotChild(interchangeable) disabledForAllModels = 
+	- flu shot
+
+@ phraselist benefitsShinglesFeature(interchangeable) disabledForAllModels = 
+	- shingles,shingles shot
+
+@ phraselist findPsychiatristFeature(interchangeable) disabledForAllModels = 
+	- psychiatrist,Psychiatric,Psychotherapist
+
+@ phraselist pharmacyPreapprovalFeature(interchangeable) disabledForAllModels = 
+	- pharmacy preapproval,pharmacy pre approval,prescription approval,medication approval,approve prescription,approve prescriptions,authorize prescriptions,authorize prescription
+
+@ phraselist pharmacyStatusFeature(interchangeable) disabledForAllModels = 
+	- status of medication,status of my prescription,order status,status of order,check on a prescription order,check on an order,check on a order
+
+@ phraselist findPharmacyFeature(interchangeable) disabledForAllModels = 
+	- find pharmacy,locate pharmacy,find a pharmacy,locate a pharmacy,pharmacy directory,list of pharmacies
+
+@ phraselist healthAssessmentFeature(interchangeable) disabledForAllModels = 
+	- health assessment,health risk assessment,assessment,healthcare assessment,survey
+
+@ phraselist benefitsHomeHealthFeature(interchangeable) disabledForAllModels = 
+	- house call,home health,home care,home health care,home healthcare,home health aid
+
+@ phraselist pharmacyRenewalFeature(interchangeable) disabledForAllModels = 
+	- prescription renewal,renew prescription
+
+@ phraselist pharmacyOTCFeature(interchangeable) disabledForAllModels = 
+	- over the counter drug,over the counter prescription,over the counter medication,OTC drug,OTC prescription,OTC medication,firstline benefits,firstline medical,over the counter benefits,over the counter drugs,OTC,over the counter,first line benefits,first line medical
+
+@ phraselist balanceFeature(interchangeable) disabledForAllModels = 
+	- account balance,balance,check my balance,checkbalance,how much is left on my card,balances,check card balance,card balance,how much is on my card,my balance,my card balance,card balances,premium balance
+
+@ phraselist lostStolenCardFeature(interchangeable) disabledForAllModels = 
+	- lost card,lost my card,lost insurance card,lost medical card,stolen card,lost my insurance card,insurance card was stolen,lost my id card
+
+@ phraselist behavioralHealthCrisisFeature(interchangeable) disabledForAllModels = 
+	- crisis,abused,empty,no one understands,agitated,feel like crying,only want to eat,alone,helpless,restless,anxious,hopeless,sad,bullied,picked on,afraid,irritable,scared,cannot go on,isolated,stressed,cannot remember things,mad,suicidal,cannot sleep,nervous,tired all the time,cannot stop crying,no appetite,want to hurt someone,depressed,no energy,worried,do not feel right,no interest,worthless,emotional,no one cares,angry,depression,anxiety,self harm,life threatening,life-threatening,distress,critical situation,dire straits,suicide,I'm going to hurt myself,i want to kill myself,thinking about suicide,im going to commit suicide,im suicidal,im going to hurt myself,kill,hurt,killing
+
+@ phraselist solutranFeature(interchangeable) disabledForAllModels = 
+	- solutran,solu tran,solutron,solu tron,solutraan,Solitron,Solitaire,solitrin,solitran,salutron,solitre,solution,silatral,silutrin,solatran,Solutrin
+
+@ phraselist enrollmentMedicaidFeature(interchangeable) disabledForAllModels = 
+	- apply for medicaid,medicaid application,medicaid enrollment
+
+@ phraselist enrollmentPlanChangeFeature(interchangeable) disabledForAllModels = 
+	- change plan,change insurance,change my plan,change health plan,plan change,change plans,change of plan,change medical group,upgrade plan,update plan,change policy,switch plan,switch plans
+
+@ phraselist enrollmentRenewalFeature(interchangeable) disabledForAllModels = 
+	- renewal,reenrollment,reenroll,reapply,renew,reinstatement,reinstate,renew membership
+
+@ phraselist pharmacyMailOrderFeature(interchangeable) disabledForAllModels = 
+	- mail order pharmacy,home delivery,mailorder,mail order,Express Scripts,order support
+
+@ phraselist doctorSpecialistFeature(interchangeable) disabledForAllModels = 
+	- Acupuncturist,Allergist,Immunologist,Anatomic Pathologist,Clinical Pathologist,Audiologist,Cardiac Surgeon,Cardiologist,Cardiovascular Surgeon,Chiropractor,Clinical Geneticist,Dermatologist,Doula,Endocrinologist,Gastroenterologist,Geriatrician,Gynecologist,Hematologist,Hospitalist,Infectious Disease Doctor,Lactation Specialists,Massage Therapist,Naturopathy,Neonatologist,Nephrologist,Neurologist,Neurosurgeon,Nuclear Medicine Doctor,Nutritionist,Obstetrician,Occupational Therapist,Oncologist,Ophthalmologist,Maxillofacial Surgeon,Oral Surgeon,Orthopedic Surgeon,Orthopedist,Otolaryngologist,Pain Management Specialist,Pathologist,Pediatric Child Abuse,Pediatric Specialist,Pediatrician,Physical Therapist,Plastic Surgeon,Podiatrist,Pulmonologist,Radiologist,Rheumatologist,Sleep Specialist,Speech Pathologist,Sports Medicine Physician,Surgeon,Urologist,Needle therapist,Allergy doctor,Immune system specialist,Pathology expert,Diagnostic pathologist,Hearing specialist,Heart surgeon,Heart doctor,Vascular surgeon,Spinal manipulator,Genetic specialist,Skin doctor,Birth companion,Hormone specialist,GI doctor,Elderly care specialist,Women's health specialist,Blood specialist,Inpatient doctor,Infection specialist,Bodywork practitioner,Newborn specialist,Brain specialist,Brain surgeon,Nuclear imaging specialist,Dietitian,OT,Oral and facial surgeon,Dental surgeon,Bone surgeon,Bone doctor,ENT specialist,Pain doctor,Laboratory doctor,Child abuse specialist,Children's health specialist,Child doctor,PT,Cosmetic surgeon,Foot doctor,Lung specialist,Imaging specialist,Arthritis specialist,Sleep doctor,Speech therapist,Sports doctor,Operating doctor,Urinary tract specialist
+
+@ phraselist noEmployerFeature(interchangeable) disabledForAllModels = 
+	- I'm currently without a job,retired,unemployed,not employed,unemployment,no longer working,left the workforce,enjoying my retirement,no longer employed,reached retirement,now a retiree,retiree,retirement,jobless,without a job,not working,self-employed,self employed,freelancing,i don't have a job,stepped away for my career,no longer actively working,I don't have an employer
+
+@ phraselist uCardActivateFeature(interchangeable) disabledForAllModels = 
+	- activate ucard,ucard activation,activate my ucard,activate,activation,activate u card,activate you card,activate uk card,activate eu card,activate your card,u card activation,uk card activation,eu card activation,your card activation,activating,activated,activating my card,my card active,my card activated,my card is active,my card is activated,register u card,register ucard,register eu card,register your card,u card registration,uk car registration,register uk card,register uh card,activate my card,activate card
+
+@ phraselist planTypeMedicareFeature(interchangeable) disabledForAllModels = 
+	- medicare,federal health insurance program,government health insurance,medicare program,medicare coverage,medicare insurance,medicare health plan,medicare benefits
+
+@ phraselist uCardBalanceFeature(interchangeable) disabledForAllModels = 
+	- ucard balance,u card balance,you card balance,your card balance,balance on my ucard,balance of my ucard,balance of my you card,balance of you card,balance on my you card,balance on ucard,youcard balance,balance is on my you card,balance of my u card,you card account balance,ucard transaction history
+
+@ phraselist uCardOrderStatusFeature(interchangeable) disabledForAllModels = 
+	- you card status,ucard status,u card status,ucard order status,you card order status,your card status,your card order status,youcard order status
+
+@ phraselist uCardReplaceCardFeature(interchangeable) disabledForAllModels = 
+	- replace you card,replace u card,request a new u card,request a new ucard,replace your card
+
+@ phraselist negativeSentimentFeature(interchangeable) disabledForAllModels = 
+	- **,***,****,*****,******,*******,*********,********,stupid,shit,hell,damn it,bloody hell,you piece of,fuck,fuck you,asshole,ass,oh god,ridiculous
+
+@ phraselist rewardsForHealthActionFeature(interchangeable) disabledForAllModels = 
+	- rewards for health action,health action rewards,health action,action
+
+@ phraselist catalogFeature(interchangeable) disabledForAllModels = 
+	- catalog,medline catalog
+
+@ phraselist orderFeature(interchangeable) disabledForAllModels = 
+	- order,ucard order,you card order
+
+@ phraselist newCardFeature(interchangeable) disabledForAllModels = 
+	- new card
+
+@ phraselist questionFeature(interchangeable) disabledForAllModels = 
+	- general question,general questions,a question,question,a question about,question about
+
+@ phraselist infoFeature(interchangeable) disabledForAllModels = 
+	- info,information
+
+@ phraselist whatFeature(interchangeable) disabledForAllModels = 
+	- what,huh
+
+@ phraselist pleaseFeature(interchangeable) disabledForAllModels = 
+	- please,play,clean,planes,ohh
+
+@ phraselist commonNoMatchMembershipFeature(interchangeable) disabledForAllModels = 
+	- membership
+
+@ phraselist uhhFeature(interchangeable) disabledForAllModels = 
+	- uh,uhh
+
+@ phraselist thanksFeature(interchangeable) disabledForAllModels = 
+	- thanks,thank you,thanks a lot,thank you very much,thank you so much,thanks for the help
+
+@ phraselist insuranceFeature(interchangeable) disabledForAllModels = 
+	- insurance,medical insurance
+
+@ phraselist ummFeature(interchangeable) disabledForAllModels = 
+	- umm
+
+@ phraselist helloFeature(interchangeable) disabledForAllModels = 
+	- hello,hi,howdy,hey,how are you
+
+
+> # List entities
+
+@ list 1099List = 
+	- 1099 :
+
+
+@ list accountUpdateList = 
+	- update :
+		- updated
+		- fix
+		- fixed
+		- fixing
+		- change
+		- changed
+		- changing
+		- edit
+		- editing
+		- edited
+	- remove :
+		- removed
+		- removing
+		- delete
+		- deleted
+		- drop
+	- adjustment :
+		- adjustments
+	- add :
+		- adding
+
+
+@ list addressUpdateList = 
+	- change of address :
+		- change address
+		- address update
+		- address
+		- update address
+		- updating address
+		- changing my address
+		- update addresses
+		- correction on the address
+
+
+@ list appointmentList = 
+	- appointment :
+		- appointments
+		- doctor's appointment
+	- reschedule :
+		- reschedule appointment
+		- reschedule appointments
+	- reservation :
+		- reservations
+	- cancel appointment :
+		- cancel appointments
+
+
+@ list balanceList = 
+	- balance :
+
+
+@ list benefitsEligList = 
+	- eligibility :
+		- eligible
+	- active date :
+		- active
+	- expiration :
+		- expiration date
+	- term date :
+		- termination date
+	- begins :
+
+
+@ list benefitsGeneralChild = 
+	- benefits :
+	- benefit :
+	- coverage :
+	- plan :
+	- international :
+	- policy information :
+		- policy question
+		- policy questions
+		- policy
+	- disability :
+	- procedure :
+	- Vaccine :
+
+
+@ list billClassifierList = 
+	- bill :
+		- billing
+		- bills
+	- payment :
+		- payments
+	- charges :
+		- charge
+	- statement :
+
+
+@ list billingAutoPayList = 
+	- automatic payment :
+		- auto pay
+		- automatic payments
+		- auto payment
+		- auto payments
+
+
+@ list billingCheckList = 
+	- billing check :
+		- check received
+		- lost check
+		- check lost
+		- received check
+		- check
+
+
+@ list billingDisputeList = 
+	- discrepancy :
+	- billing discrepancy :
+	- dispute :
+	- bill discrepancy :
+		- billing dispute
+	- billing dispute :
+		- bill discrepancy
+
+
+@ list billingOverpaymentList = 
+	- overpayment :
+		- over payment
+		- overpaid
+		- over paid
+
+
+@ list billingPremiumList = 
+	- premium :
+		- premiums
+
+
+@ list callerTypeProviderList = 
+	- provider :
+		- doctor
+		- doctors
+		- providers
+		- i am a provider
+		- broker
+		- health care professional
+
+
+@ list cardList = 
+	- card :
+		- cards
+
+
+@ list chronicList = 
+	- chronic :
+
+
+@ list claimsClassifierList = 
+	- claim :
+		- claims
+	- appeal :
+		- appeals
+		- appealing
+	- dispute :
+		- claim grievance
+		- grievance claim
+	- reimbursement :
+
+
+@ list claimsReimbursementList = 
+	- reimbursement :
+		- reimbursed
+		- refund
+		- refunds
+		- insurance not paying
+
+
+@ list deathList = 
+	- death :
+
+
+@ list dentalClassifierList = 
+	- dental :
+
+
+@ list diabeticList = 
+	- diabetic :
+		- diabetes
+
+
+@ list eapList = 
+	- employee :
+	- employee assistance :
+	- eap :
+	- employee benefits :
+
+
+@ list emergencyList = 
+	- emergency :
+		- emergancy
+		- medical emergency
+
+
+@ list fertilityList = 
+	- fertility :
+		- fertility coverage
+		- fertility benefits
+	- infertility :
+		- infertility services
+		- infertility treatment
+		- infertility questions
+
+
+@ list findAPharmacyDirectoryList = 
+	- find a pharmacy :
+		- pharmacy directory
+		- preferred pharmacy
+
+
+@ list FOBTList = 
+	- FOBT :
+		- F O B T
+		- fobbed kit
+		- colon cancer screening kit
+		- colon cancer test kit
+		- colon test kit
+		- fecal occult blood test
+		- fecal occult blood test kit
+		- fobt test
+		- fobt kit
+		- colon cancer screening test
+
+
+@ list formLIST = 
+	- form :
+		- forms
+		- paperwork
+		- report form
+		- filling out a form
+		- tax form
+		- tax forms
+
+
+@ list fraudList = 
+	- fraud :
+		- identity theft
+
+
+@ list gymList = 
+	- gym :
+	- fitness club :
+
+
+@ list hearingAidsList = 
+	- hearing aids :
+		- hearing evaluation
+		- hearing
+		- hearing aid
+
+
+@ list letterClassifierList = 
+	- letter :
+		- email
+		- post card
+
+
+@ list membershipList = 
+	- membership :
+		- member services
+
+
+@ list navigatorList = 
+	- navigator :
+
+
+@ list nurseList = 
+	- nurse :
+		- nurseline
+		- nurses
+		- nursing
+
+
+@ list passportList = 
+	- passport :
+		- activate passport
+		- activate my passport
+		- question about a passport
+		- passport insurance
+		- passport services
+		- passport information
+	- travel :
+		- traveling
+		- travel insurance
+		- international travel
+		- foreign travel
+		- travel plans
+		- overseas travel
+		- question about travel
+		- traveling overseas
+		- traveling out of the country
+		- travel information
+		- traveling international
+
+
+@ list pharmacyClassifierList = 
+	- pharmacyClassifier :
+		- pharmacy
+		- prescription
+		- prescriptions
+		- medication
+		- medications
+		- pharmaceuticals
+		- refill
+		- refills
+		- pharmacist
+		- medicines
+		- vacation override
+
+
+@ list pharmacyPriceCostList = 
+	- price :
+		- prescription price
+		- medication price
+		- prescription pricing
+		- prescription prices
+		- price of prescription
+		- price of a prescription
+		- price of medication
+		- price of medications
+		- prescription drug price
+		- prescription drug prices
+		- price of
+	- cost :
+		- prescription cost
+		- medication cost
+		- cost of medication
+		- cost of prescription
+		- cost of prescriptions
+		- cost of medications
+		- cost of
+
+
+@ list planTypeAdvantageList = 
+	- medicare advantage :
+		- medicare part c
+		- medicare private health plan
+		- medicare managed care
+		- medicare replacement plan
+		- medicare HMO
+		- medicare PPO
+
+
+@ list planTypePartDList = 
+	- part D :
+		- medicare prescription drug coverage
+		- medicare prescription drug plan
+		- medicare rx plan
+		- medicare D
+		- medicare drug benefit
+		- medicare prescription coverage
+		- medicare PDP
+		- medicare part d
+		- party
+
+
+@ list planTypeSupplementalList = 
+	- supplemental :
+		- supplement
+		- Supplemental insurance
+		- medigap
+		- medicare supplement insurance
+		- medicare supplement plan
+		- medicare supplemental insurance
+		- medicare gap insurance
+		- medicare medigap plan
+		- medicare supplemental coverage
+
+
+@ list premiumList = 
+	- premium :
+		- premiums
+
+
+@ list somethingElseList = 
+	- something else :
+		- somethingelse
+		- anything else
+		- different thing
+		- something different
+
+
+@ list spanishList = 
+	- spanish :
+		- espanol
+		- espanyol
+		- no comprendo
+		- hispano
+		- spanyol
+		- entiendo
+		- espanola
+		- No entiendo inglés
+		- No sé hablar inglés
+		- Lo siento
+		- no hablo inglés
+		- No tengo conocimientos de inglés
+		- No tengo habilidad para hablar inglés
+		- No domino el inglés
+		- No tengo fluidez en inglés
+		- No me desenvuelvo en inglés
+		- No tengo capacidad para hablar inglés
+		- No tengo manejo del inglés
+		- No hablo English
+		- no hablo
+		- Hispanic
+		- no english
+
+
+@ list surveyList = 
+	- survey :
+
+
+@ list teleHealthList = 
+	- telehealth :
+		- tele health
+		- telahealth
+		- tela health
+		- teladoc
+		- tela doc
+		- virtual doctor
+		- virtual care
+
+
+@ list transplantList = 
+	- transplant :
+		- transplants
+		- transplant services
+
+
+@ list treatmentERList = 
+	- urgent care :
+	- ER :
+		- emergency room
+
+
+@ list treatmentXRayList = 
+	- XRay :
+		- x-ray
+		- xray
+
+
+@ list uCardList = 
+	- uCard :
+		- food
+		- utilities
+		- utility
+		- food card
+		- you card
+		- u card
+		- uk card
+		- Groceries
+		- food share
+		- eu card
+		- your card
+		- youcard
+		- new u card
+		- new you card
+		- new your card
+		- grocery
+		- grocery card
+		- grocery allowance card
+		- food allowance card
+		- otc card
+		- over the counter card
+		- utilities payment
+		- utility payment
+		- pay for utility
+		- pay for utilities
+		- utility bill
+		- utility bills
+		- utc card
+		- you car
+		- u car
+		- your car
+		- universal card
+		- food benefit
+		- food benefits
+		- uh you card
+		- ucad
+		- Eucard
+		- Ukird
+		- united health card
+
+
+@ list whoLIST = 
+	- who :
+		- who is
+
+
+> # RegEx entities
+
+@ regex behavioralHealthBenefitsRegex = /\bbehavioral health benefits\b/
+@ regex covidRegEx = /\b(?:covid)\b/
+@ regex upsetCallerRegEx = /\*{1,9}/
+@ regex ZeroRegex = /\b0\b/
+
