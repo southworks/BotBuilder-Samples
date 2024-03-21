@@ -8,9 +8,6 @@
       "$ref": "#/definitions/ExtraMessagingDialog.dialog"
     },
     {
-      "$ref": "#/definitions/FlushTelemetry"
-    },
-    {
       "$ref": "#/definitions/LoadEntityConfig.dialog"
     },
     {
@@ -368,16 +365,7 @@
       "$ref": "#/definitions/Optum.RapidMessageDialog"
     },
     {
-      "$ref": "#/definitions/SendEventTelemetry"
-    },
-    {
-      "$ref": "#/definitions/SendTraceTelemetry"
-    },
-    {
       "$ref": "#/definitions/TelemetryLoggerDialog"
-    },
-    {
-      "$ref": "#/definitions/TypingDelayIndicator"
     }
   ],
   "definitions": {
@@ -515,36 +503,6 @@
         }
       }
     },
-    "FlushTelemetry": {
-      "$role": "implements(Microsoft.IDialog)",
-      "title": "FlushTelemetry",
-      "description": "Action to flush queued telemetry to application insights",
-      "type": "object",
-      "required": [
-        "$kind"
-      ],
-      "additionalProperties": false,
-      "patternProperties": {
-        "^\\$": {
-          "title": "Tooling property",
-          "description": "Open ended property for tooling."
-        }
-      },
-      "properties": {
-        "$kind": {
-          "title": "Kind of dialog object",
-          "description": "Defines the valid properties for the component you are configuring (from a dialog .schema file)",
-          "type": "string",
-          "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$",
-          "const": "FlushTelemetry"
-        },
-        "$designer": {
-          "title": "Designer information",
-          "type": "object",
-          "description": "Extra information for the Bot Framework Composer."
-        }
-      }
-    },
     "integerExpression": {
       "$role": "expression",
       "title": "Integer or expression",
@@ -596,6 +554,11 @@
           "$ref": "#/definitions/stringExpression",
           "title": "Luis Entity"
         },
+        "context": {
+          "description": "Flow context",
+          "$ref": "#/definitions/stringExpression",
+          "title": "Context"
+        },
         "$kind": {
           "title": "Kind of dialog object",
           "description": "Defines the valid properties for the component you are configuring (from a dialog .schema file)",
@@ -615,10 +578,6 @@
       "title": "Omni-Logger",
       "description": "Encrypt the logs in PROD. Appsettings should have the 32 Char Encryption Key and Environment details",
       "type": "object",
-      "$package": {
-        "name": "@advanceddevelopment/omni-vui-custom-actions",
-        "version": "4.0.6"
-      },
       "required": [
         "$kind"
       ],
@@ -1754,7 +1713,7 @@
               }
             },
             {
-              "$ref": "#/definitions/equalsExpression"
+              "$ref": "#/definitions/stringExpression"
             }
           ]
         },
@@ -2111,7 +2070,7 @@
               }
             },
             {
-              "$ref": "#/definitions/equalsExpression"
+              "$ref": "#/definitions/stringExpression"
             }
           ]
         },
@@ -4130,9 +4089,6 @@
           "$ref": "#/definitions/ExtraMessagingDialog.dialog"
         },
         {
-          "$ref": "#/definitions/FlushTelemetry"
-        },
-        {
           "$ref": "#/definitions/LoadEntityConfig.dialog"
         },
         {
@@ -4304,16 +4260,7 @@
           "$ref": "#/definitions/Optum.RapidMessageDialog"
         },
         {
-          "$ref": "#/definitions/SendEventTelemetry"
-        },
-        {
-          "$ref": "#/definitions/SendTraceTelemetry"
-        },
-        {
           "$ref": "#/definitions/TelemetryLoggerDialog"
-        },
-        {
-          "$ref": "#/definitions/TypingDelayIndicator"
         },
         {
           "type": "string",
@@ -9583,10 +9530,6 @@
         "property",
         "$kind"
       ],
-      "$package": {
-        "name": "@advanceddevelopment/omni-vui-custom-actions",
-        "version": "4.0.6"
-      },
       "additionalProperties": false,
       "patternProperties": {
         "^\\$": {
@@ -9642,10 +9585,6 @@
       "title": "Omni-TraceActivity",
       "description": "Send a encrypted trace activity to the transcript logger and/ or Bot Framework Emulator.Appsettings should have the 32 Char Encryption Key and Environment details.",
       "type": "object",
-      "$package": {
-        "name": "@advanceddevelopment/omni-vui-custom-actions",
-        "version": "4.0.6"
-      },
       "required": [
         "$kind"
       ],
@@ -9725,10 +9664,6 @@
       "title": "Omni-Configuration Loader",
       "description": "This will Configuration Loader Package for BOT Composer Project",
       "type": "object",
-      "$package": {
-        "name": "@advanceddevelopment/omni-vui-custom-actions",
-        "version": "4.0.6"
-      },
       "required": [
         "$kind"
       ],
@@ -9775,10 +9710,6 @@
       "description": "This will find and get transfer message from Azure Storage Table if we have for Luis intent entity combination",
       "type": "object",
       "defaultResultProperty": "dialog.result",
-      "$package": {
-        "name": "@advanceddevelopment/omni-vui-custom-actions",
-        "version": "4.0.6"
-      },
       "required": [
         "$kind"
       ],
@@ -9834,10 +9765,6 @@
       "title": "Omni-Http Request",
       "description": "This will Configuration Loader Package for BOT Composer Project",
       "type": "object",
-      "$package": {
-        "name": "@advanceddevelopment/omni-vui-custom-actions",
-        "version": "4.0.6"
-      },
       "required": [
         "$kind"
       ],
@@ -9872,11 +9799,6 @@
           "title": "Client Secret",
           "description": "Client Secret for getting access Token"
         },
-        "scope": {
-          "$ref": "#/definitions/stringExpression",
-          "title": "Access Token Request Scope",
-          "description": "Scope for the Access Token Request."
-        },
         "tokencontentType": {
           "$ref": "#/definitions/stringExpression",
           "title": "Access Token Request content Type",
@@ -9894,36 +9816,12 @@
             1000
           ]
         },
-        "authorizationHeaderKey": {
-          "$ref": "#/definitions/stringExpression",
-          "title": "Authorization Header Key",
-          "description": "Authorization Header Key for the Request.",
-          "examples": [
-            "Authorization"
-          ]
-        },
         "authorizationHeader": {
           "$ref": "#/definitions/stringExpression",
-          "title": "Authorization Header Value",
-          "description": "Authorization Header Value for the Request.",
+          "title": "Authorization Header",
+          "description": "Authorization Header for the Request.",
           "examples": [
             "EndpointKey asdfghjkl123456789qwertyuiop"
-          ]
-        },
-        "additionalHeaderKey": {
-          "$ref": "#/definitions/stringExpression",
-          "title": "Additional Header Key",
-          "description": "Additional Header Key for the Request.",
-          "examples": [
-            "EndpointKey"
-          ]
-        },
-        "additionalHeaderValue": {
-          "$ref": "#/definitions/stringExpression",
-          "title": "Additional Header Value",
-          "description": "Additional Header Value for the Request.",
-          "examples": [
-            "Endpointvalue"
           ]
         },
         "connectionString": {
@@ -10043,10 +9941,6 @@
       "title": "Omni-Object Cache",
       "description": "This will Caching Object to Azure Storage Package for BOT Composer Project",
       "type": "object",
-      "$package": {
-        "name": "@advanceddevelopment/omni-vui-custom-actions",
-        "version": "4.0.6"
-      },
       "required": [
         "$kind"
       ],
@@ -10106,10 +10000,6 @@
       "title": "Omni-Rapid IVR Messaging",
       "description": "This will Rapid IVR Messaging Package for BOT Composer Project",
       "type": "object",
-      "$package": {
-        "name": "@advanceddevelopment/omni-vui-custom-actions",
-        "version": "4.0.6"
-      },
       "required": [
         "$kind"
       ],
@@ -10171,86 +10061,6 @@
       "type": "string",
       "pattern": "^((expression)|(interface)|(implements\\([a-zA-Z][a-zA-Z0-9.]*\\))|(extends\\([a-zA-Z][a-zA-Z0-9.]*\\)))$"
     },
-    "SendEventTelemetry": {
-      "$role": "implements(Microsoft.IDialog)",
-      "title": "SendEventTelemetry",
-      "description": "Action to send customEvent to application insights",
-      "type": "object",
-      "required": [
-        "$kind"
-      ],
-      "additionalProperties": false,
-      "patternProperties": {
-        "^\\$": {
-          "title": "Tooling property",
-          "description": "Open ended property for tooling."
-        }
-      },
-      "properties": {
-        "name": {
-          "$ref": "#/definitions/stringExpression",
-          "title": "Name",
-          "description": "Value from callers memory to use as name"
-        },
-        "properties": {
-          "$ref": "#/definitions/objectExpression",
-          "title": "Properties",
-          "description": "Value from callers memory to use as properties"
-        },
-        "$kind": {
-          "title": "Kind of dialog object",
-          "description": "Defines the valid properties for the component you are configuring (from a dialog .schema file)",
-          "type": "string",
-          "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$",
-          "const": "SendEventTelemetry"
-        },
-        "$designer": {
-          "title": "Designer information",
-          "type": "object",
-          "description": "Extra information for the Bot Framework Composer."
-        }
-      }
-    },
-    "SendTraceTelemetry": {
-      "$role": "implements(Microsoft.IDialog)",
-      "title": "SendTraceTelemetry",
-      "description": "Action to send trace to application insights",
-      "type": "object",
-      "required": [
-        "$kind"
-      ],
-      "additionalProperties": false,
-      "patternProperties": {
-        "^\\$": {
-          "title": "Tooling property",
-          "description": "Open ended property for tooling."
-        }
-      },
-      "properties": {
-        "message": {
-          "$ref": "#/definitions/stringExpression",
-          "title": "Message",
-          "description": "Value from callers memory to use as message"
-        },
-        "properties": {
-          "$ref": "#/definitions/objectExpression",
-          "title": "Properties",
-          "description": "Value from callers memory to use as properties"
-        },
-        "$kind": {
-          "title": "Kind of dialog object",
-          "description": "Defines the valid properties for the component you are configuring (from a dialog .schema file)",
-          "type": "string",
-          "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$",
-          "const": "SendTraceTelemetry"
-        },
-        "$designer": {
-          "title": "Designer information",
-          "type": "object",
-          "description": "Extra information for the Bot Framework Composer."
-        }
-      }
-    },
     "stringExpression": {
       "$role": "expression",
       "title": "String or expression",
@@ -10283,10 +10093,6 @@
         "method",
         "$kind"
       ],
-      "$package": {
-        "name": "@advanceddevelopment/omni-vui-custom-actions",
-        "version": "4.0.6"
-      },
       "additionalProperties": false,
       "patternProperties": {
         "^\\$": {
@@ -10346,41 +10152,6 @@
           "type": "string",
           "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$",
           "const": "TelemetryLoggerDialog"
-        },
-        "$designer": {
-          "title": "Designer information",
-          "type": "object",
-          "description": "Extra information for the Bot Framework Composer."
-        }
-      }
-    },
-    "TypingDelayIndicator": {
-      "$role": "implements(Microsoft.IDialog)",
-      "title": "Send a typing indicator and delay",
-      "description": "This will send typing indicator and delay the next response till the specified delay value",
-      "type": "object",
-      "required": [
-        "$kind"
-      ],
-      "additionalProperties": false,
-      "patternProperties": {
-        "^\\$": {
-          "title": "Tooling property",
-          "description": "Open ended property for tooling."
-        }
-      },
-      "properties": {
-        "delay": {
-          "$ref": "#/definitions/numberExpression",
-          "title": "delay",
-          "description": "Value from callers memory to use as delay in milliseconds. 1000 ms is 1 s"
-        },
-        "$kind": {
-          "title": "Kind of dialog object",
-          "description": "Defines the valid properties for the component you are configuring (from a dialog .schema file)",
-          "type": "string",
-          "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$",
-          "const": "TypingDelayIndicator"
         },
         "$designer": {
           "title": "Designer information",
