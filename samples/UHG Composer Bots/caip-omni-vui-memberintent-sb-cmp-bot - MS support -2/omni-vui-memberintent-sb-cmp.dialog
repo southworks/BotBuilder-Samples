@@ -7181,5 +7181,8 @@
   ],
   "generator": "omni-vui-memberintent-sb-cmp.lg",
   "id": "omni-vui-memberintent-sb-cmp",
-  "recognizer": "omni-vui-memberintent-sb-cmp.lu.qna"
+  "recognizer": {
+    "$kind": "Microsoft.RegexRecognizer",
+    "intents": []
+  }
 }

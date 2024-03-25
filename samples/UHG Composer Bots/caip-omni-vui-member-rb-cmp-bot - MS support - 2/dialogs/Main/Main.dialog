@@ -37,7 +37,7 @@
           "$designer": {
             "id": "IV39qh"
           },
-          "condition": "=conversation.kvpsFound",
+          "condition": "true",
           "actions": [
             {
               "$kind": "Microsoft.SetProperties",

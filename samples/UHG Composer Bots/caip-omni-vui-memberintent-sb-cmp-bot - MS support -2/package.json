@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "setup": "./scripts/setup.sh dev",
-    "dev": "cross-env NODE_ENV=dev node index.js",
+    "dev": "cross-env NODE_ENV=dev PORT=3980 node index.js",
     "start": "node index.js",
     "build:schema": "cd schemas && sh ./update-schema.sh",
     "test": "node_modules/mocha/bin/mocha -r ts-node/register --extension ts --extension js --recursive __tests__",
