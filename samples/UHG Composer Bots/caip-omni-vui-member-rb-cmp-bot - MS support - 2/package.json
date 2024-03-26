@@ -17,7 +17,7 @@
     "expandScriptingMemoryToConvos": false
   },
   "dependencies": {
-    "@advanceddevelopment/omni-vui-custom-actions": "file: ../omni-vui-custom-actions",
+    "@advanceddevelopment/omni-vui-custom-actions": "file:advanceddevelopment-omni-vui-custom-actions-2.0.44.tgz",
     "@azure/data-tables": "^13.2.2",
     "@azure/identity": "^3.3.0",
     "@azure/keyvault-secrets": "^4.7.0",
