@@ -1,12 +1,19 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
+using System.Net.WebSockets;
+using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
+using System.Web.WebSockets;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Integration.AspNet.WebApi;
@@ -70,5 +77,27 @@ namespace Microsoft.BotBuilderSamples
 
             return response;
         }
+
+        public async Task<HttpResponseMessage> Get()
+        {
+            var response = new HttpResponseMessage();
+
+            var bot = new DialogAndWelcomeBot<MainDialog>(_conversationState, _userState, _dialog, _loggerFactory.CreateLogger<DialogBot<MainDialog>>());
+
+            await _adapter.ProcessAsync(Request, response, bot);
+
+            return response;
+
+            //if (HttpContext.Current.IsWebSocketRequest)
+            //{
+            //    HttpContext.Current.AcceptWebSocketRequest(ProcessWSChat);
+            //}
+            //return new HttpResponseMessage(HttpStatusCode.SwitchingProtocols);
+        }
+
+        //private async Task ProcessWSChat(AspNetWebSocketContext context)
+        //{
+        //    WebSocket socket = context.WebSocket;
+        //}
     }
 }
