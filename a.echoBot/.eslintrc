@@ -16,15 +16,7 @@
         "plugin:jsdoc/recommended",
         "plugin:prettier/recommended" // Recommended to be last
     ],
-    "plugins": [
-        "@typescript-eslint",
-        "jsdoc",
-
-        "mocha",
-        "only-warn",
-        "prettier"
-        // "react"
-    ],
+    "plugins": ["@typescript-eslint", "jsdoc", "mocha", "only-warn", "prettier"],
     "parserOptions": {
         "ecmaVersion": 2015,
         // Allows for the parsing of modern ECMAScript features
@@ -43,8 +35,19 @@
         "@typescript-eslint/no-empty-function": "off",
         "@typescript-eslint/no-explicit-any": "off",
         "@typescript-eslint/no-namespace": "off",
+        "@typescript-eslint/no-non-null-assertion": "off",
+        "@typescript-eslint/no-unused-vars": "off",
+        "jsdoc/check-tag-names": [
+            1,
+            {
+                "definedTags": ["remarks"] // Allow @remarks
+            }
+        ],
+        "jsdoc/empty-tags": "off",
         "no-async-promise-executor": "off",
         "no-constant-condition": "off",
+        "no-extra-boolean-cast": "off",
+        "no-prototype-builtins": "off",
         "no-undef": "off", // Disabled due to conflicts with @typescript/eslint
         "no-unused-vars": "off", // Disabled due to conflicts with @typescript/eslint
         "prettier/prettier": "error"
@@ -52,6 +55,12 @@
     "overrides": [
         {
             "files": ["bin/*.js", "lib/*.js"]
+        },
+        {
+            "files": ["*.spec.ts"],
+            "rules": {
+                "import/no-named-as-default-member": 0
+            }
         }
     ],
     "ignorePatterns": ["node_modules/*"]
