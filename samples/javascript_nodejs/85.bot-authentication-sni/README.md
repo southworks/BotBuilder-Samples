@@ -58,22 +58,20 @@ node --version
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
 
-- Setup the app registration 
-
-    Go to the app registration used by the azure bot and add the following configuration to the manifest: 
+- Configure the SSL/TSL certificate. This sample requires an existing certificate issued by OneCert. The first step is to configure the app registration with the certificate subject name, then go to the app registration used by the azure bot and add the following configuration to the manifest: 
       
       "trustedCertificateSubjects": [
           {
               "authorityId": "00000000-0000-0000-0000-000000000001",
 
-              "subjectName": "certificate_subject_name",
+              "subjectName": "<certificate_subject_name>",
 
               "revokedCertificateIdentifiers": []
           }
       ]
 
-- Configure the SSL/TSL certificate. This sample requires an existing certificate issued by an integrated CA(Microsoft). We have two options to configure it in the bot. Below is a step-by-step description of each one:
-
+-  We have two options to configure the certificate in the bot. Below is a step-by-step description of each one:
+  
   ### Using local environment
   1. Configure the following app settings variables:
     - MicrosoftAppId: App Id of your bot (gathered from the [Setup a Bot][#TrySample] step).
@@ -88,28 +86,7 @@ node --version
       setx path "%path%;C:\Program Files\openssl-3.3.0"
       ```
 
-  3. Generate a _pem_ file without key:
-      - If your certificate is in _pfx_ format execute the following command:
-
-      ```powershell
-      OpenSSL pkcs12 -in .\<certificate-name>.pfx -out <certificate-name>.pem –nodes -nokeys
-      ```
-      e.g:
-        ![Pem File Command No Key](images/local/PemCommandNoKey.png)
-
-      - If your certificate is in _pem_ format and includes the key, execute the following command to remove the key:
-
-      ```powershell
-      OpenSSL pkcs12 -in .\<certificate-name>.pem -export -out .\<certificate-without-key-name>.pem -nokeys
-      ```
-      e.g:
-        ![Pem Export No Key](images/local/PemExportNoKey.png)
-
-  4. Upload the generated certificate to the Azure app registration.
-
-      ![Certificate Upload](images/local/CertificateUpload.png)
-
-  5. To read the certificate in the bot, the _pem_ file must include the key, then if your certificate is in _pfx_ format go to the certificate location and run the following command to generate a _pem_ file with key:
+  3. To read the certificate in the bot, the _pem_ file must include the key, then if your certificate is in _pfx_ format go to the certificate location and run the following command to generate a _pem_ file with key:
 
       ```powershell
       OpenSSL pkcs12 -in .\<certificate-name>.pfx -out <certificate-with-key-name>.pem –nodes
@@ -117,7 +94,7 @@ node --version
       e.g:
         ![Pem Command With Key](images/local/PemCommandWithKey.png)
 
-  6. In the sample code, go to the [index](index.js) file and uncomment the line of code that reads the local certificate and write the name of the certificate in _pem_ format inside the _CreateFromPemFile_ method. 
+  4. In the sample code, go to the [index](index.js) file and uncomment the line of code that reads the local certificate and write the name of the certificate in _pem_ format inside the _CreateFromPemFile_ method. 
   Be sure to comment out or remove the lines of code that use Azure KeyVault to avoid errors.
   
       > NOTE: Here the value of `MicrosoftAppId` is needed to generate the credentials.
@@ -136,33 +113,13 @@ node --version
       ![Generate Import Certificate](images/keyVault/GenerateImportCertificate.png)
       ![Import Certificate](images/keyVault/ImportCertificate.png)
 
-  3. Go to the details of the certificate and download it in _CER_ format to avoid the export of the private key.
-
-      ![Certificate Details](images/keyVault/CertificateDetails.png)
-      ![Download Certificate](images/keyVault/DownloadCertificate.png)
-
-      >NOTE: If you downloaded it in _PFX/PEM_ format, it will be neccesary to remove the private key by executing one the following commands:
-
-      ```powershell
-      OpenSSL pkcs12 -in .\<certificate-name>.pfx -out <certificate-name>.pem –nodes -nokeys
-      OpenSSL pkcs12 -in .\<certificate-name>.pem -export -out .\<certificate-without-key-name>.pem -nokeys
-      ```
-
-      e.g:
-        ![Pem File Command No Key](images/local/PemCommandNoKey.png)
-        ![Pem Export No Key](images/local/PemExportNoKey.png)
-
-  4. Upload the certificate to the Azure app registration.
-
-      ![Upload Cer Certificate](images/keyVault/UploadCerCertificate.png)
-
-  5. In the sample code, go to the [index](index.js) file and uncomment the line of code that reads the keyvault certificate and verify that the keyvault credentials are completed in the [.env](.env) file.
+  3. In the sample code, go to the [index](index.js) file and uncomment the line of code that reads the keyvault certificate and verify that the keyvault credentials are completed in the [.env](.env) file.
   Be sure to comment out or remove the lines of code that use local certificate to avoid errors.
       > NOTE: Here the value of `MicrosoftAppId` is also needed to generate the credentials.
 
       ![Certificate Reading](images/keyVault/CertificateReading.png)
 
-  6. In the current sample context, log into Azure to obtain the default credentials by executing the following command:
+  1. In the current sample context, log into Azure to obtain the default credentials by executing the following command:
       ```powershell
       az login
       ```
