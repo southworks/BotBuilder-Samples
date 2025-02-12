@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-nocheck
+
 const { ActivityHandler, MessageFactory } = require('botbuilder');
 const { ActionTypes } = require('botframework-schema');
 
@@ -65,21 +67,21 @@ class SuggestedActionsBot extends ActivityHandler {
                 type: ActionTypes.PostBack,
                 title: 'Red',
                 value: 'Red',
-                image: 'https://via.placeholder.com/20/FF0000?text=R',
+                image: 'https://placehold.co/20/red/red?text=R',
                 imageAltText: 'R'
             },
             {
                 type: ActionTypes.PostBack,
                 title: 'Yellow',
                 value: 'Yellow',
-                image: 'https://via.placeholder.com/20/FFFF00?text=Y',
+                image: 'https://placehold.co/20/yellow/yellow?text=Y',
                 imageAltText: 'Y'
             },
             {
                 type: ActionTypes.PostBack,
                 title: 'Blue',
                 value: 'Blue',
-                image: 'https://via.placeholder.com/20/0000FF?text=B',
+                image: 'https://placehold.co/20/blue/blue?text=B',
                 imageAltText: 'B'
             }
         ];
