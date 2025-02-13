@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-nocheck
+
 const { ActivityTypes } = require('botbuilder');
 const { TranslationSettings } = require('./translationSettings');
 
