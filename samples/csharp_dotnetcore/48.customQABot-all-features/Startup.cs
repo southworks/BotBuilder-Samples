@@ -11,6 +11,13 @@ using Microsoft.BotBuilderSamples.Dialogs;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Bot.Builder.Dialogs.Memory;
+using Azure.Identity;
+using Azure.AI.Language.QuestionAnswering;
+using Azure.Core;
+using System.Threading.Tasks;
+using System;
+using Azure;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -51,7 +58,12 @@ namespace Microsoft.BotBuilderSamples
             // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
             services.AddTransient<IBot, CustomQABot<RootDialog>>();
 
+            // REMOVE
             new DialogsBotComponent().ConfigureServices(services, Configuration);
+
+            // ADD
+            ComponentRegistration.Add(new DialogsComponentRegistration());
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,6 +73,8 @@ namespace Microsoft.BotBuilderSamples
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            //ComponentRegistration.Add(app.ApplicationServices.GetService<DialogsComponentRegistration>());
 
             app.UseDefaultFiles()
                 .UseStaticFiles()

@@ -6,10 +6,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Azure.AI.Language.QuestionAnswering" Version="1.1.0" />
+    <PackageReference Include="Azure.Identity" Version="1.13.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.7" />
     <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.22.4" />
     <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.22.4" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.22.4" />
+    <!--<ProjectReference Include="C:\repos\botbuilder-dotnet\libraries\Microsoft.Bot.Builder.AI.QnA\Microsoft.Bot.Builder.AI.QnA.csproj" />
+    <ProjectReference Include="C:\repos\botbuilder-dotnet\libraries\Microsoft.Bot.Builder.Dialogs\Microsoft.Bot.Builder.Dialogs.csproj" />
+    <ProjectReference Include="C:\repos\botbuilder-dotnet\libraries\integration\Microsoft.Bot.Builder.Integration.AspNet.Core\Microsoft.Bot.Builder.Integration.AspNet.Core.csproj" />-->
   </ItemGroup>
 
   <ItemGroup>
