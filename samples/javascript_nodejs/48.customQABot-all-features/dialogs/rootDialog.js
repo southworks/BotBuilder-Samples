@@ -1,22 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { QnAMakerDialog, RankerTypes } = require('botbuilder-ai');
+const { QnAMakerDialog, RankerTypes } = require("botbuilder-ai");
 const {
     ComponentDialog,
     DialogSet,
     DialogTurnStatus,
-    WaterfallDialog
-} = require('botbuilder-dialogs');
-const { MessageFactory } = require('botbuilder');
-const { ServiceType } = require('botbuilder-ai/lib/qnamaker-interfaces/serviceType');
+    WaterfallDialog,
+} = require("botbuilder-dialogs");
+const { MessageFactory } = require("botbuilder");
+const {
+    ServiceType,
+} = require("botbuilder-ai/lib/qnamaker-interfaces/serviceType");
 
-const INITIAL_DIALOG = 'initial-dialog';
-const ROOT_DIALOG = 'root-dialog';
-const QNAMAKER_BASE_DIALOG = 'qnamaker-base-dialog';
-const ACTIVE_LEARNING_CARD_TITLE = 'Did you mean:';
-const ACTIVE_LEARNING_CARD_NO_MATCH_TEXT = 'None of the above.';
-const ACTIVE_LEARNING_CARD_NO_MATCH_RESPONSE = 'Thanks for your feedback.';
+const INITIAL_DIALOG = "initial-dialog";
+const ROOT_DIALOG = "root-dialog";
+const QNAMAKER_BASE_DIALOG = "qnamaker-base-dialog";
+const ACTIVE_LEARNING_CARD_TITLE = "Did you mean:";
+const ACTIVE_LEARNING_CARD_NO_MATCH_TEXT = "None of the above.";
+const ACTIVE_LEARNING_CARD_NO_MATCH_RESPONSE = "Thanks for your feedback.";
 const SCORE_THRESHOLD = 0.3;
 const TOP_ANSWERS = 3;
 const RANKER_TYPE = RankerTypes.default;
@@ -26,15 +28,23 @@ const INCLUDE_UNSTRUCTURED_SOURCES = true;
 /**
  * Creates QnAMakerDialog instance with provided configuraton values.
  */
-const createQnAMakerDialog = (knowledgeBaseId, endpointKey, endpointHostName, defaultAnswer, enablePreciseAnswerRaw, displayPreciseAnswerOnlyRaw, useTeamsAdaptiveCard) => {
+const createQnAMakerDialog = (
+    knowledgeBaseId,
+    endpointKey,
+    endpointHostName,
+    defaultAnswer,
+    enablePreciseAnswerRaw,
+    displayPreciseAnswerOnlyRaw,
+    useTeamsAdaptiveCard
+) => {
     let noAnswerActivity;
-    if (typeof defaultAnswer === 'string' && defaultAnswer !== '') {
+    if (typeof defaultAnswer === "string" && defaultAnswer !== "") {
         noAnswerActivity = MessageFactory.text(defaultAnswer);
     }
 
     const qnaMakerDialog = new QnAMakerDialog(
         knowledgeBaseId,
-        endpointKey,
+        "",
         endpointHostName,
         noAnswerActivity,
         SCORE_THRESHOLD,
@@ -43,15 +53,22 @@ const createQnAMakerDialog = (knowledgeBaseId, endpointKey, endpointHostName, de
         TOP_ANSWERS,
         ACTIVE_LEARNING_CARD_NO_MATCH_RESPONSE,
         RANKER_TYPE
-    );
+    )
+    
+    if(process.env.LanguageEndpointKey){
+        qnaMakerDialog.withEndpointKey(process.env.LanguageEndpointKey);
+    } else {
+        qnaMakerDialog.withManagedIdentityClientId(process.env.LanguageManagedIdentityClientId);
+    }
 
-    qnaMakerDialog.enablePreciseAnswer = enablePreciseAnswerRaw === 'true';
-    qnaMakerDialog.displayPreciseAnswerOnly = displayPreciseAnswerOnlyRaw === 'true';
+    qnaMakerDialog.enablePreciseAnswer = enablePreciseAnswerRaw === "true";
+    qnaMakerDialog.displayPreciseAnswerOnly =
+        displayPreciseAnswerOnlyRaw === "true";
     qnaMakerDialog.qnaServiceType = ServiceType.language;
     qnaMakerDialog.id = QNAMAKER_BASE_DIALOG;
     qnaMakerDialog.isTest = ISTEST;
     qnaMakerDialog.includeUnstructuredSources = INCLUDE_UNSTRUCTURED_SOURCES;
-    qnaMakerDialog.useTeamsAdaptiveCard = useTeamsAdaptiveCard === 'true';
+    qnaMakerDialog.useTeamsAdaptiveCard = useTeamsAdaptiveCard === "true";
 
     return qnaMakerDialog;
 };
@@ -67,14 +84,34 @@ class RootDialog extends ComponentDialog {
      * @param {string} displayPreciseAnswerOnly
 
     */
-    constructor(knowledgeBaseId, endpointKey, endpointHostName, defaultAnswer, enablePreciseAnswer, displayPreciseAnswerOnly, useTeamsAdaptiveCard) {
+    constructor(
+        knowledgeBaseId,
+        endpointKey,
+        endpointHostName,
+        defaultAnswer,
+        enablePreciseAnswer,
+        displayPreciseAnswerOnly,
+        useTeamsAdaptiveCard
+    ) {
         super(ROOT_DIALOG);
         // Initial waterfall dialog.
-        this.addDialog(new WaterfallDialog(INITIAL_DIALOG, [
-            this.startInitialDialog.bind(this)
-        ]));
+        this.addDialog(
+            new WaterfallDialog(INITIAL_DIALOG, [
+                this.startInitialDialog.bind(this),
+            ])
+        );
 
-        this.addDialog(createQnAMakerDialog(knowledgeBaseId, endpointKey, endpointHostName, defaultAnswer, enablePreciseAnswer, displayPreciseAnswerOnly, useTeamsAdaptiveCard));
+        this.addDialog(
+            createQnAMakerDialog(
+                knowledgeBaseId,
+                endpointKey,
+                endpointHostName,
+                defaultAnswer,
+                enablePreciseAnswer,
+                displayPreciseAnswerOnly,
+                useTeamsAdaptiveCard
+            )
+        );
         this.initialDialogId = INITIAL_DIALOG;
     }
 
